@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ColorUtil example</title>
+</head>
+
+<body>
+<input type="range" min="0" max="50" value="0" step="5" oninput="showValue(this.value)" />
+<span id="range">0</span>
+
+<script type="text/javascript">
+function showValue(newValue) {
+    document.getElementById("range").innerHTML=newValue;
+}
+</script>
+
+</body>
+
+</html>
