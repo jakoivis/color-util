@@ -9,7 +9,7 @@ describe('ColorUtil', () => {
     describe('conversion', () => {
 
         var dec = 11189196;
-        var obj = {r: 170, g: 187, b: 204};
+        var obj = {r: 170, g: 187, b: 204, a: 1};
         var hex = '#aabbcc';
         var rgba = 'rgba(170,187,204,1)';
 
@@ -26,9 +26,10 @@ describe('ColorUtil', () => {
 
             it('toRgba', () => {
                 C.obj.toRgba(obj).should.equal(rgba);
-                C.obj.toRgba(obj, 0).should.equal('rgba(170,187,204,0)');
-                C.obj.toRgba(obj, 0.1).should.equal('rgba(170,187,204,0.1)');
-                C.obj.toRgba(obj, 0/0).should.equal(rgba);
+                C.obj.toRgba({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
+                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
+                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0.1}).should.equal('rgba(170,187,204,0.1)');
+                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
             });
         });
 
@@ -36,6 +37,9 @@ describe('ColorUtil', () => {
 
             it('toObj', () => {
                 C.dec.toObj(dec).should.eql(obj);
+                C.dec.toObj(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.dec.toObj(dec, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                C.dec.toObj(dec, 0/0).should.eql(obj);
             });
 
             it('toHex', () => {
@@ -55,6 +59,9 @@ describe('ColorUtil', () => {
 
             it('toObj', () => {
                 C.hex.toObj(hex).should.eql(obj);
+                C.hex.toObj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.hex.toObj(hex, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                C.hex.toObj(hex, 0/0).should.eql(obj);
                 C.hex.toObj('#abc').should.eql(obj);
                 C.hex.toObj('abc').should.eql(obj);
                 C.hex.toObj('aabbcc').should.eql(obj);
@@ -83,20 +90,25 @@ describe('ColorUtil', () => {
 
         describe('rgba', () => {
 
-            xit('toObj', () => {
-                // C.rgba.toObj(rgba).should.eql(obj);
+            it('toObj', () => {
+                C.rgba.toObj('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 1});
+                C.rgba.toObj('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 1});
+                C.rgba.toObj('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.rgba.toObj('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 0.1});
             });
 
-            xit('toDec', () => {
-                // C.rgba.toDec(rgba).should.equal(hex);
-                // C.rgba.toDec(0x00bb00).should.equal('#00bb00');
+            it('toDec', () => {
+                C.rgba.toDec('rgba(170,187,204,1)').should.equal(11189196);
+                C.rgba.toDec('rgba(170,187,204)').should.equal(11189196);
+                C.rgba.toDec('rgba(170,187,204,0)').should.equal(11189196);
+                C.rgba.toDec('rgba(170,187,204,0.1)').should.equal(11189196);
             });
 
-            xit('toHex', () => {
-                // C.rgba.toRgba(rgba).should.equal(rgba);
-                // C.rgba.toRgba(rgba, 0).should.equal('rgba(170,187,204,0)');
-                // C.rgba.toRgba(rgba, 0.1).should.equal('rgba(170,187,204,0.1)');
-                // C.rgba.toRgba(rgba, 0/0).should.equal(rgba);
+            it('toHex', () => {
+                C.rgba.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
+                C.rgba.toHex('rgba(170,187,204)').should.equal('#aabbcc');
+                C.rgba.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
+                C.rgba.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
             });
         });
     });

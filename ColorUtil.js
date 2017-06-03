@@ -1,5 +1,10 @@
 'use strict';
 
+var regShortHex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+var regHex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+var regRgba = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
+var regRgb = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
+
 module.exports = {
     obj: {
         toDec: objToDec,
@@ -17,7 +22,9 @@ module.exports = {
         toRgba: hexToRgba
     },
     rgba: {
-
+        toObj: rgbaToObj,
+        toDec: rgbaToDec,
+        toHex: rgbaToHex
     },
     // objToDec: objToDec,
     // decToRgbObject: decToRgbObject,
@@ -38,16 +45,17 @@ function objToHex(o) {
     return '#' + ((1 << 24) + (o.r << 16) + (o.g << 8) + o.b).toString(16).slice(1);
 }
 
-function objToRgba(o, opacity) {
-    opacity = !isNaN(parseFloat(opacity)) ? opacity : 1;
+function objToRgba(o) {
+    var opacity = !isNaN(parseFloat(o.a)) ? o.a : 1;
     return 'rgba('+o.r+','+o.g+','+o.b+','+opacity+')';
 }
 
-function decToObj(dec) {
+function decToObj(dec, opacity) {
     return {
         r: (dec & 0xFF0000) >> 16,
         g: (dec & 0x00FF00) >> 8,
-        b: dec & 0x0000FF
+        b: dec & 0x0000FF,
+        a: !isNaN(parseFloat(opacity)) ? opacity : 1
     };
 }
 
@@ -64,23 +72,24 @@ function decToRgba(dec, opacity) {
             + opacity +')';
 }
 
-function hexToObj(hex) {
-    hex = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, function(m, r, g, b) {
+function hexToObj(hex, opacity) {
+    hex = hex.replace(regShortHex, function(m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var result = regHex.exec(hex);
 
     return result ? {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
+        b: parseInt(result[3], 16),
+        a: !isNaN(parseFloat(opacity)) ? opacity : 1
     } : null;
 }
 
 function hexToDec(hex) {
     return parseInt(
-        hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, function(m, r, g, b) {
+        hex.replace(regShortHex, function(m, r, g, b) {
             return r + r + g + g + b + b;
         })
         .replace('#', ''), 16);
@@ -88,17 +97,56 @@ function hexToDec(hex) {
 
 function hexToRgba(hex, opacity) {
     opacity = !isNaN(parseFloat(opacity)) ? opacity : 1;
-    hex = hex.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, function(m, r, g, b) {
+    hex = hex.replace(regShortHex, function(m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var result = regHex.exec(hex);
 
     return result ? 'rgba('
         + parseInt(result[1], 16) + ','
         + parseInt(result[2], 16) + ','
         + parseInt(result[3], 16) + ','
         + opacity + ')'
+    : null;
+}
+
+function rgbaToObj(rgba) {
+    var result = regRgba.exec(rgba) || regRgb.exec(rgba);
+    var obj = null;
+
+    if (result) {
+        var a = parseFloat(result[4]);
+
+        obj = {
+            r: parseInt(result[1]),
+            g: parseInt(result[2]),
+            b: parseInt(result[3]),
+            a: !isNaN(a) ? a : 1
+        };
+    }
+
+    return obj;
+}
+
+function rgbaToDec(rgba) {
+    var result = regRgba.exec(rgba) || regRgb.exec(rgba);
+
+    return result ?
+          (parseInt(result[1]) << 16)
+        + (parseInt(result[2]) << 8)
+        + parseInt(result[3])
+    : null;
+}
+
+function rgbaToHex(rgba) {
+    var result = regRgba.exec(rgba) || regRgb.exec(rgba);
+
+    return result ?
+        '#' + ((1 << 24)
+            + (parseInt(result[1]) << 16)
+            + (parseInt(result[2]) << 8)
+            + parseInt(result[3])).toString(16).slice(1)
     : null;
 }
 
