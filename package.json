@@ -4,8 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ColorUtil.spec.js --reporter spec",
-    "watch": "mocha ColorUtil.spec.js --reporter spec --watch"
+    "test": "mocha --compilers js:babel-core/register ./test/*.spec.js",
+    "watch": "mocha --compilers js:babel-core/register -w ./test/*.spec.js",
+    "prebuild": "npm run test",
+    "build": "set arg=build&&webpack",
+    "dev-build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,7 +25,13 @@
   },
   "homepage": "https://github.com/jakoivis/ColorUtil#readme",
   "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.24.1",
     "chai": "^3.5.0",
-    "mocha": "^3.3.0"
+    "mocha": "^3.3.0",
+    "path": "^0.12.7",
+    "webpack": "^2.6.1"
   }
 }

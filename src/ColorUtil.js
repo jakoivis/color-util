@@ -1,153 +1,113 @@
-'use strict';
 
-var regShortHex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-var regHex = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
-var regRgba = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
-var regRgb = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
+const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
+const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
-module.exports = {
-    obj: {
-        toDec: objToDec,
-        toHex: objToHex,
-        toRgba: objToRgba
-    },
-    dec: {
-        toObj: decToObj,
-        toHex: decToHex,
-        toRgba: decToRgba
-    },
-    hex: {
-        toObj: hexToObj,
-        toDec: hexToDec,
-        toRgba: hexToRgba
-    },
-    rgba: {
-        toObj: rgbaToObj,
-        toDec: rgbaToDec,
-        toHex: rgbaToHex
-    },
-    // objToDec: objToDec,
-    // decToRgbObject: decToRgbObject,
-    // decAvgBrightness: decAvgBrightness,
-    // getGradientColor: getGradientColor,
-    // decBrightness: decBrightness,
-    // randomColor: randomColor
-}
+export default class ColorUtil {
 
-function objToDec(o) {
-    return o.r << 16 | o.g << 8 | o.b;
-}
+    static obj2dec(o) {
+        return o.r << 16 | o.g << 8 | o.b;
+    }
 
-function objToHex(o) {
-    // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
-    // by adding 1<<16 (10000) to the result and removing the first digit
-    // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
-    return '#' + ((1 << 24) + (o.r << 16) + (o.g << 8) + o.b).toString(16).slice(1);
-}
+    static obj2hex(o) {
+        // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
+        // by adding 1<<16 (10000) to the result and removing the first digit
+        // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
+        return '#' + ((1 << 24) + (o.r << 16) + (o.g << 8) + o.b)
+            .toString(16).slice(1);
+    }
 
-function objToRgba(o) {
-    var opacity = !isNaN(parseFloat(o.a)) ? o.a : 1;
-    return 'rgba('+o.r+','+o.g+','+o.b+','+opacity+')';
-}
+    static obj2rgba(o) {
+        let opacity = !isNaN(parseFloat(o.a)) ? o.a : 1;
+        return `rgba(${o.r},${o.g},${o.b},${opacity})`;
+    }
 
-function decToObj(dec, opacity) {
-    return {
-        r: (dec & 0xFF0000) >> 16,
-        g: (dec & 0x00FF00) >> 8,
-        b: dec & 0x0000FF,
-        a: !isNaN(parseFloat(opacity)) ? opacity : 1
-    };
-}
-
-function decToHex(dec) {
-    return '#' + ((1 << 24) + dec).toString(16).slice(1);
-}
-
-function decToRgba(dec, opacity) {
-    opacity = !isNaN(parseFloat(opacity)) ? opacity : 1;
-    return 'rgba('
-            + ((dec & 0xFF0000) >> 16) + ','
-            + ((dec & 0x00FF00) >> 8) + ','
-            + (dec & 0x0000FF) + ','
-            + opacity +')';
-}
-
-function hexToObj(hex, opacity) {
-    hex = hex.replace(regShortHex, function(m, r, g, b) {
-        return r + r + g + g + b + b;
-    });
-
-    var result = regHex.exec(hex);
-
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-        a: !isNaN(parseFloat(opacity)) ? opacity : 1
-    } : null;
-}
-
-function hexToDec(hex) {
-    return parseInt(
-        hex.replace(regShortHex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        })
-        .replace('#', ''), 16);
-}
-
-function hexToRgba(hex, opacity) {
-    opacity = !isNaN(parseFloat(opacity)) ? opacity : 1;
-    hex = hex.replace(regShortHex, function(m, r, g, b) {
-        return r + r + g + g + b + b;
-    });
-
-    var result = regHex.exec(hex);
-
-    return result ? 'rgba('
-        + parseInt(result[1], 16) + ','
-        + parseInt(result[2], 16) + ','
-        + parseInt(result[3], 16) + ','
-        + opacity + ')'
-    : null;
-}
-
-function rgbaToObj(rgba) {
-    var result = regRgba.exec(rgba) || regRgb.exec(rgba);
-    var obj = null;
-
-    if (result) {
-        var a = parseFloat(result[4]);
-
-        obj = {
-            r: parseInt(result[1]),
-            g: parseInt(result[2]),
-            b: parseInt(result[3]),
-            a: !isNaN(a) ? a : 1
+    static dec2obj(dec, opacity=1) {
+        return {
+            r: (dec & 0xFF0000) >> 16,
+            g: (dec & 0x00FF00) >> 8,
+            b: dec & 0x0000FF,
+            a: opacity
         };
     }
 
-    return obj;
-}
+    static dec2hex(dec) {
+        return '#' + ((1 << 24) + dec).toString(16).slice(1);
+    }
 
-function rgbaToDec(rgba) {
-    var result = regRgba.exec(rgba) || regRgb.exec(rgba);
+    static dec2rgba(dec, opacity=1) {
+        return 'rgba('
+                + ((dec & 0xFF0000) >> 16) + ','
+                + ((dec & 0x00FF00) >> 8) + ','
+                + (dec & 0x0000FF) + ','
+                + opacity +')';
+    }
 
-    return result ?
-          (parseInt(result[1]) << 16)
-        + (parseInt(result[2]) << 8)
-        + parseInt(result[3])
-    : null;
-}
+    static hex2obj(hex, opacity=1) {
+        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
-function rgbaToHex(rgba) {
-    var result = regRgba.exec(rgba) || regRgb.exec(rgba);
+        let [m,r,g,b] = REG_HEX.exec(hex) || [];
 
-    return result ?
-        '#' + ((1 << 24)
-            + (parseInt(result[1]) << 16)
-            + (parseInt(result[2]) << 8)
-            + parseInt(result[3])).toString(16).slice(1)
-    : null;
+        return m ? {
+            r: parseInt(r, 16),
+            g: parseInt(g, 16),
+            b: parseInt(b, 16),
+            a: opacity
+        } : null;
+    }
+
+    static hex2dec(hex) {
+        return parseInt(
+            hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b)
+            .replace('#', ''), 16);
+    }
+
+    static hex2rgba(hex, opacity=1) {
+        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
+
+        let [m,r,g,b] = REG_HEX.exec(hex) || [];
+
+        return m ? 'rgba('
+            + parseInt(r, 16) + ','
+            + parseInt(g, 16) + ','
+            + parseInt(b, 16) + ','
+            + opacity + ')'
+        : null;
+    }
+
+    static rgba2obj(rgba) {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+
+        return m ? {
+                r: parseInt(r),
+                g: parseInt(g),
+                b: parseInt(b),
+                a: a ? parseFloat(a) : 1
+            }
+        : null;
+    }
+
+    static rgba2dec(rgba) {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+
+        return m ?
+              (parseInt(r) << 16)
+            + (parseInt(g) << 8)
+            + parseInt(b)
+        : null;
+    }
+
+    static rgba2hex(rgba) {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+
+        return m ?
+            '#' + ((1 << 24)
+                + (parseInt(r) << 16)
+                + (parseInt(g) << 8)
+                + parseInt(b)).toString(16).slice(1)
+        : null;
+    }
 }
 
 // /**
