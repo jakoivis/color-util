@@ -57,12 +57,12 @@ describe('ColorUtil', () => {
         describe('hex', () => {
 
             it('hex2obj', () => {
-                // C.hex2obj(hex).should.eql(obj);
-                // C.hex2obj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                // C.hex2obj(hex, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
-                // C.hex2obj('#abc').should.eql(obj);
-                // C.hex2obj('abc').should.eql(obj);
-                // C.hex2obj('aabbcc').should.eql(obj);
+                C.hex2obj(hex).should.eql(obj);
+                C.hex2obj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.hex2obj(hex, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                C.hex2obj('#abc').should.eql(obj);
+                C.hex2obj('abc').should.eql(obj);
+                C.hex2obj('aabbcc').should.eql(obj);
                 expect(C.hex2obj('#abcc')).to.be.null;
             });
 
