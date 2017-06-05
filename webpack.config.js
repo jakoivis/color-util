@@ -1,7 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
 
-console.log(process.env.arg);
 var UglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var isBuild = process.env.arg === "build";
 var name = 'ColorUtil';

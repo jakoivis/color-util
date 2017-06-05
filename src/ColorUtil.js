@@ -108,87 +108,36 @@ export default class ColorUtil {
                 + parseInt(b)).toString(16).slice(1)
         : null;
     }
+
+    static getGradientColor(colors, value) {
+        value = value < 0 ? 0 : value > 1 ? 1 : value;
+
+        let lastIndex = colors.length-1;
+        let colorIndex = (value * lastIndex) | 0;
+        let partLength = 1 / lastIndex;
+        let valueBetweenTwo = (value % partLength) / partLength;
+        let color1 = colors[colorIndex];
+        let color2 = colors[colorIndex+1] ? colors[colorIndex+1] : colors[colorIndex];
+
+        let obj1 = this.dec2obj(color1);
+        let obj2 = this.dec2obj(color2);
+
+        let scale = {
+            r: obj1.r - obj2.r,
+            g: obj1.g - obj2.g,
+            b: obj1.b - obj2.b
+        };
+
+        return (
+            (obj1.r - valueBetweenTwo * scale.r) << 16 |
+            (obj1.g - valueBetweenTwo * scale.g) << 8 |
+            (obj1.b - valueBetweenTwo * scale.b)
+        );
+    }
+
+    // TODO color brightess or luma
+
 }
-
-// /**
-//  * Brightness is determined by average of all color components
-//  *
-//  * @param      {number}  dec
-//  * @return     {number}  number from 0 to 1
-//  */
-// function decAvgBrightness(dec) {
-//     return (
-//         ((dec & 0xFF0000) >> 16) +
-//         ((dec & 0x00FF00) >> 8) +
-//         (dec & 0x0000FF)
-//     ) / 0x2FD;
-// }
-
-// /**
-//  * Brightness is determined by the color component having highest value
-//  *
-//  * @param      {number}  dec
-//  * @return     {number}  number from 0 to 1
-//  */
-// function decBrightness(dec) {
-//     var r = (dec & 0xFF0000) >> 16;
-//     var g = (dec & 0x00FF00) >> 8;
-//     var b = dec & 0x0000FF;
-
-//     return Math.max(r, g, b) / 0xFF;
-// }
-
-// function randomColor() {
-//     return (Math.random() * 0xFFFFFF) | 0;
-// }
-
-//     /**
-//      * @param Gradient color1
-//      * @param Gradient color2
-//      * @param value Number value from 0 to 100
-//      * @return Color between two values.
-//      */
-//     function getGetColorFromGradient(color1, color2, value) {
-//         value = value<0?0:value>100?100:value;
-//         var rgb1 = decToRgbObject(color1);
-//         var rgb2 = decToRgbObject(color2);
-
-//         var scale = {
-//             r:(rgb1.r-rgb2.r)/100,
-//             g:(rgb1.g-rgb2.g)/100,
-//             b:(rgb1.b-rgb2.b)/100
-//         };
-
-//         return (
-//             (rgb1.r-value*scale.r) << 16 |
-//             (rgb1.g-value*scale.g) <<8 |
-//             (rgb1.b-value*scale.b)
-//         );
-//     }
-
-//     /**
-//      * @param colors Several color values
-//      * @param value Number value
-//      * @param min Minimum of the value
-//      * @param max Maximum of the value
-//      * @return Color from the colors gradient array at the position indicated with value parameter.
-//      */
-//     function getGradientColor(colors, value)
-//     {
-//         if (colors.length === 1) {
-//             return colors[0];
-//         }
-
-//         var min = 0;
-//         var max = 1;
-//         var v = value < min ? min : value > max ? max : value;
-//         var s = max-min;
-//         var l = colors.length-1;
-//         var i = Math.floor(v/s*l);// index of the color
-//         var pl = s/l;// length of one part
-//         var nv = (v%pl)/pl*100;// new value. the value between two color values and scale is 0-100
-//         return getGetColorFromGradient(colors[i],colors[i+1]?colors[i+1]:colors[i],nv);
-//     }
 
     // /**
     //  * Returns a random color value that is not too dark and not too bright
