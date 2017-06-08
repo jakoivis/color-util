@@ -114,8 +114,8 @@ export default class ColorUtil {
 
         let lastIndex = colors.length-1;
         let colorIndex = (value * lastIndex) | 0;
-        let partLength = 1 / lastIndex;
-        let valueBetweenTwo = (value % partLength) / partLength;
+        let partSize = 1 / lastIndex;
+        let valueBetweenTwo = (value % partSize) / partSize;
         let color1 = colors[colorIndex];
         let color2 = colors[colorIndex+1] ? colors[colorIndex+1] : colors[colorIndex];
 
@@ -133,6 +133,22 @@ export default class ColorUtil {
             (obj1.g - valueBetweenTwo * scale.g) << 8 |
             (obj1.b - valueBetweenTwo * scale.b)
         );
+    }
+
+    // [[0xFF0000, 0x00FF00], [0x00FFFF, 0x0000FF]]
+    static getGradientMatrixColor(matrix, x, y) {
+        let lastGradientIndex = matrix.length-1;
+        let gradientIndex = (y * lastGradientIndex) | 0;
+        let ySize = 1 / lastGradientIndex;
+        let yValueBetweenTwo = (y % ySize) / ySize;
+
+        let gradient1 = matrix[gradientIndex];
+        let gradient2 = matrix[gradientIndex+1] ? matrix[gradientIndex+1] : matrix[gradientIndex];
+
+        let color1 = this.getGradientColor(gradient1, x);
+        let color2 = this.getGradientColor(gradient2, x);
+
+        return this.getGradientColor([color1, color2], y);
     }
 
     // TODO color brightess or luma

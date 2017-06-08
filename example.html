@@ -9,11 +9,70 @@
 <input type="range" min="0" max="50" value="0" step="5" oninput="showValue(this.value)" />
 <span id="range">0</span>
 
+<canvas id="gradient1"></canvas>
+<canvas id="matrix1"></canvas>
+<canvas id="matrix2"></canvas>
+<canvas id="test"></canvas>
+
 <script>
+
+let gradient1 = [0xED146F, 0xEDDE45, 0x9BF0E9];
+let matrix1 = [[0xFF0000, 0x00FF00], [0x0000FF, 0x00FFFF]];
+let matrix2 = [[0xFFFFFF, 0xFF0000, 0x0], [0xFFFF00, 0x00FFFF, 0xFF00FF]];
+
+createGradient('gradient1', gradient1, 200, 200);
+createMatrix('matrix1', matrix1, 200, 200);
+createMatrix('matrix2', matrix2, 300, 100);
 
 function showValue(newValue) {
     document.getElementById("range").innerHTML=newValue;
 }
+
+function createGradient(targetId, gradient, width, height) {
+    let canvas = document.getElementById(targetId);
+    let ctx = canvas.getContext('2d');
+
+    canvas.width = width;
+    canvas.height = height;
+
+    // ctx.lineWidth = 10;
+    for(let x = 0; x < width; x++) {
+        let color = ColorUtil.getGradientColor(gradient, x/width);
+        let hex = ColorUtil.dec2hex(color);
+
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.strokeStyle = hex;
+        ctx.stroke();
+    }
+}
+
+function createMatrix(targetId, matrix, width, height) {
+    let canvas = document.getElementById(targetId);
+    let ctx = canvas.getContext('2d');
+
+    canvas.width = width;
+    canvas.height = height;
+
+    let imageData  = ctx.createImageData(width, height);
+    let buffer = imageData.data.buffer;
+    let uint32View = new Uint32Array(buffer);
+    let uint8CView = new Uint8ClampedArray(buffer);
+
+    for(let x = 0; x < width; x++) {
+
+        for(let y = 0; y < height; y++) {
+
+            uint32View[y * width + x] = ColorUtil.getGradientMatrixColor(matrix, x/width, y/height) + (0xFF << 24);
+        }
+    }
+
+    imageData.data.set(uint8CView);
+
+    ctx.putImageData(imageData, 0, 0);
+}
+
 
 </script>
 
