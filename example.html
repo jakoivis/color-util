@@ -18,11 +18,11 @@
 
 let gradient1 = [0xED146F, 0xEDDE45, 0x9BF0E9];
 let matrix1 = [[0xFF0000, 0x00FF00], [0x0000FF, 0x00FFFF]];
-let matrix2 = [[0xFFFFFF, 0xFF0000, 0x0], [0xFFFF00, 0x00FFFF, 0xFF00FF]];
+let matrix2 = [[0x0], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
 
 createGradient('gradient1', gradient1, 200, 200);
 createMatrix('matrix1', matrix1, 200, 200);
-createMatrix('matrix2', matrix2, 300, 100);
+createMatrix('matrix2', matrix2, 200, 200);
 
 function showValue(newValue) {
     document.getElementById("range").innerHTML=newValue;
@@ -35,7 +35,6 @@ function createGradient(targetId, gradient, width, height) {
     canvas.width = width;
     canvas.height = height;
 
-    // ctx.lineWidth = 10;
     for(let x = 0; x < width; x++) {
         let color = ColorUtil.getGradientColor(gradient, x/width);
         let hex = ColorUtil.dec2hex(color);
@@ -73,7 +72,23 @@ function createMatrix(targetId, matrix, width, height) {
     ctx.putImageData(imageData, 0, 0);
 }
 
+// let canvas = document.getElementById('test');
+// let ctx = canvas.getContext('2d');
 
+// ctx.fillStyle = '#FF0000';
+// ctx.fillRect(0,0,150,100);
+// let imageData  = ctx.getImageData(0,0,150,100);
+// let buffer = imageData.data.buffer;
+// let uint32View = new Uint32Array(buffer);
+// let uint8CView = new Uint8ClampedArray(buffer);
+
+// console.log(uint32View[0]);
+// console.log(uint8CView[0], uint8CView[1], uint8CView[2], uint8CView[3]);
+
+// RGBA -> ABGR
+// R: #FF0000 -> ff0000ff
+// G: #00FF00 -> ff00ff00
+// B: #0000FF -> ffff0000
 </script>
 
 </body>

@@ -117,7 +117,7 @@ export default class ColorUtil {
         let partSize = 1 / lastIndex;
         let valueBetweenTwo = (value % partSize) / partSize;
         let color1 = colors[colorIndex];
-        let color2 = colors[colorIndex+1] ? colors[colorIndex+1] : colors[colorIndex];
+        let color2 = colors[colorIndex+1] !== undefined ? colors[colorIndex+1] : colors[colorIndex];
 
         let obj1 = this.dec2obj(color1);
         let obj2 = this.dec2obj(color2);
@@ -148,7 +148,7 @@ export default class ColorUtil {
         let color1 = this.getGradientColor(gradient1, x);
         let color2 = this.getGradientColor(gradient2, x);
 
-        return this.getGradientColor([color1, color2], y);
+        return this.getGradientColor([color1, color2], yValueBetweenTwo);
     }
 
     // TODO color brightess or luma
