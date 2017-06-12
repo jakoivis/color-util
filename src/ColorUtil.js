@@ -109,6 +109,13 @@ export default class ColorUtil {
         : null;
     }
 
+    /**
+     * Get color from gradient.
+     *
+     * @param      {string[]}   colors      Array of colors in decimal format
+     * @param      {number}     value       Position on the gradient. Value from 0 to 1.
+     * @return     {number}
+     */
     static getGradientColor(colors, value) {
         value = value < 0 ? 0 : value > 1 ? 1 : value;
 
@@ -135,8 +142,19 @@ export default class ColorUtil {
         );
     }
 
-    // [[0xFF0000, 0x00FF00], [0x00FFFF, 0x0000FF]]
+    /**
+     * Get color from gradient matrix. Gradient matrix is like normal gradient
+     * but it is two dimensional.
+     *
+     * @param      {string[][]} matrix  Array of gradient color arrays
+     * @param      {number}     x       Horizontal position on the gradient. Value from 0 to 1.
+     * @param      {number}     y       Vertical position on the gradient. Value from 0 to 1.
+     * @return     {number}
+     */
     static getGradientMatrixColor(matrix, x, y) {
+        x = x < 0 ? 0 : x > 1 ? 1 : x;
+        y = y < 0 ? 0 : y > 1 ? 1 : y;
+
         let lastGradientIndex = matrix.length-1;
         let gradientIndex = (y * lastGradientIndex) | 0;
         let ySize = 1 / lastGradientIndex;
@@ -150,60 +168,4 @@ export default class ColorUtil {
 
         return this.getGradientColor([color1, color2], yValueBetweenTwo);
     }
-
-    // TODO color brightess or luma
-
 }
-
-    // /**
-    //  * Returns a random color value that is not too dark and not too bright
-    //  *
-    //  * @param {number} minBrightness
-    //  * @param {number} maxBrightness
-    //  */
-    // function getRandomColorFromBrightnessRange(minBrightness, maxBrightness)
-    // {
-    //     var color = (Math.random() * 0xFFFFFF) | 0;
-    //     var brightness = getBrightness( color );
-    //     if( brightness < minBrightness )
-    //         color = brightenColor(color,minBrightness);
-    //     else if( brightness > maxBrightness )
-    //         color = darkenColor(color,maxBrightness);
-    //     return color;
-    // }
-
-    // public static function brightenColor(hexColor:Number, percent:Number):Number {
-    //     if(isNaN(percent))
-    //         percent=0;
-    //     if(percent>100)
-    //         percent=100;
-    //     if(percent<0)
-    //         percent=0;
-
-    //     var factor:Number=percent/100;
-    //     var rgb:Object=hexToRgb(hexColor);
-
-    //     rgb.r+=(255-rgb.r)*factor;
-    //     rgb.b+=(255-rgb.b)*factor;
-    //     rgb.g+=(255-rgb.g)*factor;
-
-    //     return rgbToHex(Math.round(rgb.r),Math.round(rgb.g),Math.round(rgb.b));
-    // }
-
-    // public static function darkenColor(hexColor:Number, percent:Number):Number {
-    //     if(isNaN(percent))
-    //         percent=0;
-    //     if(percent>100)
-    //         percent=100;
-    //     if(percent<0)
-    //         percent=0;
-
-    //     var factor:Number=1-(percent/100);
-    //     var rgb:Object=hexToRgb(hexColor);
-
-    //     rgb.r*=factor;
-    //     rgb.b*=factor;
-    //     rgb.g*=factor;
-
-    //     return rgbToHex(Math.round(rgb.r),Math.round(rgb.g),Math.round(rgb.b));
-    // }
