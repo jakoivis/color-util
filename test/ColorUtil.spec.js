@@ -1,5 +1,6 @@
 
 import chai from 'chai';
+import sinon from 'sinon';
 import C from "../src/ColorUtil.js";
 
 chai.should();
@@ -161,6 +162,67 @@ describe('ColorUtil', () => {
                 .should.equal(0xFF00FF);
             C.getGradientColor([0x00FF7F, 0xFF00FF], -2)
                 .should.equal(0x00FF7F);
+        });
+    });
+
+    describe('getGradientMatrixColor', () => {
+
+        let sandbox;
+        let stub;
+
+        beforeEach(() => {
+            sandbox = sinon.sandbox.create();
+            stub = sandbox.stub(C, 'getGradientColor')
+                .onCall(0).returns(0)
+                .onCall(1).returns(1);
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+        });
+
+        let matrix = [
+            [0x0000FF, 0x00FF00, 0xFF0000],
+            [0x0000EE, 0x00EE00, 0xEE0000],
+            [0x0000DD, 0x00DD00, 0xDD0000],
+            [0x0000CC, 0x00CC00, 0xCC0000],
+            [0x0000BB, 0x00BB00, 0xBB0000]
+        ];
+
+        it('should calculate with correct horizontal colors', () => {
+            C.getGradientMatrixColor(matrix, 0.75, 0);
+
+            let call1 = stub.getCall(0);
+            let call2 = stub.getCall(1);
+
+            call1.calledWith(matrix[0], 0.75).should.be.true;
+            call2.calledWith(matrix[1], 0.75).should.be.true;
+        });
+
+        it('should calculate with correct gradients', () => {
+            C.getGradientMatrixColor(matrix, 0.75, 0.75);
+
+            let call1 = stub.getCall(0);
+            let call2 = stub.getCall(1);
+
+            call1.calledWith(matrix[3], 0.75).should.be.true;
+            call2.calledWith(matrix[4], 0.75).should.be.true;
+        });
+
+        it('should calculate final color with correct colors', () => {
+            C.getGradientMatrixColor(matrix, 0.75, 0);
+
+            let call3 = stub.getCall(2);
+
+            call3.calledWith([0, 1], 0).should.be.true;
+        });
+
+        it('should calculate final color with correct vertical position', () => {
+            C.getGradientMatrixColor(matrix, 0.75, 0.80);
+
+            let call3 = stub.getCall(2);
+
+            call3.args[1].should.be.closeTo(0.200, 0.001);
         });
     });
 });

@@ -12,6 +12,7 @@
 <canvas id="gradient1"></canvas>
 <canvas id="matrix1"></canvas>
 <canvas id="matrix2"></canvas>
+<canvas id="matrix3"></canvas>
 <canvas id="test"></canvas>
 
 <script>
@@ -23,6 +24,7 @@ let matrix2 = [[0x0], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
 createGradient('gradient1', gradient1, 200, 200);
 createMatrix('matrix1', matrix1, 200, 200);
 createMatrix('matrix2', matrix2, 200, 200);
+createMatrix('matrix3', [[0xFF0000]], 200, 200);
 
 function showValue(newValue) {
     document.getElementById("range").innerHTML=newValue;
