@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>ColorUtil example</title>
-<script src="dist/ColorUtil.min.js"></script>
+<script src="dist/ColorUtil.js"></script>
 </head>
 
 <body>
@@ -18,13 +18,17 @@
 <script>
 
 let gradient1 = [0xED146F, 0xEDDE45, 0x9BF0E9];
-let matrix1 = [[0xFF0000, 0x00FF00], [0x0000FF, 0x00FFFF]];
-let matrix2 = [[0x0], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
+let matrix1 = [[0xED146F, 0xEDDE45, 0x9BF0E9]];
+let matrix2 = [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]];
+let matrix3 = [[0x0], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
+
+matrix1 = ColorUtil.convert(matrix1, ColorUtil.dec2systemEndian);
+matrix2 = ColorUtil.convert(matrix2, ColorUtil.dec2systemEndian);
 
 createGradient('gradient1', gradient1, 200, 200);
 createMatrix('matrix1', matrix1, 200, 200);
 createMatrix('matrix2', matrix2, 200, 200);
-createMatrix('matrix3', [[0xFF0000]], 200, 200);
+createMatrix('matrix3', matrix3, 200, 200);
 
 function showValue(newValue) {
     document.getElementById("range").innerHTML=newValue;

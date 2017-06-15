@@ -4,7 +4,24 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
 const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
+const SYSTEM_ENDIAN = getSystemEndian();
+
+/**
+ * All the inputted colors are expected to be in big endian byte order. (RRGGBB)
+ *
+ * @class ColorUtil
+ */
 export default class ColorUtil {
+
+    static convert(array, conversionFunction) {
+        return array.map(item => {
+            if (Array.isArray(item)) {
+                return this.convert(item, conversionFunction);
+            } else {
+                return conversionFunction(item);
+            }
+        });
+    }
 
     static obj2dec(o) {
         return o.r << 16 | o.g << 8 | o.b;
@@ -42,6 +59,16 @@ export default class ColorUtil {
                 + ((dec & 0x00FF00) >> 8) + ','
                 + (dec & 0x0000FF) + ','
                 + opacity +')';
+    }
+
+    static dec2systemEndian(dec) {
+        if (SYSTEM_ENDIAN === 'LITTLE_ENDIAN') {
+            return  (dec & 0xFF0000) >> 16 |
+                    (dec & 0x00FF00) |
+                    (dec & 0x0000FF) << 16
+        }
+
+        return dec;
     }
 
     static hex2obj(hex, opacity=1) {
@@ -167,5 +194,24 @@ export default class ColorUtil {
         let color2 = this.getGradientColor(gradient2, x);
 
         return this.getGradientColor([color1, color2], yValueBetweenTwo);
+    }
+}
+
+function getSystemEndian() {
+    let arrayBuffer = new ArrayBuffer(2);
+    let uint8Array = new Uint8Array(arrayBuffer);
+    let uint16Array = new Uint16Array(arrayBuffer);
+
+    uint8Array[0] = 0xAA;
+    uint8Array[1] = 0xBB;
+
+    if (uint16Array[0] === 0xBBAA) {
+        return 'LITTLE_ENDIAN';
+
+    } else if (uint16Array[0] === 0xAABB) {
+        return 'BIG_ENDIAN';
+
+    } else {
+        return 'UNKNOW_ENDIAN'
     }
 }

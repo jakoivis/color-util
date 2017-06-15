@@ -16,6 +16,7 @@ var config = {
     output: {
         path: __dirname + '/dist',
         filename: name + (isBuild ? '.min.js' : '.js'),
+        publicPath: '/dist/',
         library: name,
         libraryTarget: 'umd',
         umdNamedDefine: true
