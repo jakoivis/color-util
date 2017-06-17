@@ -10,17 +10,23 @@ if (isBuild) {
     plugins.push(new UglifyJsPlugin({ minimize: true }));
 }
 
+plugins.push(new webpack.HotModuleReplacementPlugin());
+
+
 var config = {
-    entry: __dirname + '/src/ColorUtil.js',
+    entry: [
+        __dirname + '/src/ColorUtil.js'
+    ],
     devtool: 'source-map',
     output: {
         path: __dirname + '/dist',
         filename: name + (isBuild ? '.min.js' : '.js'),
-        publicPath: '/dist/',
+        publicPath: '/',
         library: name,
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
+    devServer: { inline: true },
     module: {
         loaders: [
             {

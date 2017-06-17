@@ -4,7 +4,28 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
 const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
-const SYSTEM_ENDIAN = getSystemEndian();
+const LITTLE_ENDIAN = 0;
+const BIG_ENDIAN = 1;
+const UNKNOWN_ENDIAN = 2;
+
+let SYSTEM_ENDIAN = (() => {
+    let arrayBuffer = new ArrayBuffer(2);
+    let uint8Array = new Uint8Array(arrayBuffer);
+    let uint16Array = new Uint16Array(arrayBuffer);
+
+    uint8Array[0] = 0xAA;
+    uint8Array[1] = 0xBB;
+
+    if (uint16Array[0] === 0xBBAA) {
+        return LITTLE_ENDIAN;
+
+    } else if (uint16Array[0] === 0xAABB) {
+        return BIG_ENDIAN;
+
+    } else {
+        return UNKNOW_ENDIAN;
+    }
+})();
 
 /**
  * All the inputted colors are expected to be in big endian byte order. (RRGGBB)
@@ -13,12 +34,22 @@ const SYSTEM_ENDIAN = getSystemEndian();
  */
 export default class ColorUtil {
 
-    static convert(array, conversionFunction) {
+    static getSystemEndian() {
+        return SYSTEM_ENDIAN;
+    }
+
+    static _setSystemEndian(value) {
+        SYSTEM_ENDIAN = value;
+    }
+
+    static convert(array, ...conversionFunctions) {
         return array.map(item => {
             if (Array.isArray(item)) {
-                return this.convert(item, conversionFunction);
+                return this.convert(item, ...conversionFunctions);
             } else {
-                return conversionFunction(item);
+                return conversionFunctions.reduce((acc, fn) => {
+                    return fn(acc);
+                }, item);
             }
         });
     }
@@ -36,16 +67,16 @@ export default class ColorUtil {
     }
 
     static obj2rgba(o) {
-        let opacity = !isNaN(parseFloat(o.a)) ? o.a : 1;
-        return `rgba(${o.r},${o.g},${o.b},${opacity})`;
+        let a = !isNaN(parseInt(o.a)) ? o.a / 0xFF : 1;
+        return `rgba(${o.r},${o.g},${o.b},${a})`;
     }
 
-    static dec2obj(dec, opacity=1) {
+    static dec2obj(dec, a=0xFF) {
         return {
             r: (dec & 0xFF0000) >> 16,
             g: (dec & 0x00FF00) >> 8,
             b: dec & 0x0000FF,
-            a: opacity
+            a: a
         };
     }
 
@@ -53,16 +84,16 @@ export default class ColorUtil {
         return '#' + ((1 << 24) + dec).toString(16).slice(1);
     }
 
-    static dec2rgba(dec, opacity=1) {
+    static dec2rgba(dec, a=1) {
         return 'rgba('
                 + ((dec & 0xFF0000) >> 16) + ','
                 + ((dec & 0x00FF00) >> 8) + ','
                 + (dec & 0x0000FF) + ','
-                + opacity +')';
+                + a +')';
     }
 
     static dec2systemEndian(dec) {
-        if (SYSTEM_ENDIAN === 'LITTLE_ENDIAN') {
+        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
             return  (dec & 0xFF0000) >> 16 |
                     (dec & 0x00FF00) |
                     (dec & 0x0000FF) << 16
@@ -71,7 +102,24 @@ export default class ColorUtil {
         return dec;
     }
 
-    static hex2obj(hex, opacity=1) {
+    static dec2systemEndianUint32(dec, a=0xFF) {
+        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
+            // split calculation with * and +
+            // since left shift and | convert the number
+            // to a signed 32-bit integrer
+            return  (a * (1 << 24)) +
+                    ((dec & 0xFF0000) >> 16 |
+                    (dec & 0x00FF00) |
+                    (dec & 0x0000FF) << 16);
+        }
+
+        return a + (
+            (dec & 0xFF0000) << 8 |
+            (dec & 0x00FF00) << 8 |
+            (dec & 0x0000FF) << 8 );
+    }
+
+    static hex2obj(hex, a=0xFF) {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -80,7 +128,7 @@ export default class ColorUtil {
             r: parseInt(r, 16),
             g: parseInt(g, 16),
             b: parseInt(b, 16),
-            a: opacity
+            a: a
         } : null;
     }
 
@@ -90,7 +138,7 @@ export default class ColorUtil {
             .replace('#', ''), 16);
     }
 
-    static hex2rgba(hex, opacity=1) {
+    static hex2rgba(hex, a=1) {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -99,7 +147,7 @@ export default class ColorUtil {
             + parseInt(r, 16) + ','
             + parseInt(g, 16) + ','
             + parseInt(b, 16) + ','
-            + opacity + ')'
+            + a + ')'
         : null;
     }
 
@@ -110,7 +158,7 @@ export default class ColorUtil {
                 r: parseInt(r),
                 g: parseInt(g),
                 b: parseInt(b),
-                a: a ? parseFloat(a) : 1
+                a: a ? (parseFloat(a) * 0xFF) | 0 : 0xFF
             }
         : null;
     }
@@ -163,6 +211,7 @@ export default class ColorUtil {
         };
 
         return (
+            // (0xFF) << 24 |
             (obj1.r - valueBetweenTwo * scale.r) << 16 |
             (obj1.g - valueBetweenTwo * scale.g) << 8 |
             (obj1.b - valueBetweenTwo * scale.b)
@@ -194,24 +243,5 @@ export default class ColorUtil {
         let color2 = this.getGradientColor(gradient2, x);
 
         return this.getGradientColor([color1, color2], yValueBetweenTwo);
-    }
-}
-
-function getSystemEndian() {
-    let arrayBuffer = new ArrayBuffer(2);
-    let uint8Array = new Uint8Array(arrayBuffer);
-    let uint16Array = new Uint16Array(arrayBuffer);
-
-    uint8Array[0] = 0xAA;
-    uint8Array[1] = 0xBB;
-
-    if (uint16Array[0] === 0xBBAA) {
-        return 'LITTLE_ENDIAN';
-
-    } else if (uint16Array[0] === 0xAABB) {
-        return 'BIG_ENDIAN';
-
-    } else {
-        return 'UNKNOW_ENDIAN'
     }
 }

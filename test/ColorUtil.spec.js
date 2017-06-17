@@ -8,10 +8,14 @@ let expect = require('chai').expect;
 
 describe('ColorUtil', () => {
 
+    beforeEach(() => {
+        C._setSystemEndian(0);
+    });
+
     describe('conversion', () => {
 
         let dec = 11189196;
-        let obj = {r: 170, g: 187, b: 204, a: 1};
+        let obj = {r: 170, g: 187, b: 204, a: 255};
         let hex = '#aabbcc';
         let rgba = 'rgba(170,187,204,1)';
 
@@ -30,7 +34,7 @@ describe('ColorUtil', () => {
                 C.obj2rgba(obj).should.equal(rgba);
                 C.obj2rgba({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
                 C.obj2rgba({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
-                C.obj2rgba({r: 170, g: 187, b: 204, a: 0.1}).should.equal('rgba(170,187,204,0.1)');
+                C.obj2rgba({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
                 C.obj2rgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
             });
         });
@@ -40,7 +44,7 @@ describe('ColorUtil', () => {
             it('dec2obj', () => {
                 C.dec2obj(dec).should.eql(obj);
                 C.dec2obj(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.dec2obj(dec, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                // C.dec2obj(dec, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
             });
 
             it('dec2hex', () => {
@@ -53,6 +57,30 @@ describe('ColorUtil', () => {
                 C.dec2rgba(dec, 0).should.equal('rgba(170,187,204,0)');
                 C.dec2rgba(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
             });
+
+            it('dec2systemEndian', () => {
+                C._setSystemEndian(1);
+                C.dec2systemEndian(dec).should.equal(dec);
+
+                C._setSystemEndian(2);
+                C.dec2systemEndian(dec).should.equal(dec);
+
+                C._setSystemEndian(0);
+                C.dec2systemEndian(0xAABBCC).should.equal(0xCCBBAA);
+                C.dec2systemEndian(0xFFAABBCC).should.equal(0xCCBBAA);
+            });
+
+            xit('dec2systemEndian32', () => {
+                // C._setSystemEndian(1);
+                // C.dec2systemEndian32Uint32(0xAABBCC).should.equal(0xFFCCBBAA);
+
+                // C._setSystemEndian(2);
+                // C.dec2systemEndian32Uint32(dec32).should.equal(dec32);
+
+                C._setSystemEndian(0);
+                C.dec2systemEndian32Uint32(0xAABBCC).should.equal(0xFFCCBBAA);
+                C.dec2systemEndian32Uint32(0x99AABBCC).should.equal(0xFFCCBBAA);
+            });
         });
 
         describe('hex', () => {
@@ -60,7 +88,7 @@ describe('ColorUtil', () => {
             it('hex2obj', () => {
                 C.hex2obj(hex).should.eql(obj);
                 C.hex2obj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.hex2obj(hex, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                C.hex2obj(hex, 85).should.eql({r: 170, g: 187, b: 204, a: 85});
                 C.hex2obj('#abc').should.eql(obj);
                 C.hex2obj('abc').should.eql(obj);
                 C.hex2obj('aabbcc').should.eql(obj);
@@ -89,10 +117,10 @@ describe('ColorUtil', () => {
         describe('rgba', () => {
 
             it('rgba2obj', () => {
-                C.rgba2obj('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 1});
-                C.rgba2obj('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 1});
+                C.rgba2obj('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
+                C.rgba2obj('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
                 C.rgba2obj('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.rgba2obj('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                C.rgba2obj('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
             });
 
             it('rgba2dec', () => {

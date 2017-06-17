@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>ColorUtil example</title>
-<script src="dist/ColorUtil.js"></script>
+<script src="/ColorUtil.js"></script>
 </head>
 
 <body>
@@ -13,17 +13,20 @@
 <canvas id="matrix1"></canvas>
 <canvas id="matrix2"></canvas>
 <canvas id="matrix3"></canvas>
-<canvas id="test"></canvas>
+<canvas id="test1"></canvas>
+<canvas id="test2"></canvas>
 
 <script>
 
 let gradient1 = [0xED146F, 0xEDDE45, 0x9BF0E9];
 let matrix1 = [[0xED146F, 0xEDDE45, 0x9BF0E9]];
 let matrix2 = [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]];
-let matrix3 = [[0x0], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
+let matrix3 = [[0xFFFFFF], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
 
-matrix1 = ColorUtil.convert(matrix1, ColorUtil.dec2systemEndian);
-matrix2 = ColorUtil.convert(matrix2, ColorUtil.dec2systemEndian);
+let conversions = [ColorUtil.dec2systemEndianUint32];
+matrix1 = ColorUtil.convert(matrix1, ...conversions);
+matrix2 = ColorUtil.convert(matrix2, ...conversions);
+matrix3 = ColorUtil.convert(matrix3, ...conversions);
 
 createGradient('gradient1', gradient1, 200, 200);
 createMatrix('matrix1', matrix1, 200, 200);
@@ -78,23 +81,50 @@ function createMatrix(targetId, matrix, width, height) {
     ctx.putImageData(imageData, 0, 0);
 }
 
-// let canvas = document.getElementById('test');
-// let ctx = canvas.getContext('2d');
 
-// ctx.fillStyle = '#FF0000';
-// ctx.fillRect(0,0,150,100);
-// let imageData  = ctx.getImageData(0,0,150,100);
-// let buffer = imageData.data.buffer;
-// let uint32View = new Uint32Array(buffer);
-// let uint8CView = new Uint8ClampedArray(buffer);
+// test1
+(()=> {
+    let canvas = document.getElementById('test1');
+    let ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#AABBCC';
+    ctx.fillRect(0,0,10,10);
+    let imageData  = ctx.getImageData(0,0,10,10);
+    let buffer = imageData.data.buffer;
+    let uint32View = new Uint32Array(buffer);
+    let uint8CView = new Uint8ClampedArray(buffer);
+    console.log('Test1: set canvas color 0xAABBCC and see what it is in typed arrays');
+    console.log('uint32View', (uint32View[0]).toString(16));
+    console.log('uint8CView', uint8CView[0], uint8CView[1], uint8CView[2], uint8CView[3]);
+    // with little-endian system the colors are
+    // input format: RGB
+    // unit32View: ABGR
+    // uint8CView: RGBA
+})();
 
-// console.log(uint32View[0]);
-// console.log(uint8CView[0], uint8CView[1], uint8CView[2], uint8CView[3]);
+// test2
+(()=> {
+    let canvas = document.getElementById('test2');
+    let ctx = canvas.getContext('2d');
+    let imageData  = ctx.getImageData(0,0,10,10);
+    let buffer = imageData.data.buffer;
+    let uint32View = new Uint32Array(buffer);
+    let int32View = new Int32Array(buffer);
+    let uint8CView = new Uint8ClampedArray(buffer);
+    for (let [i, c] of uint32View.entries()) {
+        int32View[i] = (0xFF << 24) | 0x0000FF; // set alpha + red
+        // uint32View[i] = (0xFF << 24) | 0x0000FF; // set alpha + red
+    }
+    imageData.data.set(uint8CView);
+    ctx.putImageData(imageData, 0, 0);
+    console.log('Test1: set color as negative number with int32View');
+    console.log('<< operator transforms to signed 32-bit. resulting integer will be negative number');
+    console.log('uint32View', (uint32View[0]).toString(16));
+    console.log('int32View', (int32View[0]).toString(16));
+    console.log('uint8CView', uint8CView[0], uint8CView[1], uint8CView[2], uint8CView[3]);
+})();
 
-// RGBA -> ABGR
-// R: #FF0000 -> ff0000ff
-// G: #00FF00 -> ff00ff00
-// B: #0000FF -> ffff0000
+console.log(ColorUtil.dec2systemEndianUint32(0xAABBCC));
+
 </script>
 
 </body>

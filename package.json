@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/*.spec.js",
     "test-watch": "mocha --compilers js:babel-core/register -w ./test/*.spec.js",
-    "watch": "webpack-dev-server --inline --hot",
+    "watch": "webpack-dev-server",
     "prebuild": "npm run test",
     "build": "set arg=build&&webpack",
     "dev-build": "webpack"
