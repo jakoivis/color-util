@@ -13,8 +13,6 @@
 <canvas id="matrix1"></canvas>
 <canvas id="matrix2"></canvas>
 <canvas id="matrix3"></canvas>
-<canvas id="test1"></canvas>
-<canvas id="test2"></canvas>
 
 <script>
 
@@ -80,67 +78,6 @@ function createMatrix(targetId, matrix, width, height) {
 
     ctx.putImageData(imageData, 0, 0);
 }
-
-
-// test1
-(()=> {
-    let canvas = document.getElementById('test1');
-    let ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#AABBCC';
-    ctx.fillRect(0,0,10,10);
-    let imageData  = ctx.getImageData(0,0,10,10);
-    let buffer = imageData.data.buffer;
-    let uint32View = new Uint32Array(buffer);
-    let uint8CView = new Uint8ClampedArray(buffer);
-    console.log('Test1: set canvas color 0xAABBCC and see what it is in typed arrays');
-    console.log('uint32View', (uint32View[0]).toString(16));
-    console.log('uint8CView', uint8CView[0], uint8CView[1], uint8CView[2], uint8CView[3]);
-    // with little-endian system the colors are
-    // input format: RGB
-    // unit32View: ABGR
-    // uint8CView: RGBA
-})();
-
-// test2
-(()=> {
-    let canvas = document.getElementById('test2');
-    let ctx = canvas.getContext('2d');
-    let imageData  = ctx.getImageData(0,0,10,10);
-    let buffer = imageData.data.buffer;
-    let uint32View = new Uint32Array(buffer);
-    let int32View = new Int32Array(buffer);
-    let uint8CView = new Uint8ClampedArray(buffer);
-    for (let [i, c] of uint32View.entries()) {
-        int32View[i] = (0xFF << 24) | 0x0000FF; // set alpha + red
-        // uint32View[i] = (0xFF << 24) | 0x0000FF; // set alpha + red
-    }
-    imageData.data.set(uint8CView);
-    ctx.putImageData(imageData, 0, 0);
-    console.log('Test2: set color as negative number with int32View');
-    console.log('<< operator transforms to signed 32-bit. resulting integer will be negative number');
-    console.log('uint32View', (uint32View[0]).toString(16));
-    console.log('int32View', (int32View[0]).toString(16));
-    console.log('uint8CView', uint8CView[0], uint8CView[1], uint8CView[2], uint8CView[3]);
-})();
-
-// test3
-(()=> {
-    let buffer = new ArrayBuffer(4);
-    let uint32View = new Uint32Array(buffer);
-    let int32View = new Int32Array(buffer);
-    let uint8CView = new Uint8ClampedArray(buffer);
-
-    int32View[0] = 255 << 24;
-
-    console.log('Test3:');
-    console.log('uint32View', uint32View);
-    console.log('int32View', int32View);
-    console.log('uint8CView', uint8CView);
-})();
-
-
-
-console.log(ColorUtil.dec2systemEndianUint32(0xAABBCC));
 
 </script>
 
