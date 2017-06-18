@@ -200,7 +200,7 @@ describe('ColorUtil', () => {
 
         beforeEach(() => {
             sandbox = sinon.sandbox.create();
-            stub = sandbox.stub(C, 'getGradientColor')
+            stub = sandbox.stub(C, '_getGradientColor')
                 .onCall(0).returns(0)
                 .onCall(1).returns(1);
         });

@@ -12,7 +12,6 @@ if (isBuild) {
 
 plugins.push(new webpack.HotModuleReplacementPlugin());
 
-
 var config = {
     entry: [
         __dirname + '/src/ColorUtil.js'

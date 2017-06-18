@@ -58,6 +58,18 @@ export default class ColorUtil {
         return o.r << 16 | o.g << 8 | o.b;
     }
 
+    static obj2decUint32(o) {
+        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
+              (o.a << 24 | o.b << 16 | o.g << 8 | o.r) >>> 0
+            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a) >>> 0;
+    }
+
+    static obj2decInt32(o) {
+        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
+              (o.a << 24 | o.b << 16 | o.g << 8 | o.r)
+            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a);
+    }
+
     static obj2hex(o) {
         // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
         // by adding 1<<16 (10000) to the result and removing the first digit
@@ -184,6 +196,10 @@ export default class ColorUtil {
         : null;
     }
 
+    static getGradientColor(colors, position) {
+        return this._getGradientColor(colors, position, this.dec2obj, this.obj2dec);
+    }
+
     /**
      * Get color from gradient.
      *
@@ -191,57 +207,71 @@ export default class ColorUtil {
      * @param      {number}     value       Position on the gradient. Value from 0 to 1.
      * @return     {number}
      */
-    static getGradientColor(colors, value) {
-        value = value < 0 ? 0 : value > 1 ? 1 : value;
+    static _getGradientColor(colors, position, conversionFrom=null, conversionTo=null) {
+        let {
+            item1: color1,
+            item2: color2,
+            valueBetweenItems: valueBetweenColors
+        } = getGradientEdgesAndPosition(colors, position);
 
-        let lastIndex = colors.length-1;
-        let colorIndex = (value * lastIndex) | 0;
-        let partSize = 1 / lastIndex;
-        let valueBetweenTwo = (value % partSize) / partSize;
-        let color1 = colors[colorIndex];
-        let color2 = colors[colorIndex+1] !== undefined ? colors[colorIndex+1] : colors[colorIndex];
+        if (conversionFrom) {
+            color1 = conversionFrom(color1);
+            color2 = conversionFrom(color2);
+        }
 
-        let obj1 = this.dec2obj(color1);
-        let obj2 = this.dec2obj(color2);
-
-        let scale = {
-            r: obj1.r - obj2.r,
-            g: obj1.g - obj2.g,
-            b: obj1.b - obj2.b
+        let color = {
+            r: color1.r - valueBetweenColors * (color1.r - color2.r),
+            g: color1.g - valueBetweenColors * (color1.g - color2.g),
+            b: color1.b - valueBetweenColors * (color1.b - color2.b),
+            a: color1.a - valueBetweenColors * (color1.a - color2.a)
         };
 
-        return (
-            // (0xFF) << 24 |
-            (obj1.r - valueBetweenTwo * scale.r) << 16 |
-            (obj1.g - valueBetweenTwo * scale.g) << 8 |
-            (obj1.b - valueBetweenTwo * scale.b)
-        );
+        return conversionTo ? conversionTo(color) : color;
+    }
+
+    static getGradientMatrixColor(matrix, x, y) {
+        return this._getGradientMatrixColor(matrix, x, y, this.dec2obj, this.obj2decUint32);
     }
 
     /**
      * Get color from gradient matrix. Gradient matrix is like normal gradient
      * but it is two dimensional.
      *
+     * Gradient calculation is done in object format so conversionFrom must convert
+     * to object and conversionTo must convert from object type.
+     *
      * @param      {string[][]} matrix  Array of gradient color arrays
      * @param      {number}     x       Horizontal position on the gradient. Value from 0 to 1.
      * @param      {number}     y       Vertical position on the gradient. Value from 0 to 1.
      * @return     {number}
      */
-    static getGradientMatrixColor(matrix, x, y) {
-        x = x < 0 ? 0 : x > 1 ? 1 : x;
-        y = y < 0 ? 0 : y > 1 ? 1 : y;
+    static _getGradientMatrixColor(matrix, x, y, conversionFrom, conversionTo) {
+        let {
+            item1: gradient1,
+            item2: gradient2,
+            valueBetweenItems: valueBetweenGradients
+        } = getGradientEdgesAndPosition(matrix, y);
 
-        let lastGradientIndex = matrix.length-1;
-        let gradientIndex = (y * lastGradientIndex) | 0;
-        let ySize = 1 / lastGradientIndex;
-        let yValueBetweenTwo = (y % ySize) / ySize;
+        // internally we cen drop the conversion between these 3 functions
 
-        let gradient1 = matrix[gradientIndex];
-        let gradient2 = matrix[gradientIndex+1] ? matrix[gradientIndex+1] : matrix[gradientIndex];
+        let color1 = this._getGradientColor(gradient1, x, conversionFrom);
+        let color2 = this._getGradientColor(gradient2, x, conversionFrom);
 
-        let color1 = this.getGradientColor(gradient1, x);
-        let color2 = this.getGradientColor(gradient2, x);
+        return this._getGradientColor([color1, color2], valueBetweenGradients, null, conversionTo);
+    }
+}
 
-        return this.getGradientColor([color1, color2], yValueBetweenTwo);
+function getGradientEdgesAndPosition(array, value) {
+    value = value < 0 ? 0 : value > 1 ? 1 : value;
+
+    let lastIndex = array.length - 1;
+    let itemIndex = (value * lastIndex) | 0;
+    let partSize = 1 / lastIndex;
+    let valueBetweenItems = (value % partSize) / partSize;
+
+    return {
+        item1: array[itemIndex],
+        item2: array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex],
+        valueBetweenItems: valueBetweenItems
     }
 }
