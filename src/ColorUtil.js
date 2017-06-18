@@ -207,16 +207,16 @@ export default class ColorUtil {
      * @param      {number}     value       Position on the gradient. Value from 0 to 1.
      * @return     {number}
      */
-    static _getGradientColor(colors, position, conversionFrom=null, conversionTo=null) {
+    static _getGradientColor(colors, position, convertToObj=null, convertFromObj=null) {
         let {
             item1: color1,
             item2: color2,
             valueBetweenItems: valueBetweenColors
         } = getGradientEdgesAndPosition(colors, position);
 
-        if (conversionFrom) {
-            color1 = conversionFrom(color1);
-            color2 = conversionFrom(color2);
+        if (convertToObj) {
+            color1 = convertToObj(color1);
+            color2 = convertToObj(color2);
         }
 
         let color = {
@@ -226,7 +226,7 @@ export default class ColorUtil {
             a: color1.a - valueBetweenColors * (color1.a - color2.a)
         };
 
-        return conversionTo ? conversionTo(color) : color;
+        return convertFromObj ? convertFromObj(color) : color;
     }
 
     static getGradientMatrixColor(matrix, x, y) {
@@ -237,15 +237,15 @@ export default class ColorUtil {
      * Get color from gradient matrix. Gradient matrix is like normal gradient
      * but it is two dimensional.
      *
-     * Gradient calculation is done in object format so conversionFrom must convert
-     * to object and conversionTo must convert from object type.
+     * Gradient calculation is done in object format so convertToObj must convert
+     * to object and convertFromObj must convert from object type.
      *
      * @param      {string[][]} matrix  Array of gradient color arrays
      * @param      {number}     x       Horizontal position on the gradient. Value from 0 to 1.
      * @param      {number}     y       Vertical position on the gradient. Value from 0 to 1.
      * @return     {number}
      */
-    static _getGradientMatrixColor(matrix, x, y, conversionFrom, conversionTo) {
+    static _getGradientMatrixColor(matrix, x, y, convertToObj, convertFromObj) {
         let {
             item1: gradient1,
             item2: gradient2,
@@ -254,10 +254,10 @@ export default class ColorUtil {
 
         // internally we cen drop the conversion between these 3 functions
 
-        let color1 = this._getGradientColor(gradient1, x, conversionFrom);
-        let color2 = this._getGradientColor(gradient2, x, conversionFrom);
+        let color1 = this._getGradientColor(gradient1, x, convertToObj);
+        let color2 = this._getGradientColor(gradient2, x, convertToObj);
 
-        return this._getGradientColor([color1, color2], valueBetweenGradients, null, conversionTo);
+        return this._getGradientColor([color1, color2], valueBetweenGradients, null, convertFromObj);
     }
 }
 
