@@ -1,9 +1,4 @@
 
-const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
-const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
-const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
-
 const LITTLE_ENDIAN = 0;
 const BIG_ENDIAN = 1;
 const UNKNOWN_ENDIAN = 2;
@@ -34,6 +29,22 @@ let SYSTEM_ENDIAN = (() => {
  */
 export default class ColorUtil {
 
+    static get obj() {
+        return Obj;
+    }
+
+    static get int() {
+        return Int;
+    }
+
+    static get hex() {
+        return Hex;
+    }
+
+    static get rgba() {
+        return Rgba;
+    }
+
     static getSystemEndian() {
         return SYSTEM_ENDIAN;
     }
@@ -54,150 +65,19 @@ export default class ColorUtil {
         });
     }
 
-    static obj2dec(o) {
-        return o.r << 16 | o.g << 8 | o.b;
-    }
+    static getGradientEdgesAndPosition(array, value) {
+        value = value < 0 ? 0 : value > 1 ? 1 : value;
 
-    static obj2decUint32(o) {
-        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-              (o.a << 24 | o.b << 16 | o.g << 8 | o.r) >>> 0
-            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a) >>> 0;
-    }
+        let lastIndex = array.length - 1;
+        let itemIndex = (value * lastIndex) | 0;
+        let partSize = 1 / lastIndex;
+        let valueBetweenItems = (value % partSize) / partSize;
 
-    static obj2decInt32(o) {
-        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-              (o.a << 24 | o.b << 16 | o.g << 8 | o.r)
-            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a);
-    }
-
-    static obj2hex(o) {
-        // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
-        // by adding 1<<16 (10000) to the result and removing the first digit
-        // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
-        return '#' + ((1 << 24) + (o.r << 16) + (o.g << 8) + o.b)
-            .toString(16).slice(1);
-    }
-
-    static obj2rgba(o) {
-        let a = !isNaN(parseInt(o.a)) ? o.a / 0xFF : 1;
-        return `rgba(${o.r},${o.g},${o.b},${a})`;
-    }
-
-    static dec2obj(dec, a=0xFF) {
         return {
-            r: (dec & 0xFF0000) >> 16,
-            g: (dec & 0x00FF00) >> 8,
-            b: dec & 0x0000FF,
-            a: a
-        };
-    }
-
-    static dec2hex(dec) {
-        return '#' + ((1 << 24) + dec).toString(16).slice(1);
-    }
-
-    static dec2rgba(dec, a=1) {
-        return 'rgba('
-                + ((dec & 0xFF0000) >> 16) + ','
-                + ((dec & 0x00FF00) >> 8) + ','
-                + (dec & 0x0000FF) + ','
-                + a +')';
-    }
-
-    static dec2systemEndian(dec) {
-        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
-            return  (dec & 0xFF0000) >> 16 |
-                    (dec & 0x00FF00) |
-                    (dec & 0x0000FF) << 16
+            item1: array[itemIndex],
+            item2: array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex],
+            valueBetweenItems: valueBetweenItems
         }
-
-        return dec;
-    }
-
-    static dec2systemEndianUint32(dec, a=0xFF) {
-        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
-            // split calculation with * and +
-            // since left shift and | convert the number
-            // to a signed 32-bit integrer
-            return  (a * (1 << 24)) +
-                    ((dec & 0xFF0000) >> 16 |
-                    (dec & 0x00FF00) |
-                    (dec & 0x0000FF) << 16);
-        }
-
-        return a + (
-            (dec & 0xFF0000) << 8 |
-            (dec & 0x00FF00) << 8 |
-            (dec & 0x0000FF) << 8 );
-    }
-
-    static hex2obj(hex, a=0xFF) {
-        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
-
-        let [m,r,g,b] = REG_HEX.exec(hex) || [];
-
-        return m ? {
-            r: parseInt(r, 16),
-            g: parseInt(g, 16),
-            b: parseInt(b, 16),
-            a: a
-        } : null;
-    }
-
-    static hex2dec(hex) {
-        return parseInt(
-            hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b)
-            .replace('#', ''), 16);
-    }
-
-    static hex2rgba(hex, a=1) {
-        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
-
-        let [m,r,g,b] = REG_HEX.exec(hex) || [];
-
-        return m ? 'rgba('
-            + parseInt(r, 16) + ','
-            + parseInt(g, 16) + ','
-            + parseInt(b, 16) + ','
-            + a + ')'
-        : null;
-    }
-
-    static rgba2obj(rgba) {
-        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
-
-        return m ? {
-                r: parseInt(r),
-                g: parseInt(g),
-                b: parseInt(b),
-                a: a ? (parseFloat(a) * 0xFF) | 0 : 0xFF
-            }
-        : null;
-    }
-
-    static rgba2dec(rgba) {
-        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
-
-        return m ?
-              (parseInt(r) << 16)
-            + (parseInt(g) << 8)
-            + parseInt(b)
-        : null;
-    }
-
-    static rgba2hex(rgba) {
-        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
-
-        return m ?
-            '#' + ((1 << 24)
-                + (parseInt(r) << 16)
-                + (parseInt(g) << 8)
-                + parseInt(b)).toString(16).slice(1)
-        : null;
-    }
-
-    static getGradientColor(colors, position) {
-        return this._getGradientColor(colors, position, this.dec2obj, this.obj2dec);
     }
 
     /**
@@ -207,12 +87,12 @@ export default class ColorUtil {
      * @param      {number}     value       Position on the gradient. Value from 0 to 1.
      * @return     {number}
      */
-    static _getGradientColor(colors, position, convertToObj=null, convertFromObj=null) {
+    static getGradientColor(colors, position, convertToObj=this.int.toObj, convertFromObj=this.obj.toHex) {
         let {
             item1: color1,
             item2: color2,
             valueBetweenItems: valueBetweenColors
-        } = getGradientEdgesAndPosition(colors, position);
+        } = this.getGradientEdgesAndPosition(colors, position);
 
         if (convertToObj) {
             color1 = convertToObj(color1);
@@ -229,10 +109,6 @@ export default class ColorUtil {
         return convertFromObj ? convertFromObj(color) : color;
     }
 
-    static getGradientMatrixColor(matrix, x, y) {
-        return this._getGradientMatrixColor(matrix, x, y, this.dec2obj, this.obj2decUint32);
-    }
-
     /**
      * Get color from gradient matrix. Gradient matrix is like normal gradient
      * but it is two dimensional.
@@ -245,33 +121,181 @@ export default class ColorUtil {
      * @param      {number}     y       Vertical position on the gradient. Value from 0 to 1.
      * @return     {number}
      */
-    static _getGradientMatrixColor(matrix, x, y, convertToObj, convertFromObj) {
+    static getGradientMatrixColor(matrix, x, y, convertToObj=this.int.toObj, convertFromObj=this.obj.toUint32) {
         let {
             item1: gradient1,
             item2: gradient2,
             valueBetweenItems: valueBetweenGradients
-        } = getGradientEdgesAndPosition(matrix, y);
+        } = this.getGradientEdgesAndPosition(matrix, y);
 
         // internally we cen drop the conversion between these 3 functions
 
-        let color1 = this._getGradientColor(gradient1, x, convertToObj);
-        let color2 = this._getGradientColor(gradient2, x, convertToObj);
+        let color1 = this.getGradientColor(gradient1, x, convertToObj, null);
+        let color2 = this.getGradientColor(gradient2, x, convertToObj, null);
 
-        return this._getGradientColor([color1, color2], valueBetweenGradients, null, convertFromObj);
+        return this.getGradientColor([color1, color2], valueBetweenGradients, null, convertFromObj);
     }
 }
 
-function getGradientEdgesAndPosition(array, value) {
-    value = value < 0 ? 0 : value > 1 ? 1 : value;
+class Obj {
 
-    let lastIndex = array.length - 1;
-    let itemIndex = (value * lastIndex) | 0;
-    let partSize = 1 / lastIndex;
-    let valueBetweenItems = (value % partSize) / partSize;
+    static toInt(o) {
+        return o.r << 16 | o.g << 8 | o.b;
+    }
 
-    return {
-        item1: array[itemIndex],
-        item2: array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex],
-        valueBetweenItems: valueBetweenItems
+    static toHex(o) {
+        // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
+        // by adding 1<<16 (10000) to the result and removing the first digit
+        // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
+        // last | 0 is added to remove possible decimals. << handles that from the others.
+        return '#' + ((1 << 24) + (o.r << 16) + (o.g << 8) + o.b | 0)
+            .toString(16).slice(1);
+    }
+
+    static toRgba(o) {
+        let a = !isNaN(parseInt(o.a)) ? o.a / 0xFF : 1;
+        return `rgba(${o.r},${o.g},${o.b},${a})`;
+    }
+
+    // TODO: test
+    static toUint32(o) {
+        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
+              (o.a << 24 | o.b << 16 | o.g << 8 | o.r) >>> 0
+            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a) >>> 0;
+    }
+
+    static toInt32(o) {
+        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
+              (o.a << 24 | o.b << 16 | o.g << 8 | o.r)
+            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a);
+    }
+}
+
+class Int {
+
+    static toObj(int, a=0xFF) {
+        return {
+            r: (int & 0xFF0000) >> 16,
+            g: (int & 0x00FF00) >> 8,
+            b: int & 0x0000FF,
+            a: a
+        };
+    }
+
+    static toHex(int) {
+        return '#' + ((1 << 24) + int).toString(16).slice(1);
+    }
+
+    static toRgba(int, a=1) {
+        return 'rgba('
+                + ((int & 0xFF0000) >> 16) + ','
+                + ((int & 0x00FF00) >> 8) + ','
+                + (int & 0x0000FF) + ','
+                + a +')';
+    }
+
+    // TODO: test
+    static toSystemEndian(int) {
+        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
+            return  (int & 0xFF0000) >> 16 |
+                    (int & 0x00FF00) |
+                    (int & 0x0000FF) << 16
+        }
+
+        return int;
+    }
+
+    static toSystemEndianUint32(int, a=0xFF) {
+        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
+            // split calculation with * and +
+            // since left shift and | convert the number
+            // to a signed 32-bit integrer
+            return  (a * (1 << 24)) +
+                    ((int & 0xFF0000) >> 16 |
+                    (int & 0x00FF00) |
+                    (int & 0x0000FF) << 16);
+        }
+
+        return a + (
+            (int & 0xFF0000) << 8 |
+            (int & 0x00FF00) << 8 |
+            (int & 0x0000FF) << 8 );
+    }
+}
+
+const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+
+class Hex {
+
+    static toObj(hex, a=0xFF) {
+        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
+
+        let [m,r,g,b] = REG_HEX.exec(hex) || [];
+
+        return m ? {
+            r: parseInt(r, 16),
+            g: parseInt(g, 16),
+            b: parseInt(b, 16),
+            a: a
+        } : null;
+    }
+
+    static toInt(hex) {
+        return parseInt(
+            hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b)
+            .replace('#', ''), 16);
+    }
+
+    static toRgba(hex, a=1) {
+        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
+
+        let [m,r,g,b] = REG_HEX.exec(hex) || [];
+
+        return m ? 'rgba('
+            + parseInt(r, 16) + ','
+            + parseInt(g, 16) + ','
+            + parseInt(b, 16) + ','
+            + a + ')'
+        : null;
+    }
+}
+
+const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
+const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
+
+class Rgba {
+
+    static toObj(rgba) {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+
+        return m ? {
+                r: parseInt(r),
+                g: parseInt(g),
+                b: parseInt(b),
+                a: a ? (parseFloat(a) * 0xFF) | 0 : 0xFF
+            }
+        : null;
+    }
+
+    static toInt(rgba) {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+
+        return m ?
+              (parseInt(r) << 16)
+            + (parseInt(g) << 8)
+            + parseInt(b)
+        : null;
+    }
+
+    static toHex(rgba) {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+
+        return m ?
+            '#' + ((1 << 24)
+                + (parseInt(r) << 16)
+                + (parseInt(g) << 8)
+                + parseInt(b)).toString(16).slice(1)
+        : null;
     }
 }

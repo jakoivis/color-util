@@ -21,186 +21,190 @@ describe('ColorUtil', () => {
 
         describe('obj', () => {
 
-            it('obj2Dec', () => {
-                C.obj2dec(obj).should.equal(dec);
+            it('toInt', () => {
+                C.obj.toInt(obj).should.equal(dec);
             });
 
-            it('obj2hex', () => {
-                C.obj2hex(obj).should.equal(hex);
-                C.obj2hex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
+            it('toHex', () => {
+                C.obj.toHex(obj).should.equal(hex);
+                C.obj.toHex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
+                C.obj.toHex({r: 0, g: 187, b: 0.56}).should.equal('#00bb00');
             });
 
-            it('obj2rgba', () => {
-                C.obj2rgba(obj).should.equal(rgba);
-                C.obj2rgba({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
-                C.obj2rgba({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
-                C.obj2rgba({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
-                C.obj2rgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
+            it('toRgba', () => {
+                C.obj.toRgba(obj).should.equal(rgba);
+                C.obj.toRgba({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
+                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
+                C.obj.toRgba({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
+                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
             });
         });
 
-        describe('dec', () => {
+        describe('int', () => {
 
-            it('dec2obj', () => {
-                C.dec2obj(dec).should.eql(obj);
-                C.dec2obj(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                // C.dec2obj(dec, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+            it('toObj', () => {
+                C.int.toObj(dec).should.eql(obj);
+                C.int.toObj(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                // C.int.toObj(dec, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
             });
 
-            it('dec2hex', () => {
-                C.dec2hex(dec).should.equal(hex);
-                C.dec2hex(0x00bb00).should.equal('#00bb00');
+            it('toHex', () => {
+                C.int.toHex(dec).should.equal(hex);
+                C.int.toHex(0x00bb00).should.equal('#00bb00');
             });
 
-            it('dec2rgba', () => {
-                C.dec2rgba(dec).should.equal(rgba);
-                C.dec2rgba(dec, 0).should.equal('rgba(170,187,204,0)');
-                C.dec2rgba(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
+            it('toRgba', () => {
+                C.int.toRgba(dec).should.equal(rgba);
+                C.int.toRgba(dec, 0).should.equal('rgba(170,187,204,0)');
+                C.int.toRgba(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
             });
 
-            it('dec2systemEndian', () => {
+            it('toSystemEndian', () => {
                 C._setSystemEndian(1);
-                C.dec2systemEndian(dec).should.equal(dec);
+                C.int.toSystemEndian(dec).should.equal(dec);
 
                 C._setSystemEndian(2);
-                C.dec2systemEndian(dec).should.equal(dec);
+                C.int.toSystemEndian(dec).should.equal(dec);
 
                 C._setSystemEndian(0);
-                C.dec2systemEndian(0xAABBCC).should.equal(0xCCBBAA);
-                C.dec2systemEndian(0xFFAABBCC).should.equal(0xCCBBAA);
+                C.int.toSystemEndian(0xAABBCC).should.equal(0xCCBBAA);
+                C.int.toSystemEndian(0xFFAABBCC).should.equal(0xCCBBAA);
             });
 
-            xit('dec2systemEndian32', () => {
+            xit('toSystemEndianUint32', () => {
                 // C._setSystemEndian(1);
-                // C.dec2systemEndian32Uint32(0xAABBCC).should.equal(0xFFCCBBAA);
+                // C.int.toSystemEndianUint32(0xAABBCC).should.equal(0xFFCCBBAA);
 
                 // C._setSystemEndian(2);
-                // C.dec2systemEndian32Uint32(dec32).should.equal(dec32);
+                // C.int.toSystemEndianUint32(dec32).should.equal(dec32);
 
                 C._setSystemEndian(0);
-                C.dec2systemEndian32Uint32(0xAABBCC).should.equal(0xFFCCBBAA);
-                C.dec2systemEndian32Uint32(0x99AABBCC).should.equal(0xFFCCBBAA);
+                C.int.toSystemEndianUint32(0xAABBCC).should.equal(0xFFCCBBAA);
+                C.int.toSystemEndianUint32(0x99AABBCC).should.equal(0xFFCCBBAA);
             });
         });
 
         describe('hex', () => {
 
-            it('hex2obj', () => {
-                C.hex2obj(hex).should.eql(obj);
-                C.hex2obj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.hex2obj(hex, 85).should.eql({r: 170, g: 187, b: 204, a: 85});
-                C.hex2obj('#abc').should.eql(obj);
-                C.hex2obj('abc').should.eql(obj);
-                C.hex2obj('aabbcc').should.eql(obj);
-                expect(C.hex2obj('#abcc')).to.be.null;
+            it('toObj', () => {
+                C.hex.toObj(hex).should.eql(obj);
+                C.hex.toObj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.hex.toObj(hex, 85).should.eql({r: 170, g: 187, b: 204, a: 85});
+                C.hex.toObj('#abc').should.eql(obj);
+                C.hex.toObj('abc').should.eql(obj);
+                C.hex.toObj('aabbcc').should.eql(obj);
+                expect(C.hex.toObj('#abcc')).to.be.null;
             });
 
-            it('hex2dec', () => {
-                C.hex2dec(hex).should.equal(dec);
-                C.hex2dec('aabbcc').should.equal(dec);
-                C.hex2dec('#abc').should.equal(dec);
-                C.hex2dec('abc').should.equal(dec);
-                C.hex2dec('#112233').should.equal(0x112233);
+            it('toInt', () => {
+                C.hex.toInt(hex).should.equal(dec);
+                C.hex.toInt('aabbcc').should.equal(dec);
+                C.hex.toInt('#abc').should.equal(dec);
+                C.hex.toInt('abc').should.equal(dec);
+                C.hex.toInt('#112233').should.equal(0x112233);
             });
 
-            it('hex2rgba', () => {
-                C.hex2rgba(hex).should.equal(rgba);
-                C.hex2rgba(hex, 0).should.equal('rgba(170,187,204,0)');
-                C.hex2rgba(hex, 0.1).should.equal('rgba(170,187,204,0.1)');
-                C.hex2rgba('aabbcc').should.equal(rgba);
-                C.hex2rgba('#abc').should.equal(rgba);
-                C.hex2rgba('abc').should.equal(rgba);
-                C.hex2rgba('112233').should.equal('rgba(17,34,51,1)');
+            it('toRgba', () => {
+                C.hex.toRgba(hex).should.equal(rgba);
+                C.hex.toRgba(hex, 0).should.equal('rgba(170,187,204,0)');
+                C.hex.toRgba(hex, 0.1).should.equal('rgba(170,187,204,0.1)');
+                C.hex.toRgba('aabbcc').should.equal(rgba);
+                C.hex.toRgba('#abc').should.equal(rgba);
+                C.hex.toRgba('abc').should.equal(rgba);
+                C.hex.toRgba('112233').should.equal('rgba(17,34,51,1)');
             });
         });
 
         describe('rgba', () => {
 
-            it('rgba2obj', () => {
-                C.rgba2obj('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
-                C.rgba2obj('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
-                C.rgba2obj('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.rgba2obj('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
+            it('toObj', () => {
+                C.rgba.toObj('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
+                C.rgba.toObj('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
+                C.rgba.toObj('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.rgba.toObj('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
             });
 
-            it('rgba2dec', () => {
-                C.rgba2dec('rgba(170,187,204,1)').should.equal(11189196);
-                C.rgba2dec('rgba(170,187,204)').should.equal(11189196);
-                C.rgba2dec('rgba(170,187,204,0)').should.equal(11189196);
-                C.rgba2dec('rgba(170,187,204,0.1)').should.equal(11189196);
+            it('toInt', () => {
+                C.rgba.toInt('rgba(170,187,204,1)').should.equal(11189196);
+                C.rgba.toInt('rgba(170,187,204)').should.equal(11189196);
+                C.rgba.toInt('rgba(170,187,204,0)').should.equal(11189196);
+                C.rgba.toInt('rgba(170,187,204,0.1)').should.equal(11189196);
             });
 
-            it('rgba2hex', () => {
-                C.rgba2hex('rgba(170,187,204,1)').should.equal('#aabbcc');
-                C.rgba2hex('rgba(170,187,204)').should.equal('#aabbcc');
-                C.rgba2hex('rgba(170,187,204,0)').should.equal('#aabbcc');
-                C.rgba2hex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
+            it('toHex', () => {
+                C.rgba.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
+                C.rgba.toHex('rgba(170,187,204)').should.equal('#aabbcc');
+                C.rgba.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
+                C.rgba.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
             });
         });
     });
 
     describe('getGradientColor', () => {
 
+        var toObj = C.int.toObj;
+        var fromObj = C.obj.toInt;
+
         it('should get color from 1 point gradient', () => {
-            C.getGradientColor([0x00FF7F], 0.5)
+            C.getGradientColor([0x00FF7F], 0.5, toObj, fromObj)
                 .should.equal(0x00FF7F);
         });
 
         it('should get color from 2 point gradient', () => {
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0, toObj, fromObj)
                 .should.equal(0x00FF7F);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 1)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 1, toObj, fromObj)
                 .should.equal(0xFF00FF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.25)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.25, toObj, fromObj)
                 .should.equal(0x3FBF9F);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.5)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.5, toObj, fromObj)
                 .should.equal(0x7F7FBF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.75)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.75, toObj, fromObj)
                 .should.equal(0xBF3FDF);
         });
 
         it('should get color from 3 point gradient', () => {
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0, toObj, fromObj)
                 .should.equal(0x0);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1, toObj, fromObj)
                 .should.equal(0xFFFFFF);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25, toObj, fromObj)
                 .should.equal(0x3F3F3F);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5, toObj, fromObj)
                 .should.equal(0x7F7F7F);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75, toObj, fromObj)
                 .should.equal(0xBFBFBF);
         });
 
         it('should get color from 4 point gradient', () => {
-            C.getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0)
+            C.getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0, toObj, fromObj)
                 .should.equal(0xFFFFFF); // first color
-            C.getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1)
+            C.getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1, toObj, fromObj)
                 .should.equal(0xFFFFFF); // last color
-            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25)
+            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25, toObj, fromObj)
                 .should.equal(0xBFBFBF); // 75% between colors 0 and 1
-            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5)
+            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5, toObj, fromObj)
                 .should.equal(0xBFBFBF); // 50% beween colors 1 and 2
-            C.getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75)
+            C.getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75, toObj, fromObj)
                 .should.equal(0x9F9F9F); // 25% between colors 2 and 3
         });
 
         it('should return edge colors when value is out of range', () => {
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 2)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 2, toObj, fromObj)
                 .should.equal(0xFF00FF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], -2)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], -2, toObj, fromObj)
                 .should.equal(0x00FF7F);
         });
     });
 
-    describe('getGradientMatrixColor', () => {
+     describe('getGradientMatrixColor', () => {
 
         let sandbox;
         let stub;
 
         beforeEach(() => {
             sandbox = sinon.sandbox.create();
-            stub = sandbox.stub(C, '_getGradientColor')
+            stub = sandbox.stub(C, 'getGradientColor')
                 .onCall(0).returns(0)
                 .onCall(1).returns(1);
         });
