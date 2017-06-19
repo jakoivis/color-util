@@ -151,8 +151,8 @@ export default class ColorUtil {
      * @param {array} colors            Array of colors. Color format can be anything.
      *                                  convertToObj needs to be set depending on the format.
      * @param {number} position         Position on the gradient. Value from 0 to 1.
-     * @param {number} [convertToObj=ColorUtil.int.toObj] Convert incoming color to object.
-     * @param {number} [convertFromObj=ColorUtil.obj.toHex] Convert outgoing color from object.
+     * @param {number} [convertToObj=null] Convert incoming color to object.
+     * @param {number} [convertFromObj=null] Convert outgoing color from object.
      * @return {number} Return value depend on the what has been set to convertFromObj.
      */
     static getGradientColor(colors, position, convertToObj=null, convertFromObj=null) {
