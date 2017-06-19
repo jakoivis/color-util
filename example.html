@@ -21,10 +21,11 @@ let matrix1 = [[0xED146F, 0xEDDE45, 0x9BF0E9]];
 let matrix2 = [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]];
 let matrix3 = [[0xFFFFFF], [0xFF0000, 0x00FF00], [0x0000FF, 0xFF00FF, 0x00FFFF]];
 
-// let conversions = [ColorUtil.dec2systemEndianUint32];
-// matrix1 = ColorUtil.convert(matrix1, ...conversions);
-// matrix2 = ColorUtil.convert(matrix2, ...conversions);
-// matrix3 = ColorUtil.convert(matrix3, ...conversions);
+let conversions = [ColorUtil.int.toObj];
+gradient1 = ColorUtil.convert(gradient1, ...conversions);
+matrix1 = ColorUtil.convert(matrix1, ...conversions);
+matrix2 = ColorUtil.convert(matrix2, ...conversions);
+matrix3 = ColorUtil.convert(matrix3, ...conversions);
 
 createGradient('gradient1', gradient1, 200, 200);
 createMatrix('matrix1', matrix1, 200, 200);
@@ -46,7 +47,7 @@ function createGradient(targetId, gradient, width, height) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
-        ctx.strokeStyle = ColorUtil.getGradientColor(gradient, x/width);
+        ctx.strokeStyle = ColorUtil.getGradientColor(gradient, x/width, null, ColorUtil.obj.toHex);
         ctx.stroke();
     }
 }
@@ -67,7 +68,7 @@ function createMatrix(targetId, matrix, width, height) {
 
         for(let y = 0; y < height; y++) {
 
-            uint32View[y * width + x] = ColorUtil.getGradientMatrixColor(matrix, x/width, y/height);
+            uint32View[y * width + x] = ColorUtil.getGradientMatrixColor(matrix, x/width, y/height, null, ColorUtil.obj.toUint32);
         }
     }
 

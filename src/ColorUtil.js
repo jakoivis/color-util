@@ -134,14 +134,19 @@ export default class ColorUtil {
     /**
      * Get color from gradient.
      *
+     * Gradient calculation is done in object format so convertToObj must convert
+     * to object and convertFromObj must convert from object type. In case colors
+     * are preformatted to object no conversion is needed. In this case set null in
+     * place for the conversion function.
+     *
      * @param {array} colors            Array of colors. Color format can be anything.
      *                                  convertToObj needs to be set depending on the format.
      * @param {number} position         Position on the gradient. Value from 0 to 1.
-     * @param {number} [convertToObj]   TODO
-     * @param {number} [convertFromObj] TODO
+     * @param {number} [convertToObj=ColorUtil.int.toObj] Convert incoming color to object.
+     * @param {number} [convertFromObj=ColorUtil.obj.toHex] Convert outgoing color from object.
      * @return {number} Return value depend on the what has been set to convertFromObj.
      */
-    static getGradientColor(colors, position, convertToObj=this.int.toObj, convertFromObj=this.obj.toHex) {
+    static getGradientColor(colors, position, convertToObj=null, convertFromObj=null) {
         let {
             array: [color1, color2],
             position: positionBetweenColors
@@ -167,14 +172,18 @@ export default class ColorUtil {
      * but it is two dimensional.
      *
      * Gradient calculation is done in object format so convertToObj must convert
-     * to object and convertFromObj must convert from object type.
+     * to object and convertFromObj must convert from object type. In case colors
+     * are preformatted to object no conversion is needed. In this case set null in
+     * place for the conversion function.
      *
      * @param {array} matrix    Array of gradient color arrays
      * @param {number} x        Horizontal position on the gradient. Value from 0 to 1.
      * @param {number} y        Vertical position on the gradient. Value from 0 to 1.
+     * @param {function} [convertToObj=null] Convert incoming color to object.
+     * @param {function} [convertFromObj=null] Convert outgoing color from object.
      * @return {number}
      */
-    static getGradientMatrixColor(matrix, x, y, convertToObj=this.int.toObj, convertFromObj=this.obj.toUint32) {
+    static getGradientMatrixColor(matrix, x, y, convertToObj=null, convertFromObj=null) {
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients

@@ -43,12 +43,18 @@ gradient. The resulting values can be used calculate the final color.</p>
 </dd>
 <dt><a href="#getGradientColor">getGradientColor(colors, position, [convertToObj], [convertFromObj])</a> ⇒ <code>number</code></dt>
 <dd><p>Get color from gradient.</p>
+<p>Gradient calculation is done in object format so convertToObj must convert
+to object and convertFromObj must convert from object type. In case colors
+are preformatted to object no conversion is needed. In this case set null in
+place for the conversion function.</p>
 </dd>
-<dt><a href="#getGradientMatrixColor">getGradientMatrixColor(matrix, x, y)</a> ⇒ <code>number</code></dt>
+<dt><a href="#getGradientMatrixColor">getGradientMatrixColor(matrix, x, y, [convertToObj], [convertFromObj])</a> ⇒ <code>number</code></dt>
 <dd><p>Get color from gradient matrix. Gradient matrix is like normal gradient
 but it is two dimensional.</p>
 <p>Gradient calculation is done in object format so convertToObj must convert
-to object and convertFromObj must convert from object type.</p>
+to object and convertFromObj must convert from object type. In case colors
+are preformatted to object no conversion is needed. In this case set null in
+place for the conversion function.</p>
 </dd>
 </dl>
 
@@ -343,28 +349,30 @@ Calculate two items from a gradient array and a relative position ofthe gradien
 <a name="getGradientColor"></a>
 
 ## getGradientColor(colors, position, [convertToObj], [convertFromObj]) ⇒ <code>number</code>
-Get color from gradient.
+Get color from gradient.Gradient calculation is done in object format so convertToObj must convertto object and convertFromObj must convert from object type. In case colorsare preformatted to object no conversion is needed. In this case set null inplace for the conversion function.
 
 **Kind**: global function  
 **Returns**: <code>number</code> - Return value depend on the what has been set to convertFromObj.  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| colors | <code>array</code> | Array of colors. Color format can be anything.                                  convertToObj needs to be set depending on the format. |
-| position | <code>number</code> | Position on the gradient. Value from 0 to 1. |
-| [convertToObj] | <code>number</code> | TODO |
-| [convertFromObj] | <code>number</code> | TODO |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| colors | <code>array</code> |  | Array of colors. Color format can be anything.                                  convertToObj needs to be set depending on the format. |
+| position | <code>number</code> |  | Position on the gradient. Value from 0 to 1. |
+| [convertToObj] | <code>number</code> | <code>ColorUtil.int.toObj</code> | Convert incoming color to object. |
+| [convertFromObj] | <code>number</code> | <code>ColorUtil.obj.toHex</code> | Convert outgoing color from object. |
 
 <a name="getGradientMatrixColor"></a>
 
-## getGradientMatrixColor(matrix, x, y) ⇒ <code>number</code>
-Get color from gradient matrix. Gradient matrix is like normal gradientbut it is two dimensional.Gradient calculation is done in object format so convertToObj must convertto object and convertFromObj must convert from object type.
+## getGradientMatrixColor(matrix, x, y, [convertToObj], [convertFromObj]) ⇒ <code>number</code>
+Get color from gradient matrix. Gradient matrix is like normal gradientbut it is two dimensional.Gradient calculation is done in object format so convertToObj must convertto object and convertFromObj must convert from object type. In case colorsare preformatted to object no conversion is needed. In this case set null inplace for the conversion function.
 
 **Kind**: global function  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| matrix | <code>array</code> | Array of gradient color arrays |
-| x | <code>number</code> | Horizontal position on the gradient. Value from 0 to 1. |
-| y | <code>number</code> | Vertical position on the gradient. Value from 0 to 1. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| matrix | <code>array</code> |  | Array of gradient color arrays |
+| x | <code>number</code> |  | Horizontal position on the gradient. Value from 0 to 1. |
+| y | <code>number</code> |  | Vertical position on the gradient. Value from 0 to 1. |
+| [convertToObj] | <code>function</code> | <code></code> | Convert incoming color to object. |
+| [convertFromObj] | <code>function</code> | <code></code> | Convert outgoing color from object. |
 
