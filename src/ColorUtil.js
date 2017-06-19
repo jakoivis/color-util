@@ -119,8 +119,15 @@ export default class ColorUtil {
 
         let lastIndex = array.length - 1;
         let itemIndex = (position * lastIndex) | 0;
-        let partSize = 1 / lastIndex;
-        let positionBetweenItems = (position % partSize) / partSize;
+        let partSize = 1 / lastIndex * 1000;
+        let positionBetweenItems = ((position*1000) % partSize) / partSize;
+
+        // partSize and position are scaled in the above calculation to fix
+        // a javascrip decimal rounding problem. The issue was seen in a gradient
+        // in which there were exactly 6 colors. positionBetweenItems for the first
+        // color of the 4th gradient stop was rounded to 0.9999... where the correct
+        // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
+        // That resulted to a weird vertical line in a gradient
 
         return {
             array: [

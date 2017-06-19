@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gradient matrix</title>
+<script src="/ColorUtil.js"></script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script>
+
+let width = 300;
+let height = 300;
+let colors = [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]];
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let imageData  = ctx.createImageData(width, height);
+let buffer = imageData.data.buffer;
+let uint32View = new Uint32Array(buffer);
+let uint8CView = new Uint8ClampedArray(buffer);
+
+canvas.width = width;
+canvas.height = height;
+
+for(let x = 0; x < width; x++) {
+
+    for(let y = 0; y < height; y++) {
+
+        uint32View[y * width + x] =
+            ColorUtil.getGradientMatrixColor(
+                colors,
+                x/width,
+                y/height,
+                ColorUtil.int.toObj,
+                ColorUtil.obj.toUint32);
+    }
+}
+
+imageData.data.set(uint8CView);
+
+ctx.putImageData(imageData, 0, 0);
+
+</script>
+
+</body>
+
+</html>
