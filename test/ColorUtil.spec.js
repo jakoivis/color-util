@@ -14,7 +14,7 @@ describe('ColorUtil', () => {
 
     describe('conversion', () => {
 
-        let dec = 11189196;
+        let dec = 0xAABBCC;
         let obj = {r: 170, g: 187, b: 204, a: 255};
         let hex = '#aabbcc';
         let rgba = 'rgba(170,187,204,1)';
@@ -38,6 +38,36 @@ describe('ColorUtil', () => {
                 C.obj.toRgba({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
                 C.obj.toRgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
             });
+
+            it('toUint32', () => {
+                C.obj.toUint32(obj).should.equal(0xFFCCBBAA);
+                C.obj.toUint32({r: 170, g: 187, b: 204}).should.equal(0xFFCCBBAA);
+                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+                C.obj.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xFFCCBBAA);
+
+                C._setSystemEndian(1);
+                C.obj.toUint32(obj).should.equal(0xAABBCCFF);
+                C.obj.toUint32({r: 170, g: 187, b: 204}).should.equal(0xAABBCCFF);
+                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+                C.obj.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCCFF);
+            });
+
+            it('toInt32', () => {
+                C.obj.toInt32(obj).should.equal(-3359830); // 0xFFCCBBAA
+                C.obj.toInt32({r: 170, g: 187, b: 204}).should.equal(-3359830); // 0xFFCCBBAA
+                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+                C.obj.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-3359830); // 0xFFCCBBAA
+
+                C._setSystemEndian(1);
+                C.obj.toInt32(obj).should.equal(-1430532865); // 0xAABBCCFF
+                C.obj.toInt32({r: 170, g: 187, b: 204}).should.equal(-1430532865); // 0xAABBCCFF
+                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(-1430533120); // 0xAABBCC00
+                C.obj.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(-1430533035); // 0xAABBCC55
+                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-1430532865); // 0xAABBCCFF
+            });
         });
 
         describe('int', () => {
@@ -59,7 +89,7 @@ describe('ColorUtil', () => {
                 C.int.toRgba(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
             });
 
-            it('toSystemEndian', () => {
+            xit('toSystemEndian', () => {
                 C._setSystemEndian(1);
                 C.int.toSystemEndian(dec).should.equal(dec);
 
@@ -137,6 +167,37 @@ describe('ColorUtil', () => {
                 C.rgba.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
                 C.rgba.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
             });
+        });
+    });
+
+    describe('convertTo2StopGradient', () => {
+
+        it('should gradient from 1 point gradient', () => {
+            C.convertTo2StopGradient([1], 0.5).array.should.eql([1,1]);
+            C.convertTo2StopGradient([1], 0.5).position.should.equal(0);
+        });
+
+        it('should gradient from 2 point gradient', () => {
+            C.convertTo2StopGradient([1,2], .25).array.should.eql([1,2]);
+            C.convertTo2StopGradient([1,2], .25).position.should.equal(.25);
+        });
+
+        it('should gradient from 3 point gradient', () => {
+            C.convertTo2StopGradient([1,2,3], 0).array.should.eql([1,2]);
+            C.convertTo2StopGradient([1,2,3], 0).position.should.equal(0);
+            C.convertTo2StopGradient([1,2,3], 1).array.should.eql([3,3]);
+            C.convertTo2StopGradient([1,2,3], 1).position.should.equal(0);
+            C.convertTo2StopGradient([1,2,3], 0.25).array.should.eql([1,2]);
+            C.convertTo2StopGradient([1,2,3], 0.25).position.should.equal(0.5);
+        });
+
+        it('should gradient from 4 point gradient', () => {
+            C.convertTo2StopGradient([1,2,3,4], 0).array.should.eql([1,2]);
+            C.convertTo2StopGradient([1,2,3,4], 0).position.should.equal(0);
+            C.convertTo2StopGradient([1,2,3,4], 1).array.should.eql([4,4]);
+            C.convertTo2StopGradient([1,2,3,4], 1).position.should.be.closeTo(0, 0.00000000000001);
+            C.convertTo2StopGradient([1,2,3,4], 0.25).array.should.eql([1,2]);
+            C.convertTo2StopGradient([1,2,3,4], 0.25).position.should.equal(0.75);
         });
     });
 

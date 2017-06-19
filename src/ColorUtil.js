@@ -23,28 +23,44 @@ let SYSTEM_ENDIAN = (() => {
 })();
 
 /**
- * All the inputted colors are expected to be in big endian byte order. (RRGGBB)
- *
  * @class ColorUtil
  */
 export default class ColorUtil {
 
+    /**
+     * @return     {Obj} object conversion functions
+     */
     static get obj() {
         return Obj;
     }
 
+    /**
+     * @return     {Int} Integer conversion functions
+     */
     static get int() {
         return Int;
     }
 
+    /**
+     * @return     {Hex} Hexadecimal conversion functions
+     */
     static get hex() {
         return Hex;
     }
 
+    /**
+     * @return     {Rgba} Rgba conversion functions
+     */
     static get rgba() {
         return Rgba;
     }
 
+    /**
+     * Get the endian used by the system.
+     * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
+     *
+     * @return     {number}  0=little-endian, 1=big-endian, 2=unknown-endian
+     */
     static getSystemEndian() {
         return SYSTEM_ENDIAN;
     }
@@ -53,6 +69,20 @@ export default class ColorUtil {
         SYSTEM_ENDIAN = value;
     }
 
+    /**
+     * Run conversion functions for color array or color matrix.
+     *
+     * @example
+     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
+     * // output: [['#ff0000', '#00ff00'], '#0000ff']
+     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgba);
+     * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
+     *
+     * @param      {array}         array                Array of colors
+     * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
+     *                                                  which are executed in the order they are listed.
+     * @return     {array}
+     */
     static convert(array, ...conversionFunctions) {
         return array.map(item => {
             if (Array.isArray(item)) {
@@ -65,34 +95,57 @@ export default class ColorUtil {
         });
     }
 
-    static getGradientEdgesAndPosition(array, value) {
-        value = value < 0 ? 0 : value > 1 ? 1 : value;
+    /**
+     * Calculate two items from a gradient array and a relative position of
+     * the gradient between those two items in an evenly distributed
+     * gradient. The resulting values can be used calculate the final color.
+     *
+     * @example
+     * // The example position 0.25 is in the middle of the first and
+     * // second colors so new 2 point gradient array contains only those
+     * // first and second colors. The given absolute position 0.25 is relatively
+     * // 0.5 between those two values.
+     * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
+     * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
+     *
+     * @param {array} array     Array of colors. Content of the array does not matter.
+     * @param {number} value    Position on the whole gradient.
+     * @return {Object} Gradient array items which are the closest to the
+     *                           point indicated by position and the relative position
+     *                           between those two items
+     */
+    static convertTo2StopGradient(array, position) {
+        position = position < 0 ? 0 : position > 1 ? 1 : position;
 
         let lastIndex = array.length - 1;
-        let itemIndex = (value * lastIndex) | 0;
+        let itemIndex = (position * lastIndex) | 0;
         let partSize = 1 / lastIndex;
-        let valueBetweenItems = (value % partSize) / partSize;
+        let positionBetweenItems = (position % partSize) / partSize;
 
         return {
-            item1: array[itemIndex],
-            item2: array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex],
-            valueBetweenItems: valueBetweenItems
+            array: [
+                array[itemIndex],
+                array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex]
+            ],
+            position: positionBetweenItems
         }
     }
 
     /**
      * Get color from gradient.
      *
-     * @param      {string[]}   colors      Array of colors in decimal format
-     * @param      {number}     value       Position on the gradient. Value from 0 to 1.
-     * @return     {number}
+     * @param {array} colors            Array of colors. Color format can be anything.
+     *                                  convertToObj needs to be set depending on the format.
+     * @param {number} position         Position on the gradient. Value from 0 to 1.
+     * @param {number} [convertToObj]   TODO
+     * @param {number} [convertFromObj] TODO
+     * @return {number} Return value depend on the what has been set to convertFromObj.
      */
     static getGradientColor(colors, position, convertToObj=this.int.toObj, convertFromObj=this.obj.toHex) {
         let {
-            item1: color1,
-            item2: color2,
-            valueBetweenItems: valueBetweenColors
-        } = this.getGradientEdgesAndPosition(colors, position);
+            array: [color1, color2],
+            position: positionBetweenColors
+        } = this.convertTo2StopGradient(colors, position);
 
         if (convertToObj) {
             color1 = convertToObj(color1);
@@ -100,10 +153,10 @@ export default class ColorUtil {
         }
 
         let color = {
-            r: color1.r - valueBetweenColors * (color1.r - color2.r),
-            g: color1.g - valueBetweenColors * (color1.g - color2.g),
-            b: color1.b - valueBetweenColors * (color1.b - color2.b),
-            a: color1.a - valueBetweenColors * (color1.a - color2.a)
+            r: color1.r - positionBetweenColors * (color1.r - color2.r),
+            g: color1.g - positionBetweenColors * (color1.g - color2.g),
+            b: color1.b - positionBetweenColors * (color1.b - color2.b),
+            a: color1.a - positionBetweenColors * (color1.a - color2.a)
         };
 
         return convertFromObj ? convertFromObj(color) : color;
@@ -116,61 +169,107 @@ export default class ColorUtil {
      * Gradient calculation is done in object format so convertToObj must convert
      * to object and convertFromObj must convert from object type.
      *
-     * @param      {string[][]} matrix  Array of gradient color arrays
-     * @param      {number}     x       Horizontal position on the gradient. Value from 0 to 1.
-     * @param      {number}     y       Vertical position on the gradient. Value from 0 to 1.
-     * @return     {number}
+     * @param {array} matrix    Array of gradient color arrays
+     * @param {number} x        Horizontal position on the gradient. Value from 0 to 1.
+     * @param {number} y        Vertical position on the gradient. Value from 0 to 1.
+     * @return {number}
      */
     static getGradientMatrixColor(matrix, x, y, convertToObj=this.int.toObj, convertFromObj=this.obj.toUint32) {
         let {
-            item1: gradient1,
-            item2: gradient2,
-            valueBetweenItems: valueBetweenGradients
-        } = this.getGradientEdgesAndPosition(matrix, y);
+            array: [gradient1, gradient2],
+            position: positionBetweenGradients
+        } = this.convertTo2StopGradient(matrix, y);
 
         // internally we cen drop the conversion between these 3 functions
 
         let color1 = this.getGradientColor(gradient1, x, convertToObj, null);
         let color2 = this.getGradientColor(gradient2, x, convertToObj, null);
 
-        return this.getGradientColor([color1, color2], valueBetweenGradients, null, convertFromObj);
+        return this.getGradientColor([color1, color2], positionBetweenGradients, null, convertFromObj);
     }
 }
 
+/**
+ * @class Obj
+ */
 class Obj {
 
+    /**
+     * Object to 24-bit number (0xRRGGBB). Alpha is ignored.
+     *
+     * @param      {object}  o  Object with r, g, b properties in which
+     *                          color components are in range 0-255.
+     * @return     {number}
+     */
     static toInt(o) {
         return o.r << 16 | o.g << 8 | o.b;
     }
 
+    /**
+     * Object to 24-bit hex string ('#RRGGBB'). Alpha is ignored.
+     *
+     * @param      {object}  o  Object with r, g, b properties in which
+     *                          color components are in range 0-255.
+     * @return     {string}
+     */
     static toHex(o) {
         // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
         // by adding 1<<16 (10000) to the result and removing the first digit
         // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
-        // last | 0 is added to remove possible decimals. << handles that from the others.
-        return '#' + ((1 << 24) + (o.r << 16) + (o.g << 8) + o.b | 0)
+        return '#' + ((1 << 24) | (o.r << 16) | (o.g << 8) | o.b)
             .toString(16).slice(1);
     }
 
+    /**
+     * Object to rgba string ('rgba(RRR,GGG,BBB,A)').
+     * Alpha is converted from range 0-255 to 0-1. Default alpha
+     * value is 1.
+     *
+     * @param      {object}  o  Object with r, g, b, a properties in which
+     *                          color components are in range 0-255.
+     * @return     {string}
+     */
     static toRgba(o) {
         let a = !isNaN(parseInt(o.a)) ? o.a / 0xFF : 1;
         return `rgba(${o.r},${o.g},${o.b},${a})`;
     }
 
-    // TODO: test
+    /**
+     * Object to uint32 (0xAABBGGRR in little-endian).
+     * Default alpha value is 255. Resulting value is positive
+     * e.g. {r:255,g:0,b:0,a:255} would be 4278190335.
+     *
+     * @param      {object}   o Object with r, g, b, a properties in which
+     *                          color components are in range 0-255.
+     * @return     {number}
+     */
     static toUint32(o) {
+        let a = !isNaN(parseInt(o.a)) ? o.a : 0xFF;
         return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-              (o.a << 24 | o.b << 16 | o.g << 8 | o.r) >>> 0
-            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a) >>> 0;
+                (a << 24 | o.b << 16 | o.g << 8 | o.r) >>> 0
+            : (o.r << 24 | o.g << 16 | o.b << 8 | a) >>> 0;
     }
 
+    /**
+     * Object to int32 (0xAABBGGRR in little-endian).
+     * Default alpha value is 255. Resulting value can be negative
+     * e.g. {r:255,g:0,b:0,a:255} would be -16776961.
+     *
+     * @param      {object}   o Object with r, g, b, a properties in which
+     *                          color components are in range 0-255.
+     * @return     {number}
+     */
     static toInt32(o) {
+        let a = !isNaN(parseInt(o.a)) ? o.a : 0xFF;
         return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-              (o.a << 24 | o.b << 16 | o.g << 8 | o.r)
-            : (o.r << 24 | o.g << 16 | o.b << 8 | o.a);
+                (a << 24 | o.b << 16 | o.g << 8 | o.r)
+            : (o.r << 24 | o.g << 16 | o.b << 8 | a);
     }
 }
 
+/**
+ * @class Int
+ */
 class Int {
 
     static toObj(int, a=0xFF) {
@@ -226,6 +325,9 @@ class Int {
 const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
+/**
+ * @class Hex
+ */
 class Hex {
 
     static toObj(hex, a=0xFF) {
@@ -264,6 +366,9 @@ class Hex {
 const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
 const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
+/**
+ * @class Rgba
+ */
 class Rgba {
 
     static toObj(rgba) {
