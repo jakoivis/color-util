@@ -1,3 +1,5 @@
+![Preview](/example/githubimage.png)
+
 ## Classes
 
 <dl>
@@ -62,6 +64,11 @@ place for the conversion function.</p>
 
 ## ColorUtil
 **Kind**: global class  
+<a name="new_ColorUtil_new"></a>
+
+### new ColorUtil()
+Color conversion functions and some other things
+
 <a name="Obj"></a>
 
 ## Obj

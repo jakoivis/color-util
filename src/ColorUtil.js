@@ -23,6 +23,8 @@ let SYSTEM_ENDIAN = (() => {
 })();
 
 /**
+ * Color conversion functions and some other things
+ *
  * @class ColorUtil
  */
 export default class ColorUtil {
