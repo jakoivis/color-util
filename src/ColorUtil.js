@@ -28,7 +28,7 @@ let SYSTEM_ENDIAN = (() => {
 export default class ColorUtil {
 
     /**
-     * @return     {Obj} object conversion functions
+     * @return     {Obj} Object conversion functions
      */
     static get obj() {
         return Obj;
@@ -190,15 +190,16 @@ export default class ColorUtil {
 }
 
 /**
+ * Object conversion functions
+ *
  * @class Obj
  */
 class Obj {
 
     /**
-     * Object to 24-bit number (0xRRGGBB). Alpha is ignored.
+     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to 24-bit number (0xRRGGBB). Alpha is ignored.
      *
-     * @param      {object}  o  Object with r, g, b properties in which
-     *                          color components are in range 0-255.
+     * @param      {object}  o  Object
      * @return     {number}
      */
     static toInt(o) {
@@ -206,10 +207,9 @@ class Obj {
     }
 
     /**
-     * Object to 24-bit hex string ('#RRGGBB'). Alpha is ignored.
+     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to 24-bit hex string ('#RRGGBB'). Alpha is ignored.
      *
-     * @param      {object}  o  Object with r, g, b properties in which
-     *                          color components are in range 0-255.
+     * @param      {object}  o  Object
      * @return     {string}
      */
     static toHex(o) {
@@ -221,12 +221,11 @@ class Obj {
     }
 
     /**
-     * Object to rgba string ('rgba(RRR,GGG,BBB,A)').
+     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to rgba string ('rgba(RRR,GGG,BBB,A)').
      * Alpha is converted from range 0-255 to 0-1. Default alpha
      * value is 1.
      *
-     * @param      {object}  o  Object with r, g, b, a properties in which
-     *                          color components are in range 0-255.
+     * @param      {object}  o  Object
      * @return     {string}
      */
     static toRgba(o) {
@@ -235,12 +234,11 @@ class Obj {
     }
 
     /**
-     * Object to uint32 (0xAABBGGRR in little-endian).
+     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to uint32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
      * Default alpha value is 255. Resulting value is positive
      * e.g. {r:255,g:0,b:0,a:255} would be 4278190335.
      *
-     * @param      {object}   o Object with r, g, b, a properties in which
-     *                          color components are in range 0-255.
+     * @param      {object}   o
      * @return     {number}
      */
     static toUint32(o) {
@@ -251,12 +249,11 @@ class Obj {
     }
 
     /**
-     * Object to int32 (0xAABBGGRR in little-endian).
+     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to int32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
      * Default alpha value is 255. Resulting value can be negative
      * e.g. {r:255,g:0,b:0,a:255} would be -16776961.
      *
-     * @param      {object}   o Object with r, g, b, a properties in which
-     *                          color components are in range 0-255.
+     * @param      {object}   o Object
      * @return     {number}
      */
     static toInt32(o) {
@@ -268,10 +265,19 @@ class Obj {
 }
 
 /**
+ * Integer conversion functions
+ *
  * @class Int
  */
 class Int {
 
+    /**
+     * 24-bit integer number (0xRRGGBB) to object ({r:RRR, g:GGG, b:BBB, a:AAA})
+     *
+     * @param      {number}  int        Integer
+     * @param      {number}  [a=0xFF]   Alpha value in range 0-255
+     * @return     {object}
+     */
     static toObj(int, a=0xFF) {
         return {
             r: (int & 0xFF0000) >> 16,
@@ -281,10 +287,23 @@ class Int {
         };
     }
 
+    /**
+     * 24-bit integer number (0xRRGGBB) to 24-bit hex string ('#RRGGBB').
+     *
+     * @param      {number}  int        Integer
+     * @return     {string}
+     */
     static toHex(int) {
         return '#' + ((1 << 24) + int).toString(16).slice(1);
     }
 
+    /**
+     * 24-bit integer number (0xRRGGBB) to rgba string ('rgba(RRR,GGG,BBB,A)')
+     *
+     * @param      {number}  int        Integer
+     * @param      {number}  [a=1]      Alpha value in range 0-1
+     * @return     {string}
+     */
     static toRgba(int, a=1) {
         return 'rgba('
                 + ((int & 0xFF0000) >> 16) + ','
@@ -292,44 +311,25 @@ class Int {
                 + (int & 0x0000FF) + ','
                 + a +')';
     }
-
-    // TODO: test
-    static toSystemEndian(int) {
-        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
-            return  (int & 0xFF0000) >> 16 |
-                    (int & 0x00FF00) |
-                    (int & 0x0000FF) << 16
-        }
-
-        return int;
-    }
-
-    static toSystemEndianUint32(int, a=0xFF) {
-        if (SYSTEM_ENDIAN === LITTLE_ENDIAN) {
-            // split calculation with * and +
-            // since left shift and | convert the number
-            // to a signed 32-bit integrer
-            return  (a * (1 << 24)) +
-                    ((int & 0xFF0000) >> 16 |
-                    (int & 0x00FF00) |
-                    (int & 0x0000FF) << 16);
-        }
-
-        return a + (
-            (int & 0xFF0000) << 8 |
-            (int & 0x00FF00) << 8 |
-            (int & 0x0000FF) << 8 );
-    }
 }
 
 const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
 /**
+ * Hexadecimal conversion functions
+ *
  * @class Hex
  */
 class Hex {
 
+    /**
+     * 24-bit hex string ('#RRGGBB') to object ({r:RRR, g:GGG, b:BBB, a:AAA})
+     *
+     * @param      {string}  hex        Hexadecimal string
+     * @param      {number}  [a=0xFF]   Alpha value in range 0-255
+     * @return     {object}
+     */
     static toObj(hex, a=0xFF) {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
@@ -343,12 +343,25 @@ class Hex {
         } : null;
     }
 
+    /**
+     * 24-bit hex string ('#RRGGBB') to 24-bit integer (0xRRGGBB)
+     *
+     * @param      {string}  hex        Hexadecimal string
+     * @return     {number}
+     */
     static toInt(hex) {
         return parseInt(
             hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b)
             .replace('#', ''), 16);
     }
 
+    /**
+     * 24-bit hex string ('#RRGGBB') to rgba string ('rgba(RRR,GGG,BBB,A)')
+     *
+     * @param      {string}  hex     Hexadecimal string
+     * @param      {number}  [a=1]   Alpha value in range 0-1
+     * @return     {string}
+     */
     static toRgba(hex, a=1) {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
@@ -367,10 +380,19 @@ const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
 const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
 /**
+ * Rgba conversion functions
+ * Notice that rgba values should not have spaces.
+ *
  * @class Rgba
  */
 class Rgba {
 
+    /**
+     * Rgba string ('rgba(RRR,GGG,BBB,A)') to object ({r:RRR, g:GGG, b:BBB, a:AAA})
+     *
+     * @param      {string} rgba    Rgba string
+     * @return     {object}
+     */
     static toObj(rgba) {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
@@ -383,6 +405,12 @@ class Rgba {
         : null;
     }
 
+    /**
+     * Rgba string ('rgba(RRR,GGG,BBB,A)') to 24-bit integer (0xRRGGBB). Alpha is ignored.
+     *
+     * @param      {string} rgba    Rgba string
+     * @return     {number}
+     */
     static toInt(rgba) {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
@@ -393,6 +421,12 @@ class Rgba {
         : null;
     }
 
+    /**
+     * Rgba string ('rgba(RRR,GGG,BBB,A)') to hexadecimal string ('#RRGGBB'). Alpha is ignored.
+     *
+     * @param      {string} rgba    Rgba string
+     * @return     {string}
+     */
     static toHex(rgba) {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 

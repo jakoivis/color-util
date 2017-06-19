@@ -88,30 +88,6 @@ describe('ColorUtil', () => {
                 C.int.toRgba(dec, 0).should.equal('rgba(170,187,204,0)');
                 C.int.toRgba(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
             });
-
-            xit('toSystemEndian', () => {
-                C._setSystemEndian(1);
-                C.int.toSystemEndian(dec).should.equal(dec);
-
-                C._setSystemEndian(2);
-                C.int.toSystemEndian(dec).should.equal(dec);
-
-                C._setSystemEndian(0);
-                C.int.toSystemEndian(0xAABBCC).should.equal(0xCCBBAA);
-                C.int.toSystemEndian(0xFFAABBCC).should.equal(0xCCBBAA);
-            });
-
-            xit('toSystemEndianUint32', () => {
-                // C._setSystemEndian(1);
-                // C.int.toSystemEndianUint32(0xAABBCC).should.equal(0xFFCCBBAA);
-
-                // C._setSystemEndian(2);
-                // C.int.toSystemEndianUint32(dec32).should.equal(dec32);
-
-                C._setSystemEndian(0);
-                C.int.toSystemEndianUint32(0xAABBCC).should.equal(0xFFCCBBAA);
-                C.int.toSystemEndianUint32(0x99AABBCC).should.equal(0xFFCCBBAA);
-            });
         });
 
         describe('hex', () => {

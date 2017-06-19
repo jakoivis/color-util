@@ -10,7 +10,7 @@
     "prebuild": "npm run test",
     "build": "set arg=build&&webpack",
     "dev-build": "webpack",
-    "docs": "jsdoc2md src/ColorUtil.js > README.md"
+    "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > README.md"
   },
   "repository": {
     "type": "git",
