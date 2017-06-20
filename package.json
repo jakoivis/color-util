@@ -1,15 +1,14 @@
 {
   "name": "color-util",
   "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Color util with color format conversions and gradients",
+  "main": "dist/ColorUtil.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/*.spec.js",
     "test-watch": "mocha --compilers js:babel-core/register -w ./test/*.spec.js",
     "watch": "webpack-dev-server",
     "prebuild": "npm run test",
-    "build": "set arg=build&&webpack",
-    "dev-build": "webpack",
+    "build": "webpack -p --config ./webpack.production.config.js",
     "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > README.md"
   },
   "repository": {
@@ -18,7 +17,9 @@
   },
   "keywords": [
     "color",
-    "util"
+    "util",
+    "conversion",
+    "gradient"
   ],
   "author": "Jarmo Koivisto",
   "license": "MIT",

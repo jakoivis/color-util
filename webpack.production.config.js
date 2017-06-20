@@ -9,13 +9,12 @@ var config = {
     devtool: 'source-map',
     output: {
         path: __dirname + '/dist',
-        filename: name + '.js',
+        filename: name + '.min.js',
         publicPath: '/',
         library: name,
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
-    devServer: { inline: true },
     module: {
         loaders: [
             {
@@ -26,7 +25,6 @@ var config = {
         ]
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
     ]
 };
 
