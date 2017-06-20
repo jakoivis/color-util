@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jakoivis/ColorUtil.svg?branch=master)](https://travis-ci.org/jakoivis/ColorUtil)
+
 ![Preview](/example/githubimage.jpg)
 
 ## Classes
@@ -365,8 +367,8 @@ Get color from gradient.Gradient calculation is done in object format so conve
 | --- | --- | --- | --- |
 | colors | <code>array</code> |  | Array of colors. Color format can be anything.                                  convertToObj needs to be set depending on the format. |
 | position | <code>number</code> |  | Position on the gradient. Value from 0 to 1. |
-| [convertToObj] | <code>number</code> | <code>ColorUtil.int.toObj</code> | Convert incoming color to object. |
-| [convertFromObj] | <code>number</code> | <code>ColorUtil.obj.toHex</code> | Convert outgoing color from object. |
+| [convertToObj] | <code>number</code> | <code></code> | Convert incoming color to object. |
+| [convertFromObj] | <code>number</code> | <code></code> | Convert outgoing color from object. |
 
 <a name="getGradientMatrixColor"></a>
 
