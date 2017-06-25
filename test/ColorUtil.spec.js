@@ -68,6 +68,20 @@ describe('ColorUtil', () => {
                 C.obj.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(-1430533035); // 0xAABBCC55
                 C.obj.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-1430532865); // 0xAABBCCFF
             });
+
+            it('toHsl', () => {
+                C.obj.toHsl({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, l:0});
+                C.obj.toHsl({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, l:1});
+                C.obj.toHsl({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.5});
+                C.obj.toHsl({r: 0, g: 255, b: 0}).should.eql({h:120, s: 1, l:0.5});
+                C.obj.toHsl({r: 0, g: 0, b: 255}).should.eql({h:240, s: 1, l:0.5});
+                C.obj.toHsl({r: 255, g: 255, b: 0}).should.eql({h:60, s: 1, l:0.5});
+                C.obj.toHsl({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, l:0.7529411764705882});
+                C.obj.toHsl({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.25098039215686274});
+                C.obj.toHsl({r: 128, g: 128, b: 0}).should.eql({h:60, s: 1, l:0.25098039215686274});
+                C.obj.toHsl({r: 128, g: 0, b: 128}).should.eql({h:300, s: 1, l:0.25098039215686274});
+                C.obj.toHsl({r: 0, g: 0, b: 128}).should.eql({h:240, s: 1, l:0.25098039215686274});
+            });
         });
 
         describe('int', () => {
@@ -75,7 +89,7 @@ describe('ColorUtil', () => {
             it('toObj', () => {
                 C.int.toObj(dec).should.eql(obj);
                 C.int.toObj(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                // C.int.toObj(dec, 0.1).should.eql({r: 170, g: 187, b: 204, a: 0.1});
+                C.int.toObj(dec, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
             });
 
             it('toHex', () => {

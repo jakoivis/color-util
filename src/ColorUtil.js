@@ -280,6 +280,49 @@ class Obj {
                 (a << 24 | o.b << 16 | o.g << 8 | o.r)
             : (o.r << 24 | o.g << 16 | o.b << 8 | a);
     }
+
+    /**
+     * {@link https://en.wikipedia.org/wiki/HSL_and_HSV}
+     *
+     * @param      {object}  o Object
+     * @return     {object}
+     */
+    static toHsl(o) {
+        let {r:r, g:g, b:b} = o;
+
+        r /= 0xFF;
+        g /= 0xFF;
+        b /= 0xFF;
+
+        let max = Math.max(r, g, b);
+        let min = Math.min(r, g, b);
+        let delta = max - min;
+        let luminosity = (max + min) / 2;
+        let saturation = 0;
+        let hue = 0;
+
+        if (delta > 0) {
+            saturation = delta / (1 - Math.abs(luminosity * 2 - 1));
+
+            if (b === max) {
+                hue = ((r - g) / delta) + 4
+
+            } else if (g === max) {
+                hue = ((b - r) / delta) + 2
+
+            } else if (r === max) {
+                hue = ((g - b) / delta) % 6
+            }
+
+            hue *= 60;
+        }
+
+        return {
+            h: hue,
+            s: saturation,
+            l: luminosity
+        }
+    }
 }
 
 /**
