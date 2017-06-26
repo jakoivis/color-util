@@ -13,7 +13,7 @@ let width = 300;
 let height = 300;
 
 // convert colors to object so this doesn't have to be done in the loop below
-let colors = ColorUtil.convert([[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]], ColorUtil.int.toObj);
+let colors = ColorUtil.convert([[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]], ColorUtil.int.toRgb);
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 let imageData  = ctx.createImageData(width, height);
@@ -37,7 +37,7 @@ for(let x = 0; x < width; x++) {
                 // no conversion needed for incoming colors
                 null,
                 // output colors in uint32 format
-                ColorUtil.obj.toUint32);
+                ColorUtil.rgb.toUint32);
     }
 }
 

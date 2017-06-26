@@ -32,8 +32,8 @@ export default class ColorUtil {
     /**
      * @return     {Obj} Object conversion functions
      */
-    static get obj() {
-        return Obj;
+    static get rgb() {
+        return Rgb;
     }
 
     /**
@@ -53,8 +53,8 @@ export default class ColorUtil {
     /**
      * @return     {Rgba} Rgba conversion functions
      */
-    static get rgba() {
-        return Rgba;
+    static get rgbString() {
+        return RgbString;
     }
 
     /**
@@ -215,91 +215,123 @@ export default class ColorUtil {
 }
 
 /**
- * Object conversion functions
+ * Rgb conversion functions
  *
- * @class Obj
+ * Rgb format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
+ * (red, grean, blue, alpha) range is 0-255. In some conversion functions
+ * alpha is not required. In those where it is required and not present in
+ * Rgb object, a fully opaque value is used as a default.
+ *
+ * @class Rgb
  */
-class Obj {
+class Rgb {
 
     /**
-     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to 24-bit number (0xRRGGBB). Alpha is ignored.
+     * Convert Rgb to 24-bit number (0xRRGGBB). Alpha is ignored.
      *
-     * @param      {object}  o  Object
+     * @example
+     * ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
+     * // output: 33023
+     *
+     * @param      {Rgb}    rgb
      * @return     {number}
      */
-    static toInt(o) {
-        return o.r << 16 | o.g << 8 | o.b;
+    static toInt(rgb) {
+        return rgb.r << 16 | rgb.g << 8 | rgb.b;
     }
 
     /**
-     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to 24-bit hex string ('#RRGGBB'). Alpha is ignored.
+     * Convert Rgb to 24-bit hex string ('#RRGGBB'). Alpha is ignored.
      *
-     * @param      {object}  o  Object
+     * @example
+     * ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
+     * // output: "#0080ff"
+     *
+     * @param      {Rgb}    rgb
      * @return     {string}
      */
-    static toHex(o) {
+    static toHex(rgb) {
         // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
         // by adding 1<<16 (10000) to the result and removing the first digit
         // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
-        return '#' + ((1 << 24) | (o.r << 16) | (o.g << 8) | o.b)
+        return '#' + ((1 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b)
             .toString(16).slice(1);
     }
 
     /**
-     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to rgba string ('rgba(RRR,GGG,BBB,A)').
+     * Convert Rgb to rgb string ('rgba(RRR,GGG,BBB,A)').
      * Alpha is converted from range 0-255 to 0-1. Default alpha
      * value is 1.
      *
-     * @param      {object}  o  Object
+     * @example
+     * ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255});
+     * // output: "rgba(0,128,255,1)"
+     * ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255, a: 85});
+     * // output: "rgba(0,128,255,0.3333333333333333)"
+     *
+     * @param      {Rgb}    rgb
      * @return     {string}
      */
-    static toRgba(o) {
-        let a = !isNaN(parseInt(o.a)) ? o.a / 0xFF : 1;
-        return `rgba(${o.r},${o.g},${o.b},${a})`;
+    static toRgbString(rgb) {
+        let a = !isNaN(parseInt(rgb.a)) ? rgb.a / 0xFF : 1;
+        return `rgba(${rgb.r},${rgb.g},${rgb.b},${a})`;
     }
 
     /**
-     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to uint32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
+     * Convert Rgb to uint32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
      * Default alpha value is 255. Resulting value is positive
-     * e.g. {r:255,g:0,b:0,a:255} would be 4278190335.
      *
-     * @param      {object}   o
+     * @example
+     * ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 255});
+     * // output: 4294934528
+     * ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 85});
+     * // output: 1442807808
+     *
+     * @param      {Rgb}    rgb
      * @return     {number}
      */
-    static toUint32(o) {
-        let a = !isNaN(parseInt(o.a)) ? o.a : 0xFF;
+    static toUint32(rgb) {
+        let a = !isNaN(parseInt(rgb.a)) ? rgb.a : 0xFF;
         return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-                (a << 24 | o.b << 16 | o.g << 8 | o.r) >>> 0
-            : (o.r << 24 | o.g << 16 | o.b << 8 | a) >>> 0;
+                  (a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
+            : (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | a) >>> 0;
     }
 
     /**
-     * Object ({r:RRR, g:GGG, b:BBB, a:AAA}) to int32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
+     * Convert Rgb to int32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
      * Default alpha value is 255. Resulting value can be negative
-     * e.g. {r:255,g:0,b:0,a:255} would be -16776961.
      *
-     * @param      {object}   o Object
+     * @example
+     * ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});
+     * // output: -32768
+     * ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 85});
+     * // output: 1442807808
+     *
+     * @param      {Rgb}    rgb
      * @return     {number}
      */
-    static toInt32(o) {
-        let a = !isNaN(parseInt(o.a)) ? o.a : 0xFF;
+    static toInt32(rgb) {
+        let a = !isNaN(parseInt(rgb.a)) ? rgb.a : 0xFF;
         return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-                (a << 24 | o.b << 16 | o.g << 8 | o.r)
-            : (o.r << 24 | o.g << 16 | o.b << 8 | a);
+                  (a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r)
+            : (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | a);
     }
 
     /**
-     * {@link https://en.wikipedia.org/wiki/HSL_and_HSV}
+     * Convert Rgb to Hsl. Hsl format is `{h:HHH, s:S, l:L}`
+     * where h (hue) is in range 0-360, s and l (saturation and luminosity)
+     * are in range 0-1.
      *
-     * @param      {object}  o Object
-     * @return     {object}
+     * @param      {Rgb}    rgb
+     * @return     {Hsl}
      */
-    static toHsl(o) {
-        let {r:r, g:g, b:b} = o;
+    static toHsl(rgb) {
+        let {r:r, g:g, b:b, a:a} = rgb;
 
         r /= 0xFF;
         g /= 0xFF;
         b /= 0xFF;
+        a = !isNaN(parseInt(a)) ? a / 0xFF : 1;
 
         let max = Math.max(r, g, b);
         let min = Math.min(r, g, b);
@@ -327,26 +359,29 @@ class Obj {
         return {
             h: hue,
             s: saturation,
-            l: luminosity
+            l: luminosity,
+            a: a
         }
     }
 }
 
 /**
- * Integer conversion functions
+ * Integer conversion functions.
+ *
+ * Int format is 24-bit number represnting the RGB values (0xRRGGBB).
  *
  * @class Int
  */
 class Int {
 
     /**
-     * 24-bit integer number (0xRRGGBB) to object ({r:RRR, g:GGG, b:BBB, a:AAA})
+     * int to Rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
      *
      * @param      {number}  int        Integer
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
      * @return     {object}
      */
-    static toObj(int, a=0xFF) {
+    static toRgb(int, a=0xFF) {
         return {
             r: (int & 0xFF0000) >> 16,
             g: (int & 0x00FF00) >> 8,
@@ -356,7 +391,7 @@ class Int {
     }
 
     /**
-     * 24-bit integer number (0xRRGGBB) to 24-bit hex string ('#RRGGBB').
+     * int to 24-bit hex string ('#RRGGBB').
      *
      * @param      {number}  int        Integer
      * @return     {string}
@@ -366,13 +401,13 @@ class Int {
     }
 
     /**
-     * 24-bit integer number (0xRRGGBB) to rgba string ('rgba(RRR,GGG,BBB,A)')
+     * int to rgb string ('rgba(RRR,GGG,BBB,A)')
      *
      * @param      {number}  int        Integer
      * @param      {number}  [a=1]      Alpha value in range 0-1
      * @return     {string}
      */
-    static toRgba(int, a=1) {
+    static toRgbString(int, a=1) {
         return 'rgba('
                 + ((int & 0xFF0000) >> 16) + ','
                 + ((int & 0x00FF00) >> 8) + ','
@@ -387,18 +422,20 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 /**
  * Hexadecimal conversion functions
  *
+ * Hex format is 24-bit hex string represnting the RGB values ('#RRGGBB').
+ *
  * @class Hex
  */
 class Hex {
 
     /**
-     * 24-bit hex string ('#RRGGBB') to object ({r:RRR, g:GGG, b:BBB, a:AAA})
+     * 24-bit hex string to Rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
      *
      * @param      {string}  hex        Hexadecimal string
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
      * @return     {object}
      */
-    static toObj(hex, a=0xFF) {
+    static toRgb(hex, a=0xFF) {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -412,7 +449,7 @@ class Hex {
     }
 
     /**
-     * 24-bit hex string ('#RRGGBB') to 24-bit integer (0xRRGGBB)
+     * 24-bit hex string to 24-bit integer (0xRRGGBB)
      *
      * @param      {string}  hex        Hexadecimal string
      * @return     {number}
@@ -424,13 +461,13 @@ class Hex {
     }
 
     /**
-     * 24-bit hex string ('#RRGGBB') to rgba string ('rgba(RRR,GGG,BBB,A)')
+     * 24-bit hex string to rgb string ('rgba(RRR,GGG,BBB,A)')
      *
      * @param      {string}  hex     Hexadecimal string
      * @param      {number}  [a=1]   Alpha value in range 0-1
      * @return     {string}
      */
-    static toRgba(hex, a=1) {
+    static toRgbString(hex, a=1) {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -448,20 +485,23 @@ const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
 const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
 /**
- * Rgba conversion functions
+ * RgbString conversion functions
+ *
+ * RgbString format is `'rgba(RRR,GGG,BBB,A)'`
+ *
  * Notice that rgba values should not have spaces.
  *
  * @class Rgba
  */
-class Rgba {
+class RgbString {
 
     /**
-     * Rgba string ('rgba(RRR,GGG,BBB,A)') to object ({r:RRR, g:GGG, b:BBB, a:AAA})
+     * Rgb string ('rgba(RRR,GGG,BBB,A)') to rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
      *
-     * @param      {string} rgba    Rgba string
+     * @param      {string} rgba    Rgb string
      * @return     {object}
      */
-    static toObj(rgba) {
+    static toRgb(rgba) {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
         return m ? {
@@ -507,10 +547,30 @@ class Rgba {
     }
 }
 
+/**
+ * Hsl conversion functions
+ *
+ * Hsl format is `{h:HHH, s:S, l:L, a:A}` where h (hue) is in range 0-360,
+ * s, l and a (saturation, luminosity, alpha) are in range 0-1.
+ *
+ * @class Rgb
+ */
 class Hsl {
 
-    static toRgbObj(hsl, a=0xFF) {
-        let {h:h, s:s, l:l} = hsl;
+    /**
+     * Hsl object `{h:HHH, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @example
+     * ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5});
+     * // output: {r: 106, g: 191, b: 64, a: 255}
+     * ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5, a: 0.5});
+     * // output: {r: 106, g: 191, b: 64, a: 50}
+     *
+     * @param      {object}  hsl        Hsl object
+     * @return     {Object}
+     */
+    static toRgb(hsl) {
+        let {h:h, s:s, l:l, a:a} = hsl;
         let c = (1 - Math.abs(2 * l - 1)) * s
         let x = c * (1 - Math.abs(h / 60 % 2 - 1));
         let m = l - c / 2;
@@ -539,7 +599,7 @@ class Hsl {
             r: Math.round((r + m) * 0xFF),
             g: Math.round((g + m) * 0xFF),
             b: Math.round((b + m) * 0xFF),
-            a: a
+            a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
         };
     }
 }

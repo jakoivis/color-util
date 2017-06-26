@@ -15,81 +15,82 @@ describe('ColorUtil', () => {
     describe('conversion', () => {
 
         let dec = 0xAABBCC;
-        let obj = {r: 170, g: 187, b: 204, a: 255};
+        let rgb = {r: 170, g: 187, b: 204, a: 255};
         let hex = '#aabbcc';
         let rgba = 'rgba(170,187,204,1)';
 
-        describe('obj', () => {
+        describe('rgb', () => {
 
             it('toInt', () => {
-                C.obj.toInt(obj).should.equal(dec);
+                C.rgb.toInt(rgb).should.equal(dec);
             });
 
             it('toHex', () => {
-                C.obj.toHex(obj).should.equal(hex);
-                C.obj.toHex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
-                C.obj.toHex({r: 0, g: 187, b: 0.56}).should.equal('#00bb00');
+                C.rgb.toHex(rgb).should.equal(hex);
+                C.rgb.toHex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
+                C.rgb.toHex({r: 0, g: 187, b: 0.56}).should.equal('#00bb00');
             });
 
-            it('toRgba', () => {
-                C.obj.toRgba(obj).should.equal(rgba);
-                C.obj.toRgba({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
-                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
-                C.obj.toRgba({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
-                C.obj.toRgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
+            it('toRgbString', () => {
+                C.rgb.toRgbString(rgb).should.equal(rgba);
+                C.rgb.toRgbString({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
+                C.rgb.toRgbString({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
+                C.rgb.toRgbString({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
+                C.rgb.toRgbString({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
             });
 
             it('toUint32', () => {
-                C.obj.toUint32(obj).should.equal(0xFFCCBBAA);
-                C.obj.toUint32({r: 170, g: 187, b: 204}).should.equal(0xFFCCBBAA);
-                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-                C.obj.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xFFCCBBAA);
+                C.rgb.toUint32(rgb).should.equal(0xFFCCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204}).should.equal(0xFFCCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xFFCCBBAA);
 
                 C._setSystemEndian(1);
-                C.obj.toUint32(obj).should.equal(0xAABBCCFF);
-                C.obj.toUint32({r: 170, g: 187, b: 204}).should.equal(0xAABBCCFF);
-                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
-                C.obj.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
-                C.obj.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCCFF);
+                C.rgb.toUint32(rgb).should.equal(0xAABBCCFF);
+                C.rgb.toUint32({r: 170, g: 187, b: 204}).should.equal(0xAABBCCFF);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCCFF);
             });
 
             it('toInt32', () => {
-                C.obj.toInt32(obj).should.equal(-3359830); // 0xFFCCBBAA
-                C.obj.toInt32({r: 170, g: 187, b: 204}).should.equal(-3359830); // 0xFFCCBBAA
-                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-                C.obj.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-3359830); // 0xFFCCBBAA
+                C.rgb.toInt32(rgb).should.equal(-3359830); // 0xFFCCBBAA
+                C.rgb.toInt32({r: 170, g: 187, b: 204}).should.equal(-3359830); // 0xFFCCBBAA
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-3359830); // 0xFFCCBBAA
 
                 C._setSystemEndian(1);
-                C.obj.toInt32(obj).should.equal(-1430532865); // 0xAABBCCFF
-                C.obj.toInt32({r: 170, g: 187, b: 204}).should.equal(-1430532865); // 0xAABBCCFF
-                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(-1430533120); // 0xAABBCC00
-                C.obj.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(-1430533035); // 0xAABBCC55
-                C.obj.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-1430532865); // 0xAABBCCFF
+                C.rgb.toInt32(rgb).should.equal(-1430532865); // 0xAABBCCFF
+                C.rgb.toInt32({r: 170, g: 187, b: 204}).should.equal(-1430532865); // 0xAABBCCFF
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(-1430533120); // 0xAABBCC00
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(-1430533035); // 0xAABBCC55
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-1430532865); // 0xAABBCCFF
             });
 
             it('toHsl', () => {
-                C.obj.toHsl({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, l:0});
-                C.obj.toHsl({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, l:1});
-                C.obj.toHsl({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.5});
-                C.obj.toHsl({r: 0, g: 255, b: 0}).should.eql({h:120, s: 1, l:0.5});
-                C.obj.toHsl({r: 0, g: 0, b: 255}).should.eql({h:240, s: 1, l:0.5});
-                C.obj.toHsl({r: 255, g: 255, b: 0}).should.eql({h:60, s: 1, l:0.5});
-                C.obj.toHsl({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, l:0.7529411764705882});
-                C.obj.toHsl({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.25098039215686274});
-                C.obj.toHsl({r: 128, g: 128, b: 0}).should.eql({h:60, s: 1, l:0.25098039215686274});
-                C.obj.toHsl({r: 128, g: 0, b: 128}).should.eql({h:300, s: 1, l:0.25098039215686274});
-                C.obj.toHsl({r: 0, g: 0, b: 128}).should.eql({h:240, s: 1, l:0.25098039215686274});
+                C.rgb.toHsl({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, l:0, a:1});
+                C.rgb.toHsl({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, l:1, a:1});
+                C.rgb.toHsl({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.5, a:1});
+                C.rgb.toHsl({r: 0, g: 255, b: 0}).should.eql({h:120, s: 1, l:0.5, a:1});
+                C.rgb.toHsl({r: 0, g: 0, b: 255}).should.eql({h:240, s: 1, l:0.5, a:1});
+                C.rgb.toHsl({r: 255, g: 255, b: 0}).should.eql({h:60, s: 1, l:0.5, a:1});
+                C.rgb.toHsl({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, l:0.7529411764705882, a:1});
+                C.rgb.toHsl({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.25098039215686274, a:1});
+                C.rgb.toHsl({r: 128, g: 128, b: 0}).should.eql({h:60, s: 1, l:0.25098039215686274, a:1});
+                C.rgb.toHsl({r: 128, g: 0, b: 128}).should.eql({h:300, s: 1, l:0.25098039215686274, a:1});
+                C.rgb.toHsl({r: 0, g: 0, b: 128}).should.eql({h:240, s: 1, l:0.25098039215686274, a:1});
+                C.rgb.toHsl({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, l:0, a:0.3333333333333333});
             });
         });
 
         describe('int', () => {
 
-            it('toObj', () => {
-                C.int.toObj(dec).should.eql(obj);
-                C.int.toObj(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.int.toObj(dec, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
+            it('toRgb', () => {
+                C.int.toRgb(dec).should.eql(rgb);
+                C.int.toRgb(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.int.toRgb(dec, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
             });
 
             it('toHex', () => {
@@ -97,23 +98,23 @@ describe('ColorUtil', () => {
                 C.int.toHex(0x00bb00).should.equal('#00bb00');
             });
 
-            it('toRgba', () => {
-                C.int.toRgba(dec).should.equal(rgba);
-                C.int.toRgba(dec, 0).should.equal('rgba(170,187,204,0)');
-                C.int.toRgba(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
+            it('toRgbString', () => {
+                C.int.toRgbString(dec).should.equal(rgba);
+                C.int.toRgbString(dec, 0).should.equal('rgba(170,187,204,0)');
+                C.int.toRgbString(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
             });
         });
 
         describe('hex', () => {
 
-            it('toObj', () => {
-                C.hex.toObj(hex).should.eql(obj);
-                C.hex.toObj(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.hex.toObj(hex, 85).should.eql({r: 170, g: 187, b: 204, a: 85});
-                C.hex.toObj('#abc').should.eql(obj);
-                C.hex.toObj('abc').should.eql(obj);
-                C.hex.toObj('aabbcc').should.eql(obj);
-                expect(C.hex.toObj('#abcc')).to.be.null;
+            it('toRgb', () => {
+                C.hex.toRgb(hex).should.eql(rgb);
+                C.hex.toRgb(hex, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.hex.toRgb(hex, 85).should.eql({r: 170, g: 187, b: 204, a: 85});
+                C.hex.toRgb('#abc').should.eql(rgb);
+                C.hex.toRgb('abc').should.eql(rgb);
+                C.hex.toRgb('aabbcc').should.eql(rgb);
+                expect(C.hex.toRgb('#abcc')).to.be.null;
             });
 
             it('toInt', () => {
@@ -124,72 +125,73 @@ describe('ColorUtil', () => {
                 C.hex.toInt('#112233').should.equal(0x112233);
             });
 
-            it('toRgba', () => {
-                C.hex.toRgba(hex).should.equal(rgba);
-                C.hex.toRgba(hex, 0).should.equal('rgba(170,187,204,0)');
-                C.hex.toRgba(hex, 0.1).should.equal('rgba(170,187,204,0.1)');
-                C.hex.toRgba('aabbcc').should.equal(rgba);
-                C.hex.toRgba('#abc').should.equal(rgba);
-                C.hex.toRgba('abc').should.equal(rgba);
-                C.hex.toRgba('112233').should.equal('rgba(17,34,51,1)');
+            it('toRgbString', () => {
+                C.hex.toRgbString(hex).should.equal(rgba);
+                C.hex.toRgbString(hex, 0).should.equal('rgba(170,187,204,0)');
+                C.hex.toRgbString(hex, 0.1).should.equal('rgba(170,187,204,0.1)');
+                C.hex.toRgbString('aabbcc').should.equal(rgba);
+                C.hex.toRgbString('#abc').should.equal(rgba);
+                C.hex.toRgbString('abc').should.equal(rgba);
+                C.hex.toRgbString('112233').should.equal('rgba(17,34,51,1)');
             });
         });
 
-        describe('rgba', () => {
+        describe('rgbString', () => {
 
-            it('toObj', () => {
-                C.rgba.toObj('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
-                C.rgba.toObj('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
-                C.rgba.toObj('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.rgba.toObj('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
+            it('toRgb', () => {
+                C.rgbString.toRgb('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
+                C.rgbString.toRgb('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
+                C.rgbString.toRgb('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.rgbString.toRgb('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
             });
 
             it('toInt', () => {
-                C.rgba.toInt('rgba(170,187,204,1)').should.equal(11189196);
-                C.rgba.toInt('rgba(170,187,204)').should.equal(11189196);
-                C.rgba.toInt('rgba(170,187,204,0)').should.equal(11189196);
-                C.rgba.toInt('rgba(170,187,204,0.1)').should.equal(11189196);
+                C.rgbString.toInt('rgba(170,187,204,1)').should.equal(11189196);
+                C.rgbString.toInt('rgba(170,187,204)').should.equal(11189196);
+                C.rgbString.toInt('rgba(170,187,204,0)').should.equal(11189196);
+                C.rgbString.toInt('rgba(170,187,204,0.1)').should.equal(11189196);
             });
 
             it('toHex', () => {
-                C.rgba.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
-                C.rgba.toHex('rgba(170,187,204)').should.equal('#aabbcc');
-                C.rgba.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
-                C.rgba.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
+                C.rgbString.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
+                C.rgbString.toHex('rgba(170,187,204)').should.equal('#aabbcc');
+                C.rgbString.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
+                C.rgbString.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
             });
         });
 
         describe('hsl', () => {
 
-            it('toRgbObj', () => {
-                C.hsl.toRgbObj({h: 0, s: 0, l: 0}).should.eql({r: 0, g: 0, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 0, s: 0, l: 1}).should.eql({r: 255, g: 255, b: 255, a: 255});
-                C.hsl.toRgbObj({h: 0, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 120, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 240, s: 1, l: 0.5}).should.eql({r: 0, g: 0, b: 255, a: 255});
-                C.hsl.toRgbObj({h: 60, s: 1, l: 0.5}).should.eql({r: 255, g: 255, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 180, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 255, a: 255});
-                C.hsl.toRgbObj({h: 300, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 255, a: 255});
-                C.hsl.toRgbObj({h: 0, s: 0, l: 0.75}).should.eql({r: 191, g: 191, b: 191, a: 255});
-                C.hsl.toRgbObj({h: 0, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 60, s: 1, l: 0.25}).should.eql({r: 128, g: 128, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 120, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 0, a: 255});
-                C.hsl.toRgbObj({h: 300, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 128, a: 255});
-                C.hsl.toRgbObj({h: 180, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 128, a: 255});
-                C.hsl.toRgbObj({h: 240, s: 1, l: 0.25}).should.eql({r: 0, g: 0, b: 128, a: 255});
-            })
+            it('toRgb', () => {
+                C.hsl.toRgb({h: 0, s: 0, l: 0}).should.eql({r: 0, g: 0, b: 0, a: 255});
+                C.hsl.toRgb({h: 0, s: 0, l: 1}).should.eql({r: 255, g: 255, b: 255, a: 255});
+                C.hsl.toRgb({h: 0, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 0, a: 255});
+                C.hsl.toRgb({h: 120, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 0, a: 255});
+                C.hsl.toRgb({h: 240, s: 1, l: 0.5}).should.eql({r: 0, g: 0, b: 255, a: 255});
+                C.hsl.toRgb({h: 60, s: 1, l: 0.5}).should.eql({r: 255, g: 255, b: 0, a: 255});
+                C.hsl.toRgb({h: 180, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 255, a: 255});
+                C.hsl.toRgb({h: 300, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 255, a: 255});
+                C.hsl.toRgb({h: 0, s: 0, l: 0.75}).should.eql({r: 191, g: 191, b: 191, a: 255});
+                C.hsl.toRgb({h: 0, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 0, a: 255});
+                C.hsl.toRgb({h: 60, s: 1, l: 0.25}).should.eql({r: 128, g: 128, b: 0, a: 255});
+                C.hsl.toRgb({h: 120, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 0, a: 255});
+                C.hsl.toRgb({h: 300, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 128, a: 255});
+                C.hsl.toRgb({h: 180, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 128, a: 255});
+                C.hsl.toRgb({h: 240, s: 1, l: 0.25}).should.eql({r: 0, g: 0, b: 128, a: 255});
+                C.hsl.toRgb({h: 0, s: 0, l: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 26});
+            });
         });
 
         describe('combinations', () => {
 
             it('rgb-hsl-rgb', () => {
                 let rgb = {r: 150, g: 200, b: 50, a:255};
-                let hsl = {h: 80, s: 0.6000000000000001, l: 0.49019607843137253};
+                let hsl = {h: 80, s: 0.6000000000000001, l: 0.49019607843137253, a: 1};
 
-                let rgbToHsl = C.obj.toHsl(rgb);
+                let rgbToHsl = C.rgb.toHsl(rgb);
                 rgbToHsl.should.eql(hsl);
 
-                let hslToRgb = C.hsl.toRgbObj(hsl);
+                let hslToRgb = C.hsl.toRgb(hsl);
                 hslToRgb.should.eql(rgb);
             });
         });
@@ -228,57 +230,57 @@ describe('ColorUtil', () => {
 
     describe('getGradientColor', () => {
 
-        var toObj = C.int.toObj;
-        var fromObj = C.obj.toInt;
+        var toRgb = C.int.toRgb;
+        var fromRgb = C.rgb.toInt;
 
         it('should get color from 1 point gradient', () => {
-            C.getGradientColor([0x00FF7F], 0.5, toObj, fromObj)
+            C.getGradientColor([0x00FF7F], 0.5, toRgb, fromRgb)
                 .should.equal(0x00FF7F);
         });
 
         it('should get color from 2 point gradient', () => {
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0, toRgb, fromRgb)
                 .should.equal(0x00FF7F);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 1, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 1, toRgb, fromRgb)
                 .should.equal(0xFF00FF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.25, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.25, toRgb, fromRgb)
                 .should.equal(0x3FBF9F);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.5, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.5, toRgb, fromRgb)
                 .should.equal(0x7F7FBF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.75, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.75, toRgb, fromRgb)
                 .should.equal(0xBF3FDF);
         });
 
         it('should get color from 3 point gradient', () => {
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0, toObj, fromObj)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0, toRgb, fromRgb)
                 .should.equal(0x0);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1, toObj, fromObj)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1, toRgb, fromRgb)
                 .should.equal(0xFFFFFF);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25, toObj, fromObj)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25, toRgb, fromRgb)
                 .should.equal(0x3F3F3F);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5, toObj, fromObj)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5, toRgb, fromRgb)
                 .should.equal(0x7F7F7F);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75, toObj, fromObj)
+            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75, toRgb, fromRgb)
                 .should.equal(0xBFBFBF);
         });
 
         it('should get color from 4 point gradient', () => {
-            C.getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0, toObj, fromObj)
+            C.getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0, toRgb, fromRgb)
                 .should.equal(0xFFFFFF); // first color
-            C.getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1, toObj, fromObj)
+            C.getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1, toRgb, fromRgb)
                 .should.equal(0xFFFFFF); // last color
-            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25, toObj, fromObj)
+            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25, toRgb, fromRgb)
                 .should.equal(0xBFBFBF); // 75% between colors 0 and 1
-            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5, toObj, fromObj)
+            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5, toRgb, fromRgb)
                 .should.equal(0xBFBFBF); // 50% beween colors 1 and 2
-            C.getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75, toObj, fromObj)
+            C.getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75, toRgb, fromRgb)
                 .should.equal(0x9F9F9F); // 25% between colors 2 and 3
         });
 
         it('should return edge colors when value is out of range', () => {
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 2, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], 2, toRgb, fromRgb)
                 .should.equal(0xFF00FF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], -2, toObj, fromObj)
+            C.getGradientColor([0x00FF7F, 0xFF00FF], -2, toRgb, fromRgb)
                 .should.equal(0x00FF7F);
         });
     });
