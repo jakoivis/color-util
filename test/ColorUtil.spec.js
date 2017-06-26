@@ -158,6 +158,41 @@ describe('ColorUtil', () => {
                 C.rgba.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
             });
         });
+
+        describe('hsl', () => {
+
+            it('toRgbObj', () => {
+                C.hsl.toRgbObj({h: 0, s: 0, l: 0}).should.eql({r: 0, g: 0, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 0, s: 0, l: 1}).should.eql({r: 255, g: 255, b: 255, a: 255});
+                C.hsl.toRgbObj({h: 0, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 120, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 240, s: 1, l: 0.5}).should.eql({r: 0, g: 0, b: 255, a: 255});
+                C.hsl.toRgbObj({h: 60, s: 1, l: 0.5}).should.eql({r: 255, g: 255, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 180, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 255, a: 255});
+                C.hsl.toRgbObj({h: 300, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 255, a: 255});
+                C.hsl.toRgbObj({h: 0, s: 0, l: 0.75}).should.eql({r: 191, g: 191, b: 191, a: 255});
+                C.hsl.toRgbObj({h: 0, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 60, s: 1, l: 0.25}).should.eql({r: 128, g: 128, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 120, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 0, a: 255});
+                C.hsl.toRgbObj({h: 300, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 128, a: 255});
+                C.hsl.toRgbObj({h: 180, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 128, a: 255});
+                C.hsl.toRgbObj({h: 240, s: 1, l: 0.25}).should.eql({r: 0, g: 0, b: 128, a: 255});
+            })
+        });
+
+        describe('combinations', () => {
+
+            it('rgb-hsl-rgb', () => {
+                let rgb = {r: 150, g: 200, b: 50, a:255};
+                let hsl = {h: 80, s: 0.6000000000000001, l: 0.49019607843137253};
+
+                let rgbToHsl = C.obj.toHsl(rgb);
+                rgbToHsl.should.eql(hsl);
+
+                let hslToRgb = C.hsl.toRgbObj(hsl);
+                hslToRgb.should.eql(rgb);
+            });
+        });
     });
 
     describe('convertTo2StopGradient', () => {
