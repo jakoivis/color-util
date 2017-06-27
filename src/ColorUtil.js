@@ -65,6 +65,13 @@ export default class ColorUtil {
     }
 
     /**
+     * @return     {array} Array of hue colors
+     */
+    static get hueColors() {
+        return [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000];
+    }
+
+    /**
      * Get the endian used by the system.
      * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
      *
@@ -155,6 +162,10 @@ export default class ColorUtil {
      * are preformatted to object no conversion is needed. In this case set null in
      * place for the conversion function.
      *
+     * @exampl
+     * let gradient = [0xFF0000, 0x00FF00, 0x0000FF];
+     * ColorUtil.getGradientColor(gradient, 0.5, ColorUtil.int.toRgb, ColorUtil.rgb.toHex);
+     *
      * @param {array} colors            Array of colors. Color format can be anything.
      *                                  convertToObj needs to be set depending on the format.
      * @param {number} position         Position on the gradient. Value from 0 to 1.
@@ -191,6 +202,10 @@ export default class ColorUtil {
      * to object and convertFromObj must convert from object type. In case colors
      * are preformatted to object no conversion is needed. In this case set null in
      * place for the conversion function.
+     *
+     * @example
+     * let matrix = [[0xFF0000, 0x00FF00], [0x0000FF]];
+     * ColorUtil.getGradientMatrixColor(matrix, 0.5, 0.5, ColorUtil.int.toRgb, ColorUtil.rgb.toHex);
      *
      * @param {array} matrix    Array of gradient color arrays
      * @param {number} x        Horizontal position on the gradient. Value from 0 to 1.

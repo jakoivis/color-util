@@ -9,7 +9,7 @@
     "watch": "webpack-dev-server",
     "prebuild": "npm run test",
     "build": "webpack -p --config ./webpack.production.config.js",
-    "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > README.md"
+    "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > tmp.md"
   },
   "repository": {
     "type": "git",
