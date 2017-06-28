@@ -23,48 +23,75 @@ let SYSTEM_ENDIAN = (() => {
 })();
 
 /**
- * Color conversion functions and some other things
- *
  * @class ColorUtil
+ * @classdesc Color conversion functions and some other things
  */
 export default class ColorUtil {
 
     /**
-     * @return     {Obj} Object conversion functions
+     * Rgb conversion functions
+     *
+     * Rgb format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
+     * (red, grean, blue, alpha) range is 0-255. In some conversion functions
+     * alpha is not required. In those where it is required and not present in
+     * Rgb object, a fully opaque value is used as a default.
+     *
+     * @memberof ColorUtil
      */
     static get rgb() {
         return Rgb;
     }
 
     /**
-     * @return     {Int} Integer conversion functions
+     * Integer conversion functions.
+     *
+     * Int format is 24-bit number represnting the RGB values (0xRRGGBB).
+     *
+     * @memberof ColorUtil
      */
     static get int() {
         return Int;
     }
 
     /**
-     * @return     {Hex} Hexadecimal conversion functions
+     * Hexadecimal conversion functions
+     *
+     * Hex format is 24-bit hex string represnting the RGB values ('#RRGGBB').
+     *
+     * @memberof ColorUtil
      */
     static get hex() {
         return Hex;
     }
 
     /**
-     * @return     {Rgba} Rgba conversion functions
+     * RgbString conversion functions
+     *
+     * RgbString format is `'rgba(RRR,GGG,BBB,A)'`
+     *
+     * Notice that this string should not have spaces.
+     *
+     * @memberof ColorUtil
      */
     static get rgbString() {
         return RgbString;
     }
 
     /**
-     * @return     {Hsl} Hsl conversion functions
+     * Hsl conversion functions
+     *
+     * Hsl format is `{h:HHH, s:S, l:L, a:A}` where h (hue) is in range 0-360,
+     * s, l and a (saturation, luminosity, alpha) are in range 0-1.
+     *
+     * @memberof ColorUtil
      */
     static get hsl() {
         return Hsl;
     }
 
     /**
+     * @memberof ColorUtil
+     *
      * @return     {array} Array of hue colors
      */
     static get hueColors() {
@@ -73,7 +100,10 @@ export default class ColorUtil {
 
     /**
      * Get the endian used by the system.
+     *
      * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
+     *
+     * @memberof ColorUtil
      *
      * @return     {number}  0=little-endian, 1=big-endian, 2=unknown-endian
      */
@@ -93,6 +123,8 @@ export default class ColorUtil {
      * // output: [['#ff0000', '#00ff00'], '#0000ff']
      * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgba);
      * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
+     *
+     * @memberof ColorUtil
      *
      * @param      {array}         array                Array of colors
      * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
@@ -123,6 +155,8 @@ export default class ColorUtil {
      * // 0.5 between those two values.
      * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
      * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
+     *
+     * @memberof ColorUtil
      *
      * @param {array} array     Array of colors. Content of the array does not matter.
      * @param {number} value    Position on the whole gradient.
@@ -162,16 +196,23 @@ export default class ColorUtil {
      * are preformatted to object no conversion is needed. In this case set null in
      * place for the conversion function.
      *
-     * @exampl
+     * @example
      * let gradient = [0xFF0000, 0x00FF00, 0x0000FF];
      * ColorUtil.getGradientColor(gradient, 0.5, ColorUtil.int.toRgb, ColorUtil.rgb.toHex);
+     * // output: "#00ff00"
+     *
+     * gradient = ColorUtil.convert(gradient, ColorUtil.int.toRgb)
+     * ColorUtil.getGradientColor(gradient, 0.5, null, ColorUtil.rgb.toHex);
+     * // output: "#00ff00"
+     *
+     * @memberof ColorUtil
      *
      * @param {array} colors            Array of colors. Color format can be anything.
      *                                  convertToObj needs to be set depending on the format.
      * @param {number} position         Position on the gradient. Value from 0 to 1.
      * @param {number} [convertToObj=null] Convert incoming color to object.
-     * @param {number} [convertFromObj=null] Convert outgoing color from object.
-     * @return {number} Return value depend on the what has been set to convertFromObj.
+     * @param {function} [convertFromObj=null] Convert outgoing color from object.
+     * @return {*} Return value depend on the what has been set to convertFromObj.
      */
     static getGradientColor(colors, position, convertToObj=null, convertFromObj=null) {
         let {
@@ -206,13 +247,20 @@ export default class ColorUtil {
      * @example
      * let matrix = [[0xFF0000, 0x00FF00], [0x0000FF]];
      * ColorUtil.getGradientMatrixColor(matrix, 0.5, 0.5, ColorUtil.int.toRgb, ColorUtil.rgb.toHex);
+     * // output: "#3f3f7f"
+     *
+     * matrix = ColorUtil.convert(matrix, ColorUtil.int.toRgb)
+     * ColorUtil.getGradientMatrixColor(matrix, 0.5, 0.5, null, ColorUtil.rgb.toHex);
+     * // output: "#3f3f7f"
+     *
+     * @memberof ColorUtil
      *
      * @param {array} matrix    Array of gradient color arrays
      * @param {number} x        Horizontal position on the gradient. Value from 0 to 1.
      * @param {number} y        Vertical position on the gradient. Value from 0 to 1.
      * @param {function} [convertToObj=null] Convert incoming color to object.
      * @param {function} [convertFromObj=null] Convert outgoing color from object.
-     * @return {number}
+     * @return {*}
      */
     static getGradientMatrixColor(matrix, x, y, convertToObj=null, convertFromObj=null) {
         let {
@@ -230,14 +278,8 @@ export default class ColorUtil {
 }
 
 /**
- * Rgb conversion functions
- *
- * Rgb format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
- * (red, grean, blue, alpha) range is 0-255. In some conversion functions
- * alpha is not required. In those where it is required and not present in
- * Rgb object, a fully opaque value is used as a default.
- *
  * @class Rgb
+ * @private
  */
 class Rgb {
 
@@ -248,7 +290,10 @@ class Rgb {
      * ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
      * // output: 33023
      *
-     * @param      {Rgb}    rgb
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toInt
+     *
+     * @param      {object}    rgb
      * @return     {number}
      */
     static toInt(rgb) {
@@ -262,7 +307,10 @@ class Rgb {
      * ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
      * // output: "#0080ff"
      *
-     * @param      {Rgb}    rgb
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toHex
+     *
+     * @param      {object}    rgb
      * @return     {string}
      */
     static toHex(rgb) {
@@ -284,7 +332,10 @@ class Rgb {
      * ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255, a: 85});
      * // output: "rgba(0,128,255,0.3333333333333333)"
      *
-     * @param      {Rgb}    rgb
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toRgbString
+     *
+     * @param      {object}    rgb
      * @return     {string}
      */
     static toRgbString(rgb) {
@@ -302,7 +353,10 @@ class Rgb {
      * ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 85});
      * // output: 1442807808
      *
-     * @param      {Rgb}    rgb
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toUint32
+     *
+     * @param      {object}    rgb
      * @return     {number}
      */
     static toUint32(rgb) {
@@ -322,7 +376,10 @@ class Rgb {
      * ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 85});
      * // output: 1442807808
      *
-     * @param      {Rgb}    rgb
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toInt32
+     *
+     * @param      {object}    rgb
      * @return     {number}
      */
     static toInt32(rgb) {
@@ -337,8 +394,15 @@ class Rgb {
      * where h (hue) is in range 0-360, s and l (saturation and luminosity)
      * are in range 0-1.
      *
-     * @param      {Rgb}    rgb
-     * @return     {Hsl}
+     * @example
+     * ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});
+     * // output: {h: 0, s: 1, l: 0.5, a: 1}
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toHsl
+     *
+     * @param      {object}    rgb
+     * @return     {object}
      */
     static toHsl(rgb) {
         let {r:r, g:g, b:b, a:a} = rgb;
@@ -381,16 +445,23 @@ class Rgb {
 }
 
 /**
- * Integer conversion functions.
- *
- * Int format is 24-bit number represnting the RGB values (0xRRGGBB).
- *
  * @class Int
+ * @private
  */
 class Int {
 
     /**
      * int to Rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
+     *
+     * @memberof ColorUtil.int
+     * @alias ColorUtil.int.toRgb
+     *
+     * @example
+     * ColorUtil.int.toRgb(0xFF0000);
+     * // output: {r: 255, g: 0, b: 0, a: 255}
+     *
+     * ColorUtil.int.toRgb(0xFF0000, 128);
+     * // output: {r: 255, g: 0, b: 0, a: 128}
      *
      * @param      {number}  int        Integer
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
@@ -408,6 +479,13 @@ class Int {
     /**
      * int to 24-bit hex string ('#RRGGBB').
      *
+     * @memberof ColorUtil.int
+     * @alias ColorUtil.int.toHex
+     *
+     * @example
+     * ColorUtil.int.toHex(0x00FF00);
+     * // output: "#00ff00"
+     *
      * @param      {number}  int        Integer
      * @return     {string}
      */
@@ -417,6 +495,16 @@ class Int {
 
     /**
      * int to rgb string ('rgba(RRR,GGG,BBB,A)')
+     *
+     * @memberof ColorUtil.int
+     * @alias ColorUtil.int.toRgbString
+     *
+     * @example
+     * ColorUtil.int.toRgbString(0x00FF00);
+     * // output: "rgba(0,255,0,1)"
+     *
+     * ColorUtil.int.toRgbString(0x00FF00, 0.5);
+     * // output: "rgba(0,255,0,0.5)"
      *
      * @param      {number}  int        Integer
      * @param      {number}  [a=1]      Alpha value in range 0-1
@@ -435,16 +523,16 @@ const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
 /**
- * Hexadecimal conversion functions
- *
- * Hex format is 24-bit hex string represnting the RGB values ('#RRGGBB').
- *
  * @class Hex
+ * @private
  */
 class Hex {
 
     /**
      * 24-bit hex string to Rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
+     *
+     * @memberof ColorUtil.hex
+     * @alias ColorUtil.hex.toRgb
      *
      * @param      {string}  hex        Hexadecimal string
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
@@ -466,6 +554,9 @@ class Hex {
     /**
      * 24-bit hex string to 24-bit integer (0xRRGGBB)
      *
+     * @memberof ColorUtil.hex
+     * @alias ColorUtil.hex.toInt
+     *
      * @param      {string}  hex        Hexadecimal string
      * @return     {number}
      */
@@ -477,6 +568,9 @@ class Hex {
 
     /**
      * 24-bit hex string to rgb string ('rgba(RRR,GGG,BBB,A)')
+     *
+     * @memberof ColorUtil.hex
+     * @alias ColorUtil.hex.toRgbString
      *
      * @param      {string}  hex     Hexadecimal string
      * @param      {number}  [a=1]   Alpha value in range 0-1
@@ -500,18 +594,16 @@ const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
 const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 
 /**
- * RgbString conversion functions
- *
- * RgbString format is `'rgba(RRR,GGG,BBB,A)'`
- *
- * Notice that rgba values should not have spaces.
- *
- * @class Rgba
+ * @class RgbString
+ * @private
  */
 class RgbString {
 
     /**
      * Rgb string ('rgba(RRR,GGG,BBB,A)') to rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
+     *
+     * @memberof ColorUtil.rgbString
+     * @alias ColorUtil.rgbString.toRgb
      *
      * @param      {string} rgba    Rgb string
      * @return     {object}
@@ -531,6 +623,9 @@ class RgbString {
     /**
      * Rgba string ('rgba(RRR,GGG,BBB,A)') to 24-bit integer (0xRRGGBB). Alpha is ignored.
      *
+     * @memberof ColorUtil.rgbString
+     * @alias ColorUtil.rgbString.toInt
+     *
      * @param      {string} rgba    Rgba string
      * @return     {number}
      */
@@ -546,6 +641,9 @@ class RgbString {
 
     /**
      * Rgba string ('rgba(RRR,GGG,BBB,A)') to hexadecimal string ('#RRGGBB'). Alpha is ignored.
+     *
+     * @memberof ColorUtil.rgbString
+     * @alias ColorUtil.rgbString.toHex
      *
      * @param      {string} rgba    Rgba string
      * @return     {string}
@@ -563,12 +661,8 @@ class RgbString {
 }
 
 /**
- * Hsl conversion functions
- *
- * Hsl format is `{h:HHH, s:S, l:L, a:A}` where h (hue) is in range 0-360,
- * s, l and a (saturation, luminosity, alpha) are in range 0-1.
- *
- * @class Rgb
+ * @class Hsl
+ * @private
  */
 class Hsl {
 
@@ -581,8 +675,11 @@ class Hsl {
      * ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5, a: 0.5});
      * // output: {r: 106, g: 191, b: 64, a: 50}
      *
+     * @memberof ColorUtil.hsl
+     * @alias ColorUtil.hsl.toRgb
+     *
      * @param      {object}  hsl        Hsl object
-     * @return     {Object}
+     * @return     {object}
      */
     static toRgb(hsl) {
         let {h:h, s:s, l:l, a:a} = hsl;
