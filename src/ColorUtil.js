@@ -31,10 +31,10 @@ export default class ColorUtil {
     /**
      * Rgb conversion functions
      *
-     * Rgb format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
+     * Rgb object format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
      * (red, grean, blue, alpha) range is 0-255. In some conversion functions
      * alpha is not required. In those where it is required and not present in
-     * Rgb object, a fully opaque value is used as a default.
+     * rgb object, a fully opaque value is used as a default.
      *
      * @memberof ColorUtil
      */
@@ -45,7 +45,7 @@ export default class ColorUtil {
     /**
      * Integer conversion functions.
      *
-     * Int format is 24-bit number represnting the RGB values (0xRRGGBB).
+     * Int format is 24-bit number represnting the RGB values `0xRRGGBB`.
      *
      * @memberof ColorUtil
      */
@@ -56,7 +56,7 @@ export default class ColorUtil {
     /**
      * Hexadecimal conversion functions
      *
-     * Hex format is 24-bit hex string represnting the RGB values ('#RRGGBB').
+     * Hex format is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
      *
      * @memberof ColorUtil
      */
@@ -159,10 +159,9 @@ export default class ColorUtil {
      * @memberof ColorUtil
      *
      * @param {array} array     Array of colors. Content of the array does not matter.
-     * @param {number} value    Position on the whole gradient.
-     * @return {Object} Gradient array items which are the closest to the
-     *                           point indicated by position and the relative position
-     *                           between those two items
+     * @param {number} position Position on the whole gradient.
+     * @return {object} Relative position between two items and two items from gradient array
+     *                           which are the closest to the point indicated by position argument
      */
     static convertTo2StopGradient(array, position) {
         position = position < 0 ? 0 : position > 1 ? 1 : position;
@@ -191,10 +190,11 @@ export default class ColorUtil {
     /**
      * Get color from gradient.
      *
-     * Gradient calculation is done in object format so convertToObj must convert
-     * to object and convertFromObj must convert from object type. In case colors
-     * are preformatted to object no conversion is needed. In this case set null in
-     * place for the conversion function.
+     * Gradient calculation is done in rgb object format so convertToRgb must convert
+     * to rgb object and convertFromRgb must convert from rgb object type. In case colors
+     * are preformatted to rgb object, convertToRgb conversion is not needed. Similarly
+     * if rgb object format is the desired output then convertFromRgb is not needed.
+     * In this case set null in place for the conversion function.
      *
      * @example
      * let gradient = [0xFF0000, 0x00FF00, 0x0000FF];
@@ -208,21 +208,21 @@ export default class ColorUtil {
      * @memberof ColorUtil
      *
      * @param {array} colors            Array of colors. Color format can be anything.
-     *                                  convertToObj needs to be set depending on the format.
-     * @param {number} position         Position on the gradient. Value from 0 to 1.
-     * @param {number} [convertToObj=null] Convert incoming color to object.
-     * @param {function} [convertFromObj=null] Convert outgoing color from object.
-     * @return {*} Return value depend on the what has been set to convertFromObj.
+     *                                  convertToRgb needs to be set depending on the format.
+     * @param {number} position         Position on the gradient. Value in range 0-1.
+     * @param {function} [convertToRgb] Convert incoming color to object.
+     * @param {function} [convertFromRgb] Convert outgoing color from object.
+     * @return {*} Return value depend on the what has been set to convertFromRgb.
      */
-    static getGradientColor(colors, position, convertToObj=null, convertFromObj=null) {
+    static getGradientColor(colors, position, convertToRgb, convertFromRgb) {
         let {
             array: [color1, color2],
             position: positionBetweenColors
         } = this.convertTo2StopGradient(colors, position);
 
-        if (convertToObj) {
-            color1 = convertToObj(color1);
-            color2 = convertToObj(color2);
+        if (convertToRgb) {
+            color1 = convertToRgb(color1);
+            color2 = convertToRgb(color2);
         }
 
         let color = {
@@ -232,17 +232,18 @@ export default class ColorUtil {
             a: color1.a - positionBetweenColors * (color1.a - color2.a)
         };
 
-        return convertFromObj ? convertFromObj(color) : color;
+        return convertFromRgb ? convertFromRgb(color) : color;
     }
 
     /**
      * Get color from gradient matrix. Gradient matrix is like normal gradient
      * but it is two dimensional.
      *
-     * Gradient calculation is done in object format so convertToObj must convert
-     * to object and convertFromObj must convert from object type. In case colors
-     * are preformatted to object no conversion is needed. In this case set null in
-     * place for the conversion function.
+     * Gradient calculation is done in rgb object format so convertToRgb must convert
+     * to rgb object and convertFromRgb must convert from rgb object type. In case colors
+     * are preformatted to rgb object, convertToRgb conversion is not needed. Similarly
+     * if rgb object format is the desired output then convertFromRgb is not needed.
+     * In this case set null in place for the conversion function.
      *
      * @example
      * let matrix = [[0xFF0000, 0x00FF00], [0x0000FF]];
@@ -255,14 +256,15 @@ export default class ColorUtil {
      *
      * @memberof ColorUtil
      *
-     * @param {array} matrix    Array of gradient color arrays
-     * @param {number} x        Horizontal position on the gradient. Value from 0 to 1.
-     * @param {number} y        Vertical position on the gradient. Value from 0 to 1.
-     * @param {function} [convertToObj=null] Convert incoming color to object.
-     * @param {function} [convertFromObj=null] Convert outgoing color from object.
+     * @param {array} matrix    Array of gradient color arrays. Color format can be anything.
+     *                          convertToRgb needs to be set depending on the format.
+     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
+     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
+     * @param {function} [convertToRgb] Convert incoming color to object.
+     * @param {function} [convertFromRgb] Convert outgoing color from object.
      * @return {*}
      */
-    static getGradientMatrixColor(matrix, x, y, convertToObj=null, convertFromObj=null) {
+    static getGradientMatrixColor(matrix, x, y, convertToRgb, convertFromRgb) {
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
@@ -270,10 +272,10 @@ export default class ColorUtil {
 
         // internally we cen drop the conversion between these 3 functions
 
-        let color1 = this.getGradientColor(gradient1, x, convertToObj, null);
-        let color2 = this.getGradientColor(gradient2, x, convertToObj, null);
+        let color1 = this.getGradientColor(gradient1, x, convertToRgb, null);
+        let color2 = this.getGradientColor(gradient2, x, convertToRgb, null);
 
-        return this.getGradientColor([color1, color2], positionBetweenGradients, null, convertFromObj);
+        return this.getGradientColor([color1, color2], positionBetweenGradients, null, convertFromRgb);
     }
 }
 
@@ -284,7 +286,7 @@ export default class ColorUtil {
 class Rgb {
 
     /**
-     * Convert Rgb to 24-bit number (0xRRGGBB). Alpha is ignored.
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
      *
      * @example
      * ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
@@ -301,7 +303,7 @@ class Rgb {
     }
 
     /**
-     * Convert Rgb to 24-bit hex string ('#RRGGBB'). Alpha is ignored.
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
      *
      * @example
      * ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
@@ -322,7 +324,7 @@ class Rgb {
     }
 
     /**
-     * Convert Rgb to rgb string ('rgba(RRR,GGG,BBB,A)').
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb string `'rgba(RRR,GGG,BBB,A)'`.
      * Alpha is converted from range 0-255 to 0-1. Default alpha
      * value is 1.
      *
@@ -344,7 +346,7 @@ class Rgb {
     }
 
     /**
-     * Convert Rgb to uint32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` in little-endian, `0xRRGGBBAA` in big-endian.
      * Default alpha value is 255. Resulting value is positive
      *
      * @example
@@ -367,7 +369,7 @@ class Rgb {
     }
 
     /**
-     * Convert Rgb to int32 (0xAABBGGRR in little-endian, 0xRRGGBBAA in big-endian).
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` in little-endian, `0xRRGGBBAA` in big-endian.
      * Default alpha value is 255. Resulting value can be negative
      *
      * @example
@@ -390,8 +392,8 @@ class Rgb {
     }
 
     /**
-     * Convert Rgb to Hsl. Hsl format is `{h:HHH, s:S, l:L}`
-     * where h (hue) is in range 0-360, s and l (saturation and luminosity)
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:HHH, s:S, l:L, a:A}`
+     * where h (hue) is in range 0-360, s, l, a (saturation, luminosity, alpha)
      * are in range 0-1.
      *
      * @example
@@ -451,7 +453,7 @@ class Rgb {
 class Int {
 
     /**
-     * int to Rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
+     * 24-bit number `0xRRGGBB` to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @memberof ColorUtil.int
      * @alias ColorUtil.int.toRgb
@@ -477,7 +479,7 @@ class Int {
     }
 
     /**
-     * int to 24-bit hex string ('#RRGGBB').
+     * 24-bit number `0xRRGGBB` to 24-bit hex string `'#RRGGBB'`.
      *
      * @memberof ColorUtil.int
      * @alias ColorUtil.int.toHex
@@ -494,7 +496,7 @@ class Int {
     }
 
     /**
-     * int to rgb string ('rgba(RRR,GGG,BBB,A)')
+     * 24-bit number `0xRRGGBB` to rgb string `'rgba(RRR,GGG,BBB,A)'`
      *
      * @memberof ColorUtil.int
      * @alias ColorUtil.int.toRgbString
@@ -529,10 +531,16 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 class Hex {
 
     /**
-     * 24-bit hex string to Rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
+     * 24-bit hex string `'#RRGGBB'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @memberof ColorUtil.hex
      * @alias ColorUtil.hex.toRgb
+     *
+     * @example
+     * ColorUtil.hex.toRgb('#00FF00');
+     * // output: {r: 0, g: 255, b: 0, a: 255}
+     * ColorUtil.hex.toRgb('#00FF00', 127);
+     * // output: {r: 0, g: 255, b: 0, a: 127}
      *
      * @param      {string}  hex        Hexadecimal string
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
@@ -552,10 +560,14 @@ class Hex {
     }
 
     /**
-     * 24-bit hex string to 24-bit integer (0xRRGGBB)
+     * 24-bit hex string `'#RRGGBB'` to 24-bit integer `0xRRGGBB`
      *
      * @memberof ColorUtil.hex
      * @alias ColorUtil.hex.toInt
+     *
+     * @example
+     * ColorUtil.hex.toInt('#00FF00');
+     * // output: 65280
      *
      * @param      {string}  hex        Hexadecimal string
      * @return     {number}
@@ -567,10 +579,17 @@ class Hex {
     }
 
     /**
-     * 24-bit hex string to rgb string ('rgba(RRR,GGG,BBB,A)')
+     * 24-bit hex string `'#RRGGBB'` to rgb string `'rgba(RRR,GGG,BBB,A)'`
      *
      * @memberof ColorUtil.hex
      * @alias ColorUtil.hex.toRgbString
+     *
+     * @example
+     * ColorUtil.hex.toRgbString('#00FF00')
+     * // output: "rgba(0,255,0,1)"
+     *
+     * ColorUtil.hex.toRgbString('#00FF00', 0.5)
+     * // output: "rgba(0,255,0,0.5)"
      *
      * @param      {string}  hex     Hexadecimal string
      * @param      {number}  [a=1]   Alpha value in range 0-1
@@ -600,11 +619,15 @@ const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
 class RgbString {
 
     /**
-     * Rgb string ('rgba(RRR,GGG,BBB,A)') to rgb ({r:RRR, g:GGG, b:BBB, a:AAA})
+     * Rgb string `'rgba(RRR,GGG,BBB,A)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toRgb
      *
+     * @example
+     * ColorUtil.rgbString.toRgb('rgba(0,255,0,0.5)')
+     * // output: {r: 0, g: 255, b: 0, a: 127}
+
      * @param      {string} rgba    Rgb string
      * @return     {object}
      */
@@ -621,10 +644,14 @@ class RgbString {
     }
 
     /**
-     * Rgba string ('rgba(RRR,GGG,BBB,A)') to 24-bit integer (0xRRGGBB). Alpha is ignored.
+     * Rgba string `'rgba(RRR,GGG,BBB,A)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toInt
+     *
+     * @example
+     * ColorUtil.rgbString.toInt('rgba(0,255,0,0.5)')
+     * // output: 65280
      *
      * @param      {string} rgba    Rgba string
      * @return     {number}
@@ -640,10 +667,14 @@ class RgbString {
     }
 
     /**
-     * Rgba string ('rgba(RRR,GGG,BBB,A)') to hexadecimal string ('#RRGGBB'). Alpha is ignored.
+     * Rgba string `'rgba(RRR,GGG,BBB,A)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toHex
+     *
+     * @example
+     * ColorUtil.rgbString.toHex('rgba(0,255,0,0.5)')
+     * // output: "#00ff00"
      *
      * @param      {string} rgba    Rgba string
      * @return     {string}
