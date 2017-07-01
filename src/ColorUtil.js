@@ -89,7 +89,8 @@ export default class ColorUtil {
         return Hsl;
     }
 
-    /* Hsv conversion functions
+    /**
+     * Hsv conversion functions
      *
      * Hsv format is `{h:HHH, s:S, v:V, a:A}` where h (hue) is in range 0-360,
      * s, v and a (saturation, value, alpha) are in range 0-1.

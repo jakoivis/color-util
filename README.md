@@ -3,9 +3,9 @@
 ![Preview](/example/githubimage.jpg)
 
 ## Change history
-0.2.0 Rgb -> Hsl -> Rgb, backward compatibility broken (e.g. ColorUtil.obj -> ColorUtil.rgb)
-
-0.1.2 Rgb color conversion functions, gradient and gradient matrix
+* 0.3.0 Rgb -> Hsv -> Rgb, fix rgb.toHsl conversion negative hue value
+* 0.2.0 Rgb -> Hsl -> Rgb, backward compatibility broken (e.g. ColorUtil.obj -> ColorUtil.rgb)
+* 0.1.2 Rgb color conversion functions, gradient and gradient matrix
 
 <a name="ColorUtil"></a>
 
@@ -37,6 +37,8 @@ Color conversion functions and some other things
         * [.toHex(rgba)](#ColorUtil.rgbString.toHex) ⇒ <code>string</code>
     * [.hsl](#ColorUtil.hsl)
         * [.toRgb(hsl)](#ColorUtil.hsl.toRgb) ⇒ <code>object</code>
+    * [.hsv](#ColorUtil.hsv)
+        * [.toRgb(hsv)](#ColorUtil.hsv.toRgb) ⇒ <code>object</code>
     * [.hueColors](#ColorUtil.hueColors) ⇒ <code>array</code>
     * [.getSystemEndian()](#ColorUtil.getSystemEndian) ⇒ <code>number</code>
     * [.convert(array, ...conversionFunctions)](#ColorUtil.convert) ⇒ <code>array</code>
@@ -360,6 +362,27 @@ Hsl object `{h:HHH, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 **Example**  
 ```js
 ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5});// output: {r: 106, g: 191, b: 64, a: 255}ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5, a: 0.5});// output: {r: 106, g: 191, b: 64, a: 50}
+```
+<a name="ColorUtil.hsv"></a>
+
+### ColorUtil.hsv
+Hsv conversion functionsHsv format is `{h:HHH, s:S, v:V, a:A}` where h (hue) is in range 0-360,s, v and a (saturation, value, alpha) are in range 0-1.
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+<a name="ColorUtil.hsv.toRgb"></a>
+
+#### hsv.toRgb(hsv) ⇒ <code>object</code>
+Hsv object `{h:HHH, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Kind**: static method of [<code>hsv</code>](#ColorUtil.hsv)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hsv | <code>object</code> | Hsv object |
+
+**Example**  
+```js
+ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1});// output: {r: 255, g: 0, b: 0, a: 255}ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1, a: 0.5});// output: {r: 255, g: 0, b: 0, a: 128}
 ```
 <a name="ColorUtil.hueColors"></a>
 
