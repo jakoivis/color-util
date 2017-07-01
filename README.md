@@ -22,6 +22,7 @@ Color conversion functions and some other things
         * [.toUint32(rgb)](#ColorUtil.rgb.toUint32) ⇒ <code>number</code>
         * [.toInt32(rgb)](#ColorUtil.rgb.toInt32) ⇒ <code>number</code>
         * [.toHsl(rgb)](#ColorUtil.rgb.toHsl) ⇒ <code>object</code>
+        * [.toHsv(rgb)](#ColorUtil.rgb.toHsv) ⇒ <code>object</code>
     * [.int](#ColorUtil.int)
         * [.toRgb(int, [a])](#ColorUtil.int.toRgb) ⇒ <code>object</code>
         * [.toHex(int)](#ColorUtil.int.toHex) ⇒ <code>string</code>
@@ -57,6 +58,7 @@ Rgb conversion functionsRgb object format is `{r:RRR, g:GGG, b:BBB, a:AAA}` wh
     * [.toUint32(rgb)](#ColorUtil.rgb.toUint32) ⇒ <code>number</code>
     * [.toInt32(rgb)](#ColorUtil.rgb.toInt32) ⇒ <code>number</code>
     * [.toHsl(rgb)](#ColorUtil.rgb.toHsl) ⇒ <code>object</code>
+    * [.toHsv(rgb)](#ColorUtil.rgb.toHsv) ⇒ <code>object</code>
 
 <a name="ColorUtil.rgb.toInt"></a>
 
@@ -147,6 +149,21 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:HHH, s:S, l:
 **Example**  
 ```js
 ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});// output: {h: 0, s: 1, l: 0.5, a: 1}
+```
+<a name="ColorUtil.rgb.toHsv"></a>
+
+#### rgb.toHsv(rgb) ⇒ <code>object</code>
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:HHH, s:S, v:V, a:A}`where h (hue) is in range 0-360, s, v, a (saturation, value, alpha)are in range 0-1.
+
+**Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
+
+| Param | Type |
+| --- | --- |
+| rgb | <code>object</code> | 
+
+**Example**  
+```js
+ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});// output: {h: 0, s: 1, v: 1, a: 1}
 ```
 <a name="ColorUtil.int"></a>
 

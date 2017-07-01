@@ -89,6 +89,17 @@ export default class ColorUtil {
         return Hsl;
     }
 
+    /* Hsv conversion functions
+     *
+     * Hsv format is `{h:HHH, s:S, v:V, a:A}` where h (hue) is in range 0-360,
+     * s, v and a (saturation, value, alpha) are in range 0-1.
+     *
+     * @memberof ColorUtil
+     */
+    static get hsv() {
+        return Hsv;
+    }
+
     /**
      * @memberof ColorUtil
      *
@@ -450,6 +461,65 @@ class Rgb {
             a: a
         }
     }
+
+    /**
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:HHH, s:S, v:V, a:A}`
+     * where h (hue) is in range 0-360, s, v, a (saturation, value, alpha)
+     * are in range 0-1.
+     *
+     * @example
+     * ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
+     * // output: {h: 0, s: 1, v: 1, a: 1}
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toHsv
+     *
+     * @param      {object}    rgb
+     * @return     {object}
+     */
+    static toHsv(rgb) {
+        let {r:r, g:g, b:b, a:a} = rgb;
+
+        r /= 0xFF;
+        g /= 0xFF;
+        b /= 0xFF;
+        a = !isNaN(parseInt(a)) ? a / 0xFF : 1;
+
+        let max = Math.max(r, g, b);
+        let min = Math.min(r, g, b);
+        let delta = max - min;
+        let saturation = 0;
+        let hue = 0;
+
+        if (delta > 0) {
+            saturation = delta / max;
+
+            if (b === max) {
+                hue = ((r - g) / delta) + 4;
+
+            } else if (g === max) {
+                hue = ((b - r) / delta) + 2;
+
+            } else if (r === max) {
+                hue = ((g - b) / delta) + (g < b ? 6 : 0);
+                // or this one
+                // hue = ((g - b) / delta) % 6;
+
+                if (hue < 0) {
+                    hue += 360;
+                }
+            }
+
+            hue *= 60;
+        }
+
+        return {
+            h: hue,
+            s: saturation,
+            v: max,
+            a: a
+        }
+    }
 }
 
 /**
@@ -723,6 +793,62 @@ class Hsl {
         let c = (1 - Math.abs(2 * l - 1)) * s
         let x = c * (1 - Math.abs(h / 60 % 2 - 1));
         let m = l - c / 2;
+        let r, g, b;
+
+        if (h < 60) {
+            [r, g, b] = [c, x, 0];
+
+        } else if (h < 120) {
+            [r, g, b] = [x, c, 0];
+
+        } else if (h < 180) {
+            [r, g, b] = [0, c, x];
+
+        } else if (h < 240) {
+            [r, g, b] = [0, x, c];
+
+        } else if (h < 300) {
+            [r, g, b] = [x, 0, c];
+
+        } else {
+            [r, g, b] = [c, 0, x];
+        }
+
+        return {
+            r: Math.round((r + m) * 0xFF),
+            g: Math.round((g + m) * 0xFF),
+            b: Math.round((b + m) * 0xFF),
+            a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
+        };
+    }
+}
+
+/**
+ * @class Hsv
+ * @private
+ */
+class Hsv {
+
+    /**
+     * Hsv object `{h:HHH, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @example
+     * ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1});
+     * // output: {r: 255, g: 0, b: 0, a: 255}
+     * ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1, a: 0.5});
+     * // output: {r: 255, g: 0, b: 0, a: 128}
+     *
+     * @memberof ColorUtil.hsv
+     * @alias ColorUtil.hsv.toRgb
+     *
+     * @param      {object}  hsv        Hsv object
+     * @return     {object}
+     */
+    static toRgb(hsv) {
+        let {h:h, s:s, v:v, a:a} = hsv;
+        let c = v * s
+        let x = c * (1 - Math.abs(h / 60 % 2 - 1));
+        let m = v - c;
         let r, g, b;
 
         if (h < 60) {

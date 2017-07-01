@@ -84,6 +84,22 @@ describe('ColorUtil', () => {
                 C.rgb.toHsl({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, l:0, a:0.3333333333333333});
                 C.rgb.toHsl({r: 255, g: 0, b: 120}).should.eql({h:331.7647058823529, s: 1, l: 0.5, a:1});
             });
+
+            it('toHsv', () => {
+                C.rgb.toHsv({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, v:0, a:1});
+                C.rgb.toHsv({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, v:1, a:1});
+                C.rgb.toHsv({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, v:1, a:1});
+                C.rgb.toHsv({r: 0, g: 255, b: 0}).should.eql({h:120, s: 1, v:1, a:1});
+                C.rgb.toHsv({r: 0, g: 0, b: 255}).should.eql({h:240, s: 1, v:1, a:1});
+                C.rgb.toHsv({r: 255, g: 255, b: 0}).should.eql({h:60, s: 1, v:1, a:1});
+                C.rgb.toHsv({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, v:0.7529411764705882, a:1});
+                C.rgb.toHsv({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, v:0.5019607843137255, a:1});
+                C.rgb.toHsv({r: 128, g: 128, b: 0}).should.eql({h:60, s: 1, v:0.5019607843137255, a:1});
+                C.rgb.toHsv({r: 128, g: 0, b: 128}).should.eql({h:300, s: 1, v:0.5019607843137255, a:1});
+                C.rgb.toHsv({r: 0, g: 0, b: 128}).should.eql({h:240, s: 1, v:0.5019607843137255, a:1});
+                C.rgb.toHsv({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, v:0, a:0.3333333333333333});
+                C.rgb.toHsv({r: 255, g: 0, b: 120}).should.eql({h:331.7647058823529, s: 1, v: 1, a:1});
+            });
         });
 
         describe('int', () => {
@@ -183,6 +199,28 @@ describe('ColorUtil', () => {
             });
         });
 
+        describe('hsv', () => {
+
+            it('toRgb', () => {
+                C.hsv.toRgb({h: 0, s: 0, v: 0}).should.eql({r: 0, g: 0, b: 0, a: 255});
+                C.hsv.toRgb({h: 0, s: 0, v: 1}).should.eql({r: 255, g: 255, b: 255, a: 255});
+                C.hsv.toRgb({h: 0, s: 1, v: 1}).should.eql({r: 255, g: 0, b: 0, a: 255});
+                C.hsv.toRgb({h: 120, s: 1, v: 1}).should.eql({r: 0, g: 255, b: 0, a: 255});
+                C.hsv.toRgb({h: 240, s: 1, v: 1}).should.eql({r: 0, g: 0, b: 255, a: 255});
+                C.hsv.toRgb({h: 60, s: 1, v: 1}).should.eql({r: 255, g: 255, b: 0, a: 255});
+                C.hsv.toRgb({h: 180, s: 1, v: 1}).should.eql({r: 0, g: 255, b: 255, a: 255});
+                C.hsv.toRgb({h: 300, s: 1, v: 1}).should.eql({r: 255, g: 0, b: 255, a: 255});
+                C.hsv.toRgb({h: 0, s: 0, v: 0.75}).should.eql({r: 191, g: 191, b: 191, a: 255});
+                C.hsv.toRgb({h: 0, s: 1, v: 0.5}).should.eql({r: 128, g: 0, b: 0, a: 255});
+                C.hsv.toRgb({h: 60, s: 1, v: 0.5}).should.eql({r: 128, g: 128, b: 0, a: 255});
+                C.hsv.toRgb({h: 120, s: 1, v: 0.5}).should.eql({r: 0, g: 128, b: 0, a: 255});
+                C.hsv.toRgb({h: 300, s: 1, v: 0.5}).should.eql({r: 128, g: 0, b: 128, a: 255});
+                C.hsv.toRgb({h: 180, s: 1, v: 0.5}).should.eql({r: 0, g: 128, b: 128, a: 255});
+                C.hsv.toRgb({h: 240, s: 1, v: 0.5}).should.eql({r: 0, g: 0, b: 128, a: 255});
+                C.hsv.toRgb({h: 0, s: 0, v: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 26});
+            });
+        });
+
         describe('combinations', () => {
 
             it('rgb-hsl-rgb', () => {
@@ -194,6 +232,17 @@ describe('ColorUtil', () => {
 
                 let hslToRgb = C.hsl.toRgb(hsl);
                 hslToRgb.should.eql(rgb);
+            });
+
+            it('rgb-hsv-rgb', () => {
+                let rgb = {r: 150, g: 200, b: 50, a:255};
+                let hsv = {h: 80, s: 0.75, v: 0.7843137254901961, a: 1};
+
+                let rgbToHsv = C.rgb.toHsv(rgb);
+                rgbToHsv.should.eql(hsv);
+
+                let hsvToRgb = C.hsv.toRgb(hsv);
+                hsvToRgb.should.eql(rgb);
             });
         });
     });
