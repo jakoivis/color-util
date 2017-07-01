@@ -425,13 +425,19 @@ class Rgb {
             saturation = delta / (1 - Math.abs(luminosity * 2 - 1));
 
             if (b === max) {
-                hue = ((r - g) / delta) + 4
+                hue = ((r - g) / delta) + 4;
 
             } else if (g === max) {
-                hue = ((b - r) / delta) + 2
+                hue = ((b - r) / delta) + 2;
 
             } else if (r === max) {
-                hue = ((g - b) / delta) % 6
+                hue = ((g - b) / delta) + (g < b ? 6 : 0);
+                // or this one
+                // hue = ((g - b) / delta) % 6;
+
+                if (hue < 0) {
+                    hue += 360;
+                }
             }
 
             hue *= 60;

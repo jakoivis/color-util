@@ -82,6 +82,7 @@ describe('ColorUtil', () => {
                 C.rgb.toHsl({r: 128, g: 0, b: 128}).should.eql({h:300, s: 1, l:0.25098039215686274, a:1});
                 C.rgb.toHsl({r: 0, g: 0, b: 128}).should.eql({h:240, s: 1, l:0.25098039215686274, a:1});
                 C.rgb.toHsl({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, l:0, a:0.3333333333333333});
+                C.rgb.toHsl({r: 255, g: 0, b: 120}).should.eql({h:331.7647058823529, s: 1, l: 0.5, a:1});
             });
         });
 
