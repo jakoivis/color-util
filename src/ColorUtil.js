@@ -289,6 +289,14 @@ export default class ColorUtil {
 
         return this.getGradientColor([color1, color2], positionBetweenGradients, null, convertFromRgb);
     }
+
+    static detectColorFormat(color) {
+
+        if(this.int.isInt(color)) {
+            return this.int;
+
+        }
+    }
 }
 
 /**
@@ -296,6 +304,14 @@ export default class ColorUtil {
  * @private
  */
 class Rgb {
+
+    static isRgb(color) {
+        return color !== null &&
+            typeof color === 'object' &&
+            color.hasOwnProperty('r') &&
+            color.hasOwnProperty('g') &&
+            color.hasOwnProperty('b');
+    }
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
@@ -529,6 +545,12 @@ class Rgb {
  */
 class Int {
 
+    static isInt(color) {
+        return typeof color === 'number' &&
+            color <= 0xFFFFFF &&
+            color >= 0;
+    }
+
     /**
      * 24-bit number `0xRRGGBB` to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
@@ -606,6 +628,10 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  * @private
  */
 class Hex {
+
+    // static isHex(color) {
+    //     return typeof color === 'string';
+    // }
 
     /**
      * 24-bit hex string `'#RRGGBB'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`

@@ -21,6 +21,15 @@ describe('ColorUtil', () => {
 
         describe('rgb', () => {
 
+            it('isRgb', () => {
+                C.rgb.isRgb(dec).should.be.false;
+                C.rgb.isRgb(hex).should.be.false;
+                C.rgb.isRgb(rgba).should.be.false;
+                C.rgb.isRgb(rgb).should.be.true;
+                C.rgb.isRgb({r: 170, g: 187, b: 204}).should.be.true;
+                C.rgb.isRgb({h: 170, s: 187, l: 204}).should.be.false;
+            });
+
             it('toInt', () => {
                 C.rgb.toInt(rgb).should.equal(dec);
             });
@@ -103,6 +112,16 @@ describe('ColorUtil', () => {
         });
 
         describe('int', () => {
+
+            it('isInt', () => {
+                C.int.isInt(0xFFFFFF).should.be.true;
+                C.int.isInt(0).should.be.true;
+                C.int.isInt(0x1000000).should.be.false;
+                C.int.isInt(-350456).should.be.false;
+                C.int.isInt(hex).should.be.false;
+                C.int.isInt(rgba).should.be.false;
+                C.int.isInt(rgb).should.be.false;
+            });
 
             it('toRgb', () => {
                 C.int.toRgb(dec).should.eql(rgb);
