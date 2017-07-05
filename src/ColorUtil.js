@@ -101,6 +101,10 @@ export default class ColorUtil {
         return Hsv;
     }
 
+    static get any() {
+        return Any;
+    }
+
     /**
      * @memberof ColorUtil
      *
@@ -926,4 +930,53 @@ class Hsv {
             a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
         };
     }
+}
+
+const TYPES = [Rgb, Int, Hex, RgbString, Hsl, Hsv];
+
+/**
+ * @class Any
+ * @private
+ */
+class Any {
+
+    static toRgb(color) {
+        return callConverter('toRgb', color);
+    }
+
+    static toInt(color) {
+        return callConverter('toInt', color);
+    }
+
+    static toHex(color) {
+        return callConverter('toHex', color);
+    }
+
+    static toRgbString(color) {
+        return callConverter('toRgbString', color);
+    }
+
+    static toHsl(color) {
+        return callConverter('toHsl', color);
+    }
+
+    static toHsv(color) {
+        return callConverter('toHsv', color);
+    }
+}
+
+function callConverter(fn, color) {
+    for (let type of TYPES) {
+
+        if (type.isValid(color)) {
+
+            if (typeof type[fn] === 'function') {
+                return type[fn](color);
+            }
+
+            return color;
+        }
+    }
+
+    throw new Error(`Color '${color}' format doesn't match any format`);
 }

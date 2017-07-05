@@ -276,6 +276,31 @@ describe('ColorUtil', () => {
             });
         });
 
+        describe('Any', () => {
+
+            it('toRgb', () => {
+                let rgb = {r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF};
+                let black = {r: 0, g: 0, b: 0, a:0xFF};
+
+                C.any.toRgb(dec).should.eql(rgb);
+                C.any.toRgb("#AABBCC").should.eql(rgb);
+                C.any.toRgb('rgb(0,0,0)').should.eql(black);
+                C.any.toRgb(rgb).should.eql(rgb);
+                C.any.toRgb({h:0, s:0, l:0}).should.eql(black);
+                C.any.toRgb({h:0, s:0, v:0}).should.eql(black);
+                // C.any.toRgb(0xFFFFFFFF).should.eql({r:0xFF, g: 0xFF, b: 0xFF, a: 0xFF});
+                // C.any.toRgb(-3359830).should.eql({r:0xAA, g: 0xBB, b: 0xCC, a: 0xFF}); // 0xFFCCBBAA, 0xAABBGGRR
+
+                expect(() => {
+                    C.any.toRgb({h:0, s:0, x:0});
+                }).to.throw;
+            });
+
+            it('toInt', () => {
+
+            });
+        });
+
         describe('combinations', () => {
 
             it('rgb-hsl-rgb', () => {
@@ -390,7 +415,7 @@ describe('ColorUtil', () => {
         });
     });
 
-     describe('getGradientMatrixColor', () => {
+    describe('getGradientMatrixColor', () => {
 
         let sandbox;
         let stub;
