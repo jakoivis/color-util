@@ -305,7 +305,7 @@ export default class ColorUtil {
  */
 class Rgb {
 
-    static isRgb(color) {
+    static isValid(color) {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('r') &&
@@ -545,7 +545,7 @@ class Rgb {
  */
 class Int {
 
-    static isInt(color) {
+    static isValid(color) {
         return typeof color === 'number' &&
             color <= 0xFFFFFF &&
             color >= 0;
@@ -629,9 +629,10 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  */
 class Hex {
 
-    // static isHex(color) {
-    //     return typeof color === 'string';
-    // }
+    static isValid(color) {
+        return typeof color === 'string' &&
+            !!(REG_HEX.exec(color) || REG_HEX_SHORT.exec(color));
+    }
 
     /**
      * 24-bit hex string `'#RRGGBB'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -721,6 +722,11 @@ const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
  */
 class RgbString {
 
+    static isValid(color) {
+        return typeof color === 'string' &&
+            !!(REG_RGB.exec(color) || REG_RGBA.exec(color));
+    }
+
     /**
      * Rgb string `'rgba(RRR,GGG,BBB,A)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
@@ -800,6 +806,14 @@ class RgbString {
  */
 class Hsl {
 
+    static isValid(color) {
+        return color !== null &&
+            typeof color === 'object' &&
+            color.hasOwnProperty('h') &&
+            color.hasOwnProperty('s') &&
+            color.hasOwnProperty('l');
+    }
+
     /**
      * Hsl object `{h:HHH, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
@@ -855,6 +869,14 @@ class Hsl {
  * @private
  */
 class Hsv {
+
+    static isValid(color) {
+        return color !== null &&
+            typeof color === 'object' &&
+            color.hasOwnProperty('h') &&
+            color.hasOwnProperty('s') &&
+            color.hasOwnProperty('v');
+    }
 
     /**
      * Hsv object `{h:HHH, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
