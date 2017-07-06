@@ -132,31 +132,39 @@ export default class ColorUtil {
     }
 
     /**
-     * Run conversion functions for color array or color matrix.
+     * Run conversion functions for single color, array of colors or
+     * matrix of colors.
      *
      * @example
+     * ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);
+     * // output: "#ff0000"
+     *
+     * ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);
+     * // output: ["#ff0000", "#00ff00"]
+     *
      * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
      * // output: [['#ff0000', '#00ff00'], '#0000ff']
+     *
      * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgba);
      * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
      *
      * @memberof ColorUtil
      *
-     * @param      {array}         array                Array of colors
+     * @param      {*}             colors               Array of colors or single color
      * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
      *                                                  which are executed in the order they are listed.
      * @return     {array}
      */
-    static convert(array, ...conversionFunctions) {
-        return array.map(item => {
-            if (Array.isArray(item)) {
+    static convert(colors, ...conversionFunctions) {
+        if (Array.isArray(colors)) {
+            return colors.map(item => {
                 return this.convert(item, ...conversionFunctions);
-            } else {
-                return conversionFunctions.reduce((acc, fn) => {
-                    return fn(acc);
-                }, item);
-            }
-        });
+            });
+        }
+
+        return conversionFunctions.reduce((acc, fn) => {
+            return fn(acc);
+        }, colors);
     }
 
     /**

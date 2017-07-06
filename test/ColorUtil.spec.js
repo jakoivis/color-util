@@ -327,6 +327,37 @@ describe('ColorUtil', () => {
         });
     });
 
+    describe('convert', () => {
+
+        it('should convert single color with one conversion', () => {
+            C.convert(0xFF0000, C.int.toHex).should.equal("#ff0000");
+        });
+
+        it('should convert single color with two conversions', () => {
+            C.convert(0xFF0000, C.int.toHex, C.hex.toInt).should.equal(0xFF0000);
+        });
+
+        it('should convert array of colors with one conversion', () => {
+            C.convert([0xFF0000, 0x00FF00], C.int.toHex)
+                .should.eql(["#ff0000", "#00ff00"]);
+        });
+
+        it('should convert array of colors with two conversions', () => {
+            C.convert([0xFF0000, 0x00FF00], C.int.toHex, C.hex.toInt)
+                .should.eql([0xFF0000, 0x00FF00]);
+        });
+
+        it('should convert matrix of colors with one conversion', () => {
+            C.convert([[0xFF0000, 0x00FF00], 0x0000FF], C.int.toHex)
+                .should.eql([["#ff0000", "#00ff00"], "#0000ff"]);
+        });
+
+        it('should convert matrix of colors with two conversions', () => {
+            C.convert([[0xFF0000, 0x00FF00], 0x0000FF], C.int.toHex, C.hex.toInt)
+                .should.eql([[0xFF0000, 0x00FF00], 0x0000FF]);
+        });
+    });
+
     describe('convertTo2StopGradient', () => {
 
         it('should gradient from 1 point gradient', () => {
