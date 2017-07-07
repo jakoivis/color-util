@@ -301,14 +301,6 @@ export default class ColorUtil {
 
         return this.getGradientColor([color1, color2], positionBetweenGradients, null, convertFromRgb);
     }
-
-    static detectColorFormat(color) {
-
-        if(this.int.isInt(color)) {
-            return this.int;
-
-        }
-    }
 }
 
 /**
@@ -316,6 +308,14 @@ export default class ColorUtil {
  * @private
  */
 class Rgb {
+
+    static get name() {
+        return 'Rgb';
+    }
+
+    static get parentName() {
+        return null;
+    }
 
     static isValid(color) {
         return color !== null &&
@@ -557,6 +557,14 @@ class Rgb {
  */
 class Int {
 
+    static get name() {
+        return 'Int';
+    }
+
+    static get parentName() {
+        return 'Rgb';
+    }
+
     static isValid(color) {
         return typeof color === 'number' &&
             color <= 0xFFFFFF &&
@@ -640,6 +648,14 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  * @private
  */
 class Hex {
+
+    static get name() {
+        return 'Hex';
+    }
+
+    static get parentName() {
+        return 'Rgb';
+    }
 
     static isValid(color) {
         return typeof color === 'string' &&
@@ -734,6 +750,14 @@ const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
  */
 class RgbString {
 
+    static get name() {
+        return 'RgbString';
+    }
+
+    static get parentName() {
+        return 'Rgb';
+    }
+
     static isValid(color) {
         return typeof color === 'string' &&
             !!(REG_RGB.exec(color) || REG_RGBA.exec(color));
@@ -818,6 +842,14 @@ class RgbString {
  */
 class Hsl {
 
+    static get name() {
+        return 'Hsl';
+    }
+
+    static get parentName() {
+        return null;
+    }
+
     static isValid(color) {
         return color !== null &&
             typeof color === 'object' &&
@@ -882,6 +914,14 @@ class Hsl {
  */
 class Hsv {
 
+    static get name() {
+        return 'Hsv';
+    }
+
+    static get parentName() {
+        return null;
+    }
+
     static isValid(color) {
         return color !== null &&
             typeof color === 'object' &&
@@ -940,8 +980,6 @@ class Hsv {
     }
 }
 
-const TYPES = [Rgb, Int, Hex, RgbString, Hsl, Hsv];
-
 /**
  * @class Any
  * @private
@@ -949,42 +987,107 @@ const TYPES = [Rgb, Int, Hex, RgbString, Hsl, Hsv];
 class Any {
 
     static toRgb(color) {
-        return callConverter('toRgb', color);
+        return callConverter(Rgb, color);
     }
 
     static toInt(color) {
-        return callConverter('toInt', color);
+        return callConverter(Int, color);
     }
 
     static toHex(color) {
-        return callConverter('toHex', color);
+        return callConverter(Hex, color);
     }
 
     static toRgbString(color) {
-        return callConverter('toRgbString', color);
+        return callConverter(RgbString, color);
     }
 
     static toHsl(color) {
-        return callConverter('toHsl', color);
+        return callConverter(Hsl, color);
     }
 
     static toHsv(color) {
-        return callConverter('toHsv', color);
+        return callConverter(Hsv, color);
     }
 }
 
-function callConverter(fn, color) {
+const TYPES = [Rgb, Int, Hex, RgbString, Hsl, Hsv];
+
+function callConverter(targetType, color) {
+    let type = getColorType(color);
+
+    if (!type) {
+        throw new Error(`Color '${color}' format doesn't match any format`);
+    }
+
+    if (type === targetType) {
+        return color;
+    }
+
+    let path = getConversionPath(type, targetType);
+
+    return ColorUtil.convert(color, ...path);
+}
+
+function getColorType(color) {
     for (let type of TYPES) {
-
         if (type.isValid(color)) {
-
-            if (typeof type[fn] === 'function') {
-                return type[fn](color);
-            }
-
-            return color;
+            return type;
         }
     }
 
-    throw new Error(`Color '${color}' format doesn't match any format`);
+    return null;
+}
+
+function getConversionPath(type, targetType, path=[]) {
+    let conversionFnName = 'to'+targetType.name; // todo get class name instead of getter
+
+    if (typeof type[conversionFnName] === 'function') {
+        path.push(type[conversionFnName]);
+
+        return path;
+    }
+
+
+    let rootType = getRootTypeWithFunction(targetType);
+
+    path.push(type['to'+rootType.name]);
+
+    return getConversionPath(rootType, targetType, path);
+
+    // if (type.parentName) {
+    //     // let parentType = getTypeByName(type.parentName);
+
+    //     // getConversionPath(parentType, fn, path);
+    // } else {
+    //     let rootType = getRootTypeWithFunction(fn);
+
+    //     path.push(type['to'+rootType.name]);
+
+    //     return getConversionPath(rootType, fn, path);
+    // }
+
+    // throw
+}
+
+function getTypeByName(name) {
+    for(let type of TYPES) {
+        if(type.name === name) {
+            return type;
+        }
+    }
+
+    return null;
+}
+
+function getRootTypeWithFunction(targetType) {
+    let conversionFnName = 'to'+targetType.name;
+
+    for(let type of TYPES) {
+        if(!type.parentName && typeof type[conversionFnName] === 'function') {
+            return type;
+        }
+    }
+
+    return null;
 }
