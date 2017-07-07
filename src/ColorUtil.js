@@ -309,10 +309,6 @@ export default class ColorUtil {
  */
 class Rgb {
 
-    static get name() {
-        return 'Rgb';
-    }
-
     static get parentName() {
         return null;
     }
@@ -557,10 +553,6 @@ class Rgb {
  */
 class Int {
 
-    static get name() {
-        return 'Int';
-    }
-
     static get parentName() {
         return 'Rgb';
     }
@@ -648,10 +640,6 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  * @private
  */
 class Hex {
-
-    static get name() {
-        return 'Hex';
-    }
 
     static get parentName() {
         return 'Rgb';
@@ -750,10 +738,6 @@ const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
  */
 class RgbString {
 
-    static get name() {
-        return 'RgbString';
-    }
-
     static get parentName() {
         return 'Rgb';
     }
@@ -842,10 +826,6 @@ class RgbString {
  */
 class Hsl {
 
-    static get name() {
-        return 'Hsl';
-    }
-
     static get parentName() {
         return null;
     }
@@ -913,10 +893,6 @@ class Hsl {
  * @private
  */
 class Hsv {
-
-    static get name() {
-        return 'Hsv';
-    }
 
     static get parentName() {
         return null;
