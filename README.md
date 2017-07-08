@@ -1,8 +1,13 @@
 [![Build Status](https://travis-ci.org/jakoivis/ColorUtil.svg?branch=master)](https://travis-ci.org/jakoivis/ColorUtil)
+[![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)(https://npmjs.org/package/color-util)
+[![Npm version](https://img.shields.io/npm/v/color-util.svg)(https://npmjs.org/package/color-util)
+
+[![NPM](https://nodei.co/npm/color-util.png)](https://npmjs.org/package/color-util)
 
 ![Preview](/example/githubimage.jpg)
 
 ## Change history
+* 0.4.0 ColorUtil.any conversion functions. Hue range changed to 0-1. Convert function can convert single color. RgbString spaces allowed. HslString conversion functions.
 * 0.3.0 Rgb -> Hsv -> Rgb, fix rgb.toHsl conversion negative hue value
 * 0.2.0 Rgb -> Hsl -> Rgb, backward compatibility broken (e.g. ColorUtil.obj -> ColorUtil.rgb)
 * 0.1.2 Rgb color conversion functions, gradient and gradient matrix
@@ -37,11 +42,14 @@ Color conversion functions and some other things
         * [.toHex(rgba)](#ColorUtil.rgbString.toHex) ⇒ <code>string</code>
     * [.hsl](#ColorUtil.hsl)
         * [.toRgb(hsl)](#ColorUtil.hsl.toRgb) ⇒ <code>object</code>
+        * [.toHslString(hsl)](#ColorUtil.hsl.toHslString) ⇒ <code>string</code>
     * [.hsv](#ColorUtil.hsv)
         * [.toRgb(hsv)](#ColorUtil.hsv.toRgb) ⇒ <code>object</code>
+    * [.any](#ColorUtil.any)
+        * [.toRgb(color)](#ColorUtil.any.toRgb) ⇒ <code>object</code>
     * [.hueColors](#ColorUtil.hueColors) ⇒ <code>array</code>
     * [.getSystemEndian()](#ColorUtil.getSystemEndian) ⇒ <code>number</code>
-    * [.convert(array, ...conversionFunctions)](#ColorUtil.convert) ⇒ <code>array</code>
+    * [.convert(colors, ...conversionFunctions)](#ColorUtil.convert) ⇒ <code>array</code>
     * [.convertTo2StopGradient(array, position)](#ColorUtil.convertTo2StopGradient) ⇒ <code>object</code>
     * [.getGradientColor(colors, position, [convertToRgb], [convertFromRgb])](#ColorUtil.getGradientColor) ⇒ <code>\*</code>
     * [.getGradientMatrixColor(matrix, x, y, [convertToRgb], [convertFromRgb])](#ColorUtil.getGradientMatrixColor) ⇒ <code>\*</code>
@@ -49,7 +57,7 @@ Color conversion functions and some other things
 <a name="ColorUtil.rgb"></a>
 
 ### ColorUtil.rgb
-Rgb conversion functionsRgb object format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component(red, grean, blue, alpha) range is 0-255. In some conversion functionsalpha is not required. In those where it is required and not present inrgb object, a fully opaque value is used as a default.
+Rgb conversion functionsRgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component(red, grean, blue, alpha) range is 0-255. In some conversion functionsalpha is not required. In those where it is required and not present inrgb object, a fully opaque value is used as a default.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -95,7 +103,7 @@ ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});// output: "#0080ff"
 <a name="ColorUtil.rgb.toRgbString"></a>
 
 #### rgb.toRgbString(rgb) ⇒ <code>string</code>
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb string `'rgba(RRR,GGG,BBB,A)'`.Alpha is converted from range 0-255 to 0-1. Default alphavalue is 1.
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.Alpha is converted from range 0-255 to 0-1. Default alphavalue is 1.
 
 **Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
 
@@ -140,7 +148,7 @@ ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});// output: -32768ColorUt
 <a name="ColorUtil.rgb.toHsl"></a>
 
 #### rgb.toHsl(rgb) ⇒ <code>object</code>
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:HHH, s:S, l:L, a:A}`where h (hue) is in range 0-360, s, l, a (saturation, luminosity, alpha)are in range 0-1.
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
 
 **Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
 
@@ -155,7 +163,7 @@ ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});// output: {h: 0, s: 1, l: 0.
 <a name="ColorUtil.rgb.toHsv"></a>
 
 #### rgb.toHsv(rgb) ⇒ <code>object</code>
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:HHH, s:S, v:V, a:A}`where h (hue) is in range 0-360, s, v, a (saturation, value, alpha)are in range 0-1.
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
 
 **Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
 
@@ -170,7 +178,7 @@ ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});// output: {h: 0, s: 1, v: 1,
 <a name="ColorUtil.int"></a>
 
 ### ColorUtil.int
-Integer conversion functions.Int format is 24-bit number represnting the RGB values `0xRRGGBB`.
+Integer conversion functions.Int notation is 24-bit number represnting the RGB values `0xRRGGBB`.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -213,7 +221,7 @@ ColorUtil.int.toHex(0x00FF00);// output: "#00ff00"
 <a name="ColorUtil.int.toRgbString"></a>
 
 #### int.toRgbString(int, [a]) ⇒ <code>string</code>
-24-bit number `0xRRGGBB` to rgb string `'rgba(RRR,GGG,BBB,A)'`
+24-bit number `0xRRGGBB` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
 
 **Kind**: static method of [<code>int</code>](#ColorUtil.int)  
 
@@ -229,7 +237,7 @@ ColorUtil.int.toRgbString(0x00FF00);// output: "rgba(0,255,0,1)"ColorUtil.int
 <a name="ColorUtil.hex"></a>
 
 ### ColorUtil.hex
-Hexadecimal conversion functionsHex format is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
+Hexadecimal conversion functionsHex notation is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -272,7 +280,7 @@ ColorUtil.hex.toInt('#00FF00');// output: 65280
 <a name="ColorUtil.hex.toRgbString"></a>
 
 #### hex.toRgbString(hex, [a]) ⇒ <code>string</code>
-24-bit hex string `'#RRGGBB'` to rgb string `'rgba(RRR,GGG,BBB,A)'`
+24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
 
 **Kind**: static method of [<code>hex</code>](#ColorUtil.hex)  
 
@@ -288,7 +296,7 @@ ColorUtil.hex.toRgbString('#00FF00')// output: "rgba(0,255,0,1)"ColorUtil.hex
 <a name="ColorUtil.rgbString"></a>
 
 ### ColorUtil.rgbString
-RgbString conversion functionsRgbString format is `'rgba(RRR,GGG,BBB,A)'`Notice that this string should not have spaces.
+RgbString conversion functionsRgbString notation is `'rgba(RRR,GGG,BBB[,A])'`
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -300,7 +308,7 @@ RgbString conversion functionsRgbString format is `'rgba(RRR,GGG,BBB,A)'`Not
 <a name="ColorUtil.rgbString.toRgb"></a>
 
 #### rgbString.toRgb(rgba) ⇒ <code>object</code>
-Rgb string `'rgba(RRR,GGG,BBB,A)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+Rgb functional notation string `'rgba(RRR,GGG,BBB[,A])'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Kind**: static method of [<code>rgbString</code>](#ColorUtil.rgbString)  
 
@@ -315,7 +323,7 @@ ColorUtil.rgbString.toRgb('rgba(0,255,0,0.5)')// output: {r: 0, g: 255, b: 0, a
 <a name="ColorUtil.rgbString.toInt"></a>
 
 #### rgbString.toInt(rgba) ⇒ <code>number</code>
-Rgba string `'rgba(RRR,GGG,BBB,A)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
+Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
 
 **Kind**: static method of [<code>rgbString</code>](#ColorUtil.rgbString)  
 
@@ -330,7 +338,7 @@ ColorUtil.rgbString.toInt('rgba(0,255,0,0.5)')// output: 65280
 <a name="ColorUtil.rgbString.toHex"></a>
 
 #### rgbString.toHex(rgba) ⇒ <code>string</code>
-Rgba string `'rgba(RRR,GGG,BBB,A)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
+Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
 
 **Kind**: static method of [<code>rgbString</code>](#ColorUtil.rgbString)  
 
@@ -345,13 +353,18 @@ ColorUtil.rgbString.toHex('rgba(0,255,0,0.5)')// output: "#00ff00"
 <a name="ColorUtil.hsl"></a>
 
 ### ColorUtil.hsl
-Hsl conversion functionsHsl format is `{h:HHH, s:S, l:L, a:A}` where h (hue) is in range 0-360,s, l and a (saturation, luminosity, alpha) are in range 0-1.
+Hsl conversion functionsHsl notation is `{h:H, s:S, l:L, a:A}` where each component (hue, saturation,luminosity, alpha) is in range 0-1.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+
+* [.hsl](#ColorUtil.hsl)
+    * [.toRgb(hsl)](#ColorUtil.hsl.toRgb) ⇒ <code>object</code>
+    * [.toHslString(hsl)](#ColorUtil.hsl.toHslString) ⇒ <code>string</code>
+
 <a name="ColorUtil.hsl.toRgb"></a>
 
 #### hsl.toRgb(hsl) ⇒ <code>object</code>
-Hsl object `{h:HHH, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+Hsl object `{h:H, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Kind**: static method of [<code>hsl</code>](#ColorUtil.hsl)  
 
@@ -361,18 +374,33 @@ Hsl object `{h:HHH, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Example**  
 ```js
-ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5});// output: {r: 106, g: 191, b: 64, a: 255}ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5, a: 0.5});// output: {r: 106, g: 191, b: 64, a: 50}
+ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5});// output: {r: 191, g: 191, b: 64, a: 255}ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});// output: {r: 191, g: 191, b: 64, a: 128}
+```
+<a name="ColorUtil.hsl.toHslString"></a>
+
+#### hsl.toHslString(hsl) ⇒ <code>string</code>
+Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.Default alpha value is 1.
+
+**Kind**: static method of [<code>hsl</code>](#ColorUtil.hsl)  
+
+| Param | Type |
+| --- | --- |
+| hsl | <code>object</code> | 
+
+**Example**  
+```js
+ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5});// output: "hsla(120,50%,50%,1)"ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5, a:0.5});// output: "hsla(120,50%,50%,0.5)"
 ```
 <a name="ColorUtil.hsv"></a>
 
 ### ColorUtil.hsv
-Hsv conversion functionsHsv format is `{h:HHH, s:S, v:V, a:A}` where h (hue) is in range 0-360,s, v and a (saturation, value, alpha) are in range 0-1.
+Hsv conversion functionsHsv notation is `{h:H, s:S, v:V, a:A}` where each component(hue, saturation, value, alpha) are in range 0-1.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 <a name="ColorUtil.hsv.toRgb"></a>
 
 #### hsv.toRgb(hsv) ⇒ <code>object</code>
-Hsv object `{h:HHH, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+Hsv object `{h:H, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Kind**: static method of [<code>hsv</code>](#ColorUtil.hsv)  
 
@@ -383,6 +411,27 @@ Hsv object `{h:HHH, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 **Example**  
 ```js
 ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1});// output: {r: 255, g: 0, b: 0, a: 255}ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1, a: 0.5});// output: {r: 255, g: 0, b: 0, a: 128}
+```
+<a name="ColorUtil.any"></a>
+
+### ColorUtil.any
+Any conversion functions.Converts supported color notations to any notation.TODO: toUint32, toInt32
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+<a name="ColorUtil.any.toRgb"></a>
+
+#### any.toRgb(color) ⇒ <code>object</code>
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Kind**: static method of [<code>any</code>](#ColorUtil.any)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>object</code> | Color in any notation |
+
+**Example**  
+```js
+ColorUtil.any.toRgb(0xFF0000);// output: {r: 255, g: 0, b: 0, a: 255}ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});// output: {r: 191, g: 191, b: 64, a: 255}
 ```
 <a name="ColorUtil.hueColors"></a>
 
@@ -398,19 +447,19 @@ Get the endian used by the system.[https://developer.mozilla.org/en-US/docs/Gl
 **Returns**: <code>number</code> - 0=little-endian, 1=big-endian, 2=unknown-endian  
 <a name="ColorUtil.convert"></a>
 
-### ColorUtil.convert(array, ...conversionFunctions) ⇒ <code>array</code>
-Run conversion functions for color array or color matrix.
+### ColorUtil.convert(colors, ...conversionFunctions) ⇒ <code>array</code>
+Run conversion functions for single color, array of colors ormatrix of colors.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| array | <code>array</code> | Array of colors |
+| colors | <code>\*</code> | Array of colors or single color |
 | ...conversionFunctions | <code>function</code> | Rest of the parameters are conversion functions                                                  which are executed in the order they are listed. |
 
 **Example**  
 ```js
-ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);// output: [['#ff0000', '#00ff00'], '#0000ff']ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgba);// output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
+ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);// output: "#ff0000"ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);// output: ["#ff0000", "#00ff00"]ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);// output: [['#ff0000', '#00ff00'], '#0000ff']ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);// output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
 ```
 <a name="ColorUtil.convertTo2StopGradient"></a>
 
@@ -432,14 +481,14 @@ Calculate two items from a gradient array and a relative position ofthe gradien
 <a name="ColorUtil.getGradientColor"></a>
 
 ### ColorUtil.getGradientColor(colors, position, [convertToRgb], [convertFromRgb]) ⇒ <code>\*</code>
-Get color from gradient.Gradient calculation is done in rgb object format so convertToRgb must convertto rgb object and convertFromRgb must convert from rgb object type. In case colorsare preformatted to rgb object, convertToRgb conversion is not needed. Similarlyif rgb object format is the desired output then convertFromRgb is not needed.In this case set null in place for the conversion function.
+Get color from gradient.Gradient calculation is done in rgb object notation so convertToRgb must convertto rgb object and convertFromRgb must convert from rgb object type. In case colorsare preformatted to rgb object, convertToRgb conversion is not needed. Similarlyif rgb object notation is the desired output then convertFromRgb is not needed.In this case set null in place for the conversion function.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
 **Returns**: <code>\*</code> - Return value depend on the what has been set to convertFromRgb.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| colors | <code>array</code> | Array of colors. Color format can be anything.                                  convertToRgb needs to be set depending on the format. |
+| colors | <code>array</code> | Array of colors. Color notation can be anything.                                  convertToRgb needs to be set depending on the notation. |
 | position | <code>number</code> | Position on the gradient. Value in range 0-1. |
 | [convertToRgb] | <code>function</code> | Convert incoming color to object. |
 | [convertFromRgb] | <code>function</code> | Convert outgoing color from object. |
@@ -451,13 +500,13 @@ let gradient = [0xFF0000, 0x00FF00, 0x0000FF];ColorUtil.getGradientColor(gradie
 <a name="ColorUtil.getGradientMatrixColor"></a>
 
 ### ColorUtil.getGradientMatrixColor(matrix, x, y, [convertToRgb], [convertFromRgb]) ⇒ <code>\*</code>
-Get color from gradient matrix. Gradient matrix is like normal gradientbut it is two dimensional.Gradient calculation is done in rgb object format so convertToRgb must convertto rgb object and convertFromRgb must convert from rgb object type. In case colorsare preformatted to rgb object, convertToRgb conversion is not needed. Similarlyif rgb object format is the desired output then convertFromRgb is not needed.In this case set null in place for the conversion function.
+Get color from gradient matrix. Gradient matrix is like normal gradientbut it is two dimensional.Gradient calculation is done in rgb object notation so convertToRgb must convertto rgb object and convertFromRgb must convert from rgb object type. In case colorsare preformatted to rgb object, convertToRgb conversion is not needed. Similarlyif rgb object notation is the desired output then convertFromRgb is not needed.In this case set null in place for the conversion function.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| matrix | <code>array</code> | Array of gradient color arrays. Color format can be anything.                          convertToRgb needs to be set depending on the format. |
+| matrix | <code>array</code> | Array of gradient color arrays. Color notation can be anything.                          convertToRgb needs to be set depending on the notation. |
 | x | <code>number</code> | Horizontal position on the gradient. Value in range 0-1. |
 | y | <code>number</code> | Vertical position on the gradient. Value in range 0-1. |
 | [convertToRgb] | <code>function</code> | Convert incoming color to object. |

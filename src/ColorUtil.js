@@ -31,7 +31,7 @@ export default class ColorUtil {
     /**
      * Rgb conversion functions
      *
-     * Rgb object format is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
+     * Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
      * (red, grean, blue, alpha) range is 0-255. In some conversion functions
      * alpha is not required. In those where it is required and not present in
      * rgb object, a fully opaque value is used as a default.
@@ -45,7 +45,7 @@ export default class ColorUtil {
     /**
      * Integer conversion functions.
      *
-     * Int format is 24-bit number represnting the RGB values `0xRRGGBB`.
+     * Int notation is 24-bit number represnting the RGB values `0xRRGGBB`.
      *
      * @memberof ColorUtil
      */
@@ -56,7 +56,7 @@ export default class ColorUtil {
     /**
      * Hexadecimal conversion functions
      *
-     * Hex format is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
+     * Hex notation is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
      *
      * @memberof ColorUtil
      */
@@ -67,7 +67,7 @@ export default class ColorUtil {
     /**
      * RgbString conversion functions
      *
-     * RgbString format is `'rgba(RRR,GGG,BBB[,A])'`
+     * RgbString notation is `'rgba(RRR,GGG,BBB[,A])'`
      *
      * @memberof ColorUtil
      */
@@ -78,8 +78,8 @@ export default class ColorUtil {
     /**
      * Hsl conversion functions
      *
-     * Hsl format is `{h:H, s:S, l:L, a:A}` where
-     * h, s, l and a (hue, saturation, luminosity, alpha) are in range 0-1.
+     * Hsl notation is `{h:H, s:S, l:L, a:A}` where each component (hue, saturation,
+     * luminosity, alpha) is in range 0-1.
      *
      * @memberof ColorUtil
      */
@@ -94,7 +94,7 @@ export default class ColorUtil {
     /**
      * Hsv conversion functions
      *
-     * Hsv format is `{h:H, s:S, v:V, a:A}` where h, s, v and a
+     * Hsv notation is `{h:H, s:S, v:V, a:A}` where each component
      * (hue, saturation, value, alpha) are in range 0-1.
      *
      * @memberof ColorUtil
@@ -103,6 +103,15 @@ export default class ColorUtil {
         return Hsv;
     }
 
+    /**
+     * Any conversion functions.
+     *
+     * Converts supported color notations to any notation.
+     *
+     * TODO: toUint32, toInt32
+     *
+     * @memberof ColorUtil
+     */
     static get any() {
         return Any;
     }
@@ -216,10 +225,10 @@ export default class ColorUtil {
     /**
      * Get color from gradient.
      *
-     * Gradient calculation is done in rgb object format so convertToRgb must convert
+     * Gradient calculation is done in rgb object notation so convertToRgb must convert
      * to rgb object and convertFromRgb must convert from rgb object type. In case colors
      * are preformatted to rgb object, convertToRgb conversion is not needed. Similarly
-     * if rgb object format is the desired output then convertFromRgb is not needed.
+     * if rgb object notation is the desired output then convertFromRgb is not needed.
      * In this case set null in place for the conversion function.
      *
      * @example
@@ -233,8 +242,8 @@ export default class ColorUtil {
      *
      * @memberof ColorUtil
      *
-     * @param {array} colors            Array of colors. Color format can be anything.
-     *                                  convertToRgb needs to be set depending on the format.
+     * @param {array} colors            Array of colors. Color notation can be anything.
+     *                                  convertToRgb needs to be set depending on the notation.
      * @param {number} position         Position on the gradient. Value in range 0-1.
      * @param {function} [convertToRgb] Convert incoming color to object.
      * @param {function} [convertFromRgb] Convert outgoing color from object.
@@ -265,10 +274,10 @@ export default class ColorUtil {
      * Get color from gradient matrix. Gradient matrix is like normal gradient
      * but it is two dimensional.
      *
-     * Gradient calculation is done in rgb object format so convertToRgb must convert
+     * Gradient calculation is done in rgb object notation so convertToRgb must convert
      * to rgb object and convertFromRgb must convert from rgb object type. In case colors
      * are preformatted to rgb object, convertToRgb conversion is not needed. Similarly
-     * if rgb object format is the desired output then convertFromRgb is not needed.
+     * if rgb object notation is the desired output then convertFromRgb is not needed.
      * In this case set null in place for the conversion function.
      *
      * @example
@@ -282,8 +291,8 @@ export default class ColorUtil {
      *
      * @memberof ColorUtil
      *
-     * @param {array} matrix    Array of gradient color arrays. Color format can be anything.
-     *                          convertToRgb needs to be set depending on the format.
+     * @param {array} matrix    Array of gradient color arrays. Color notation can be anything.
+     *                          convertToRgb needs to be set depending on the notation.
      * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @param {function} [convertToRgb] Convert incoming color to object.
@@ -315,6 +324,12 @@ class Rgb {
         return null;
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return color !== null &&
             typeof color === 'object' &&
@@ -354,7 +369,7 @@ class Rgb {
      * @return     {string}
      */
     static toHex(rgb) {
-        // e.g. (10<<8).toString(16) equals A00, but we need write this in format 0A00
+        // e.g. (10<<8).toString(16) equals A00, but we need to write this in format 0A00
         // by adding 1<<16 (10000) to the result and removing the first digit
         // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
         return '#' + ((1 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b)
@@ -558,6 +573,12 @@ class Int {
         return 'Rgb';
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return typeof color === 'number' &&
             color <= 0xFFFFFF &&
@@ -646,6 +667,12 @@ class Hex {
         return 'Rgb';
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return typeof color === 'string' &&
             !!(REG_HEX.exec(color) || REG_HEX_SHORT.exec(color));
@@ -743,6 +770,12 @@ class RgbString {
         return 'Rgb';
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return typeof color === 'string' &&
             !!(REG_RGB.exec(color) || REG_RGBA.exec(color));
@@ -831,6 +864,12 @@ class Hsl {
         return null;
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return color !== null &&
             typeof color === 'object' &&
@@ -921,6 +960,12 @@ class HslString {
         return 'Hsl';
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return typeof color === 'string' &&
             !!(REG_HSL.exec(color) || REG_HSLA.exec(color));
@@ -962,6 +1007,12 @@ class Hsv {
         return null;
     }
 
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
     static isValid(color) {
         return color !== null &&
             typeof color === 'object' &&
@@ -1026,26 +1077,72 @@ class Hsv {
  */
 class Any {
 
+    /**
+     * Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @example
+     * ColorUtil.any.toRgb(0xFF0000);
+     * // output: {r: 255, g: 0, b: 0, a: 255}
+     *
+     * ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+     * // output: {r: 191, g: 191, b: 64, a: 255}
+     *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toRgb
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {object}
+     */
     static toRgb(color) {
         return callConverter(Rgb, color);
     }
 
+    /**
+     * Convert any color to number notation `0xRRGGBB`
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {object}
+     */
     static toInt(color) {
         return callConverter(Int, color);
     }
 
+    /**
+     * Convert any color to hex notation `'#RRGGBB'`
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {object}
+     */
     static toHex(color) {
         return callConverter(Hex, color);
     }
 
+    /**
+     * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {object}
+     */
     static toRgbString(color) {
         return callConverter(RgbString, color);
     }
 
+    /**
+     * Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {object}
+     */
     static toHsl(color) {
         return callConverter(Hsl, color);
     }
 
+    /**
+     * Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {object}
+     */
     static toHsv(color) {
         return callConverter(Hsv, color);
     }
@@ -1057,7 +1154,7 @@ function callConverter(targetType, color) {
     let type = getColorType(color);
 
     if (!type) {
-        throw new Error(`Color '${color}' format doesn't match any format`);
+        throw new Error(`Color '${color}' notation doesn't match any notation`);
     }
 
     if (type === targetType) {
