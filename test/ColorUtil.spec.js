@@ -194,6 +194,7 @@ describe('ColorUtil', () => {
                 C.rgbString.isValid('rgb(0.1,0,0,0)').should.be.false;
                 C.rgbString.isValid('rgb ( 0 , 0 , 0 , 0 )').should.be.true;
                 C.rgbString.isValid('rgba ( 0 , 0 , 0 )').should.be.true;
+                C.rgbString.isValid('rgba ( 0 , 0 , 0, 0,1 )').should.be.false;
             });
 
             it('toRgb', () => {
@@ -266,6 +267,7 @@ describe('ColorUtil', () => {
                 C.hslString.isValid('hsla(5, 10%, 20%, 0.5)').should.be.true;
                 C.hslString.isValid('hsla(5, 10, 20, 0.5)').should.be.false;
                 C.hslString.isValid('hsla(5, 10)').should.be.false;
+                C.hslString.isValid('hsla(5, 10%, 20%, 0,5)').should.be.false;
             });
 
             it('toHsl', () => {
