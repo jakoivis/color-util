@@ -246,6 +246,37 @@ describe('ColorUtil', () => {
                 C.hsl.toRgb({h: 240, s: 1, l: 0.25}).should.eql({r: 0, g: 0, b: 128, a: 255});
                 C.hsl.toRgb({h: 0, s: 0, l: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 26});
             });
+
+            it('toHslString', () => {
+                C.hsl.toHslString({h: 10, s: 0.5, l: 0.1}).should.eql('hsla(10,50%,10%,1)');
+                C.hsl.toHslString({h: 10, s: 0.5, l: 0.1, a: 0.5}).should.eql('hsla(10,50%,10%,0.5)');
+                C.hsl.toHslString({h: 10, s: 0.5, l: 0.1, a: 0}).should.eql('hsla(10,50%,10%,0)');
+            });
+        });
+
+        describe('hslString', () => {
+
+            it('isValid', () => {
+                C.hslString.isValid(dec).should.be.false;
+                C.hslString.isValid(hex).should.be.false;
+                C.hslString.isValid(rgba).should.be.false;
+                C.hslString.isValid({h: 0, s: 0, l: 0}).should.be.false;
+                C.hslString.isValid('hsl(5, 10%, 20%)').should.be.true;
+                C.hslString.isValid('hsla(5, 10%, 20%)').should.be.true;
+                C.hslString.isValid('hsla(5, 10%, 20%, 0.5)').should.be.true;
+                C.hslString.isValid('hsla(5, 10, 20, 0.5)').should.be.false;
+                C.hslString.isValid('hsla(5, 10)').should.be.false;
+            });
+
+            it('toHsl', () => {
+                let hsla = {h:100,s:0.5,l:0.6,a:0.5};
+                C.hslString.toHsl('hsla(100, 50%, 60%, 0.5)').should.eql({h:100,s:0.5,l:0.6,a:0.5});
+                C.hslString.toHsl('hsl(100, 50%, 60%, 0.5)').should.eql({h:100,s:0.5,l:0.6,a:0.5});
+                C.hslString.toHsl('hsl(100, 50%, 60%)').should.eql({h:100,s:0.5,l:0.6,a:1});
+                C.hslString.toHsl('hsla(100, 50%, 60%)').should.eql({h:100,s:0.5,l:0.6,a:1});
+
+                expect(C.hslString.toHsl('hsl(100, 50, 60, 0.5)')).to.be.null;
+            });
         });
 
         describe('hsv', () => {

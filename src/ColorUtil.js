@@ -67,7 +67,7 @@ export default class ColorUtil {
     /**
      * RgbString conversion functions
      *
-     * RgbString format is `'rgba(RRR,GGG,BBB,A)'`
+     * RgbString format is `'rgba(RRR,GGG,BBB[,A])'`
      *
      * @memberof ColorUtil
      */
@@ -85,6 +85,10 @@ export default class ColorUtil {
      */
     static get hsl() {
         return Hsl;
+    }
+
+    static get hslString() {
+        return HslString;
     }
 
     /**
@@ -143,7 +147,7 @@ export default class ColorUtil {
      * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
      * // output: [['#ff0000', '#00ff00'], '#0000ff']
      *
-     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgba);
+     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);
      * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
      *
      * @memberof ColorUtil
@@ -358,7 +362,7 @@ class Rgb {
     }
 
     /**
-     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb string `'rgba(RRR,GGG,BBB,A)'`.
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
      * Alpha is converted from range 0-255 to 0-1. Default alpha
      * value is 1.
      *
@@ -605,7 +609,7 @@ class Int {
     }
 
     /**
-     * 24-bit number `0xRRGGBB` to rgb string `'rgba(RRR,GGG,BBB,A)'`
+     * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
      *
      * @memberof ColorUtil.int
      * @alias ColorUtil.int.toRgbString
@@ -697,7 +701,7 @@ class Hex {
     }
 
     /**
-     * 24-bit hex string `'#RRGGBB'` to rgb string `'rgba(RRR,GGG,BBB,A)'`
+     * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
      *
      * @memberof ColorUtil.hex
      * @alias ColorUtil.hex.toRgbString
@@ -746,7 +750,7 @@ class RgbString {
     }
 
     /**
-     * Rgb string `'rgba(RRR,GGG,BBB,A)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     * Rgb functional notation string `'rgba(RRR,GGG,BBB[,A])'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toRgb
@@ -771,7 +775,7 @@ class RgbString {
     }
 
     /**
-     * Rgba string `'rgba(RRR,GGG,BBB,A)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
+     * Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toInt
@@ -794,7 +798,7 @@ class RgbString {
     }
 
     /**
-     * Rgba string `'rgba(RRR,GGG,BBB,A)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
+     * Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toHex
@@ -883,6 +887,68 @@ class Hsl {
             b: Math.round((b + m) * 0xFF),
             a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
         };
+    }
+
+    /**
+     * Convert hsl object `{h:HHH, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.
+     * Default alpha value is 1.
+     *
+     * @example
+     * ColorUtil.hsl.toHslString({h:120, s:0.5, l:0.5})
+     * // output: "hsla(120,50%,50%,1)"
+     *
+     * ColorUtil.hsl.toHslString({h:120, s:0.5, l:0.5, a:0.5})
+     * // output: "hsla(120,50%,50%,0.5)"
+     *
+     * @memberof ColorUtil.hsl
+     * @alias ColorUtil.hsl.toHslString
+     *
+     * @param      {object}    hsl
+     * @return     {string}
+     */
+    static toHslString(hsl) {
+        let a = !isNaN(parseInt(hsl.a)) ? hsl.a : 1;
+        return `hsla(${hsl.h},${hsl.s*100}%,${hsl.l*100}%,${a})`;
+    }
+}
+
+const REG_HSL = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*\)$/;
+const REG_HSLA = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d*\.?\d*)\s*\)$/;
+
+class HslString {
+
+    static get parentName() {
+        return 'Hsl';
+    }
+
+    static isValid(color) {
+        return typeof color === 'string' &&
+            !!(REG_HSL.exec(color) || REG_HSLA.exec(color));
+    }
+
+    /**
+     * Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:HHH, s:S, l:L, a:A}`
+     *
+     * @memberof ColorUtil.hslString
+     * @alias ColorUtil.hslString.toHsl
+     *
+     * @example
+     * ColorUtil.hslString.toHsl('hsla(100, 50%, 60%, 0.5)');
+     * // output: {h: 100, s: 0.5, l: 0.6, a: 0.5}
+     *
+     * @param      {string} hsla    Hsl string
+     * @return     {object}
+     */
+    static toHsl(hsla) {
+        let [m,h,s,p1,l,p2,a] = REG_HSLA.exec(hsla) || REG_HSL.exec(hsla) || [];
+
+        return m ? {
+                h: parseInt(h),
+                s: parseInt(s) / 100,
+                l: parseInt(l) / 100,
+                a: a ? parseFloat(a) : 1
+            }
+        : null;
     }
 }
 
@@ -1021,7 +1087,6 @@ function getConversionPath(type, targetType, path=[]) {
 
         return path;
     }
-
 
     let rootType = getRootTypeWithFunction(targetType);
 
