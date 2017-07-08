@@ -78,8 +78,8 @@ export default class ColorUtil {
     /**
      * Hsl conversion functions
      *
-     * Hsl format is `{h:HHH, s:S, l:L, a:A}` where h (hue) is in range 0-360,
-     * s, l and a (saturation, luminosity, alpha) are in range 0-1.
+     * Hsl format is `{h:H, s:S, l:L, a:A}` where
+     * h, s, l and a (hue, saturation, luminosity, alpha) are in range 0-1.
      *
      * @memberof ColorUtil
      */
@@ -94,8 +94,8 @@ export default class ColorUtil {
     /**
      * Hsv conversion functions
      *
-     * Hsv format is `{h:HHH, s:S, v:V, a:A}` where h (hue) is in range 0-360,
-     * s, v and a (saturation, value, alpha) are in range 0-1.
+     * Hsv format is `{h:H, s:S, v:V, a:A}` where h, s, v and a
+     * (hue, saturation, value, alpha) are in range 0-1.
      *
      * @memberof ColorUtil
      */
@@ -430,9 +430,8 @@ class Rgb {
     }
 
     /**
-     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:HHH, s:S, l:L, a:A}`
-     * where h (hue) is in range 0-360, s, l, a (saturation, luminosity, alpha)
-     * are in range 0-1.
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`
+     * where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
      *
      * @example
      * ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});
@@ -473,12 +472,13 @@ class Rgb {
                 // or this one
                 // hue = ((g - b) / delta) % 6;
 
+                // TODO: check why this is here and not after hue *= 60 statement and why unit tests don't break when removing
                 if (hue < 0) {
                     hue += 360;
                 }
             }
 
-            hue *= 60;
+            hue /= 6;
         }
 
         return {
@@ -490,9 +490,8 @@ class Rgb {
     }
 
     /**
-     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:HHH, s:S, v:V, a:A}`
-     * where h (hue) is in range 0-360, s, v, a (saturation, value, alpha)
-     * are in range 0-1.
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`
+     * where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
      *
      * @example
      * ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
@@ -537,7 +536,7 @@ class Rgb {
                 }
             }
 
-            hue *= 60;
+            hue /= 6;
         }
 
         return {
@@ -841,13 +840,14 @@ class Hsl {
     }
 
     /**
-     * Hsl object `{h:HHH, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     * Hsl object `{h:H, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @example
-     * ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5});
-     * // output: {r: 106, g: 191, b: 64, a: 255}
-     * ColorUtil.hsl.toRgb({h: 100, s: 0.5, l: 0.5, a: 0.5});
-     * // output: {r: 106, g: 191, b: 64, a: 50}
+     * ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5});
+     * // output: {r: 191, g: 191, b: 64, a: 255}
+     *
+     * ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});
+     * // output: {r: 191, g: 191, b: 64, a: 128}
      *
      * @memberof ColorUtil.hsl
      * @alias ColorUtil.hsl.toRgb
@@ -858,23 +858,23 @@ class Hsl {
     static toRgb(hsl) {
         let {h:h, s:s, l:l, a:a} = hsl;
         let c = (1 - Math.abs(2 * l - 1)) * s
-        let x = c * (1 - Math.abs(h / 60 % 2 - 1));
+        let x = c * (1 - Math.abs(h * 6 % 2 - 1));
         let m = l - c / 2;
         let r, g, b;
 
-        if (h < 60) {
+        if (h < 1/6) {
             [r, g, b] = [c, x, 0];
 
-        } else if (h < 120) {
+        } else if (h < 2/6) {
             [r, g, b] = [x, c, 0];
 
-        } else if (h < 180) {
+        } else if (h < 3/6) {
             [r, g, b] = [0, c, x];
 
-        } else if (h < 240) {
+        } else if (h < 4/6) {
             [r, g, b] = [0, x, c];
 
-        } else if (h < 300) {
+        } else if (h < 5/6) {
             [r, g, b] = [x, 0, c];
 
         } else {
@@ -890,14 +890,14 @@ class Hsl {
     }
 
     /**
-     * Convert hsl object `{h:HHH, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.
+     * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.
      * Default alpha value is 1.
      *
      * @example
-     * ColorUtil.hsl.toHslString({h:120, s:0.5, l:0.5})
+     * ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5});
      * // output: "hsla(120,50%,50%,1)"
      *
-     * ColorUtil.hsl.toHslString({h:120, s:0.5, l:0.5, a:0.5})
+     * ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5, a:0.5});
      * // output: "hsla(120,50%,50%,0.5)"
      *
      * @memberof ColorUtil.hsl
@@ -908,7 +908,7 @@ class Hsl {
      */
     static toHslString(hsl) {
         let a = !isNaN(parseInt(hsl.a)) ? hsl.a : 1;
-        return `hsla(${hsl.h},${hsl.s*100}%,${hsl.l*100}%,${a})`;
+        return `hsla(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%,${a})`;
     }
 }
 
@@ -927,14 +927,14 @@ class HslString {
     }
 
     /**
-     * Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:HHH, s:S, l:L, a:A}`
+     * Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:H, s:S, l:L, a:A}`
      *
      * @memberof ColorUtil.hslString
      * @alias ColorUtil.hslString.toHsl
      *
      * @example
-     * ColorUtil.hslString.toHsl('hsla(100, 50%, 60%, 0.5)');
-     * // output: {h: 100, s: 0.5, l: 0.6, a: 0.5}
+     * ColorUtil.hslString.toHsl('hsla(180, 50%, 60%, 0.5)');
+     * // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
      *
      * @param      {string} hsla    Hsl string
      * @return     {object}
@@ -943,7 +943,7 @@ class HslString {
         let [m,h,s,p1,l,p2,a] = REG_HSLA.exec(hsla) || REG_HSL.exec(hsla) || [];
 
         return m ? {
-                h: parseInt(h),
+                h: parseInt(h) / 360,
                 s: parseInt(s) / 100,
                 l: parseInt(l) / 100,
                 a: a ? parseFloat(a) : 1
@@ -971,7 +971,7 @@ class Hsv {
     }
 
     /**
-     * Hsv object `{h:HHH, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     * Hsv object `{h:H, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @example
      * ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1});
@@ -988,23 +988,23 @@ class Hsv {
     static toRgb(hsv) {
         let {h:h, s:s, v:v, a:a} = hsv;
         let c = v * s
-        let x = c * (1 - Math.abs(h / 60 % 2 - 1));
+        let x = c * (1 - Math.abs(h * 6 % 2 - 1));
         let m = v - c;
         let r, g, b;
 
-        if (h < 60) {
+        if (h < 1/6) {
             [r, g, b] = [c, x, 0];
 
-        } else if (h < 120) {
+        } else if (h < 2/6) {
             [r, g, b] = [x, c, 0];
 
-        } else if (h < 180) {
+        } else if (h < 3/6) {
             [r, g, b] = [0, c, x];
 
-        } else if (h < 240) {
+        } else if (h < 4/6) {
             [r, g, b] = [0, x, c];
 
-        } else if (h < 300) {
+        } else if (h < 5/6) {
             [r, g, b] = [x, 0, c];
 
         } else {
