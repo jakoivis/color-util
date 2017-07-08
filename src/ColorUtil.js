@@ -327,6 +327,9 @@ class Rgb {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.isValid
+     *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
@@ -576,6 +579,9 @@ class Int {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
+     * @memberof ColorUtil.int
+     * @alias ColorUtil.int.isValid
+     *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
@@ -669,6 +675,9 @@ class Hex {
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @memberof ColorUtil.hex
+     * @alias ColorUtil.hex.isValid
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -773,6 +782,9 @@ class RgbString {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
+     * @memberof ColorUtil.rgbString
+     * @alias ColorUtil.rgbString.isValid
+     *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
@@ -866,6 +878,9 @@ class Hsl {
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @memberof ColorUtil.hsl
+     * @alias ColorUtil.hsl.isValid
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -963,6 +978,9 @@ class HslString {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
+     * @memberof ColorUtil.hslString
+     * @alias ColorUtil.hslString.isValid
+     *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
@@ -1009,6 +1027,9 @@ class Hsv {
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @memberof ColorUtil.hsv
+     * @alias ColorUtil.hsv.isValid
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
