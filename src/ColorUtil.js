@@ -69,8 +69,6 @@ export default class ColorUtil {
      *
      * RgbString format is `'rgba(RRR,GGG,BBB,A)'`
      *
-     * Notice that this string should not have spaces.
-     *
      * @memberof ColorUtil
      */
     static get rgbString() {
@@ -729,8 +727,8 @@ class Hex {
     }
 }
 
-const REG_RGBA = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3}),(\d*.?\d*)\)$/;
-const REG_RGB = /^rgba?\((\d{1,3}),(\d{1,3}),(\d{1,3})\)$/;
+const REG_RGBA = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d*.?\d*)\s*\)$/;
+const REG_RGB = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
 
 /**
  * @class RgbString
