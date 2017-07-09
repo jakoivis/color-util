@@ -327,6 +327,10 @@ export default class ColorUtil {
  */
 class Rgb {
 
+    static get name() {
+        return 'Rgb';
+    }
+
     static get parent() {
         return null;
     }
@@ -579,6 +583,10 @@ class Rgb {
  */
 class Int {
 
+    static get name() {
+        return 'Int';
+    }
+
     static get parent() {
         return Rgb;
     }
@@ -675,6 +683,10 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  * @private
  */
 class Hex {
+
+    static get name() {
+        return 'Hex';
+    }
 
     static get parent() {
         return Rgb;
@@ -782,6 +794,10 @@ const REG_RGB = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
  */
 class RgbString {
 
+    static get name() {
+        return 'RgbString';
+    }
+
     static get parent() {
         return Rgb;
     }
@@ -878,6 +894,10 @@ class RgbString {
  * @private
  */
 class Hsl {
+
+    static get name() {
+        return 'Hsl';
+    }
 
     static get parent() {
         return null;
@@ -1005,6 +1025,10 @@ const REG_HSLA = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3
 
 class HslString {
 
+    static get name() {
+        return 'HslString';
+    }
+
     static get parent() {
         return Hsl;
     }
@@ -1054,6 +1078,10 @@ class HslString {
  * @private
  */
 class Hsv {
+
+    static get name() {
+        return 'Hsv';
+    }
 
     static get parent() {
         return null;
@@ -1325,7 +1353,7 @@ function getConversionPath(type, targetType, path=[]) {
         let detourType = getRootTypeWithFunction(targetRootType);
 
         if (!detourType) {
-            throw new Error(`Color '${color}' `);
+            throw new Error('Color cannot be converted. This is most likely a bug');
         }
 
         sourcePath[sourcePath.length-1].nextType = detourType;
