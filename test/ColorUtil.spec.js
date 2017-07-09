@@ -253,6 +253,12 @@ describe('ColorUtil', () => {
                 C.hsl.toHslString({h: 0.5, s: 0.5, l: 0.1, a: 0.5}).should.eql('hsla(180,50%,10%,0.5)');
                 C.hsl.toHslString({h: 0.5, s: 0.5, l: 0.1, a: 0}).should.eql('hsla(180,50%,10%,0)');
             });
+
+            it('toHsv', () => {
+                console.log(C.hsl.toHsv({h: 0.5, s: 0.5, l: 0.1}));
+                console.log(C.rgb.toHsv(C.hsl.toRgb({h: 0.5, s: 0.5, l: 0.1})));
+
+            });
         });
 
         describe('hslString', () => {

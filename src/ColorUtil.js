@@ -952,6 +952,20 @@ class Hsl {
         };
     }
 
+    static toHsv(hsl) {
+        let {h:h, s:s, l:l, a:a} = hsl;
+
+        let v = (2 * l + s * (1 - Math.abs(2 * l - 1))) / 2;
+        s = (2 * (v - l)) / v;
+
+        return {
+            h: h,
+            s: s,
+            v: v,
+            a: a
+        };
+    }
+
     /**
      * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.
      * Default alpha value is 1.
@@ -1097,6 +1111,20 @@ class Hsv {
             g: Math.round((g + m) * 0xFF),
             b: Math.round((b + m) * 0xFF),
             a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
+        };
+    }
+
+    static toHsl(hsv) {
+        let {h:h, s:s, v:v, a:a} = hsv;
+
+        l = 0.5 * v * (2 - s);
+        s = v * s / (1 - Math.abs(2 * l - 1));
+
+        return {
+            h: h,
+            s: s,
+            l: l,
+            a: a
         };
     }
 }
