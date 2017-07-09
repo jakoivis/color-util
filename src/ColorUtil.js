@@ -1123,6 +1123,10 @@ class Any {
     /**
      * Convert any color to number notation `0xRRGGBB`
      *
+     * @example
+     * ColorUtil.any.toInt('hsl(180, 50%, 60%)')
+     * // output: 6737100
+     *
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
@@ -1132,6 +1136,10 @@ class Any {
 
     /**
      * Convert any color to hex notation `'#RRGGBB'`
+     *
+     * @example
+     * ColorUtil.any.toHex('hsl(180, 50%, 60%)')
+     * // output: "#66cccc"
      *
      * @param      {object}  color        Color in any notation
      * @return     {object}
@@ -1143,6 +1151,10 @@ class Any {
     /**
      * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
      *
+     * @example
+     * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)')
+     * // output: "rgba(102,204,204,1)"
+     *
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
@@ -1153,6 +1165,10 @@ class Any {
     /**
      * Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
      *
+     * @example
+     * ColorUtil.any.toHsl('hsl(180, 50%, 60%)')
+     * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+     *
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
@@ -1162,6 +1178,10 @@ class Any {
 
     /**
      * Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+     *
+     * @example
+     * ColorUtil.any.toHsl('hsl(180, 50%, 60%)')
+     * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
      *
      * @param      {object}  color        Color in any notation
      * @return     {object}
@@ -1185,7 +1205,8 @@ function callConverter(targetType, color) {
         return color;
     }
 
-    // direct conversion within a color format (rgb, hsl hsv...) (e.g. int -> hex, hsl -> hslString)
+    // direct conversion within a color format (rgb, hsl hsv...)
+    // e.g. int -> hex, hsl -> hslString
     if (typeof type['to'+targetType.name] === 'function') {
         return type['to'+targetType.name](color);
 
@@ -1193,6 +1214,7 @@ function callConverter(targetType, color) {
     }
 
     // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)
+    // e.g. hslString -> hex, hslString -> rgbString
     let path = getConversionPath(type, targetType);
 
     return ColorUtil.convert(color, ...path);
@@ -1212,38 +1234,36 @@ function getConversionPath(type, targetType, path=[]) {
     let sourcePath = getPathToRoot(type);
     let targetPath = getPathToRootReverse(targetType);
 
-    // combine the two paths
+    // link the two paths
 
-    let combined = sourcePath;
+    let sourceRootType = sourcePath[sourcePath.length-1].type;
+    let targetRootType = targetPath[0].type;
 
-    combined[sourcePath.length-1].nextType = targetPath[0].type;
-    targetPath.shift();
+    if (typeof sourceRootType['to'+targetRootType.name] === 'function') {
+        sourcePath[sourcePath.length-1].nextType = targetPath[0].type;
+        targetPath.shift();
 
-    combined = combined.concat(targetPath);
+    } else {
+        // root types are not convertible between each other
+        // find a detour path
+
+        let detourType = getRootTypeWithFunction(targetRootType);
+
+        if (!detourType) {
+            throw new Error(`Color '${color}' `);
+        }
+
+        sourcePath[sourcePath.length-1].nextType = detourType;
+        sourcePath.push({
+            type: detourType,
+            nextType: targetPath[0].type
+        });
+        targetPath.shift();
+    }
+
+    let combined = sourcePath.concat(targetPath);
 
     return combined.map(item => item.type['to'+item.nextType.name]);
-}
-
-function getTypeByName(name) {
-    for(let type of TYPES) {
-        if(type.name === name) {
-            return type;
-        }
-    }
-
-    return null;
-}
-
-function getRootTypeWithFunction(targetType) {
-    let conversionFnName = 'to'+targetType.name;
-
-    for(let type of TYPES) {
-        if(!type.parent && typeof type[conversionFnName] === 'function') {
-            return type;
-        }
-    }
-
-    return null;
 }
 
 function getPathToRoot(type, path=[]) {
@@ -1279,4 +1299,16 @@ function getPathToRootReverse(type, path=[]) {
     });
 
     return path.reverse();
+}
+
+function getRootTypeWithFunction(targetType) {
+    let conversionFnName = 'to'+targetType.name;
+
+    for(let type of TYPES) {
+        if(!type.parent && typeof type[conversionFnName] === 'function') {
+            return type;
+        }
+    }
+
+    return null;
 }

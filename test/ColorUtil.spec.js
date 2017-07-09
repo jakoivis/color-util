@@ -375,8 +375,8 @@ describe('ColorUtil', () => {
                 C.any.toRgbString(hsl).should.equal('rgba(170,187,204,1)');
             });
 
-            xit('should do hsl subtype -> hsv conversion', () => {
-                C.any.toHsv('hsl(180, 50%, 60%)').should.equal({});
+            it('should do hsl subtype -> hsv conversion', () => {
+                C.any.toHsv('hsl(180, 50%, 60%)').should.eql({h: 0.5, s: 0.5, v: 0.8, a: 1});
             });
 
             it('should do hsl subtype -> rgb sub type conversion', () => {
