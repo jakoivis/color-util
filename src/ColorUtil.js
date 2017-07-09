@@ -407,7 +407,7 @@ class Rgb {
      */
     static toRgbString(rgb) {
         let a = !isNaN(parseInt(rgb.a)) ? rgb.a / 0xFF : 1;
-        return `rgba(${rgb.r},${rgb.g},${rgb.b},${a})`;
+        return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${a})`;
     }
 
     /**
@@ -945,10 +945,10 @@ class Hsl {
         }
 
         return {
-            r: Math.round((r + m) * 0xFF),
-            g: Math.round((g + m) * 0xFF),
-            b: Math.round((b + m) * 0xFF),
-            a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
+            r: (r + m) * 0xFF,
+            g: (g + m) * 0xFF,
+            b: (b + m) * 0xFF,
+            a: !isNaN(parseFloat(a)) ? a * 0xFF : 0xFF
         };
     }
 
@@ -1093,10 +1093,10 @@ class Hsv {
         }
 
         return {
-            r: Math.round((r + m) * 0xFF),
-            g: Math.round((g + m) * 0xFF),
-            b: Math.round((b + m) * 0xFF),
-            a: !isNaN(parseFloat(a)) ? Math.round(a * 0xFF) : 0xFF
+            r: (r + m) * 0xFF,
+            g: (g + m) * 0xFF,
+            b: (b + m) * 0xFF,
+            a: !isNaN(parseFloat(a)) ? a * 0xFF : 0xFF
         };
     }
 }
