@@ -24,7 +24,9 @@ let SYSTEM_ENDIAN = (() => {
 
 /**
  * @class ColorUtil
- * @classdesc Color conversion functions and some other things
+ * @classdesc Color conversion functions and gradient functions.
+ * Note that this package is still in ealy version 0.x.x so
+ * you should expect some changes that break backward compatibility.
  */
 export default class ColorUtil {
 
@@ -320,7 +322,7 @@ export default class ColorUtil {
  */
 class Rgb {
 
-    static get parentName() {
+    static get parent() {
         return null;
     }
 
@@ -572,8 +574,8 @@ class Rgb {
  */
 class Int {
 
-    static get parentName() {
-        return 'Rgb';
+    static get parent() {
+        return Rgb;
     }
 
     /**
@@ -669,8 +671,8 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  */
 class Hex {
 
-    static get parentName() {
-        return 'Rgb';
+    static get parent() {
+        return Rgb;
     }
 
     /**
@@ -775,8 +777,8 @@ const REG_RGB = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
  */
 class RgbString {
 
-    static get parentName() {
-        return 'Rgb';
+    static get parent() {
+        return Rgb;
     }
 
     /**
@@ -872,7 +874,7 @@ class RgbString {
  */
 class Hsl {
 
-    static get parentName() {
+    static get parent() {
         return null;
     }
 
@@ -971,8 +973,8 @@ const REG_HSLA = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3
 
 class HslString {
 
-    static get parentName() {
-        return 'Hsl';
+    static get parent() {
+        return Hsl;
     }
 
     /**
@@ -1021,7 +1023,7 @@ class HslString {
  */
 class Hsv {
 
-    static get parentName() {
+    static get parent() {
         return null;
     }
 
@@ -1169,7 +1171,7 @@ class Any {
     }
 }
 
-const TYPES = [Rgb, Int, Hex, RgbString, Hsl, Hsv];
+const TYPES = [Rgb, Int, Hex, Hsl, Hsv, HslString, RgbString];
 
 function callConverter(targetType, color) {
     let type = getColorType(color);
@@ -1178,10 +1180,19 @@ function callConverter(targetType, color) {
         throw new Error(`Color '${color}' notation doesn't match any notation`);
     }
 
+    // no need to convert anything
     if (type === targetType) {
         return color;
     }
 
+    // direct conversion within a color format (rgb, hsl hsv...) (e.g. int -> hex, hsl -> hslString)
+    if (typeof type['to'+targetType.name] === 'function') {
+        return type['to'+targetType.name](color);
+
+        return path;
+    }
+
+    // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)
     let path = getConversionPath(type, targetType);
 
     return ColorUtil.convert(color, ...path);
@@ -1198,33 +1209,19 @@ function getColorType(color) {
 }
 
 function getConversionPath(type, targetType, path=[]) {
-    let conversionFnName = 'to'+targetType.name; // todo get class name instead of getter
+    let sourcePath = getPathToRoot(type);
+    let targetPath = getPathToRootReverse(targetType);
 
-    if (typeof type[conversionFnName] === 'function') {
-        path.push(type[conversionFnName]);
+    // combine the two paths
 
-        return path;
-    }
+    let combined = sourcePath;
 
-    let rootType = getRootTypeWithFunction(targetType);
+    combined[sourcePath.length-1].nextType = targetPath[0].type;
+    targetPath.shift();
 
-    path.push(type['to'+rootType.name]);
+    combined = combined.concat(targetPath);
 
-    return getConversionPath(rootType, targetType, path);
-
-    // if (type.parentName) {
-    //     // let parentType = getTypeByName(type.parentName);
-
-    //     // getConversionPath(parentType, fn, path);
-    // } else {
-    //     let rootType = getRootTypeWithFunction(fn);
-
-    //     path.push(type['to'+rootType.name]);
-
-    //     return getConversionPath(rootType, fn, path);
-    // }
-
-    // throw
+    return combined.map(item => item.type['to'+item.nextType.name]);
 }
 
 function getTypeByName(name) {
@@ -1241,10 +1238,45 @@ function getRootTypeWithFunction(targetType) {
     let conversionFnName = 'to'+targetType.name;
 
     for(let type of TYPES) {
-        if(!type.parentName && typeof type[conversionFnName] === 'function') {
+        if(!type.parent && typeof type[conversionFnName] === 'function') {
             return type;
         }
     }
 
     return null;
+}
+
+function getPathToRoot(type, path=[]) {
+    if(type.parent) {
+        path.push({
+            type: type,
+            nextType: type.parent
+        });
+
+        return getPathToRoot(type.parent, path);
+    }
+
+    path.push({
+        type: type
+    });
+
+    return path;
+}
+
+function getPathToRootReverse(type, path=[]) {
+
+    if(type.parent) {
+        path.push({
+            type: type.parent,
+            nextType: type
+        });
+
+        return getPathToRootReverse(type.parent, path);
+    }
+
+    path.push({
+        type: type
+    });
+
+    return path.reverse();
 }

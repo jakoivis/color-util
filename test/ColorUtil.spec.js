@@ -374,6 +374,16 @@ describe('ColorUtil', () => {
                 C.any.toHex(hsl).should.equal('#aabbcc');
                 C.any.toRgbString(hsl).should.equal('rgba(170,187,204,1)');
             });
+
+            xit('should do hsl subtype -> hsv conversion', () => {
+                C.any.toHsv('hsl(180, 50%, 60%)').should.equal({});
+            });
+
+            it('should do hsl subtype -> rgb sub type conversion', () => {
+                C.any.toInt('hsl(180, 50%, 60%)').should.equal(0x66CCCC);
+                C.any.toHex('hsl(180, 50%, 60%)').should.equal("#66cccc");
+                C.any.toRgbString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
+            });
         });
 
         describe('combinations', () => {
