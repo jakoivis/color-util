@@ -238,14 +238,14 @@ describe('ColorUtil', () => {
                 C.hsl.toRgb({h: 1/6, s: 1, l: 0.5}).should.eql({r: 255, g: 255, b: 0, a: 255}); // h: 60deg
                 C.hsl.toRgb({h: 3/6, s: 1, l: 0.5}).should.eql({r: 0, g: 255, b: 255, a: 255}); // h: 180deg
                 C.hsl.toRgb({h: 5/6, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 255, a: 255}); // h: 300deg
-                C.hsl.toRgb({h: 0, s: 0, l: 0.75}).should.eql({r: 191, g: 191, b: 191, a: 255});
-                C.hsl.toRgb({h: 0, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 0, a: 255});
-                C.hsl.toRgb({h: 1/6, s: 1, l: 0.25}).should.eql({r: 128, g: 128, b: 0, a: 255}); // h: 60deg
-                C.hsl.toRgb({h: 2/6, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 0, a: 255}); // h: 120deg
-                C.hsl.toRgb({h: 5/6, s: 1, l: 0.25}).should.eql({r: 128, g: 0, b: 128, a: 255}); // h: 300deg
-                C.hsl.toRgb({h: 3/6, s: 1, l: 0.25}).should.eql({r: 0, g: 128, b: 128, a: 255}); // h: 180deg
-                C.hsl.toRgb({h: 4/6, s: 1, l: 0.25}).should.eql({r: 0, g: 0, b: 128, a: 255}); // h: 240deg
-                C.hsl.toRgb({h: 0, s: 0, l: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 26});
+                C.hsl.toRgb({h: 0, s: 0, l: 0.75}).should.eql({r: 191.25, g: 191.25, b: 191.25, a: 255});
+                C.hsl.toRgb({h: 0, s: 1, l: 0.25}).should.eql({r: 127.5, g: 0, b: 0, a: 255});
+                C.hsl.toRgb({h: 1/6, s: 1, l: 0.25}).should.eql({r: 127.5, g: 127.5, b: 0, a: 255}); // h: 60deg
+                C.hsl.toRgb({h: 2/6, s: 1, l: 0.25}).should.eql({r: 0, g: 127.5, b: 0, a: 255}); // h: 120deg
+                C.hsl.toRgb({h: 5/6, s: 1, l: 0.25}).should.eql({r: 127.5, g: 0, b: 127.5, a: 255}); // h: 300deg
+                C.hsl.toRgb({h: 3/6, s: 1, l: 0.25}).should.eql({r: 0, g: 127.5, b: 127.5, a: 255}); // h: 180deg
+                C.hsl.toRgb({h: 4/6, s: 1, l: 0.25}).should.eql({r: 0, g: 0, b: 127.5, a: 255}); // h: 240deg
+                C.hsl.toRgb({h: 0, s: 0, l: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 25.5});
             });
 
             it('toHslString', () => {
@@ -305,14 +305,14 @@ describe('ColorUtil', () => {
                 C.hsv.toRgb({h: 1/6, s: 1, v: 1}).should.eql({r: 255, g: 255, b: 0, a: 255});
                 C.hsv.toRgb({h: 3/6, s: 1, v: 1}).should.eql({r: 0, g: 255, b: 255, a: 255});
                 C.hsv.toRgb({h: 5/6, s: 1, v: 1}).should.eql({r: 255, g: 0, b: 255, a: 255});
-                C.hsv.toRgb({h: 0, s: 0, v: 0.75}).should.eql({r: 191, g: 191, b: 191, a: 255});
-                C.hsv.toRgb({h: 0, s: 1, v: 0.5}).should.eql({r: 128, g: 0, b: 0, a: 255});
-                C.hsv.toRgb({h: 1/6, s: 1, v: 0.5}).should.eql({r: 128, g: 128, b: 0, a: 255});
-                C.hsv.toRgb({h: 2/6, s: 1, v: 0.5}).should.eql({r: 0, g: 128, b: 0, a: 255});
-                C.hsv.toRgb({h: 5/6, s: 1, v: 0.5}).should.eql({r: 128, g: 0, b: 128, a: 255});
-                C.hsv.toRgb({h: 3/6, s: 1, v: 0.5}).should.eql({r: 0, g: 128, b: 128, a: 255});
-                C.hsv.toRgb({h: 4/6, s: 1, v: 0.5}).should.eql({r: 0, g: 0, b: 128, a: 255});
-                C.hsv.toRgb({h: 0, s: 0, v: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 26});
+                C.hsv.toRgb({h: 0, s: 0, v: 0.75}).should.eql({r: 191.25, g: 191.25, b: 191.25, a: 255});
+                C.hsv.toRgb({h: 0, s: 1, v: 0.5}).should.eql({r: 127.5, g: 0, b: 0, a: 255});
+                C.hsv.toRgb({h: 1/6, s: 1, v: 0.5}).should.eql({r: 127.5, g: 127.5, b: 0, a: 255});
+                C.hsv.toRgb({h: 2/6, s: 1, v: 0.5}).should.eql({r: 0, g: 127.5, b: 0, a: 255});
+                C.hsv.toRgb({h: 5/6, s: 1, v: 0.5}).should.eql({r: 127.5, g: 0, b: 127.5, a: 255});
+                C.hsv.toRgb({h: 3/6, s: 1, v: 0.5}).should.eql({r: 0, g: 127.5, b: 127.5, a: 255});
+                C.hsv.toRgb({h: 4/6, s: 1, v: 0.5}).should.eql({r: 0, g: 0, b: 127.5, a: 255});
+                C.hsv.toRgb({h: 0, s: 0, v: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 25.5});
             });
         });
 
@@ -327,6 +327,8 @@ describe('ColorUtil', () => {
                     C.any.toRgb('#qwe');
                 }).to.throw;
             });
+
+            let tolerance = 0.00000000001;
 
             let rgb = {r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF};
             let hsl = {h: 0.5833333333333334, s: 0.2500000000000002, l: 0.7333333333333334, a: 1};
@@ -360,15 +362,30 @@ describe('ColorUtil', () => {
             });
 
             it('should do hsl -> rgb conversion', () => {
-                C.any.toRgb(hsl).should.eql(rgb);
+                let actual = C.any.toRgb(hsl);
+
+                actual.r.should.be.closeTo(rgb.r, tolerance);
+                actual.g.should.be.closeTo(rgb.g, tolerance);
+                actual.b.should.be.closeTo(rgb.b, tolerance);
+                actual.a.should.equal(rgb.a);
             });
 
             it('should do hsv -> rgb conversion', () => {
-                C.any.toRgb(hsv).should.eql(rgb);
+                let actual = C.any.toRgb(hsv);
+
+                actual.r.should.be.closeTo(rgb.r, tolerance);
+                actual.g.should.be.closeTo(rgb.g, tolerance);
+                actual.b.should.be.closeTo(rgb.b, tolerance);
+                actual.a.should.equal(255);
             });
 
             it('should do rgb -> hsl conversion', () => {
-                C.any.toHsl(rgb).should.eql(hsl);
+                let actual = C.any.toHsl(rgb);
+
+                actual.h.should.be.closeTo(hsl.h, tolerance);
+                actual.s.should.be.closeTo(hsl.s, tolerance);
+                actual.l.should.be.closeTo(hsl.l, tolerance);
+                actual.a.should.equal(hsl.a);
             });
 
             it('should do rgb -> hsv conversion', () => {
@@ -382,12 +399,17 @@ describe('ColorUtil', () => {
             });
 
             it('should do hsl subtype -> hsv conversion', () => {
-                C.any.toHsv('hsl(180, 50%, 60%)').should.eql({h: 0.5, s: 0.5, v: 0.8, a: 1});
+                let actual = C.any.toHsv('hsl(180, 50%, 60%)')
+
+                actual.h.should.be.closeTo(0.5, tolerance);
+                actual.s.should.be.closeTo(0.5, tolerance);
+                actual.v.should.be.closeTo(0.8, tolerance);
+                actual.a.should.equal(1, tolerance);
             });
 
             it('should do hsl subtype -> rgb sub type conversion', () => {
-                C.any.toInt('hsl(180, 50%, 60%)').should.equal(0x66CCCC);
-                C.any.toHex('hsl(180, 50%, 60%)').should.equal("#66cccc");
+                C.any.toInt('hsl(180, 50%, 60%)').should.equal(0x65CCCC);
+                C.any.toHex('hsl(180, 50%, 60%)').should.equal("#65cccc");
                 C.any.toRgbString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
             });
         });
