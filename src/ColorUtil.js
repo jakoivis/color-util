@@ -948,7 +948,7 @@ class Hsl {
             r: (r + m) * 0xFF,
             g: (g + m) * 0xFF,
             b: (b + m) * 0xFF,
-            a: !isNaN(parseFloat(a)) ? a * 0xFF : 0xFF
+            a: a === undefined ? 0xFF : a * 0xFF
         };
     }
 
@@ -962,7 +962,7 @@ class Hsl {
             h: h,
             s: s,
             v: v,
-            a: a
+            a: a === undefined ? 1 : a
         };
     }
 

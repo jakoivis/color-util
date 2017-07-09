@@ -32,6 +32,7 @@ describe('ColorUtil', () => {
 
             it('toInt', () => {
                 C.rgb.toInt(rgb).should.equal(dec);
+                C.rgb.toInt({r: 170.1, g: 187.5, b: 204.9, a: 255}).should.equal(dec);
             });
 
             it('toHex', () => {
@@ -255,9 +256,7 @@ describe('ColorUtil', () => {
             });
 
             it('toHsv', () => {
-                console.log(C.hsl.toHsv({h: 0.5, s: 0.5, l: 0.1}));
-                console.log(C.rgb.toHsv(C.hsl.toRgb({h: 0.5, s: 0.5, l: 0.1})));
-
+                C.hsl.toHsv({h: 0.5, s: 0.5, l: 0.1}).should.eql({h: 0.5, s: 0.6666666666666665, v: 0.15, a: 1});
             });
         });
 
