@@ -21,13 +21,13 @@ describe('ColorUtil', () => {
 
         describe('rgb', () => {
 
-            it('isValid', () => {
-                C.rgb.isValid(dec).should.be.false;
-                C.rgb.isValid(hex).should.be.false;
-                C.rgb.isValid(rgba).should.be.false;
-                C.rgb.isValid(rgb).should.be.true;
-                C.rgb.isValid({r: 170, g: 187, b: 204}).should.be.true;
-                C.rgb.isValid({h: 170, s: 187, l: 204}).should.be.false;
+            it('test', () => {
+                C.rgb.test(dec).should.be.false;
+                C.rgb.test(hex).should.be.false;
+                C.rgb.test(rgba).should.be.false;
+                C.rgb.test(rgb).should.be.true;
+                C.rgb.test({r: 170, g: 187, b: 204}).should.be.true;
+                C.rgb.test({h: 170, s: 187, l: 204}).should.be.false;
             });
 
             it('toInt', () => {
@@ -114,14 +114,14 @@ describe('ColorUtil', () => {
 
         describe('int', () => {
 
-            it('isValid', () => {
-                C.int.isValid(0xFFFFFF).should.be.true;
-                C.int.isValid(0).should.be.true;
-                C.int.isValid(0x1000000).should.be.false;
-                C.int.isValid(-350456).should.be.false;
-                C.int.isValid(hex).should.be.false;
-                C.int.isValid(rgba).should.be.false;
-                C.int.isValid(rgb).should.be.false;
+            it('test', () => {
+                C.int.test(0xFFFFFF).should.be.true;
+                C.int.test(0).should.be.true;
+                C.int.test(0x1000000).should.be.false;
+                C.int.test(-350456).should.be.false;
+                C.int.test(hex).should.be.false;
+                C.int.test(rgba).should.be.false;
+                C.int.test(rgb).should.be.false;
             });
 
             it('toRgb', () => {
@@ -144,14 +144,14 @@ describe('ColorUtil', () => {
 
         describe('hex', () => {
 
-            it('isValid', () => {
-                C.hex.isValid(0xFFFFFF).should.be.false;
-                C.hex.isValid(rgb).should.be.false;
-                C.hex.isValid('test').should.be.false;
-                C.hex.isValid('#1245').should.be.false;
-                C.hex.isValid('#FFF').should.be.true;
-                C.hex.isValid('#FFFFFF').should.be.true;
-                C.hex.isValid('#FFFFFG').should.be.false;
+            it('test', () => {
+                C.hex.test(0xFFFFFF).should.be.false;
+                C.hex.test(rgb).should.be.false;
+                C.hex.test('test').should.be.false;
+                C.hex.test('#1245').should.be.false;
+                C.hex.test('#FFF').should.be.true;
+                C.hex.test('#FFFFFF').should.be.true;
+                C.hex.test('#FFFFFG').should.be.false;
             });
 
             it('toRgb', () => {
@@ -185,17 +185,17 @@ describe('ColorUtil', () => {
 
         describe('rgbString', () => {
 
-            it('isValid', () => {
-                C.rgbString.isValid(0xFFFFFF).should.be.false;
-                C.rgbString.isValid(rgb).should.be.false;
-                C.rgbString.isValid('test').should.be.false;
-                C.rgbString.isValid('rgba(0,0,0)').should.be.true;
-                C.rgbString.isValid('rgba(0,0,0,0)').should.be.true;
-                C.rgbString.isValid('rgb(0,0,0,0)').should.be.true;
-                C.rgbString.isValid('rgb(0.1,0,0,0)').should.be.false;
-                C.rgbString.isValid('rgb ( 0 , 0 , 0 , 0 )').should.be.true;
-                C.rgbString.isValid('rgba ( 0 , 0 , 0 )').should.be.true;
-                C.rgbString.isValid('rgba ( 0 , 0 , 0, 0,1 )').should.be.false;
+            it('test', () => {
+                C.rgbString.test(0xFFFFFF).should.be.false;
+                C.rgbString.test(rgb).should.be.false;
+                C.rgbString.test('test').should.be.false;
+                C.rgbString.test('rgba(0,0,0)').should.be.true;
+                C.rgbString.test('rgba(0,0,0,0)').should.be.true;
+                C.rgbString.test('rgb(0,0,0,0)').should.be.true;
+                C.rgbString.test('rgb(0.1,0,0,0)').should.be.false;
+                C.rgbString.test('rgb ( 0 , 0 , 0 , 0 )').should.be.true;
+                C.rgbString.test('rgba ( 0 , 0 , 0 )').should.be.true;
+                C.rgbString.test('rgba ( 0 , 0 , 0, 0,1 )').should.be.false;
             });
 
             it('toRgb', () => {
@@ -222,12 +222,12 @@ describe('ColorUtil', () => {
 
         describe('hsl', () => {
 
-            it('isValid', () => {
-                C.hsl.isValid(dec).should.be.false;
-                C.hsl.isValid(hex).should.be.false;
-                C.hsl.isValid(rgba).should.be.false;
-                C.hsl.isValid({h: 0, s: 0, l: 0}).should.be.true;
-                C.hsl.isValid({h: 0, s: 0, v: 0}).should.be.false;
+            it('test', () => {
+                C.hsl.test(dec).should.be.false;
+                C.hsl.test(hex).should.be.false;
+                C.hsl.test(rgba).should.be.false;
+                C.hsl.test({h: 0, s: 0, l: 0}).should.be.true;
+                C.hsl.test({h: 0, s: 0, v: 0}).should.be.false;
             });
 
             it('toRgb', () => {
@@ -262,17 +262,17 @@ describe('ColorUtil', () => {
 
         describe('hslString', () => {
 
-            it('isValid', () => {
-                C.hslString.isValid(dec).should.be.false;
-                C.hslString.isValid(hex).should.be.false;
-                C.hslString.isValid(rgba).should.be.false;
-                C.hslString.isValid({h: 0, s: 0, l: 0}).should.be.false;
-                C.hslString.isValid('hsl(5, 10%, 20%)').should.be.true;
-                C.hslString.isValid('hsla(5, 10%, 20%)').should.be.true;
-                C.hslString.isValid('hsla(5, 10%, 20%, 0.5)').should.be.true;
-                C.hslString.isValid('hsla(5, 10, 20, 0.5)').should.be.false;
-                C.hslString.isValid('hsla(5, 10)').should.be.false;
-                C.hslString.isValid('hsla(5, 10%, 20%, 0,5)').should.be.false;
+            it('test', () => {
+                C.hslString.test(dec).should.be.false;
+                C.hslString.test(hex).should.be.false;
+                C.hslString.test(rgba).should.be.false;
+                C.hslString.test({h: 0, s: 0, l: 0}).should.be.false;
+                C.hslString.test('hsl(5, 10%, 20%)').should.be.true;
+                C.hslString.test('hsla(5, 10%, 20%)').should.be.true;
+                C.hslString.test('hsla(5, 10%, 20%, 0.5)').should.be.true;
+                C.hslString.test('hsla(5, 10, 20, 0.5)').should.be.false;
+                C.hslString.test('hsla(5, 10)').should.be.false;
+                C.hslString.test('hsla(5, 10%, 20%, 0,5)').should.be.false;
             });
 
             it('toHsl', () => {
@@ -287,12 +287,12 @@ describe('ColorUtil', () => {
 
         describe('hsv', () => {
 
-            it('isValid', () => {
-                C.hsv.isValid(dec).should.be.false;
-                C.hsv.isValid(hex).should.be.false;
-                C.hsv.isValid(rgba).should.be.false;
-                C.hsv.isValid({h: 0, s: 0, v: 0}).should.be.true;
-                C.hsv.isValid({h: 0, s: 0, l: 0}).should.be.false;
+            it('test', () => {
+                C.hsv.test(dec).should.be.false;
+                C.hsv.test(hex).should.be.false;
+                C.hsv.test(rgba).should.be.false;
+                C.hsv.test({h: 0, s: 0, v: 0}).should.be.true;
+                C.hsv.test({h: 0, s: 0, l: 0}).should.be.false;
             });
 
             it('toRgb', () => {
@@ -312,6 +312,10 @@ describe('ColorUtil', () => {
                 C.hsv.toRgb({h: 3/6, s: 1, v: 0.5}).should.eql({r: 0, g: 127.5, b: 127.5, a: 255});
                 C.hsv.toRgb({h: 4/6, s: 1, v: 0.5}).should.eql({r: 0, g: 0, b: 127.5, a: 255});
                 C.hsv.toRgb({h: 0, s: 0, v: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 25.5});
+            });
+
+            it('toHsl', () => {
+                C.hsv.toHsl({h: 0.5, s: 0.5, v: 0.1}).should.eql({h: 0.5, s: 0.3333333333333333, l: 0.07500000000000001, a: 1});
             });
         });
 

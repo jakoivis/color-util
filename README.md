@@ -6,8 +6,10 @@
 
 ![Preview](/example/githubimage.jpg)
 
+Note that this package is still in ealy version 0.x.x so you should expect some changes that break backward compatibility.
+
 ## Change history
-* 0.4.0 ColorUtil.any conversion functions. Hue range changed to 0-1. Convert function can convert single color. RgbString spaces allowed. HslString conversion functions.
+* 0.4.0 ColorUtil.any conversion functions. Hue range changed to 0-1. Convert function can convert single color. RgbString spaces allowed. HslString conversion functions. RgbString regexp fixed. Rounding removed when converting to Rgb object.
 * 0.3.0 Rgb -> Hsv -> Rgb, fix rgb.toHsl conversion negative hue value
 * 0.2.0 Rgb -> Hsl -> Rgb, backward compatibility broken (e.g. ColorUtil.obj -> ColorUtil.rgb)
 * 0.1.2 Rgb color conversion functions, gradient and gradient matrix
@@ -15,13 +17,13 @@
 <a name="ColorUtil"></a>
 
 ## ColorUtil
-Color conversion functions and some other things
+Color conversion functions and gradient functions.
 
 **Kind**: global class  
 
 * [ColorUtil](#ColorUtil)
     * [.rgb](#ColorUtil.rgb)
-        * [.isValid(color)](#ColorUtil.rgb.isValid) ⇒ <code>boolean</code>
+        * [.test(color)](#ColorUtil.rgb.test) ⇒ <code>boolean</code>
         * [.toInt(rgb)](#ColorUtil.rgb.toInt) ⇒ <code>number</code>
         * [.toHex(rgb)](#ColorUtil.rgb.toHex) ⇒ <code>string</code>
         * [.toRgbString(rgb)](#ColorUtil.rgb.toRgbString) ⇒ <code>string</code>
@@ -30,27 +32,32 @@ Color conversion functions and some other things
         * [.toHsl(rgb)](#ColorUtil.rgb.toHsl) ⇒ <code>object</code>
         * [.toHsv(rgb)](#ColorUtil.rgb.toHsv) ⇒ <code>object</code>
     * [.int](#ColorUtil.int)
-        * [.isValid(color)](#ColorUtil.int.isValid) ⇒ <code>boolean</code>
+        * [.test(color)](#ColorUtil.int.test) ⇒ <code>boolean</code>
         * [.toRgb(int, [a])](#ColorUtil.int.toRgb) ⇒ <code>object</code>
         * [.toHex(int)](#ColorUtil.int.toHex) ⇒ <code>string</code>
         * [.toRgbString(int, [a])](#ColorUtil.int.toRgbString) ⇒ <code>string</code>
     * [.hex](#ColorUtil.hex)
-        * [.isValid(color)](#ColorUtil.hex.isValid) ⇒ <code>boolean</code>
+        * [.test(color)](#ColorUtil.hex.test) ⇒ <code>boolean</code>
         * [.toRgb(hex, [a])](#ColorUtil.hex.toRgb) ⇒ <code>object</code>
         * [.toInt(hex)](#ColorUtil.hex.toInt) ⇒ <code>number</code>
         * [.toRgbString(hex, [a])](#ColorUtil.hex.toRgbString) ⇒ <code>string</code>
     * [.rgbString](#ColorUtil.rgbString)
-        * [.isValid(color)](#ColorUtil.rgbString.isValid) ⇒ <code>boolean</code>
+        * [.test(color)](#ColorUtil.rgbString.test) ⇒ <code>boolean</code>
         * [.toRgb(rgba)](#ColorUtil.rgbString.toRgb) ⇒ <code>object</code>
         * [.toInt(rgba)](#ColorUtil.rgbString.toInt) ⇒ <code>number</code>
         * [.toHex(rgba)](#ColorUtil.rgbString.toHex) ⇒ <code>string</code>
     * [.hsl](#ColorUtil.hsl)
-        * [.isValid(color)](#ColorUtil.hsl.isValid) ⇒ <code>boolean</code>
+        * [.test(color)](#ColorUtil.hsl.test) ⇒ <code>boolean</code>
         * [.toRgb(hsl)](#ColorUtil.hsl.toRgb) ⇒ <code>object</code>
+        * [.toHsv(hsl)](#ColorUtil.hsl.toHsv) ⇒ <code>object</code>
         * [.toHslString(hsl)](#ColorUtil.hsl.toHslString) ⇒ <code>string</code>
+    * [.hslString](#ColorUtil.hslString)
+        * [.test(color)](#ColorUtil.hslString.test) ⇒ <code>boolean</code>
+        * [.toHsl(hsla)](#ColorUtil.hslString.toHsl) ⇒ <code>object</code>
     * [.hsv](#ColorUtil.hsv)
-        * [.isValid(color)](#ColorUtil.hsv.isValid) ⇒ <code>boolean</code>
+        * [.test(color)](#ColorUtil.hsv.test) ⇒ <code>boolean</code>
         * [.toRgb(hsv)](#ColorUtil.hsv.toRgb) ⇒ <code>object</code>
+        * [.toHsl(hsl)](#ColorUtil.hsv.toHsl) ⇒ <code>object</code>
     * [.any](#ColorUtil.any)
         * [.toRgb(color)](#ColorUtil.any.toRgb) ⇒ <code>object</code>
     * [.hueColors](#ColorUtil.hueColors) ⇒ <code>array</code>
@@ -68,7 +75,7 @@ Rgb conversion functionsRgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
 * [.rgb](#ColorUtil.rgb)
-    * [.isValid(color)](#ColorUtil.rgb.isValid) ⇒ <code>boolean</code>
+    * [.test(color)](#ColorUtil.rgb.test) ⇒ <code>boolean</code>
     * [.toInt(rgb)](#ColorUtil.rgb.toInt) ⇒ <code>number</code>
     * [.toHex(rgb)](#ColorUtil.rgb.toHex) ⇒ <code>string</code>
     * [.toRgbString(rgb)](#ColorUtil.rgb.toRgbString) ⇒ <code>string</code>
@@ -77,9 +84,9 @@ Rgb conversion functionsRgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` 
     * [.toHsl(rgb)](#ColorUtil.rgb.toHsl) ⇒ <code>object</code>
     * [.toHsv(rgb)](#ColorUtil.rgb.toHsv) ⇒ <code>object</code>
 
-<a name="ColorUtil.rgb.isValid"></a>
+<a name="ColorUtil.rgb.test"></a>
 
-#### rgb.isValid(color) ⇒ <code>boolean</code>
+#### rgb.test(color) ⇒ <code>boolean</code>
 Test validity of a color whether it is in correct notation for this class.
 
 **Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
@@ -202,14 +209,14 @@ Integer conversion functions.Int notation is 24-bit number represnting the RGB
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
 * [.int](#ColorUtil.int)
-    * [.isValid(color)](#ColorUtil.int.isValid) ⇒ <code>boolean</code>
+    * [.test(color)](#ColorUtil.int.test) ⇒ <code>boolean</code>
     * [.toRgb(int, [a])](#ColorUtil.int.toRgb) ⇒ <code>object</code>
     * [.toHex(int)](#ColorUtil.int.toHex) ⇒ <code>string</code>
     * [.toRgbString(int, [a])](#ColorUtil.int.toRgbString) ⇒ <code>string</code>
 
-<a name="ColorUtil.int.isValid"></a>
+<a name="ColorUtil.int.test"></a>
 
-#### int.isValid(color) ⇒ <code>boolean</code>
+#### int.test(color) ⇒ <code>boolean</code>
 Test validity of a color whether it is in correct notation for this class.
 
 **Kind**: static method of [<code>int</code>](#ColorUtil.int)  
@@ -274,14 +281,14 @@ Hexadecimal conversion functionsHex notation is 24-bit hex string represnting 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
 * [.hex](#ColorUtil.hex)
-    * [.isValid(color)](#ColorUtil.hex.isValid) ⇒ <code>boolean</code>
+    * [.test(color)](#ColorUtil.hex.test) ⇒ <code>boolean</code>
     * [.toRgb(hex, [a])](#ColorUtil.hex.toRgb) ⇒ <code>object</code>
     * [.toInt(hex)](#ColorUtil.hex.toInt) ⇒ <code>number</code>
     * [.toRgbString(hex, [a])](#ColorUtil.hex.toRgbString) ⇒ <code>string</code>
 
-<a name="ColorUtil.hex.isValid"></a>
+<a name="ColorUtil.hex.test"></a>
 
-#### hex.isValid(color) ⇒ <code>boolean</code>
+#### hex.test(color) ⇒ <code>boolean</code>
 Test validity of a color whether it is in correct notation for this class.
 
 **Kind**: static method of [<code>hex</code>](#ColorUtil.hex)  
@@ -346,14 +353,14 @@ RgbString conversion functionsRgbString notation is `'rgba(RRR,GGG,BBB[,A])'`
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
 * [.rgbString](#ColorUtil.rgbString)
-    * [.isValid(color)](#ColorUtil.rgbString.isValid) ⇒ <code>boolean</code>
+    * [.test(color)](#ColorUtil.rgbString.test) ⇒ <code>boolean</code>
     * [.toRgb(rgba)](#ColorUtil.rgbString.toRgb) ⇒ <code>object</code>
     * [.toInt(rgba)](#ColorUtil.rgbString.toInt) ⇒ <code>number</code>
     * [.toHex(rgba)](#ColorUtil.rgbString.toHex) ⇒ <code>string</code>
 
-<a name="ColorUtil.rgbString.isValid"></a>
+<a name="ColorUtil.rgbString.test"></a>
 
-#### rgbString.isValid(color) ⇒ <code>boolean</code>
+#### rgbString.test(color) ⇒ <code>boolean</code>
 Test validity of a color whether it is in correct notation for this class.
 
 **Kind**: static method of [<code>rgbString</code>](#ColorUtil.rgbString)  
@@ -416,13 +423,14 @@ Hsl conversion functionsHsl notation is `{h:H, s:S, l:L, a:A}` where each comp
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
 * [.hsl](#ColorUtil.hsl)
-    * [.isValid(color)](#ColorUtil.hsl.isValid) ⇒ <code>boolean</code>
+    * [.test(color)](#ColorUtil.hsl.test) ⇒ <code>boolean</code>
     * [.toRgb(hsl)](#ColorUtil.hsl.toRgb) ⇒ <code>object</code>
+    * [.toHsv(hsl)](#ColorUtil.hsl.toHsv) ⇒ <code>object</code>
     * [.toHslString(hsl)](#ColorUtil.hsl.toHslString) ⇒ <code>string</code>
 
-<a name="ColorUtil.hsl.isValid"></a>
+<a name="ColorUtil.hsl.test"></a>
 
-#### hsl.isValid(color) ⇒ <code>boolean</code>
+#### hsl.test(color) ⇒ <code>boolean</code>
 Test validity of a color whether it is in correct notation for this class.
 
 **Kind**: static method of [<code>hsl</code>](#ColorUtil.hsl)  
@@ -447,6 +455,21 @@ Hsl object `{h:H, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 ```js
 ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5});// output: {r: 191, g: 191, b: 64, a: 255}ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});// output: {r: 191, g: 191, b: 64, a: 128}
 ```
+<a name="ColorUtil.hsl.toHsv"></a>
+
+#### hsl.toHsv(hsl) ⇒ <code>object</code>
+Hsl object `{h:H, s:S, l:L, a:A}` to hsv object `{h:H, s:S, v:V, a:A}`
+
+**Kind**: static method of [<code>hsl</code>](#ColorUtil.hsl)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hsl | <code>object</code> | Hsl object |
+
+**Example**  
+```js
+ColorUtil.hsl.toHsv({h: 1/6, s: 0.5, l: 0.5});// output: {h: 0.16666666666666666, s: 0.6666666666666666, v: 0.75, a: 1}
+```
 <a name="ColorUtil.hsl.toHslString"></a>
 
 #### hsl.toHslString(hsl) ⇒ <code>string</code>
@@ -462,6 +485,44 @@ Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hs
 ```js
 ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5});// output: "hsla(120,50%,50%,1)"ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5, a:0.5});// output: "hsla(120,50%,50%,0.5)"
 ```
+<a name="ColorUtil.hslString"></a>
+
+### ColorUtil.hslString
+HslString conversion functionsHsl functional notation is `'hsla(HHH,SSS%,LLL%[,A])'`
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+
+* [.hslString](#ColorUtil.hslString)
+    * [.test(color)](#ColorUtil.hslString.test) ⇒ <code>boolean</code>
+    * [.toHsl(hsla)](#ColorUtil.hslString.toHsl) ⇒ <code>object</code>
+
+<a name="ColorUtil.hslString.test"></a>
+
+#### hslString.test(color) ⇒ <code>boolean</code>
+Test validity of a color whether it is in correct notation for this class.
+
+**Kind**: static method of [<code>hslString</code>](#ColorUtil.hslString)  
+**Returns**: <code>boolean</code> - True if valid, False otherwise.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>\*</code> | The color |
+
+<a name="ColorUtil.hslString.toHsl"></a>
+
+#### hslString.toHsl(hsla) ⇒ <code>object</code>
+Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:H, s:S, l:L, a:A}`
+
+**Kind**: static method of [<code>hslString</code>](#ColorUtil.hslString)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hsla | <code>string</code> | Hsl string |
+
+**Example**  
+```js
+ColorUtil.hslString.toHsl('hsla(180, 50%, 60%, 0.5)');// output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
+```
 <a name="ColorUtil.hsv"></a>
 
 ### ColorUtil.hsv
@@ -470,12 +531,13 @@ Hsv conversion functionsHsv notation is `{h:H, s:S, v:V, a:A}` where each comp
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
 * [.hsv](#ColorUtil.hsv)
-    * [.isValid(color)](#ColorUtil.hsv.isValid) ⇒ <code>boolean</code>
+    * [.test(color)](#ColorUtil.hsv.test) ⇒ <code>boolean</code>
     * [.toRgb(hsv)](#ColorUtil.hsv.toRgb) ⇒ <code>object</code>
+    * [.toHsl(hsl)](#ColorUtil.hsv.toHsl) ⇒ <code>object</code>
 
-<a name="ColorUtil.hsv.isValid"></a>
+<a name="ColorUtil.hsv.test"></a>
 
-#### hsv.isValid(color) ⇒ <code>boolean</code>
+#### hsv.test(color) ⇒ <code>boolean</code>
 Test validity of a color whether it is in correct notation for this class.
 
 **Kind**: static method of [<code>hsv</code>](#ColorUtil.hsv)  
@@ -499,6 +561,21 @@ Hsv object `{h:H, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 **Example**  
 ```js
 ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1});// output: {r: 255, g: 0, b: 0, a: 255}ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1, a: 0.5});// output: {r: 255, g: 0, b: 0, a: 128}
+```
+<a name="ColorUtil.hsv.toHsl"></a>
+
+#### hsv.toHsl(hsl) ⇒ <code>object</code>
+Hsv object `{h:H, s:S, v:V, a:A}` to hsl object `{h:H, s:S, l:L, a:A}`
+
+**Kind**: static method of [<code>hsv</code>](#ColorUtil.hsv)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hsl | <code>object</code> | Hsl object |
+
+**Example**  
+```js
+ColorUtil.hsv.toHsl({h: 1/6, s: 0.5, v: 0.5});// output: {h: 0.16666666666666666, s: 0.3333333333333333, l: 0.375, a: 1}
 ```
 <a name="ColorUtil.any"></a>
 

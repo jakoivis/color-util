@@ -25,8 +25,6 @@ let SYSTEM_ENDIAN = (() => {
 /**
  * @class ColorUtil
  * @classdesc Color conversion functions and gradient functions.
- * Note that this package is still in ealy version 0.x.x so
- * you should expect some changes that break backward compatibility.
  */
 export default class ColorUtil {
 
@@ -337,12 +335,12 @@ class Rgb {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.rgb
-     * @alias ColorUtil.rgb.isValid
+     * @alias ColorUtil.rgb.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('r') &&
@@ -589,12 +587,12 @@ class Int {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.int
-     * @alias ColorUtil.int.isValid
+     * @alias ColorUtil.int.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return typeof color === 'number' &&
             color <= 0xFFFFFF &&
             color >= 0;
@@ -686,12 +684,12 @@ class Hex {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.hex
-     * @alias ColorUtil.hex.isValid
+     * @alias ColorUtil.hex.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return typeof color === 'string' &&
             !!(REG_HEX.exec(color) || REG_HEX_SHORT.exec(color));
     }
@@ -792,12 +790,12 @@ class RgbString {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.rgbString
-     * @alias ColorUtil.rgbString.isValid
+     * @alias ColorUtil.rgbString.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return typeof color === 'string' &&
             !!(REG_RGB.exec(color) || REG_RGBA.exec(color));
     }
@@ -889,12 +887,12 @@ class Hsl {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.hsl
-     * @alias ColorUtil.hsl.isValid
+     * @alias ColorUtil.hsl.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
@@ -952,6 +950,19 @@ class Hsl {
         };
     }
 
+    /**
+     * Hsl object `{h:H, s:S, l:L, a:A}` to hsv object `{h:H, s:S, v:V, a:A}`
+     *
+     * @example
+     * ColorUtil.hsl.toHsv({h: 1/6, s: 0.5, l: 0.5});
+     * // output: {h: 0.16666666666666666, s: 0.6666666666666666, v: 0.75, a: 1}
+     *
+     * @memberof ColorUtil.hsl
+     * @alias ColorUtil.hsl.toHsv
+     *
+     * @param      {object}  hsl        Hsl object
+     * @return     {object}
+     */
     static toHsv(hsl) {
         let {h:h, s:s, l:l, a:a} = hsl;
 
@@ -1002,12 +1013,12 @@ class HslString {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.hslString
-     * @alias ColorUtil.hslString.isValid
+     * @alias ColorUtil.hslString.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return typeof color === 'string' &&
             !!(REG_HSL.exec(color) || REG_HSLA.exec(color));
     }
@@ -1052,12 +1063,12 @@ class Hsv {
      * Test validity of a color whether it is in correct notation for this class.
      *
      * @memberof ColorUtil.hsv
-     * @alias ColorUtil.hsv.isValid
+     * @alias ColorUtil.hsv.test
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static isValid(color) {
+    static test(color) {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
@@ -1114,17 +1125,31 @@ class Hsv {
         };
     }
 
+    /**
+     * Hsv object `{h:H, s:S, v:V, a:A}` to hsl object `{h:H, s:S, l:L, a:A}`
+     *
+     * @example
+     * ColorUtil.hsv.toHsl({h: 1/6, s: 0.5, v: 0.5});
+     * // output: {h: 0.16666666666666666, s: 0.3333333333333333, l: 0.375, a: 1}
+     *
+     * @memberof ColorUtil.hsv
+     * @alias ColorUtil.hsv.toHsl
+     *
+     * @param      {object}  hsl        Hsl object
+     * @return     {object}
+     */
     static toHsl(hsv) {
         let {h:h, s:s, v:v, a:a} = hsv;
 
-        l = 0.5 * v * (2 - s);
+        let l = 0.5 * v * (2 - s);
+
         s = v * s / (1 - Math.abs(2 * l - 1));
 
         return {
             h: h,
             s: s,
             l: l,
-            a: a
+            a: a === undefined ? 1 : a
         };
     }
 }
@@ -1257,7 +1282,7 @@ function callConverter(targetType, color) {
 
 function getColorType(color) {
     for (let type of TYPES) {
-        if (type.isValid(color)) {
+        if (type.test(color)) {
             return type;
         }
     }
