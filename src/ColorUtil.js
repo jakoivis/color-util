@@ -89,6 +89,13 @@ export default class ColorUtil {
         return Hsl;
     }
 
+    /**
+     * HslString conversion functions
+     *
+     * Hsl functional notation is `'hsla(HHH,SSS%,LLL%[,A])'`
+     *
+     * @memberof ColorUtil
+     */
     static get hslString() {
         return HslString;
     }
