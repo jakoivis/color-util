@@ -1187,6 +1187,9 @@ class Any {
      * ColorUtil.any.toInt('hsl(180, 50%, 60%)')
      * // output: 6737100
      *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toInt
+     *
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
@@ -1200,6 +1203,9 @@ class Any {
      * @example
      * ColorUtil.any.toHex('hsl(180, 50%, 60%)')
      * // output: "#66cccc"
+     *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toHex
      *
      * @param      {object}  color        Color in any notation
      * @return     {object}
@@ -1215,6 +1221,9 @@ class Any {
      * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)')
      * // output: "rgba(102,204,204,1)"
      *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toRgbString
+     *
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
@@ -1229,6 +1238,9 @@ class Any {
      * ColorUtil.any.toHsl('hsl(180, 50%, 60%)')
      * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
      *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toHsl
+     *
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
@@ -1242,6 +1254,9 @@ class Any {
      * @example
      * ColorUtil.any.toHsl('hsl(180, 50%, 60%)')
      * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+     *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toHsv
      *
      * @param      {object}  color        Color in any notation
      * @return     {object}
