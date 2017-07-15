@@ -6,7 +6,7 @@
 
 ![Preview](/example/githubimage.jpg)
 
-Note that this package is still in ealy version 0.x.x so you should expect some changes that break backward compatibility.
+Note that this package is still in ealy version 0.x.x so you should expect some changes that break backward compatibility. Target of this package is to have color utilities that concentrate on performance rather than usability.
 
 [benchmarks](http://www.jarmokoivisto.fi/projects/color-util/benchmark-0.4.1-chrome-result.html)
 
