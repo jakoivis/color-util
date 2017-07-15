@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jakoivis/ColorUtil.svg?branch=master)](https://travis-ci.org/jakoivis/ColorUtil)
+[![Build Status](https://travis-ci.org/jakoivis/color-util.svg?branch=master)](https://travis-ci.org/jakoivis/color-util)
 [![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)](https://npmjs.org/package/color-util)
 [![Npm version](https://img.shields.io/npm/v/color-util.svg)](https://npmjs.org/package/color-util)
 
@@ -7,6 +7,8 @@
 ![Preview](/example/githubimage.jpg)
 
 Note that this package is still in ealy version 0.x.x so you should expect some changes that break backward compatibility.
+
+[benchmarks](http://www.jarmokoivisto.fi/projects/color-util/benchmark-0.4.1-chrome-result.html)
 
 ## Change history
 * 0.4.0 ColorUtil.any conversion functions. Hue range changed to 0-1. Convert function can convert single color. RgbString spaces allowed. HslString conversion functions. RgbString regexp fixed. Rounding removed when converting to Rgb object.

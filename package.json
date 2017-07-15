@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jakoivis/ColorUtil.git"
+    "url": "git+https://github.com/jakoivis/color-util.git"
   },
   "keywords": [
     "color",
@@ -25,9 +25,9 @@
   "author": "Jarmo Koivisto",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jakoivis/ColorUtil/issues"
+    "url": "https://github.com/jakoivis/color-util/issues"
   },
-  "homepage": "https://github.com/jakoivis/ColorUtil#readme",
+  "homepage": "https://github.com/jakoivis/color-util#readme",
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
