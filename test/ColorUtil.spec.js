@@ -51,17 +51,18 @@ describe('ColorUtil', () => {
 
             it('toUint32', () => {
                 C.rgb.toUint32(rgb).should.equal(0xFFCCBBAA);
-                C.rgb.toUint32({r: 170, g: 187, b: 204}).should.equal(0xFFCCBBAA);
-                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
                 C.rgb.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xFFCCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
+            });
 
-                C._setSystemEndian(1);
-                C.rgb.toUint32(rgb).should.equal(0xAABBCCFF);
-                C.rgb.toUint32({r: 170, g: 187, b: 204}).should.equal(0xAABBCCFF);
-                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
-                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
-                C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCCFF);
+            it('toUint32BigEndian', () => {
+                C.rgb.toUint32BigEndian(rgb).should.equal(0xAABBCCFF);
+                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
+                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
             });
 
             it('toInt32', () => {

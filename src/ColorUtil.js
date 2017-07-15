@@ -413,8 +413,8 @@ class Rgb {
     }
 
     /**
-     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` in little-endian, `0xRRGGBBAA` in big-endian.
-     * Default alpha value is 255. Resulting value is positive
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
+     * Resulting value is positive
      *
      * @example
      * ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 255});
@@ -429,10 +429,12 @@ class Rgb {
      * @return     {number}
      */
     static toUint32(rgb) {
-        let a = !isNaN(parseInt(rgb.a)) ? rgb.a : 0xFF;
-        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-                  (a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
-            : (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | a) >>> 0;
+        return (rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
+    }
+
+    //in little-endian, `0xRRGGBBAA` in big-endian.
+    static toUint32BigEndian(rgb) {
+        return (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a) >>> 0;
     }
 
     /**
