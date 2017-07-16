@@ -1,0 +1,10 @@
+operation,ops
+getGradientColor 2 colors,15835071
+getGradientColor 6 colors,15817205
+getGradientColor 12 colors,15946967
+getGradientColor 24 colors,15846571
+getGradientMatrixColor 2x2 colors,4389543
+getGradientMatrixColor 2x6 colors,4198372
+getGradientMatrixColor 3x6 colors,4275037
+getGradientMatrixColor 4x6 colors,4230227
+getGradientMatrixColor 12x12 colors,4205572
