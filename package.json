@@ -6,9 +6,9 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/*.spec.js",
     "test-watch": "mocha --compilers js:babel-core/register -w ./test/*.spec.js",
-    "watch": "webpack-dev-server",
+    "watch": "webpack-dev-server --env development",
     "prebuild": "npm run test",
-    "build": "webpack -p --config ./webpack.production.config.js",
+    "build": "webpack -p --env production",
     "docs": "jsdoc2md --template readme.hbs --files src/ColorUtil.js > README.md",
     "docs-watch": "nodemon --watch src/ColorUtil.js --exec \"npm run docs\""
   },
@@ -38,6 +38,8 @@
     "nodemon": "^1.11.0",
     "path": "^0.12.7",
     "sinon": "^2.3.4",
-    "webpack": "^2.6.1"
-  }
+    "webpack": "^2.6.1",
+    "webpack-merge": "^4.1.0"
+  },
+  "dependencies": {}
 }
