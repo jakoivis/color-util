@@ -1,16 +1,11 @@
 
 import chai from 'chai';
-import sinon from 'sinon';
 import C from '../src/ColorUtil.js';
 
 chai.should();
 let expect = require('chai').expect;
 
 describe('ColorUtil', () => {
-
-    beforeEach(() => {
-        C._setSystemEndian(0);
-    });
 
     describe('conversion functions', () => {
 
@@ -66,18 +61,24 @@ describe('ColorUtil', () => {
             });
 
             it('toInt32', () => {
-                C.rgb.toInt32(rgb).should.equal(-3359830); // 0xFFCCBBAA
-                C.rgb.toInt32({r: 170, g: 187, b: 204}).should.equal(-3359830); // 0xFFCCBBAA
+                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
                 C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+                C.rgb.toInt32({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
                 C.rgb.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-3359830); // 0xFFCCBBAA
+                C.rgb.toInt32({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
+            });
 
-                C._setSystemEndian(1);
-                C.rgb.toInt32(rgb).should.equal(-1430532865); // 0xAABBCCFF
-                C.rgb.toInt32({r: 170, g: 187, b: 204}).should.equal(-1430532865); // 0xAABBCCFF
-                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(-1430533120); // 0xAABBCC00
-                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(-1430533035); // 0xAABBCC55
-                C.rgb.toInt32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(-1430532865); // 0xAABBCCFF
+            it('toInt32BigEndian', () => {
+                let AABBCCFF = -1430532865;
+                let AABBCC55 = -1430533035
+                let AABBCC00 = -1430533120;
+                let AA00CC00 = -1442788352;
+
+                C.rgb.toInt32BigEndian(rgb).should.equal(AABBCCFF);
+                C.rgb.toInt32BigEndian({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
+                C.rgb.toInt32BigEndian({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
+                C.rgb.toInt32BigEndian({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
+                C.rgb.toInt32BigEndian({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
             });
 
             it('toHsl', () => {
@@ -512,115 +513,102 @@ describe('ColorUtil', () => {
         var fromRgb = C.rgb.toInt;
 
         it('should get color from 1 point gradient', () => {
-            C.getGradientColor([0x00FF7F], 0.5, toRgb, fromRgb)
+            getGradientColor([0x00FF7F], 0.5)
                 .should.equal(0x00FF7F);
         });
 
         it('should get color from 2 point gradient', () => {
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], 0)
                 .should.equal(0x00FF7F);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 1, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], 1)
                 .should.equal(0xFF00FF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.25, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], 0.25)
                 .should.equal(0x3FBF9F);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.5, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], 0.5)
                 .should.equal(0x7F7FBF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 0.75, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], 0.75)
                 .should.equal(0xBF3FDF);
         });
 
         it('should get color from 3 point gradient', () => {
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0, toRgb, fromRgb)
+            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0)
                 .should.equal(0x0);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1, toRgb, fromRgb)
+            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1)
                 .should.equal(0xFFFFFF);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25, toRgb, fromRgb)
+            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25)
                 .should.equal(0x3F3F3F);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5, toRgb, fromRgb)
+            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5)
                 .should.equal(0x7F7F7F);
-            C.getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75, toRgb, fromRgb)
+            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75)
                 .should.equal(0xBFBFBF);
         });
 
         it('should get color from 4 point gradient', () => {
-            C.getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0, toRgb, fromRgb)
+            getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0)
                 .should.equal(0xFFFFFF); // first color
-            C.getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1, toRgb, fromRgb)
+            getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1)
                 .should.equal(0xFFFFFF); // last color
-            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25, toRgb, fromRgb)
+            getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25)
                 .should.equal(0xBFBFBF); // 75% between colors 0 and 1
-            C.getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5, toRgb, fromRgb)
+            getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5)
                 .should.equal(0xBFBFBF); // 50% beween colors 1 and 2
-            C.getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75, toRgb, fromRgb)
+            getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75)
                 .should.equal(0x9F9F9F); // 25% between colors 2 and 3
         });
 
         it('should return edge colors when value is out of range', () => {
-            C.getGradientColor([0x00FF7F, 0xFF00FF], 2, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], 2)
                 .should.equal(0xFF00FF);
-            C.getGradientColor([0x00FF7F, 0xFF00FF], -2, toRgb, fromRgb)
+            getGradientColor([0x00FF7F, 0xFF00FF], -2)
                 .should.equal(0x00FF7F);
         });
+
+        function getGradientColor(colors, position) {
+            colors = C.convert(colors, C.int.toRgb);
+
+            let color = C.getGradientColor(colors, position);
+
+            return C.rgb.toInt(color);
+        }
     });
 
     describe('getGradientMatrixColor', () => {
 
-        let sandbox;
-        let stub;
-
-        beforeEach(() => {
-            sandbox = sinon.sandbox.create();
-            stub = sandbox.stub(C, 'getGradientColor')
-                .onCall(0).returns(0)
-                .onCall(1).returns(1);
-        });
-
-        afterEach(() => {
-            sandbox.restore();
-        });
-
         let matrix = [
-            [0x0000FF, 0x00FF00, 0xFF0000],
-            [0x0000EE, 0x00EE00, 0xEE0000],
-            [0x0000DD, 0x00DD00, 0xDD0000],
-            [0x0000CC, 0x00CC00, 0xCC0000],
-            [0x0000BB, 0x00BB00, 0xBB0000]
+            [0xFF0000, 0x0000FF],
+            [0x000000, 0x00FF00]
         ];
 
-        it('should calculate with correct horizontal colors', () => {
-            C.getGradientMatrixColor(matrix, 0.75, 0);
-
-            let call1 = stub.getCall(0);
-            let call2 = stub.getCall(1);
-
-            call1.calledWith(matrix[0], 0.75).should.be.true;
-            call2.calledWith(matrix[1], 0.75).should.be.true;
+        it('should get left corner color', () => {
+            getMatrixColor(matrix, 0, 0).should.equal(0xFF0000);
         });
 
-        it('should calculate with correct gradients', () => {
-            C.getGradientMatrixColor(matrix, 0.75, 0.75);
-
-            let call1 = stub.getCall(0);
-            let call2 = stub.getCall(1);
-
-            call1.calledWith(matrix[3], 0.75).should.be.true;
-            call2.calledWith(matrix[4], 0.75).should.be.true;
+        it('should get right corner color', () => {
+            getMatrixColor(matrix, 1, 0).should.equal(0x0000FF);
         });
 
-        it('should calculate final color with correct colors', () => {
-            C.getGradientMatrixColor(matrix, 0.75, 0);
-
-            let call3 = stub.getCall(2);
-
-            call3.calledWith([0, 1], 0).should.be.true;
+        it('should get bottom right corner color', () => {
+            getMatrixColor(matrix, 1, 1).should.equal(0x00FF00);
         });
 
-        it('should calculate final color with correct vertical position', () => {
-            C.getGradientMatrixColor(matrix, 0.75, 0.80);
-
-            let call3 = stub.getCall(2);
-
-            call3.args[1].should.be.closeTo(0.200, 0.001);
+        it('should get bottom left corner color', () => {
+            getMatrixColor(matrix, 0, 1).should.equal(0x000000);
         });
+
+        it('should get bottom center color', () => {
+            getMatrixColor(matrix, 0.5, 1).should.equal(0x007f00);
+        });
+
+        it('should get right center color', () => {
+            getMatrixColor(matrix, 1, 0.5).should.equal(0x007f7f);
+        });
+
+        function getMatrixColor(colors, x, y) {
+            colors = C.convert(colors, C.int.toRgb);
+
+            let color = C.getMatrixColor(colors, x, y);
+
+            return C.rgb.toInt(color);
+        }
     });
 });

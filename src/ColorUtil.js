@@ -22,6 +22,8 @@ let SYSTEM_ENDIAN = (() => {
     }
 })();
 
+const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
+
 /**
  * @class ColorUtil
  * @classdesc Color conversion functions and gradient functions.
@@ -141,12 +143,8 @@ export default class ColorUtil {
      *
      * @return     {number}  0=little-endian, 1=big-endian, 2=unknown-endian
      */
-    static getSystemEndian() {
+    static get endian() {
         return SYSTEM_ENDIAN;
-    }
-
-    static _setSystemEndian(value) {
-        SYSTEM_ENDIAN = value;
     }
 
     /**
@@ -230,94 +228,61 @@ export default class ColorUtil {
     }
 
     /**
-     * Get color from gradient.
-     *
-     * Gradient calculation is done in rgb object notation so convertToRgb must convert
-     * to rgb object and convertFromRgb must convert from rgb object type. In case colors
-     * are preformatted to rgb object, convertToRgb conversion is not needed. Similarly
-     * if rgb object notation is the desired output then convertFromRgb is not needed.
-     * In this case set null in place for the conversion function.
+     * Get color from gradient. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
      *
      * @example
-     * let gradient = [0xFF0000, 0x00FF00, 0x0000FF];
-     * ColorUtil.getGradientColor(gradient, 0.5, ColorUtil.int.toRgb, ColorUtil.rgb.toHex);
-     * // output: "#00ff00"
-     *
-     * gradient = ColorUtil.convert(gradient, ColorUtil.int.toRgb)
-     * ColorUtil.getGradientColor(gradient, 0.5, null, ColorUtil.rgb.toHex);
-     * // output: "#00ff00"
+     * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
+     * ColorUtil.getGradientColor(gradient, 0.5);
+     * // output: {r: 0, g: 255, b: 0, a: 255}
      *
      * @memberof ColorUtil
      *
-     * @param {array} colors            Array of colors. Color notation can be anything.
-     *                                  convertToRgb needs to be set depending on the notation.
+     * @param {array} colors            Array of colors. Colors should be in rgb object notation.
      * @param {number} position         Position on the gradient. Value in range 0-1.
-     * @param {function} [convertToRgb] Convert incoming color to object.
-     * @param {function} [convertFromRgb] Convert outgoing color from object.
-     * @return {*} Return value depend on the what has been set to convertFromRgb.
+     * @return {object} rgb object
      */
-    static getGradientColor(colors, position, convertToRgb, convertFromRgb) {
+    static getGradientColor(colors, position) {
         let {
             array: [color1, color2],
             position: positionBetweenColors
         } = this.convertTo2StopGradient(colors, position);
 
-        if (convertToRgb) {
-            color1 = convertToRgb(color1);
-            color2 = convertToRgb(color2);
-        }
 
-        let color = {
+        return {
             r: color1.r - positionBetweenColors * (color1.r - color2.r),
             g: color1.g - positionBetweenColors * (color1.g - color2.g),
             b: color1.b - positionBetweenColors * (color1.b - color2.b),
             a: color1.a - positionBetweenColors * (color1.a - color2.a)
         };
-
-        return convertFromRgb ? convertFromRgb(color) : color;
     }
 
     /**
-     * Get color from gradient matrix. Gradient matrix is like normal gradient
-     * but it is two dimensional.
-     *
-     * Gradient calculation is done in rgb object notation so convertToRgb must convert
-     * to rgb object and convertFromRgb must convert from rgb object type. In case colors
-     * are preformatted to rgb object, convertToRgb conversion is not needed. Similarly
-     * if rgb object notation is the desired output then convertFromRgb is not needed.
-     * In this case set null in place for the conversion function.
+     * Get color from matrix. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
      *
      * @example
-     * let matrix = [[0xFF0000, 0x00FF00], [0x0000FF]];
-     * ColorUtil.getGradientMatrixColor(matrix, 0.5, 0.5, ColorUtil.int.toRgb, ColorUtil.rgb.toHex);
-     * // output: "#3f3f7f"
-     *
-     * matrix = ColorUtil.convert(matrix, ColorUtil.int.toRgb)
-     * ColorUtil.getGradientMatrixColor(matrix, 0.5, 0.5, null, ColorUtil.rgb.toHex);
-     * // output: "#3f3f7f"
+     * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
+     * ColorUtil.getMatrixColor(matrix, 0.5, 0.5);
+     * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
      *
      * @memberof ColorUtil
      *
-     * @param {array} matrix    Array of gradient color arrays. Color notation can be anything.
-     *                          convertToRgb needs to be set depending on the notation.
+     * @param {array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
      * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
-     * @param {function} [convertToRgb] Convert incoming color to object.
-     * @param {function} [convertFromRgb] Convert outgoing color from object.
-     * @return {*}
+     * @return {object} rgb object
      */
-    static getGradientMatrixColor(matrix, x, y, convertToRgb, convertFromRgb) {
+    static getMatrixColor(matrix, x, y) {
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
         } = this.convertTo2StopGradient(matrix, y);
 
-        // internally we cen drop the conversion between these 3 functions
+        let color1 = this.getGradientColor(gradient1, x);
+        let color2 = this.getGradientColor(gradient2, x);
 
-        let color1 = this.getGradientColor(gradient1, x, convertToRgb, null);
-        let color2 = this.getGradientColor(gradient2, x, convertToRgb, null);
-
-        return this.getGradientColor([color1, color2], positionBetweenGradients, null, convertFromRgb);
+        return this.getGradientColor([color1, color2], positionBetweenGradients);
     }
 }
 
@@ -432,14 +397,48 @@ class Rgb {
         return (rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
     }
 
-    //in little-endian, `0xRRGGBBAA` in big-endian.
+    /**
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
+     * Alpha value is discarded and fully opaque value is used. This is faster option compared to
+     * `toUint32` and can be used if alpha value is not relevant. Resulting value is positive
+     *
+     * @example
+     * ColorUtil.rgb.toUint32Opaque({r: 0, g: 128, b: 255})
+     * // output: 4294934528
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toUint32Opaque
+     *
+     * @param      {object}    rgb
+     * @return     {number}
+     */
+    static toUint32Opaque(rgb) {
+        return (INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
+    }
+
+    /**
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
+     * Resulting value is positive
+     *
+     * @example
+     * ColorUtil.rgb.toUint32BigEndian({r: 0, g: 128, b: 255, a: 255});
+     * // output: 8454143
+     * ColorUtil.rgb.toUint32BigEndian({r: 0, g: 128, b: 255, a: 85});
+     * // output: 8453973
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toUint32
+     *
+     * @param      {object}    rgb
+     * @return     {number}
+     */
     static toUint32BigEndian(rgb) {
         return (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a) >>> 0;
     }
 
     /**
-     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` in little-endian, `0xRRGGBBAA` in big-endian.
-     * Default alpha value is 255. Resulting value can be negative
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
+     * Resulting value can be negative.
      *
      * @example
      * ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});
@@ -454,10 +453,46 @@ class Rgb {
      * @return     {number}
      */
     static toInt32(rgb) {
-        let a = !isNaN(parseInt(rgb.a)) ? rgb.a : 0xFF;
-        return SYSTEM_ENDIAN === LITTLE_ENDIAN ?
-                  (a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r)
-            : (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | a);
+        return rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r;
+    }
+
+    /**
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
+     * Alpha value is discarded and fully opaque value is used. This is faster option compared to
+     * `toInt32` and can be used if alpha value is not relevant. Resulting value can be negative.
+     *
+     * @example
+     * ColorUtil.rgb.toInt32Opaque({r: 0, g: 128, b: 255})
+     * // output: -32768
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toInt32Opaque
+     *
+     * @param      {object}    rgb
+     * @return     {number}
+     */
+    static toInt32Opaque(rgb) {
+        return INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r;
+    }
+
+    /**
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
+     * Resulting value can be negative.
+     *
+     * @example
+     * ColorUtil.rgb.toInt32BigEndian({r: 0, g: 128, b: 255, a: 255});
+     * // output: 8454143
+     * ColorUtil.rgb.toInt32BigEndian({r: 0, g: 128, b: 255, a: 85});
+     * // output: 8453973
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toInt32BigEndian
+     *
+     * @param      {object}    rgb
+     * @return     {number}
+     */
+    static toInt32BigEndian(rgb) {
+        return rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a;
     }
 
     /**

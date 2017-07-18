@@ -9,9 +9,14 @@
 
 <script>
 
+// convert colors to rgb objects so getGradientMatrixColor understands them
+let colors = ColorUtil.convert(
+    [0xFF0000, 0xFFFF00, 0x0000FF, 0x00FFFF],
+    ColorUtil.int.toRgb);
+
 let width = 300;
 let height = 100;
-let colors = [0xFF0000, 0xFFFF00, 0x0000FF, 0x00FFFF];
+
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 let imageData  = ctx.createImageData(width, height);
@@ -24,15 +29,11 @@ canvas.height = height;
 
 for(let x = 0; x < width; x++) {
 
-    let color = ColorUtil.getGradientColor(
-                    colors,
-                    x/width,
-                    ColorUtil.int.toRgb,
-                    ColorUtil.rgb.toUint32);
-
     for(let y = 0; y < height; y++) {
 
-        uint32View[y * width + x] = color;
+        let rgb = ColorUtil.getGradientColor(colors, x/width);
+
+        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }
 }
 

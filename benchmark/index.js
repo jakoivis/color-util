@@ -3,7 +3,7 @@ import $ from 'jquery';
 import Highcharts from 'highcharts/highcharts';
 import csv1 from './benchmark-0.4.1-chrome-conversion-result.csv';
 import csv2 from './benchmark-0.4.1-chrome-other-result.csv';
-import html from './benchmark-0.4.1-chrome-result.html';
+import html from './benchmark-result.html';
 
 require('highcharts/modules/data')(Highcharts);
 

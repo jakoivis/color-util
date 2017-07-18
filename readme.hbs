@@ -10,11 +10,31 @@ Note that this package is still in ealy version 0.x.x so you should expect some 
 
 [benchmarks](http://www.jarmokoivisto.fi/projects/color-util/benchmark-0.4.1-chrome-result.html)
 
-## Change history
-* 0.4.0 ColorUtil.any conversion functions. Hue range changed to 0-1. Convert function can convert single color. RgbString spaces allowed. HslString conversion functions. RgbString regexp fixed. Rounding removed when converting to Rgb object.
-* 0.3.0 Rgb -> Hsv -> Rgb, fix rgb.toHsl conversion negative hue value
-* 0.2.0 Rgb -> Hsl -> Rgb, backward compatibility broken (e.g. ColorUtil.obj -> ColorUtil.rgb)
-* 0.1.2 Rgb color conversion functions, gradient and gradient matrix
-
 {{>main-index~}}
 {{>all-docs~}}
+
+## Change history
+* 0.5.0
+    * benchmarks and some optimizations added
+    * `getGradientColor` and `getGradientMatrixColor` conversion arguments removed -> input and output is now only rgb object notation.
+    * Removed endianness check from `toUint32` and `toInt32` conversion functions -> endianness check should be done manually if required.
+    * Split `toUint32` and `toInt32` to `toUint32`, `toUint32Opaque`, `toUint32BigEndian`, `toInt32`, `toInt32Opaque`, `toInt32BigEndian`.
+    * Default alpha values removed when converting from rgb to rgb sub-type.
+    * `getGradientMatrixColor` renamed to `getMatrixColor`
+    * `getSystemEndian` function changed to `endian` getter
+* 0.4.0
+    * ColorUtil.any conversion functions.
+    * Hue range changed to 0-1.
+    * Convert function can convert single color.
+    * RgbString spaces allowed.
+    * HslString conversion functions.
+    * RgbString regexp fixed.
+    * Rounding removed when converting to Rgb object.
+* 0.3.0
+    * Rgb -> Hsv -> Rgb
+    * fix rgb.toHsl conversion negative hue value
+* 0.2.0
+    * Rgb -> Hsl -> Rgb
+    * backward compatibility broken (e.g. ColorUtil.obj -> ColorUtil.rgb)
+* 0.1.2
+    * Rgb color conversion functions, gradient and gradient matrix

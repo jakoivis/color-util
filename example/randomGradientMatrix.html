@@ -10,9 +10,11 @@
 Refresh the page to update colors
 <script>
 
+let colors = ColorUtil.convert(getRandomColors(), ColorUtil.int.toRgb);
+
 let width = 300;
 let height = 300;
-let colors = getRandomColors();
+
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 let imageData  = ctx.createImageData(width, height);
@@ -27,13 +29,9 @@ for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        uint32View[y * width + x] =
-            ColorUtil.getGradientMatrixColor(
-                colors,
-                x/width,
-                y/height,
-                ColorUtil.int.toRgb,
-                ColorUtil.rgb.toUint32);
+        let rgb = ColorUtil.getMatrixColor(colors, x/width, y/height);
+
+        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }
 }
 
