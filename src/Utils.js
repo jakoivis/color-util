@@ -13,7 +13,8 @@ function convert(colors, ...conversionFunctions) {
     }, colors);
 }
 
-function callConverter(type, targetType, color) {
+function callConverter(targetType, color, availableTypes) {
+    let type = getColorType(color, availableTypes);
 
     if (!type) {
         throw new Error(`Color '${color}' notation doesn't match any notation`);
@@ -34,7 +35,7 @@ function callConverter(type, targetType, color) {
 
     // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)
     // e.g. hslString -> hex, hslString -> rgbString
-    let path = getConversionPath(type, targetType);
+    let path = getConversionPath(type, targetType, availableTypes);
 
     return convert(color, ...path);
 }
@@ -49,7 +50,7 @@ function getColorType(color, types) {
     return null;
 }
 
-function getConversionPath(type, targetType, path=[]) {
+function getConversionPath(type, targetType, availableTypes) {
     let sourcePath = getPathToRoot(type);
     let targetPath = getPathToRootReverse(targetType);
 
@@ -66,7 +67,7 @@ function getConversionPath(type, targetType, path=[]) {
         // root types are not convertible between each other
         // find a detour path
 
-        let detourType = getRootTypeWithFunction(targetRootType);
+        let detourType = getRootTypeWithFunction(targetRootType, availableTypes);
 
         if (!detourType) {
             throw new Error('Color cannot be converted. This is most likely a bug');
@@ -120,10 +121,10 @@ function getPathToRootReverse(type, path=[]) {
     return path.reverse();
 }
 
-function getRootTypeWithFunction(targetType) {
+function getRootTypeWithFunction(targetType, availableTypes) {
     let conversionFnName = 'to'+targetType.name;
 
-    for(let type of TYPES) {
+    for(let type of availableTypes) {
         if(!type.parent && typeof type[conversionFnName] === 'function') {
             return type;
         }

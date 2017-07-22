@@ -324,19 +324,42 @@ describe('ColorUtil', () => {
                 C.hslString.test({h: 0, s: 0, l: 0}).should.be.false;
                 C.hslString.test('hsl(5, 10%, 20%)').should.be.true;
                 C.hslString.test('hsla(5, 10%, 20%)').should.be.true;
-                C.hslString.test('hsla(5, 10%, 20%, 0.5)').should.be.true;
+                C.hslString.test('hsla(5, 10%, 20%, 0.5)').should.be.false;
                 C.hslString.test('hsla(5, 10, 20, 0.5)').should.be.false;
                 C.hslString.test('hsla(5, 10)').should.be.false;
                 C.hslString.test('hsla(5, 10%, 20%, 0,5)').should.be.false;
+                C.hslString.test('hsl(5.1, 10%, 20%)').should.be.false;
             });
 
             it('toHsl', () => {
-                C.hslString.toHsl('hsla(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
-                C.hslString.toHsl('hsl(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
                 C.hslString.toHsl('hsl(180, 50%, 60%)').should.eql({h:3/6,s:0.5,l:0.6,a:1});
                 C.hslString.toHsl('hsla(180, 50%, 60%)').should.eql({h:3/6,s:0.5,l:0.6,a:1});
 
                 expect(C.hslString.toHsl('hsl(180, 50, 60, 0.5)')).to.be.null;
+            });
+        });
+
+        describe('hslaString', () => {
+
+            it('test', () => {
+                C.hslaString.test(dec).should.be.false;
+                C.hslaString.test(hex).should.be.false;
+                C.hslaString.test(rgba).should.be.false;
+                C.hslaString.test({h: 0, s: 0, l: 0}).should.be.false;
+                C.hslaString.test('hsl(5, 10%, 20%)').should.be.false;
+                C.hslaString.test('hsla(5, 10%, 20%)').should.be.false;
+                C.hslaString.test('hsla(5, 10%, 20%, 0.5)').should.be.true;
+                C.hslaString.test('hsla(5, 10, 20, 0.5)').should.be.false;
+                C.hslaString.test('hsla(5, 10)').should.be.false;
+                C.hslaString.test('hsla(5, 10%, 20%, 0,5)').should.be.false;
+                C.hslaString.test('hsla(5.1, 10%, 20%, 0.5)').should.be.false;
+            });
+
+            it('toHsl', () => {
+                C.hslaString.toHsl('hsla(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
+                C.hslaString.toHsl('hsl(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
+
+                expect(C.hslaString.toHsl('hsl(180, 50, 60)')).to.be.null;
             });
         });
 
@@ -414,9 +437,9 @@ describe('ColorUtil', () => {
                 C.any.toRgbString({r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF}).should.eql('rgb(170,187,204)');
                 C.any.toRgbString(0xAABBCC).should.eql('rgb(170,187,204)');
                 C.any.toRgbString('#AABBCC').should.eql('rgb(170,187,204)');
-                // C.any.toRgbaString(rgb).should.eql('rgba(170,187,204,1)');
-                // C.any.toRgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
-                // C.any.toRgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
+                C.any.toRgbaString(rgb).should.eql('rgba(170,187,204,1)');
+                C.any.toRgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
+                C.any.toRgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
 
                 // C.any.toRgb(0xFFAABBCC).should.eql({r:0xCC, g: 0xBB, b: 0xAA, a: 0xFF});
                 // C.any.toRgb(-3359830).should.eql({r:0xAA, g: 0xBB, b: 0xCC, a: 0xFF}); // 0xFFCCBBAA, 0xAABBGGRR
@@ -457,7 +480,7 @@ describe('ColorUtil', () => {
                 C.any.toInt(hsl).should.equal(0xAABBCC);
                 C.any.toHex(hsl).should.equal('#aabbcc');
                 C.any.toRgbString(hsl).should.equal('rgb(170,187,204)');
-                // C.any.toRgbaString(hsl).should.equal('rgba(170,187,204,1)');
+                C.any.toRgbaString(hsl).should.equal('rgba(170,187,204,1)');
             });
 
             it('should do hsl subtype -> hsv conversion', () => {
@@ -473,7 +496,12 @@ describe('ColorUtil', () => {
                 C.any.toInt('hsl(180, 50%, 60%)').should.equal(0x65CCCC);
                 C.any.toHex('hsl(180, 50%, 60%)').should.equal("#65cccc");
                 C.any.toRgbString('hsl(180, 50%, 60%)').should.equal('rgb(102,204,204)');
-                // C.any.toRgbaString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
+                C.any.toRgbaString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
+            });
+
+            it('should do hsl subtype -> hsl subtype conversion', () => {
+                C.any.toHslaString('hsl(180, 50%, 60%)').should.equal('hsla(180,50%,60%,1)');
+                C.any.toHslString('hsla(180, 50%, 60%, 1)').should.equal('hsl(180,50%,60%)');
             });
         });
 

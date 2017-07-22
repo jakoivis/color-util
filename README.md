@@ -62,7 +62,10 @@ Color conversion functions and gradient functions.
         * [.toHslaString(hsl)](#ColorUtil.hsl.toHslaString) ⇒ <code>string</code>
     * [.hslString](#ColorUtil.hslString)
         * [.test(color)](#ColorUtil.hslString.test) ⇒ <code>boolean</code>
-        * [.toHsl(hsla)](#ColorUtil.hslString.toHsl) ⇒ <code>object</code>
+        * [.toHsl(hslString, [a])](#ColorUtil.hslString.toHsl) ⇒ <code>object</code>
+    * [.hslaString](#ColorUtil.hslaString)
+        * [.test(color)](#ColorUtil.hslaString.test) ⇒ <code>boolean</code>
+        * [.toHsl(hslaString)](#ColorUtil.hslaString.toHsl) ⇒ <code>object</code>
     * [.hsv](#ColorUtil.hsv)
         * [.test(color)](#ColorUtil.hsv.test) ⇒ <code>boolean</code>
         * [.toRgb(hsv)](#ColorUtil.hsv.toRgb) ⇒ <code>object</code>
@@ -76,6 +79,7 @@ Color conversion functions and gradient functions.
         * [.toHsl(color)](#ColorUtil.any.toHsl) ⇒ <code>object</code>
         * [.toHsv(color)](#ColorUtil.any.toHsv) ⇒ <code>object</code>
         * [.toHslString(color)](#ColorUtil.any.toHslString) ⇒ <code>string</code>
+        * [.toHslaString(color)](#ColorUtil.any.toHslaString) ⇒ <code>string</code>
     * [.hueColors](#ColorUtil.hueColors) ⇒ <code>array</code>
     * [.endian](#ColorUtil.endian) ⇒ <code>number</code>
     * [.convert](#ColorUtil.convert) ⇒ <code>array</code>
@@ -709,7 +713,7 @@ HslString conversion functionsHsl functional notation is `'hsl(HHH,SSS%,LLL%)'
 
 * [.hslString](#ColorUtil.hslString)
     * [.test(color)](#ColorUtil.hslString.test) ⇒ <code>boolean</code>
-    * [.toHsl(hsla)](#ColorUtil.hslString.toHsl) ⇒ <code>object</code>
+    * [.toHsl(hslString, [a])](#ColorUtil.hslString.toHsl) ⇒ <code>object</code>
 
 <a name="ColorUtil.hslString.test"></a>
 
@@ -725,18 +729,57 @@ Test validity of a color whether it is in correct notation for this class.
 
 <a name="ColorUtil.hslString.toHsl"></a>
 
-#### hslString.toHsl(hsla) ⇒ <code>object</code>
-Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:H, s:S, l:L, a:A}`
+#### hslString.toHsl(hslString, [a]) ⇒ <code>object</code>
+Hsl functional notation string `'hsl(HHH,SSS%,LLL%)'` to hsl object `{h:H, s:S, l:L, a:A}`
 
 **Kind**: static method of [<code>hslString</code>](#ColorUtil.hslString)  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| hsla | <code>string</code> | Hsl string |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| hslString | <code>string</code> |  | Hsl string |
+| [a] | <code>number</code> | <code>1</code> | Alpha value in range 0-1 |
 
 **Example**  
 ```js
-ColorUtil.hslString.toHsl('hsla(180, 50%, 60%, 0.5)');// output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
+ColorUtil.hslString.toHsl('hsl(180, 50%, 60%)');// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+```
+<a name="ColorUtil.hslaString"></a>
+
+### ColorUtil.hslaString
+HslaString conversion functionsHsla functional notation is `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+
+* [.hslaString](#ColorUtil.hslaString)
+    * [.test(color)](#ColorUtil.hslaString.test) ⇒ <code>boolean</code>
+    * [.toHsl(hslaString)](#ColorUtil.hslaString.toHsl) ⇒ <code>object</code>
+
+<a name="ColorUtil.hslaString.test"></a>
+
+#### hslaString.test(color) ⇒ <code>boolean</code>
+Test validity of a color whether it is in correct notation for this class.
+
+**Kind**: static method of [<code>hslaString</code>](#ColorUtil.hslaString)  
+**Returns**: <code>boolean</code> - True if valid, False otherwise.  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>\*</code> | The color |
+
+<a name="ColorUtil.hslaString.toHsl"></a>
+
+#### hslaString.toHsl(hslaString) ⇒ <code>object</code>
+Hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'` to hsl object `{h:H, s:S, l:L, a:A}`
+
+**Kind**: static method of [<code>hslaString</code>](#ColorUtil.hslaString)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| hslaString | <code>string</code> | Hsl string |
+
+**Example**  
+```js
+ColorUtil.hslaString.toHsl('hsla(180, 50%, 60%, 0.5)');// output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
 ```
 <a name="ColorUtil.hsv"></a>
 
@@ -808,6 +851,7 @@ Any conversion functions.Converts supported color notations to any notation.
     * [.toHsl(color)](#ColorUtil.any.toHsl) ⇒ <code>object</code>
     * [.toHsv(color)](#ColorUtil.any.toHsv) ⇒ <code>object</code>
     * [.toHslString(color)](#ColorUtil.any.toHslString) ⇒ <code>string</code>
+    * [.toHslaString(color)](#ColorUtil.any.toHslaString) ⇒ <code>string</code>
 
 <a name="ColorUtil.any.toRgb"></a>
 
@@ -837,7 +881,7 @@ Convert any color to number notation `0xRRGGBB`
 
 **Example**  
 ```js
-ColorUtil.any.toInt('hsl(180, 50%, 60%)')// output: 6737100
+ColorUtil.any.toInt('hsl(180, 50%, 60%)');// output: 6737100
 ```
 <a name="ColorUtil.any.toHex"></a>
 
@@ -852,7 +896,7 @@ Convert any color to hex notation `'#RRGGBB'`
 
 **Example**  
 ```js
-ColorUtil.any.toHex('hsl(180, 50%, 60%)')// output: "#66cccc"
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');// output: "#66cccc"
 ```
 <a name="ColorUtil.any.toRgbString"></a>
 
@@ -867,7 +911,7 @@ Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
 
 **Example**  
 ```js
-ColorUtil.any.toRgbString('hsl(180, 50%, 60%)')// output: "rgb(102,204,204)"
+ColorUtil.any.toRgbString('hsl(180, 50%, 60%)');// output: "rgb(102,204,204)"
 ```
 <a name="ColorUtil.any.toRgbaString"></a>
 
@@ -882,7 +926,7 @@ Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
 
 **Example**  
 ```js
-ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)')// output: "rgba(102,204,204,1)"
+ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)');// output: "rgba(102,204,204,1)"
 ```
 <a name="ColorUtil.any.toHsl"></a>
 
@@ -897,7 +941,7 @@ Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Example**  
 ```js
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)')// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 <a name="ColorUtil.any.toHsv"></a>
 
@@ -912,7 +956,7 @@ Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Example**  
 ```js
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)')// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 <a name="ColorUtil.any.toHslString"></a>
 
@@ -927,7 +971,22 @@ Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
 
 **Example**  
 ```js
-ColorUtil.any.toHslString({h: 0.5, s: 0.5, l: 0.6, a: 1})// output: "hsl(180,50%,60%)"
+ColorUtil.any.toHslString({h: 0.5, s: 0.5, l: 0.6, a: 1});// output: "hsl(180,50%,60%)"
+```
+<a name="ColorUtil.any.toHslaString"></a>
+
+#### any.toHslaString(color) ⇒ <code>string</code>
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Kind**: static method of [<code>any</code>](#ColorUtil.any)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| color | <code>object</code> | Color in any notation |
+
+**Example**  
+```js
+ColorUtil.any.toHslaString({h: 0.5, s: 0.5, l: 0.6, a: 1});// output: "hsla(180,50%,60%,1)"
 ```
 <a name="ColorUtil.hueColors"></a>
 

@@ -929,7 +929,7 @@ let Hsl = {
      * @return     {string}
      */
     toHslString: hsl => {
-        return `hsl(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%)`;
+        return `hsl(${Math.round(hsl.h*360)},${Math.round(hsl.s*100)}%,${Math.round(hsl.l*100)}%)`;
     },
 
     /**
@@ -946,13 +946,17 @@ let Hsl = {
      * @return     {string}
      */
     toHslaString: hsl => {
-        return `hsla(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%,${hsl.a})`;
+        return `hsla(${Math.round(hsl.h*360)},${Math.round(hsl.s*100)}%,${Math.round(hsl.l*100)}%,${hsl.a})`;
     }
 }
 
 const REG_HSL = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*\)$/;
 const REG_HSLA = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d*\.?\d*)\s*\)$/;
 
+/**
+ * @class HslString
+ * @private
+ */
 let HslString = {
 
     name: 'HslString',
@@ -969,25 +973,74 @@ let HslString = {
      * @return     {boolean}    True if valid, False otherwise.
      */
     test: color => {
-        return typeof color === 'string' &&
-            !!(REG_HSL.exec(color) || REG_HSLA.exec(color));
+        return typeof color === 'string' && !!REG_HSL.exec(color);
     },
 
     /**
-     * Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:H, s:S, l:L, a:A}`
+     * Hsl functional notation string `'hsl(HHH,SSS%,LLL%)'` to hsl object `{h:H, s:S, l:L, a:A}`
      *
      * @memberof ColorUtil.hslString
      * @alias ColorUtil.hslString.toHsl
      *
      * @example
-     * ColorUtil.hslString.toHsl('hsla(180, 50%, 60%, 0.5)');
-     * // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
+     * ColorUtil.hslString.toHsl('hsl(180, 50%, 60%)');
+     * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
      *
-     * @param      {string} hsla    Hsl string
+     * @param      {string} hslString    Hsl string
+     * @param      {number} [a=1]        Alpha value in range 0-1
      * @return     {object}
      */
-    toHsl: hsla => {
-        let [m,h,s,p1,l,p2,a] = REG_HSLA.exec(hsla) || REG_HSL.exec(hsla) || [];
+    toHsl: (hslString, a=1) => {
+        let [m,h,s,p1,l] = REG_HSL.exec(hslString) || [];
+
+        return m ? {
+                h: parseInt(h) / 360,
+                s: parseInt(s) / 100,
+                l: parseInt(l) / 100,
+                a: a
+            }
+        : null;
+    }
+};
+
+/**
+ * @class HslString
+ * @private
+ */
+let HslaString = {
+
+    name: 'HslaString',
+
+    parent: Hsl,
+
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @memberof ColorUtil.hslaString
+     * @alias ColorUtil.hslaString.test
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
+    test: color => {
+        return typeof color === 'string' && !!REG_HSLA.exec(color);
+    },
+
+    /**
+     * Hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'` to hsl object `{h:H, s:S, l:L, a:A}`
+     *
+     * @memberof ColorUtil.hslaString
+     * @alias ColorUtil.hslaString.toHsl
+     *
+     * @example
+     * ColorUtil.hslaString.toHsl('hsla(180, 50%, 60%, 0.5)');
+     * // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
+     *
+     * @param      {string} hslaString    Hsl string
+     * @return     {object}
+     */
+    toHsl: hslaString => {
+        let [m,h,s,p1,l,p2,a] = REG_HSLA.exec(hslaString) || [];
 
         return m ? {
                 h: parseInt(h) / 360,
@@ -1104,7 +1157,7 @@ let Hsv = {
     }
 }
 
-const TYPES = [Rgb, Int, Hex, Hsl, Hsv, HslString, RgbaString, RgbString];
+const TYPES = [Rgb, Int, Hex, Hsl, Hsv, RgbaString, RgbString, HslaString, HslString];
 
 /**
  * @class Any
@@ -1129,15 +1182,14 @@ let Any = {
      * @return     {object}
      */
     toRgb: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, Rgb, color);
+        return callConverter(Rgb, color, TYPES);
     },
 
     /**
      * Convert any color to number notation `0xRRGGBB`
      *
      * @example
-     * ColorUtil.any.toInt('hsl(180, 50%, 60%)')
+     * ColorUtil.any.toInt('hsl(180, 50%, 60%)');
      * // output: 6737100
      *
      * @memberof ColorUtil.any
@@ -1147,15 +1199,14 @@ let Any = {
      * @return     {number}
      */
     toInt: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, Int, color);
+        return callConverter(Int, color, TYPES);
     },
 
     /**
      * Convert any color to hex notation `'#RRGGBB'`
      *
      * @example
-     * ColorUtil.any.toHex('hsl(180, 50%, 60%)')
+     * ColorUtil.any.toHex('hsl(180, 50%, 60%)');
      * // output: "#66cccc"
      *
      * @memberof ColorUtil.any
@@ -1165,15 +1216,14 @@ let Any = {
      * @return     {string}
      */
     toHex: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, Hex, color);
+        return callConverter(Hex, color, TYPES);
     },
 
     /**
      * Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
      *
      * @example
-     * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)')
+     * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)');
      * // output: "rgb(102,204,204)"
      *
      * @memberof ColorUtil.any
@@ -1183,15 +1233,14 @@ let Any = {
      * @return     {string}
      */
     toRgbString: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, RgbString, color);
+        return callConverter(RgbString, color, TYPES);
     },
 
     /**
      * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
      *
      * @example
-     * ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)')
+     * ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)');
      * // output: "rgba(102,204,204,1)"
      *
      * @memberof ColorUtil.any
@@ -1201,15 +1250,14 @@ let Any = {
      * @return     {string}
      */
     toRgbaString: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, RgbaString, color);
+        return callConverter(RgbaString, color, TYPES);
     },
 
     /**
      * Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
      *
      * @example
-     * ColorUtil.any.toHsl('hsl(180, 50%, 60%)')
+     * ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
      * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
      *
      * @memberof ColorUtil.any
@@ -1219,15 +1267,14 @@ let Any = {
      * @return     {object}
      */
     toHsl: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, Hsl, color);
+        return callConverter(Hsl, color, TYPES);
     },
 
     /**
      * Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
      *
      * @example
-     * ColorUtil.any.toHsl('hsl(180, 50%, 60%)')
+     * ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
      * // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
      *
      * @memberof ColorUtil.any
@@ -1237,15 +1284,14 @@ let Any = {
      * @return     {object}
      */
     toHsv: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, Hsv, color);
+        return callConverter(Hsv, color, TYPES);
     },
 
     /**
      * Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
      *
      * @example
-     * ColorUtil.any.toHslString({h: 0.5, s: 0.5, l: 0.6, a: 1})
+     * ColorUtil.any.toHslString({h: 0.5, s: 0.5, l: 0.6, a: 1});
      * // output: "hsl(180,50%,60%)"
      *
      * @memberof ColorUtil.any
@@ -1255,8 +1301,24 @@ let Any = {
      * @return     {string}
      */
     toHslString: color => {
-        let type = getColorType(color, TYPES);
-        return callConverter(type, HslString, color);
+        return callConverter(HslString, color, TYPES);
+    },
+
+    /**
+     * Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+     *
+     * @example
+     * ColorUtil.any.toHslaString({h: 0.5, s: 0.5, l: 0.6, a: 1});
+     * // output: "hsla(180,50%,60%,1)"
+     *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toHslaString
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {string}
+     */
+    toHslaString: color => {
+        return callConverter(HslaString, color, TYPES);
     }
 }
 
@@ -1332,6 +1394,15 @@ let ColorUtil = {
      * @memberof ColorUtil
      */
     hslString: HslString,
+
+    /**
+     * HslaString conversion functions
+     *
+     * Hsla functional notation is `'hsla(HHH,SSS%,LLL%,A)'`
+     *
+     * @memberof ColorUtil
+     */
+    hslaString: HslaString,
 
     /**
      * Hsv conversion functions
