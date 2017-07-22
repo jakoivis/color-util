@@ -26,6 +26,11 @@ let SYSTEM_ENDIAN = (() => {
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
 
+// alpha handling
+// - parent type -> sub type: alpha is lost depending on sub type. no checking if alpha is present or not. incorrect/missing alpha might lead to NaN or fully transparent values.
+// - parent type -> parent type: alpha is preserved or added if missing.
+// - sub type -> parent type: offer alpha argument. alpha is always added to parent type. default fully opaque. arg alpha range is the target format alpha range
+// - sub type -> sub type: offer alpha argument depending whether target sub type supports alpha. default fully opaque. arg alpha range is the target format alpha range
 
 /**
  * @class Rgb
@@ -110,8 +115,11 @@ let Rgb = {
      * @return     {string}
      */
     toRgbString: rgb => {
-        let a = !isNaN(parseInt(rgb.a)) ? rgb.a / 0xFF : 1;
-        return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${a})`;
+        return `rgb(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)})`;
+    },
+
+    toRgbaString: rgb => {
+        return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${rgb.a/0xFF})`;
     },
 
     /**
@@ -436,7 +444,14 @@ let Int = {
      * @param      {number}  [a=1]      Alpha value in range 0-1
      * @return     {string}
      */
-    toRgbString: (int, a=1) => {
+    toRgbString: (int) => {
+        return 'rgb('
+                + ((int & 0xFF0000) >> 16) + ','
+                + ((int & 0x00FF00) >> 8) + ','
+                + (int & 0x0000FF) + ')';
+    },
+
+    toRgbaString: (int, a=1) => {
         return 'rgba('
                 + ((int & 0xFF0000) >> 16) + ','
                 + ((int & 0x00FF00) >> 8) + ','
@@ -537,7 +552,19 @@ let Hex = {
      * @param      {number}  [a=1]   Alpha value in range 0-1
      * @return     {string}
      */
-    toRgbString: (hex, a=1) => {
+    toRgbString: (hex) => {
+        hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
+
+        let [m,r,g,b] = REG_HEX.exec(hex) || [];
+
+        return m ? 'rgb('
+            + parseInt(r, 16) + ','
+            + parseInt(g, 16) + ','
+            + parseInt(b, 16) + ')'
+        : null;
+    },
+
+    toRgbaString: (hex, a=1) => {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -617,7 +644,7 @@ let RgbString = {
      * @return     {number}
      */
     toInt: rgba => {
-        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+        let [m,r,g,b] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
         return m ?
               (parseInt(r) << 16)
@@ -640,7 +667,7 @@ let RgbString = {
      * @return     {string}
      */
     toHex: rgba => {
-        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+        let [m,r,g,b] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
         return m ?
             '#' + ((1 << 24)
@@ -773,8 +800,11 @@ let Hsl = {
      * @return     {string}
      */
     toHslString: hsl => {
-        let a = !isNaN(parseInt(hsl.a)) ? hsl.a : 1;
-        return `hsla(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%,${a})`;
+        return `hsl(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%)`;
+    },
+
+    toHslaString: hsl => {
+        return `hsla(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%,${hsl.a})`;
     }
 }
 

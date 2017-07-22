@@ -37,11 +37,14 @@ describe('ColorUtil', () => {
             });
 
             it('toRgbString', () => {
-                C.rgb.toRgbString(rgb).should.equal(rgba);
-                C.rgb.toRgbString({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,1)');
-                C.rgb.toRgbString({r: 170, g: 187, b: 204, a: 0}).should.equal('rgba(170,187,204,0)');
-                C.rgb.toRgbString({r: 170, g: 187, b: 204, a: 85}).should.equal('rgba(170,187,204,0.3333333333333333)');
-                C.rgb.toRgbString({r: 170, g: 187, b: 204, a: 0/0}).should.equal(rgba);
+                C.rgb.toRgbString({r: 170, g: 187, b: 204}).should.equal('rgb(170,187,204)');
+                C.rgb.toRgbString({r: 170.1, g: 187.1, b: 204.1}).should.equal('rgb(170,187,204)');
+            });
+
+            it('toRgbaString', () => {
+                C.rgb.toRgbaString({r: 170, g: 187, b: 204, a: 127.5}).should.equal('rgba(170,187,204,0.5)');
+                C.rgb.toRgbaString({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,NaN)');
+                C.rgb.toRgbaString({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
             });
 
             it('toUint32', () => {
@@ -127,20 +130,24 @@ describe('ColorUtil', () => {
             });
 
             it('toRgb', () => {
-                C.int.toRgb(dec).should.eql(rgb);
-                C.int.toRgb(dec, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.int.toRgb(dec, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
+                C.int.toRgb(0xAABBCC).should.eql(rgb);
+                C.int.toRgb(0xAABBCC, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.int.toRgb(0xAABBCC, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
             });
 
             it('toHex', () => {
-                C.int.toHex(dec).should.equal(hex);
+                C.int.toHex(0xAABBCC).should.equal(hex);
                 C.int.toHex(0x00bb00).should.equal('#00bb00');
             });
 
             it('toRgbString', () => {
-                C.int.toRgbString(dec).should.equal(rgba);
-                C.int.toRgbString(dec, 0).should.equal('rgba(170,187,204,0)');
-                C.int.toRgbString(dec, 0.1).should.equal('rgba(170,187,204,0.1)');
+                C.int.toRgbString(0xAABBCC).should.equal('rgb(170,187,204)');
+            });
+
+            it('toRgbaString', () => {
+                C.int.toRgbaString(0xAABBCC).should.equal('rgba(170,187,204,1)');
+                C.int.toRgbaString(0xAABBCC, 0).should.equal('rgba(170,187,204,0)');
+                C.int.toRgbaString(0xAABBCC, 0.1).should.equal('rgba(170,187,204,0.1)');
             });
         });
 
@@ -175,13 +182,21 @@ describe('ColorUtil', () => {
             });
 
             it('toRgbString', () => {
-                C.hex.toRgbString(hex).should.equal(rgba);
-                C.hex.toRgbString(hex, 0).should.equal('rgba(170,187,204,0)');
-                C.hex.toRgbString(hex, 0.1).should.equal('rgba(170,187,204,0.1)');
-                C.hex.toRgbString('aabbcc').should.equal(rgba);
-                C.hex.toRgbString('#abc').should.equal(rgba);
-                C.hex.toRgbString('abc').should.equal(rgba);
-                C.hex.toRgbString('112233').should.equal('rgba(17,34,51,1)');
+                C.hex.toRgbString('#aabbcc').should.equal('rgb(170,187,204)');
+                C.hex.toRgbString('aabbcc').should.equal('rgb(170,187,204)');
+                C.hex.toRgbString('#abc').should.equal('rgb(170,187,204)');
+                C.hex.toRgbString('abc').should.equal('rgb(170,187,204)');
+                C.hex.toRgbString('112233').should.equal('rgb(17,34,51)');
+            });
+
+            it('toRgbaString', () => {
+                C.hex.toRgbaString(hex).should.equal('rgba(170,187,204,1)');
+                C.hex.toRgbaString(hex, 0).should.equal('rgba(170,187,204,0)');
+                C.hex.toRgbaString(hex, 0.1).should.equal('rgba(170,187,204,0.1)');
+                C.hex.toRgbaString('aabbcc').should.equal('rgba(170,187,204,1)');
+                C.hex.toRgbaString('#abc').should.equal('rgba(170,187,204,1)');
+                C.hex.toRgbaString('abc').should.equal('rgba(170,187,204,1)');
+                C.hex.toRgbaString('112233').should.equal('rgba(17,34,51,1)');
             });
         });
 
@@ -252,9 +267,12 @@ describe('ColorUtil', () => {
             });
 
             it('toHslString', () => {
-                C.hsl.toHslString({h: 0.5, s: 0.5, l: 0.1}).should.eql('hsla(180,50%,10%,1)');
-                C.hsl.toHslString({h: 0.5, s: 0.5, l: 0.1, a: 0.5}).should.eql('hsla(180,50%,10%,0.5)');
-                C.hsl.toHslString({h: 0.5, s: 0.5, l: 0.1, a: 0}).should.eql('hsla(180,50%,10%,0)');
+                C.hsl.toHslString({h: 0.5, s: 0.5, l: 0.1}).should.eql('hsl(180,50%,10%)');
+            });
+
+            it('toHslaString', () => {
+                C.hsl.toHslaString({h: 0.5, s: 0.5, l: 0.1, a: 0.5}).should.equal('hsla(180,50%,10%,0.5)');
+                C.hsl.toHslaString({h: 0.5, s: 0.5, l: 0.1, a: 0}).should.equal('hsla(180,50%,10%,0)');
             });
 
             it('toHsv', () => {
@@ -358,9 +376,12 @@ describe('ColorUtil', () => {
                 C.any.toHex(0xAABBCC).should.eql("#aabbcc");
                 C.any.toHex('rgba(170,187,204,1)').should.eql("#aabbcc");
                 C.any.toHex(rgb).should.eql("#aabbcc");
-                C.any.toRgbString(rgb).should.eql('rgba(170,187,204,1)');
-                C.any.toRgbString(0xAABBCC).should.eql('rgba(170,187,204,1)');
-                C.any.toRgbString('#AABBCC').should.eql('rgba(170,187,204,1)');
+                C.any.toRgbString(rgb).should.eql('rgb(170,187,204)');
+                C.any.toRgbString(0xAABBCC).should.eql('rgb(170,187,204)');
+                C.any.toRgbString('#AABBCC').should.eql('rgb(170,187,204)');
+                // C.any.toRgbaString(rgb).should.eql('rgba(170,187,204,1)');
+                // C.any.toRgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
+                // C.any.toRgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
 
                 // C.any.toRgb(0xFFAABBCC).should.eql({r:0xCC, g: 0xBB, b: 0xAA, a: 0xFF});
                 // C.any.toRgb(-3359830).should.eql({r:0xAA, g: 0xBB, b: 0xCC, a: 0xFF}); // 0xFFCCBBAA, 0xAABBGGRR
@@ -400,7 +421,8 @@ describe('ColorUtil', () => {
             it('should do hsl -> rgb sub type conversion', () => {
                 C.any.toInt(hsl).should.equal(0xAABBCC);
                 C.any.toHex(hsl).should.equal('#aabbcc');
-                C.any.toRgbString(hsl).should.equal('rgba(170,187,204,1)');
+                C.any.toRgbString(hsl).should.equal('rgb(170,187,204)');
+                // C.any.toRgbaString(hsl).should.equal('rgba(170,187,204,1)');
             });
 
             it('should do hsl subtype -> hsv conversion', () => {
@@ -415,7 +437,8 @@ describe('ColorUtil', () => {
             it('should do hsl subtype -> rgb sub type conversion', () => {
                 C.any.toInt('hsl(180, 50%, 60%)').should.equal(0x65CCCC);
                 C.any.toHex('hsl(180, 50%, 60%)').should.equal("#65cccc");
-                C.any.toRgbString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
+                C.any.toRgbString('hsl(180, 50%, 60%)').should.equal('rgb(102,204,204)');
+                // C.any.toRgbaString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
             });
         });
 
