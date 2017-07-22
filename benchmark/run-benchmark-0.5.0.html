@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>color-util benchmark</title>
+<script src="../node_modules/lodash/lodash.js"></script>
+<script src="../node_modules/platform/platform.js"></script>
+<script src="../node_modules/benchmark/benchmark.js"></script>
+<script src="../node_modules/chromatism/dist/chromatism.js"></script>
+<script src="../dist/ColorUtil.min.js"></script>
+</head>
+<body>
+
+<p>'npm run build' to create final ColorUtil package</p>
+<p>Run with 'npm run watch' or launch html file without server</p>
+<p>Open console to see progress and results</p>
+<p>Copy csv output and place in csv file</p>
+
+<script>
+var colorUtilArgs = {
+    rgb: {r:255, g:255, b: 255},
+    rgba: {r:255, g:255, b: 255, a: 255},
+    int: 0xFFFFFF,
+    hex: "#FFFFFF",
+    shortHex: "#FFF",
+    rgbString: 'rgb(255, 255, 255)',
+    rgbaString: 'rgba(255, 255, 255, 0.5)',
+    hsl: {h:0,s:0,l:1},
+    hsla: {h:0,s:0,l:1,a:1},
+    hslString: 'hsl(0, 0%, 100%)',
+    hslaString: 'hsla(0, 0%, 100%, 1)',
+    hsv: {h:0,s:0,l:1},
+    hsva: {h:0,s:0,l:1,a:1},
+}
+
+var chromatismArgs =  {
+    rgb: {r:255, g:255, b: 255},
+    hex: '#FFFFFF',
+    rgbString: 'rgb(255,255,255)',
+    hsl: {h:0,s:1,l:0.5},
+    hsv: {h:0,s:1,l:1}
+};
+
+var suite = new Benchmark.Suite;
+var suiteAny = new Benchmark.Suite;
+let suiteOther = new Benchmark.Suite;
+var data = {};
+var data2 = {};
+var chromatismOptions = {library: 'chromatism'};
+var colorUtilOptions = {library: 'color-util'};
+
+
+
+
+
+
+
+
+_.forEach(chromatismArgs, function(value, key) {
+    suiteAny
+
+    .add(`any(${key}) -> hex`, function() {
+        chromatism.convert(value).hex;
+    }, chromatismOptions)
+
+    .add(`any(${key}) -> rgb`, function() {
+        chromatism.convert(value).rgb;
+    }, chromatismOptions)
+
+    .add(`any(${key}) -> rgbString`, function() {
+        chromatism.convert(value).cssrgb;
+    }, chromatismOptions)
+
+    .add(`any(${key}) -> hsl`, function() {
+        chromatism.convert(value).hsl;
+    }, chromatismOptions)
+
+    .add(`any(${key}) -> hslString`, function() {
+        chromatism.convert(value).csshsl;
+    }, chromatismOptions)
+
+    .add(`any(${key}) -> hsv`, function() {
+        chromatism.convert(value).hsv;
+    }, chromatismOptions)
+});
+
+_.forEach(colorUtilArgs, (value, key) => {
+    suiteAny
+
+    .add(`any(${key}) -> hex`, function() {
+        ColorUtil.any.toHex(value);
+    }, colorUtilOptions)
+
+    .add(`any(${key}) -> rgb`, function() {
+        ColorUtil.any.toRgb(value);
+    }, colorUtilOptions)
+
+    .add(`any(${key}) -> rgbString`, function() {
+        ColorUtil.any.toRgbString(value);
+    }, colorUtilOptions)
+
+    .add(`any(${key}) -> hsl`, function() {
+        ColorUtil.any.toHsl(value);
+    }, colorUtilOptions)
+
+    // .add(`any(${key}) -> hslString`, function() {
+    //     ColorUtil.any.toHslString(value);
+    // }, colorUtilOptions)
+
+    .add(`any(${key}) -> hsv`, function() {
+        ColorUtil.any.toHsv(value);
+    }, colorUtilOptions)
+
+    .add(`any(${key}) -> int`, function() {
+        ColorUtil.any.toInt(value);
+    }, colorUtilOptions)
+});
+
+suiteAny
+
+.on('cycle', function(event) {
+
+    let key = event.target.name;
+
+    if (!data[key]) {
+
+        data[key] = {};
+    }
+
+    data[key][event.target.library] = Math.round(event.target.hz);
+
+    console.log(event.target.library + ": " + event.target);
+})
+
+.on('complete', function() {
+    console.log("-----");
+
+    var csv = "operation,color-util,chromatism\n";
+
+    _.forEach(data, function(item, key) {
+        csv += key + "," + (item["color-util"]||"") + "," + (item.chromatism||"") + "\n"
+    });
+
+    console.log(csv);
+});
+
+
+
+
+
+
+
+
+
+
+
+suite
+
+.add('rgb -> toInt', function() {
+    ColorUtil.rgb.toInt(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toHex', function() {
+    ColorUtil.rgb.toHex(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toRgbString', function() {
+    ColorUtil.rgb.toRgbString(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toUint32', function() {
+    ColorUtil.rgb.toUint32(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toUint32Opaque', function() {
+    ColorUtil.rgb.toUint32Opaque(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toUint32BigEndian', function() {
+    ColorUtil.rgb.toUint32BigEndian(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toInt32', function() {
+    ColorUtil.rgb.toInt32(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toInt32Opaque', function() {
+    ColorUtil.rgb.toInt32Opaque(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toInt32BigEndian', function() {
+    ColorUtil.rgb.toInt32BigEndian(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toHsl', function() {
+    ColorUtil.rgb.toHsl(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toHsv', function() {
+    ColorUtil.rgb.toHsv(colorUtilArgs.rgb);
+})
+
+
+
+.add('rgba -> toInt', function() {
+    ColorUtil.rgb.toInt(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toHex', function() {
+    ColorUtil.rgb.toHex(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toRgbString', function() {
+    ColorUtil.rgb.toRgbString(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toUint32', function() {
+    ColorUtil.rgb.toUint32(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toUint32Opaque', function() {
+    ColorUtil.rgb.toUint32Opaque(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toUint32BigEndian', function() {
+    ColorUtil.rgb.toUint32BigEndian(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toInt32', function() {
+    ColorUtil.rgb.toInt32(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toInt32Opaque', function() {
+    ColorUtil.rgb.toInt32Opaque(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toInt32BigEndian', function() {
+    ColorUtil.rgb.toInt32BigEndian(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toHsl', function() {
+    ColorUtil.rgb.toHsl(colorUtilArgs.rgba);
+})
+
+.add('rgba -> toHsv', function() {
+    ColorUtil.rgb.toHsv(colorUtilArgs.rgba);
+})
+
+
+
+.add('int -> toRgb', function() {
+    ColorUtil.int.toRgb(colorUtilArgs.int);
+})
+
+.add('int -> toHex', function() {
+    ColorUtil.int.toHex(colorUtilArgs.int);
+})
+
+.add('int -> toRgbString', function() {
+    ColorUtil.int.toRgbString(colorUtilArgs.int);
+})
+
+
+
+.add('hex -> toRgb', function() {
+    ColorUtil.hex.toRgb(colorUtilArgs.hex);
+})
+
+.add('hex -> toInt', function() {
+    ColorUtil.hex.toInt(colorUtilArgs.hex);
+})
+
+.add('hex -> toRgbString', function() {
+    ColorUtil.hex.toRgbString(colorUtilArgs.hex);
+})
+
+
+
+.add('shortHex -> toRgb', function() {
+    ColorUtil.hex.toRgb(colorUtilArgs.shortHex);
+})
+
+.add('shortHex -> toInt', function() {
+    ColorUtil.hex.toInt(colorUtilArgs.shortHex);
+})
+
+.add('shortHex -> toRgbString', function() {
+    ColorUtil.hex.toRgbString(colorUtilArgs.shortHex);
+})
+
+
+
+.add('rgbString -> toRgb', function() {
+    ColorUtil.rgbString.toRgb(colorUtilArgs.rgbString);
+})
+
+.add('rgbString -> toInt', function() {
+    ColorUtil.rgbString.toInt(colorUtilArgs.rgbString);
+})
+
+.add('rgbString -> toHex', function() {
+    ColorUtil.rgbString.toHex(colorUtilArgs.rgbString);
+})
+
+
+
+.add('rgbaString -> toRgb', function() {
+    ColorUtil.rgbString.toRgb(colorUtilArgs.rgbaString);
+})
+
+.add('rgbaString -> toInt', function() {
+    ColorUtil.rgbString.toInt(colorUtilArgs.rgbaString);
+})
+
+.add('rgbaString -> toHex', function() {
+    ColorUtil.rgbString.toHex(colorUtilArgs.rgbaString);
+})
+
+
+
+.add('hsl -> toRgb', function() {
+    ColorUtil.hsl.toRgb(colorUtilArgs.hsl);
+})
+
+.add('hsl -> toHsv', function() {
+    ColorUtil.hsl.toHsv(colorUtilArgs.hsl);
+})
+
+.add('hsl -> toHslString', function() {
+    ColorUtil.hsl.toHslString(colorUtilArgs.hsl);
+})
+
+
+
+.add('hsla -> toRgb', function() {
+    ColorUtil.hsl.toRgb(colorUtilArgs.hsla);
+})
+
+.add('hsla -> toHsv', function() {
+    ColorUtil.hsl.toHsv(colorUtilArgs.hsla);
+})
+
+.add('hsla -> toHslString', function() {
+    ColorUtil.hsl.toHslString(colorUtilArgs.hsla);
+})
+
+
+
+.add('hslString -> toHsl', function() {
+    ColorUtil.hslString.toHsl(colorUtilArgs.hslString);
+})
+
+
+
+.add('hslaString -> toHsl', function() {
+    ColorUtil.hslString.toHsl(colorUtilArgs.hslaString);
+})
+
+
+
+.add('hsv -> toRgb', function() {
+    ColorUtil.hsv.toRgb(colorUtilArgs.hsv);
+})
+
+.add('hsv -> toHsl', function() {
+    ColorUtil.hsv.toHsl(colorUtilArgs.hsv);
+})
+
+
+
+.add('hsva -> toRgb', function() {
+    ColorUtil.hsv.toRgb(colorUtilArgs.hsva);
+})
+
+.add('hsva -> toHsl', function() {
+    ColorUtil.hsv.toHsl(colorUtilArgs.hsva);
+})
+
+
+
+.on('cycle', function(event) {
+
+    let key = event.target.name;
+
+    data[key] = Math.round(event.target.hz);
+
+    console.log(event.target.library + ": " + event.target);
+})
+
+.on('complete', function() {
+    console.log("-----");
+
+    var csv = "operation,operations\n";
+
+    _.forEach(data, function(value, key) {
+        csv += key + "," + value + "\n";
+    });
+
+    console.log(csv);
+});
+
+
+
+
+
+
+
+
+var gradient2 = ColorUtil.convert([0xFF0000,0x00FF00], ColorUtil.int.toRgb);
+var gradient6 = ColorUtil.convert([0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF], ColorUtil.int.toRgb);
+var gradient12 = gradient6.concat(gradient6);
+var gradient24 = gradient12.concat(gradient12);
+
+var matrix2x2 = ColorUtil.convert([
+    [0xFF0000,0x00FF00],
+    [0x110000,0x001100]
+], ColorUtil.int.toRgb);
+
+var matrix2x6 = ColorUtil.convert([
+    [0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF],
+    [0x110000,0x111100,0x001100,0x001111,0x000011,0x110011]
+], ColorUtil.int.toRgb);
+
+var matrix3x6 = ColorUtil.convert([
+    [0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF],
+    [0x110000,0x111100,0x001100,0x001111,0x000011,0x110011],
+    [0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE]
+], ColorUtil.int.toRgb);
+
+var matrix4x6 = ColorUtil.convert([
+    [0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF],
+    [0x110000,0x111100,0x001100,0x001111,0x000011,0x110011],
+    [0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE],
+    [0x220000,0x222200,0x002200,0x002222,0x000022,0x220022]
+], ColorUtil.int.toRgb);
+
+var matrix12x12 = ColorUtil.convert([
+    [0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF,0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF],
+    [0x110000,0x111100,0x001100,0x001111,0x000011,0x110011,0x110000,0x111100,0x001100,0x001111,0x000011,0x110011],
+    [0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE,0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE],
+    [0x220000,0x222200,0x002200,0x002222,0x000022,0x220022,0x220000,0x222200,0x002200,0x002222,0x000022,0x220022],
+    [0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF,0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF],
+    [0x110000,0x111100,0x001100,0x001111,0x000011,0x110011,0x110000,0x111100,0x001100,0x001111,0x000011,0x110011],
+    [0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE,0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE],
+    [0x220000,0x222200,0x002200,0x002222,0x000022,0x220022,0x220000,0x222200,0x002200,0x002222,0x000022,0x220022],
+    [0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF,0xFF0000,0xFFFF00,0x00FF00,0x00FFFF,0x0000FF,0xFF00FF],
+    [0x110000,0x111100,0x001100,0x001111,0x000011,0x110011,0x110000,0x111100,0x001100,0x001111,0x000011,0x110011],
+    [0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE,0xEE0000,0xEEEE00,0x00EE00,0x00EEEE,0x0000EE,0xEE00EE],
+    [0x220000,0x222200,0x002200,0x002222,0x000022,0x220022,0x220000,0x222200,0x002200,0x002222,0x000022,0x220022]
+], ColorUtil.int.toRgb);
+
+suiteOther
+
+.add(`getGradientColor 2 colors`, function() {
+    ColorUtil.getGradientColor(gradient2, Math.random());
+})
+.add(`getGradientColor 6 colors`, function() {
+    ColorUtil.getGradientColor(gradient6, Math.random());
+})
+.add(`getGradientColor 12 colors`, function() {
+    ColorUtil.getGradientColor(gradient12, Math.random());
+})
+.add(`getGradientColor 24 colors`, function() {
+    ColorUtil.getGradientColor(gradient24, Math.random());
+})
+
+.add(`getMatrixColor 2x2 colors`, function() {
+    ColorUtil.getMatrixColor(matrix2x2, Math.random(), Math.random());
+})
+.add(`getMatrixColor 2x6 colors`, function() {
+    ColorUtil.getMatrixColor(matrix2x6, Math.random(), Math.random());
+})
+.add(`getMatrixColor 3x6 colors`, function() {
+    ColorUtil.getMatrixColor(matrix3x6, Math.random(), Math.random());
+})
+.add(`getMatrixColor 4x6 colors`, function() {
+    ColorUtil.getMatrixColor(matrix4x6, Math.random(), Math.random());
+})
+.add(`getMatrixColor 12x12 colors`, function() {
+    ColorUtil.getMatrixColor(matrix12x12, Math.random(), Math.random());
+})
+
+.on('cycle', function(event) {
+
+    let key = event.target.name;
+
+    data2[key] = Math.round(event.target.hz);
+
+    console.log(String(event.target));
+})
+
+.on('complete', function() {
+    console.log("-----");
+
+    var csv = "operation,ops\n";
+
+    _.forEach(data2, function(ops, operation) {
+        csv += operation + "," + ops + "\n";
+    });
+
+    console.log(csv);
+});
+
+
+// suite.run({ 'async': true });
+// suiteAny.run({ 'async': true });
+suiteOther.run({ 'async': true });
+
+</script>
+</body>
+
+</html>

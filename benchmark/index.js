@@ -1,14 +1,16 @@
 
 import $ from 'jquery';
 import Highcharts from 'highcharts/highcharts';
-import csv1 from './benchmark-0.4.1-chrome-conversion-result.csv';
-import csv2 from './benchmark-0.4.1-chrome-other-result.csv';
+import csv from './benchmark-0.5.0-chrome-result.csv';
+import csvAny from './benchmark-0.5.0-chrome-result-any.csv';
+import csvOther from './benchmark-0.5.0-chrome-result-other.csv';
 import html from './benchmark-result.html';
 
 require('highcharts/modules/data')(Highcharts);
 
 let chart1;
 let chart2;
+let chart3;
 
 let type = 'linear';
 $("#switchLog").click(function(){
@@ -16,14 +18,15 @@ $("#switchLog").click(function(){
     type = type === 'linear' ? 'logarithmic': 'linear';
     chart1.yAxis[0].update({ type: type});
     chart2.yAxis[0].update({ type: type});
+    chart3.yAxis[0].update({ type: type});
     $('#axisScale').html(type + ' scale');
 });
 
-$.get("benchmark-0.4.1-chrome-conversion-result.csv", function(csv) {
+$.get("benchmark-0.5.0-chrome-result.csv", function(csv) {
     chart1 = Highcharts.chart('chart', {
         chart: {
             type: 'bar',
-            height: 2000
+            height: 1000
         },
         data: {
             csv: csv,
@@ -68,8 +71,54 @@ $.get("benchmark-0.4.1-chrome-conversion-result.csv", function(csv) {
     });
 });
 
-$.get("benchmark-0.4.1-chrome-other-result.csv", function(csv) {
-    chart2 = Highcharts.chart('chart-other', {
+$.get("benchmark-0.5.0-chrome-result-any.csv", function(csv) {
+    chart2 = Highcharts.chart('chart-any', {
+        chart: {
+            type: 'bar',
+            height: 1000
+        },
+        data: {
+            csv: csv,
+            itemDelimiter: ",",
+            lineDelimiter: "\n"
+        },
+        title: {
+            text: 'Execution speed comparison of other color-util functions'
+        },
+        xAxis: {
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 1,
+            type: 'linear',
+            title: {
+                text: 'Operations per second',
+                align: 'high',
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        tooltip: {
+            valueSuffix: ' ops/sec'
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        legend: {
+            enabled: true
+        }
+    });
+});
+
+$.get("benchmark-0.5.0-chrome-result-other.csv", function(csv) {
+    chart3 = Highcharts.chart('chart-other', {
         chart: {
             type: 'bar',
             height: 500
