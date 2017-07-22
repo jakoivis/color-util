@@ -638,25 +638,121 @@ let RgbString = {
      * @return     {boolean}    True if valid, False otherwise.
      */
     test: color => {
-        return typeof color === 'string' &&
-            !!(REG_RGB.exec(color) || REG_RGBA.exec(color));
+        return typeof color === 'string' && !!REG_RGB.exec(color);
     },
 
     /**
-     * Rgb functional notation string `'rgba(RRR,GGG,BBB[,A])'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @memberof ColorUtil.rgbString
      * @alias ColorUtil.rgbString.toRgb
      *
      * @example
-     * ColorUtil.rgbString.toRgb('rgba(0,255,0,0.5)')
-     * // output: {r: 0, g: 255, b: 0, a: 127}
+     * ColorUtil.rgbString.toRgb('rgb(0,255,0)')
+     * // output: {r: 0, g: 255, b: 0, a: 255}
 
-     * @param      {string} rgba    Rgb string
+     * @param      {string} rgbString   Rgb string
+     * @param      {number} [a=0xFF]    Alpha value in range 0-255
      * @return     {object}
      */
-    toRgb: rgba => {
-        let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+    toRgb: (rgbString, a=0xFF) => {
+        let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
+
+        return m ? {
+                r: parseInt(r),
+                g: parseInt(g),
+                b: parseInt(b),
+                a: a
+            }
+        : null;
+    },
+
+    /**
+     * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
+     *
+     * @memberof ColorUtil.rgbString
+     * @alias ColorUtil.rgbString.toInt
+     *
+     * @example
+     * ColorUtil.rgbString.toInt('rgb(0,255,0)')
+     * // output: 65280
+     *
+     * @param      {string} rgbString    Rgba string
+     * @return     {number}
+     */
+    toInt: rgbString => {
+        let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
+
+        return m ?
+              (parseInt(r) << 16)
+            + (parseInt(g) << 8)
+            + parseInt(b)
+        : null;
+    },
+
+    /**
+     * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
+     *
+     * @memberof ColorUtil.rgbString
+     * @alias ColorUtil.rgbString.toHex
+     *
+     * @example
+     * ColorUtil.rgbString.toHex('rgb(0,255,0)')
+     * // output: "#00ff00"
+     *
+     * @param      {string} rgbString    Rgb string
+     * @return     {string}
+     */
+    toHex: rgbString => {
+        let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
+
+        return m ?
+            '#' + ((1 << 24)
+                + (parseInt(r) << 16)
+                + (parseInt(g) << 8)
+                + parseInt(b)).toString(16).slice(1)
+        : null;
+    }
+}
+
+/**
+ * @class RgbString
+ * @private
+ */
+let RgbaString = {
+
+    name: 'RgbaString',
+
+    parent: Rgb,
+
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @memberof ColorUtil.rgbaString
+     * @alias ColorUtil.rgbaString.test
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
+    test: color => {
+        return typeof color === 'string' && !!REG_RGBA.exec(color);
+    },
+
+    /**
+     * Rgba functional notation string `'rgba(RRR,GGG,BBB,A)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @memberof ColorUtil.rgbaString
+     * @alias ColorUtil.rgbaString.toRgb
+     *
+     * @example
+     * ColorUtil.rgbaString.toRgb('rgba(0,255,0,0.5)')
+     * // output: {r: 0, g: 255, b: 0, a: 127}
+
+     * @param      {string} rgbaString    Rgba string
+     * @return     {object}
+     */
+    toRgb: rgbaString => {
+        let [m,r,g,b,a] = REG_RGBA.exec(rgbaString) || [];
 
         return m ? {
                 r: parseInt(r),
@@ -668,20 +764,20 @@ let RgbString = {
     },
 
     /**
-     * Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
+     * Rgba functional notation string `'rgba(RRR,GGG,BBB,A)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
      *
-     * @memberof ColorUtil.rgbString
-     * @alias ColorUtil.rgbString.toInt
+     * @memberof ColorUtil.rgbaString
+     * @alias ColorUtil.rgbaString.toInt
      *
      * @example
-     * ColorUtil.rgbString.toInt('rgba(0,255,0,0.5)')
+     * ColorUtil.rgbaString.toInt('rgba(0,255,0,0.5)')
      * // output: 65280
      *
-     * @param      {string} rgba    Rgba string
+     * @param      {string} rgbaString    Rgba string
      * @return     {number}
      */
-    toInt: rgba => {
-        let [m,r,g,b] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+    toInt: rgbaString => {
+        let [m,r,g,b] = REG_RGBA.exec(rgbaString) || [];
 
         return m ?
               (parseInt(r) << 16)
@@ -691,20 +787,20 @@ let RgbString = {
     },
 
     /**
-     * Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
+     * Rgba functional notation string `'rgba(RRR,GGG,BBB,A)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
      *
-     * @memberof ColorUtil.rgbString
-     * @alias ColorUtil.rgbString.toHex
+     * @memberof ColorUtil.rgbaString
+     * @alias ColorUtil.rgbaString.toHex
      *
      * @example
-     * ColorUtil.rgbString.toHex('rgba(0,255,0,0.5)')
+     * ColorUtil.rgbaString.toHex('rgba(0,255,0,0.5)')
      * // output: "#00ff00"
      *
      * @param      {string} rgba    Rgba string
      * @return     {string}
      */
-    toHex: rgba => {
-        let [m,r,g,b] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
+    toHex: rgbaString => {
+        let [m,r,g,b] = REG_RGBA.exec(rgbaString) || [];
 
         return m ?
             '#' + ((1 << 24)
@@ -1008,7 +1104,7 @@ let Hsv = {
     }
 }
 
-const TYPES = [Rgb, Int, Hex, Hsl, Hsv, HslString, RgbString];
+const TYPES = [Rgb, Int, Hex, Hsl, Hsv, HslString, RgbaString, RgbString];
 
 /**
  * @class Any
@@ -1048,7 +1144,7 @@ let Any = {
      * @alias ColorUtil.any.toInt
      *
      * @param      {object}  color        Color in any notation
-     * @return     {object}
+     * @return     {number}
      */
     toInt: color => {
         let type = getColorType(color, TYPES);
@@ -1066,7 +1162,7 @@ let Any = {
      * @alias ColorUtil.any.toHex
      *
      * @param      {object}  color        Color in any notation
-     * @return     {object}
+     * @return     {string}
      */
     toHex: color => {
         let type = getColorType(color, TYPES);
@@ -1078,17 +1174,35 @@ let Any = {
      *
      * @example
      * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)')
-     * // output: "rgba(102,204,204,1)"
+     * // output: "rgb(102,204,204)"
      *
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toRgbString
      *
      * @param      {object}  color        Color in any notation
-     * @return     {object}
+     * @return     {string}
      */
     toRgbString: color => {
         let type = getColorType(color, TYPES);
         return callConverter(type, RgbString, color);
+    },
+
+    /**
+     * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
+     *
+     * @example
+     * ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)')
+     * // output: "rgba(102,204,204,1)"
+     *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toRgbaString
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {string}
+     */
+    toRgbaString: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, RgbaString, color);
     },
 
     /**
@@ -1125,6 +1239,24 @@ let Any = {
     toHsv: color => {
         let type = getColorType(color, TYPES);
         return callConverter(type, Hsv, color);
+    },
+
+    /**
+     * Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
+     *
+     * @example
+     * ColorUtil.any.toHslString({h: 0.5, s: 0.5, l: 0.6, a: 1})
+     * // output: "hsl(180,50%,60%)"
+     *
+     * @memberof ColorUtil.any
+     * @alias ColorUtil.any.toHslString
+     *
+     * @param      {object}  color        Color in any notation
+     * @return     {string}
+     */
+    toHslString: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, HslString, color);
     }
 }
 
@@ -1172,6 +1304,15 @@ let ColorUtil = {
      * @memberof ColorUtil
      */
     rgbString: RgbString,
+
+    /**
+     * RgbaString conversion functions
+     *
+     * RgbString notation is `'rgba(RRR,GGG,BBB,A)'`
+     *
+     * @memberof ColorUtil
+     */
+    rgbaString: RgbaString,
 
     /**
      * Hsl conversion functions

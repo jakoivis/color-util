@@ -32,87 +32,47 @@ var colorUtilArgs = {
     hsva: {h:0,s:0,l:1,a:1},
 }
 
-var chromatismArgs =  {
-    rgb: {r:255, g:255, b: 255},
-    hex: '#FFFFFF',
-    rgbString: 'rgb(255,255,255)',
-    hsl: {h:0,s:1,l:0.5},
-    hsv: {h:0,s:1,l:1}
-};
-
 var suite = new Benchmark.Suite;
 var suiteAny = new Benchmark.Suite;
 let suiteOther = new Benchmark.Suite;
 var data = {};
-var data2 = {};
-var chromatismOptions = {library: 'chromatism'};
-var colorUtilOptions = {library: 'color-util'};
 
 
 
 
 
 
-
-
-_.forEach(chromatismArgs, function(value, key) {
-    suiteAny
-
-    .add(`any(${key}) -> hex`, function() {
-        chromatism.convert(value).hex;
-    }, chromatismOptions)
-
-    .add(`any(${key}) -> rgb`, function() {
-        chromatism.convert(value).rgb;
-    }, chromatismOptions)
-
-    .add(`any(${key}) -> rgbString`, function() {
-        chromatism.convert(value).cssrgb;
-    }, chromatismOptions)
-
-    .add(`any(${key}) -> hsl`, function() {
-        chromatism.convert(value).hsl;
-    }, chromatismOptions)
-
-    .add(`any(${key}) -> hslString`, function() {
-        chromatism.convert(value).csshsl;
-    }, chromatismOptions)
-
-    .add(`any(${key}) -> hsv`, function() {
-        chromatism.convert(value).hsv;
-    }, chromatismOptions)
-});
 
 _.forEach(colorUtilArgs, (value, key) => {
     suiteAny
 
     .add(`any(${key}) -> hex`, function() {
         ColorUtil.any.toHex(value);
-    }, colorUtilOptions)
+    })
 
     .add(`any(${key}) -> rgb`, function() {
         ColorUtil.any.toRgb(value);
-    }, colorUtilOptions)
+    })
 
     .add(`any(${key}) -> rgbString`, function() {
         ColorUtil.any.toRgbString(value);
-    }, colorUtilOptions)
+    })
 
     .add(`any(${key}) -> hsl`, function() {
         ColorUtil.any.toHsl(value);
-    }, colorUtilOptions)
+    })
 
-    // .add(`any(${key}) -> hslString`, function() {
-    //     ColorUtil.any.toHslString(value);
-    // }, colorUtilOptions)
+    .add(`any(${key}) -> hslString`, function() {
+        ColorUtil.any.toHslString(value);
+    })
 
     .add(`any(${key}) -> hsv`, function() {
         ColorUtil.any.toHsv(value);
-    }, colorUtilOptions)
+    })
 
     .add(`any(${key}) -> int`, function() {
         ColorUtil.any.toInt(value);
-    }, colorUtilOptions)
+    })
 });
 
 suiteAny
@@ -121,14 +81,9 @@ suiteAny
 
     let key = event.target.name;
 
-    if (!data[key]) {
+    data[key] = Math.round(event.target.hz);
 
-        data[key] = {};
-    }
-
-    data[key][event.target.library] = Math.round(event.target.hz);
-
-    console.log(event.target.library + ": " + event.target);
+    console.log(String(event.target));
 })
 
 .on('complete', function() {
@@ -140,7 +95,7 @@ suiteAny
         csv += key + "," + (item["color-util"]||"") + "," + (item.chromatism||"") + "\n"
     });
 
-    console.log(csv);
+    console.log(String(event.target));
 });
 
 
@@ -165,6 +120,10 @@ suite
 
 .add('rgb -> toRgbString', function() {
     ColorUtil.rgb.toRgbString(colorUtilArgs.rgb);
+})
+
+.add('rgb -> toRgbaString', function() {
+    ColorUtil.rgb.toRgbaString(colorUtilArgs.rgb);
 })
 
 .add('rgb -> toUint32', function() {
@@ -213,6 +172,10 @@ suite
     ColorUtil.rgb.toRgbString(colorUtilArgs.rgba);
 })
 
+.add('rgba -> toRgbaString', function() {
+    ColorUtil.rgb.toRgbaString(colorUtilArgs.rgba);
+})
+
 .add('rgba -> toUint32', function() {
     ColorUtil.rgb.toUint32(colorUtilArgs.rgba);
 })
@@ -259,6 +222,10 @@ suite
     ColorUtil.int.toRgbString(colorUtilArgs.int);
 })
 
+.add('int -> toRgbaString', function() {
+    ColorUtil.int.toRgbaString(colorUtilArgs.int);
+})
+
 
 
 .add('hex -> toRgb', function() {
@@ -273,6 +240,10 @@ suite
     ColorUtil.hex.toRgbString(colorUtilArgs.hex);
 })
 
+.add('hex -> toRgbaString', function() {
+    ColorUtil.hex.toRgbaString(colorUtilArgs.hex);
+})
+
 
 
 .add('shortHex -> toRgb', function() {
@@ -285,6 +256,10 @@ suite
 
 .add('shortHex -> toRgbString', function() {
     ColorUtil.hex.toRgbString(colorUtilArgs.shortHex);
+})
+
+.add('shortHex -> toRgbaString', function() {
+    ColorUtil.hex.toRgbaString(colorUtilArgs.shortHex);
 })
 
 
@@ -329,6 +304,10 @@ suite
     ColorUtil.hsl.toHslString(colorUtilArgs.hsl);
 })
 
+.add('hsl -> toHslaString', function() {
+    ColorUtil.hsl.toHslaString(colorUtilArgs.hsl);
+})
+
 
 
 .add('hsla -> toRgb', function() {
@@ -341,6 +320,10 @@ suite
 
 .add('hsla -> toHslString', function() {
     ColorUtil.hsl.toHslString(colorUtilArgs.hsla);
+})
+
+.add('hsla -> toHslaString', function() {
+    ColorUtil.hsl.toHslaString(colorUtilArgs.hsla);
 })
 
 
@@ -383,7 +366,7 @@ suite
 
     data[key] = Math.round(event.target.hz);
 
-    console.log(event.target.library + ": " + event.target);
+    console.log(String(event.target));
 })
 
 .on('complete', function() {
@@ -483,7 +466,7 @@ suiteOther
 
     let key = event.target.name;
 
-    data2[key] = Math.round(event.target.hz);
+    data[key] = Math.round(event.target.hz);
 
     console.log(String(event.target));
 })
@@ -493,7 +476,7 @@ suiteOther
 
     var csv = "operation,ops\n";
 
-    _.forEach(data2, function(ops, operation) {
+    _.forEach(data, function(ops, operation) {
         csv += operation + "," + ops + "\n";
     });
 
@@ -502,8 +485,8 @@ suiteOther
 
 
 // suite.run({ 'async': true });
-// suiteAny.run({ 'async': true });
-suiteOther.run({ 'async': true });
+suiteAny.run({ 'async': true });
+// suiteOther.run({ 'async': true });
 
 </script>
 </body>

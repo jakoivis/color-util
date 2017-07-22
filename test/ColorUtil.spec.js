@@ -207,33 +207,68 @@ describe('ColorUtil', () => {
                 C.rgbString.test(rgb).should.be.false;
                 C.rgbString.test('test').should.be.false;
                 C.rgbString.test('rgba(0,0,0)').should.be.true;
-                C.rgbString.test('rgba(0,0,0,0)').should.be.true;
-                C.rgbString.test('rgb(0,0,0,0)').should.be.true;
-                C.rgbString.test('rgb(0.1,0,0,0)').should.be.false;
-                C.rgbString.test('rgb ( 0 , 0 , 0 , 0 )').should.be.true;
-                C.rgbString.test('rgba ( 0 , 0 , 0 )').should.be.true;
-                C.rgbString.test('rgba ( 0 , 0 , 0, 0,1 )').should.be.false;
+                C.rgbString.test('rgba(0,0,0,0)').should.be.false;
+                C.rgbString.test('rgb(0,0,0,0)').should.be.false;
+                C.rgbString.test('rgb(0.1,0,0)').should.be.false;
+                C.rgbString.test('rgb ( 0 , 0 , 0 )').should.be.true;
             });
 
             it('toRgb', () => {
-                C.rgbString.toRgb('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
-                C.rgbString.toRgb('rgba(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
-                C.rgbString.toRgb('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
-                C.rgbString.toRgb('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
+                C.rgbString.toRgb('rgb(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
+
+                expect(C.rgbString.toRgb('rgba(170,187,204,1)')).to.be.null;
             });
 
             it('toInt', () => {
-                C.rgbString.toInt('rgba(170,187,204,1)').should.equal(11189196);
-                C.rgbString.toInt('rgba(170,187,204)').should.equal(11189196);
-                C.rgbString.toInt('rgba(170,187,204,0)').should.equal(11189196);
-                C.rgbString.toInt('rgba(170,187,204,0.1)').should.equal(11189196);
+                C.rgbString.toInt('rgb(170,187,204)').should.equal(11189196);
+
+                expect(C.rgbString.toInt('rgba(170,187,204,1)')).to.be.null;
             });
 
             it('toHex', () => {
-                C.rgbString.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
-                C.rgbString.toHex('rgba(170,187,204)').should.equal('#aabbcc');
-                C.rgbString.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
-                C.rgbString.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
+                C.rgbString.toHex('rgb(170,187,204)').should.equal('#aabbcc');
+
+                expect(C.rgbString.toHex('rgba(170,187,204,1)')).to.be.null;
+            });
+        });
+
+        describe('rgbaString', () => {
+
+            it('test', () => {
+                C.rgbaString.test(0xFFFFFF).should.be.false;
+                C.rgbaString.test(rgb).should.be.false;
+                C.rgbaString.test('test').should.be.false;
+                C.rgbaString.test('rgba(0,0,0)').should.be.false;
+                C.rgbaString.test('rgba(0,0,0,0)').should.be.true;
+                C.rgbaString.test('rgb(0,0,0,0)').should.be.true;
+                C.rgbaString.test('rgb(0.1,0,0,0)').should.be.false;
+                C.rgbaString.test('rgb ( 0 , 0 , 0 , 0 )').should.be.true;
+                C.rgbaString.test('rgba ( 0 , 0 , 0 )').should.be.false;
+                C.rgbaString.test('rgba ( 0 , 0 , 0, 0,1 )').should.be.false;
+            });
+
+            it('toRgb', () => {
+                C.rgbaString.toRgb('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
+                C.rgbaString.toRgb('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
+                C.rgbaString.toRgb('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
+
+                expect(C.rgbaString.toRgb('rgba(170,187,204)')).to.be.null;
+            });
+
+            it('toInt', () => {
+                C.rgbaString.toInt('rgba(170,187,204,1)').should.equal(11189196);
+                C.rgbaString.toInt('rgba(170,187,204,0)').should.equal(11189196);
+                C.rgbaString.toInt('rgba(170,187,204,0.1)').should.equal(11189196);
+
+                expect(C.rgbaString.toInt('rgba(170,187,204)')).to.be.null;
+            });
+
+            it('toHex', () => {
+                C.rgbaString.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
+                C.rgbaString.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
+                C.rgbaString.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
+
+                expect(C.rgbaString.toHex('rgba(170,187,204)')).to.be.null;
             });
         });
 
@@ -376,7 +411,7 @@ describe('ColorUtil', () => {
                 C.any.toHex(0xAABBCC).should.eql("#aabbcc");
                 C.any.toHex('rgba(170,187,204,1)').should.eql("#aabbcc");
                 C.any.toHex(rgb).should.eql("#aabbcc");
-                C.any.toRgbString(rgb).should.eql('rgb(170,187,204)');
+                C.any.toRgbString({r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF}).should.eql('rgb(170,187,204)');
                 C.any.toRgbString(0xAABBCC).should.eql('rgb(170,187,204)');
                 C.any.toRgbString('#AABBCC').should.eql('rgb(170,187,204)');
                 // C.any.toRgbaString(rgb).should.eql('rgba(170,187,204,1)');
