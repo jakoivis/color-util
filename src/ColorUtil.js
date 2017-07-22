@@ -1,4 +1,6 @@
 
+import {convert, callConverter, getColorType} from './Utils.js';
+
 const LITTLE_ENDIAN = 0;
 const BIG_ENDIAN = 1;
 const UNKNOWN_ENDIAN = 2;
@@ -24,281 +26,16 @@ let SYSTEM_ENDIAN = (() => {
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
 
-/**
- * @class ColorUtil
- * @classdesc Color conversion functions and gradient functions.
- */
-export default class ColorUtil {
-
-    /**
-     * Rgb conversion functions
-     *
-     * Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
-     * (red, grean, blue, alpha) range is 0-255. In some conversion functions
-     * alpha is not required. In those where it is required and not present in
-     * rgb object, a fully opaque value is used as a default.
-     *
-     * @memberof ColorUtil
-     */
-    static get rgb() {
-        return Rgb;
-    }
-
-    /**
-     * Integer conversion functions.
-     *
-     * Int notation is 24-bit number represnting the RGB values `0xRRGGBB`.
-     *
-     * @memberof ColorUtil
-     */
-    static get int() {
-        return Int;
-    }
-
-    /**
-     * Hexadecimal conversion functions
-     *
-     * Hex notation is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
-     *
-     * @memberof ColorUtil
-     */
-    static get hex() {
-        return Hex;
-    }
-
-    /**
-     * RgbString conversion functions
-     *
-     * RgbString notation is `'rgba(RRR,GGG,BBB[,A])'`
-     *
-     * @memberof ColorUtil
-     */
-    static get rgbString() {
-        return RgbString;
-    }
-
-    /**
-     * Hsl conversion functions
-     *
-     * Hsl notation is `{h:H, s:S, l:L, a:A}` where each component (hue, saturation,
-     * luminosity, alpha) is in range 0-1.
-     *
-     * @memberof ColorUtil
-     */
-    static get hsl() {
-        return Hsl;
-    }
-
-    /**
-     * HslString conversion functions
-     *
-     * Hsl functional notation is `'hsla(HHH,SSS%,LLL%[,A])'`
-     *
-     * @memberof ColorUtil
-     */
-    static get hslString() {
-        return HslString;
-    }
-
-    /**
-     * Hsv conversion functions
-     *
-     * Hsv notation is `{h:H, s:S, v:V, a:A}` where each component
-     * (hue, saturation, value, alpha) are in range 0-1.
-     *
-     * @memberof ColorUtil
-     */
-    static get hsv() {
-        return Hsv;
-    }
-
-    /**
-     * Any conversion functions.
-     *
-     * Converts supported color notations to any notation.
-     *
-     * TODO: toUint32, toInt32
-     *
-     * @memberof ColorUtil
-     */
-    static get any() {
-        return Any;
-    }
-
-    /**
-     * @memberof ColorUtil
-     *
-     * @return     {array} Array of hue colors
-     */
-    static get hueColors() {
-        return [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000];
-    }
-
-    /**
-     * Get the endian used by the system.
-     *
-     * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
-     *
-     * @memberof ColorUtil
-     *
-     * @return     {number}  0=little-endian, 1=big-endian, 2=unknown-endian
-     */
-    static get endian() {
-        return SYSTEM_ENDIAN;
-    }
-
-    /**
-     * Run conversion functions for single color, array of colors or
-     * matrix of colors.
-     *
-     * @example
-     * ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);
-     * // output: "#ff0000"
-     *
-     * ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);
-     * // output: ["#ff0000", "#00ff00"]
-     *
-     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
-     * // output: [['#ff0000', '#00ff00'], '#0000ff']
-     *
-     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);
-     * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
-     *
-     * @memberof ColorUtil
-     *
-     * @param      {*}             colors               Array of colors or single color
-     * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
-     *                                                  which are executed in the order they are listed.
-     * @return     {array}
-     */
-    static convert(colors, ...conversionFunctions) {
-        if (Array.isArray(colors)) {
-            return colors.map(item => {
-                return this.convert(item, ...conversionFunctions);
-            });
-        }
-
-        return conversionFunctions.reduce((acc, fn) => {
-            return fn(acc);
-        }, colors);
-    }
-
-    /**
-     * Calculate two items from a gradient array and a relative position of
-     * the gradient between those two items in an evenly distributed
-     * gradient. The resulting values can be used calculate the final color.
-     *
-     * @example
-     * // The example position 0.25 is in the middle of the first and
-     * // second colors so new 2 point gradient array contains only those
-     * // first and second colors. The given absolute position 0.25 is relatively
-     * // 0.5 between those two values.
-     * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
-     * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
-     *
-     * @memberof ColorUtil
-     *
-     * @param {array} array     Array of colors. Content of the array does not matter.
-     * @param {number} position Position on the whole gradient.
-     * @return {object} Relative position between two items and two items from gradient array
-     *                           which are the closest to the point indicated by position argument
-     */
-    static convertTo2StopGradient(array, position) {
-        position = position < 0 ? 0 : position > 1 ? 1 : position;
-
-        let lastIndex = array.length - 1;
-        let itemIndex = (position * lastIndex) | 0;
-        let partSize = 1 / lastIndex * 1000;
-        let positionBetweenItems = ((position*1000) % partSize) / partSize;
-
-        // partSize and position are scaled in the above calculation to fix
-        // a javascrip decimal rounding problem. The issue was seen in a gradient
-        // in which there were exactly 6 colors. positionBetweenItems for the first
-        // color of the 4th gradient stop was rounded to 0.9999... where the correct
-        // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
-        // That resulted to a weird vertical line in a gradient
-
-        return {
-            array: [
-                array[itemIndex],
-                array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex]
-            ],
-            position: positionBetweenItems
-        }
-    }
-
-    /**
-     * Get color from gradient. Calculation is done in
-     * rgb object notation so colors should be converted to object notation.
-     *
-     * @example
-     * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-     * ColorUtil.getGradientColor(gradient, 0.5);
-     * // output: {r: 0, g: 255, b: 0, a: 255}
-     *
-     * @memberof ColorUtil
-     *
-     * @param {array} colors            Array of colors. Colors should be in rgb object notation.
-     * @param {number} position         Position on the gradient. Value in range 0-1.
-     * @return {object} rgb object
-     */
-    static getGradientColor(colors, position) {
-        let {
-            array: [color1, color2],
-            position: positionBetweenColors
-        } = this.convertTo2StopGradient(colors, position);
-
-
-        return {
-            r: color1.r - positionBetweenColors * (color1.r - color2.r),
-            g: color1.g - positionBetweenColors * (color1.g - color2.g),
-            b: color1.b - positionBetweenColors * (color1.b - color2.b),
-            a: color1.a - positionBetweenColors * (color1.a - color2.a)
-        };
-    }
-
-    /**
-     * Get color from matrix. Calculation is done in
-     * rgb object notation so colors should be converted to object notation.
-     *
-     * @example
-     * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-     * ColorUtil.getMatrixColor(matrix, 0.5, 0.5);
-     * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
-     *
-     * @memberof ColorUtil
-     *
-     * @param {array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
-     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
-     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
-     * @return {object} rgb object
-     */
-    static getMatrixColor(matrix, x, y) {
-        let {
-            array: [gradient1, gradient2],
-            position: positionBetweenGradients
-        } = this.convertTo2StopGradient(matrix, y);
-
-        let color1 = this.getGradientColor(gradient1, x);
-        let color2 = this.getGradientColor(gradient2, x);
-
-        return this.getGradientColor([color1, color2], positionBetweenGradients);
-    }
-}
 
 /**
  * @class Rgb
  * @private
  */
-class Rgb {
+let Rgb = {
 
-    static get name() {
-        return 'Rgb';
-    }
+    name: 'Rgb',
 
-    static get parent() {
-        return null;
-    }
+    parent: null,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -309,13 +46,13 @@ class Rgb {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('r') &&
             color.hasOwnProperty('g') &&
             color.hasOwnProperty('b');
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
@@ -330,9 +67,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toInt(rgb) {
+    toInt: rgb => {
         return rgb.r << 16 | rgb.g << 8 | rgb.b;
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
@@ -347,13 +84,13 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {string}
      */
-    static toHex(rgb) {
+    toHex: rgb => {
         // e.g. (10<<8).toString(16) equals A00, but we need to write this in format 0A00
         // by adding 1<<16 (10000) to the result and removing the first digit
         // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
         return '#' + ((1 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b)
             .toString(16).slice(1);
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
@@ -372,10 +109,10 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {string}
      */
-    static toRgbString(rgb) {
+    toRgbString: rgb => {
         let a = !isNaN(parseInt(rgb.a)) ? rgb.a / 0xFF : 1;
         return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${a})`;
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -393,9 +130,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toUint32(rgb) {
+    toUint32: rgb => {
         return (rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -412,9 +149,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toUint32Opaque(rgb) {
+    toUint32Opaque: rgb => {
         return (INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
@@ -432,9 +169,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toUint32BigEndian(rgb) {
+    toUint32BigEndian: rgb => {
         return (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a) >>> 0;
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -452,9 +189,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toInt32(rgb) {
+    toInt32: rgb => {
         return rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r;
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -471,9 +208,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toInt32Opaque(rgb) {
+    toInt32Opaque: rgb => {
         return INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r;
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
@@ -491,9 +228,9 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {number}
      */
-    static toInt32BigEndian(rgb) {
+    toInt32BigEndian: rgb => {
         return rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a;
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`
@@ -509,7 +246,7 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {object}
      */
-    static toHsl(rgb) {
+    toHsl: rgb => {
         let {r:r, g:g, b:b, a:a} = rgb;
 
         r /= 0xFF;
@@ -553,7 +290,7 @@ class Rgb {
             l: luminosity,
             a: a
         }
-    }
+    },
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`
@@ -569,7 +306,7 @@ class Rgb {
      * @param      {object}    rgb
      * @return     {object}
      */
-    static toHsv(rgb) {
+    toHsv: rgb => {
         let {r:r, g:g, b:b, a:a} = rgb;
 
         r /= 0xFF;
@@ -618,15 +355,11 @@ class Rgb {
  * @class Int
  * @private
  */
-class Int {
+let Int = {
 
-    static get name() {
-        return 'Int';
-    }
+    name: 'Int',
 
-    static get parent() {
-        return Rgb;
-    }
+    parent: Rgb,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -637,11 +370,11 @@ class Int {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return typeof color === 'number' &&
             color <= 0xFFFFFF &&
             color >= 0;
-    }
+    },
 
     /**
      * 24-bit number `0xRRGGBB` to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -660,14 +393,14 @@ class Int {
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
      * @return     {object}
      */
-    static toRgb(int, a=0xFF) {
+    toRgb: (int, a=0xFF) => {
         return {
             r: (int & 0xFF0000) >> 16,
             g: (int & 0x00FF00) >> 8,
             b: int & 0x0000FF,
             a: a
         };
-    }
+    },
 
     /**
      * 24-bit number `0xRRGGBB` to 24-bit hex string `'#RRGGBB'`.
@@ -682,9 +415,9 @@ class Int {
      * @param      {number}  int        Integer
      * @return     {string}
      */
-    static toHex(int) {
+    toHex: int => {
         return '#' + ((1 << 24) + int).toString(16).slice(1);
-    }
+    },
 
     /**
      * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
@@ -703,7 +436,7 @@ class Int {
      * @param      {number}  [a=1]      Alpha value in range 0-1
      * @return     {string}
      */
-    static toRgbString(int, a=1) {
+    toRgbString: (int, a=1) => {
         return 'rgba('
                 + ((int & 0xFF0000) >> 16) + ','
                 + ((int & 0x00FF00) >> 8) + ','
@@ -719,15 +452,11 @@ const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
  * @class Hex
  * @private
  */
-class Hex {
+let Hex = {
 
-    static get name() {
-        return 'Hex';
-    }
+    name: 'Hex',
 
-    static get parent() {
-        return Rgb;
-    }
+    parent: Rgb,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -738,10 +467,10 @@ class Hex {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return typeof color === 'string' &&
             !!(REG_HEX.exec(color) || REG_HEX_SHORT.exec(color));
-    }
+    },
 
     /**
      * 24-bit hex string `'#RRGGBB'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -759,7 +488,7 @@ class Hex {
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
      * @return     {object}
      */
-    static toRgb(hex, a=0xFF) {
+    toRgb: (hex, a=0xFF) => {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -770,7 +499,7 @@ class Hex {
             b: parseInt(b, 16),
             a: a
         } : null;
-    }
+    },
 
     /**
      * 24-bit hex string `'#RRGGBB'` to 24-bit integer `0xRRGGBB`
@@ -785,11 +514,11 @@ class Hex {
      * @param      {string}  hex        Hexadecimal string
      * @return     {number}
      */
-    static toInt(hex) {
+    toInt: hex => {
         return parseInt(
             hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b)
             .replace('#', ''), 16);
-    }
+    },
 
     /**
      * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
@@ -808,7 +537,7 @@ class Hex {
      * @param      {number}  [a=1]   Alpha value in range 0-1
      * @return     {string}
      */
-    static toRgbString(hex, a=1) {
+    toRgbString: (hex, a=1) => {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -829,15 +558,11 @@ const REG_RGB = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
  * @class RgbString
  * @private
  */
-class RgbString {
+let RgbString = {
 
-    static get name() {
-        return 'RgbString';
-    }
+    name: 'RgbString',
 
-    static get parent() {
-        return Rgb;
-    }
+    parent: Rgb,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -848,10 +573,10 @@ class RgbString {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return typeof color === 'string' &&
             !!(REG_RGB.exec(color) || REG_RGBA.exec(color));
-    }
+    },
 
     /**
      * Rgb functional notation string `'rgba(RRR,GGG,BBB[,A])'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -866,7 +591,7 @@ class RgbString {
      * @param      {string} rgba    Rgb string
      * @return     {object}
      */
-    static toRgb(rgba) {
+    toRgb: rgba => {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
         return m ? {
@@ -876,7 +601,7 @@ class RgbString {
                 a: a ? (parseFloat(a) * 0xFF) | 0 : 0xFF
             }
         : null;
-    }
+    },
 
     /**
      * Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
@@ -891,7 +616,7 @@ class RgbString {
      * @param      {string} rgba    Rgba string
      * @return     {number}
      */
-    static toInt(rgba) {
+    toInt: rgba => {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
         return m ?
@@ -899,7 +624,7 @@ class RgbString {
             + (parseInt(g) << 8)
             + parseInt(b)
         : null;
-    }
+    },
 
     /**
      * Rgba functional notation string `'rgba(RRR,GGG,BBB[,A])'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
@@ -914,7 +639,7 @@ class RgbString {
      * @param      {string} rgba    Rgba string
      * @return     {string}
      */
-    static toHex(rgba) {
+    toHex: rgba => {
         let [m,r,g,b,a] = REG_RGBA.exec(rgba) || REG_RGB.exec(rgba) || [];
 
         return m ?
@@ -930,15 +655,11 @@ class RgbString {
  * @class Hsl
  * @private
  */
-class Hsl {
+let Hsl = {
 
-    static get name() {
-        return 'Hsl';
-    }
+    name: 'Hsl',
 
-    static get parent() {
-        return null;
-    }
+    parent: null,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -949,13 +670,13 @@ class Hsl {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
             color.hasOwnProperty('s') &&
             color.hasOwnProperty('l');
-    }
+    },
 
     /**
      * Hsl object `{h:H, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -973,7 +694,7 @@ class Hsl {
      * @param      {object}  hsl        Hsl object
      * @return     {object}
      */
-    static toRgb(hsl) {
+    toRgb: hsl => {
         let {h:h, s:s, l:l, a:a} = hsl;
         let c = (1 - Math.abs(2 * l - 1)) * s
         let x = c * (1 - Math.abs(h * 6 % 2 - 1));
@@ -1005,7 +726,7 @@ class Hsl {
             b: (b + m) * 0xFF,
             a: a === undefined ? 0xFF : a * 0xFF
         };
-    }
+    },
 
     /**
      * Hsl object `{h:H, s:S, l:L, a:A}` to hsv object `{h:H, s:S, v:V, a:A}`
@@ -1020,7 +741,7 @@ class Hsl {
      * @param      {object}  hsl        Hsl object
      * @return     {object}
      */
-    static toHsv(hsl) {
+    toHsv: hsl => {
         let {h:h, s:s, l:l, a:a} = hsl;
 
         let v = (2 * l + s * (1 - Math.abs(2 * l - 1))) / 2;
@@ -1032,7 +753,7 @@ class Hsl {
             v: v,
             a: a === undefined ? 1 : a
         };
-    }
+    },
 
     /**
      * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.
@@ -1051,7 +772,7 @@ class Hsl {
      * @param      {object}    hsl
      * @return     {string}
      */
-    static toHslString(hsl) {
+    toHslString: hsl => {
         let a = !isNaN(parseInt(hsl.a)) ? hsl.a : 1;
         return `hsla(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%,${a})`;
     }
@@ -1060,15 +781,11 @@ class Hsl {
 const REG_HSL = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*\)$/;
 const REG_HSLA = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d*\.?\d*)\s*\)$/;
 
-class HslString {
+let HslString = {
 
-    static get name() {
-        return 'HslString';
-    }
+    name: 'HslString',
 
-    static get parent() {
-        return Hsl;
-    }
+    parent: Hsl,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -1079,10 +796,10 @@ class HslString {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return typeof color === 'string' &&
             !!(REG_HSL.exec(color) || REG_HSLA.exec(color));
-    }
+    },
 
     /**
      * Hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'` to hsl object `{h:H, s:S, l:L, a:A}`
@@ -1097,7 +814,7 @@ class HslString {
      * @param      {string} hsla    Hsl string
      * @return     {object}
      */
-    static toHsl(hsla) {
+    toHsl: hsla => {
         let [m,h,s,p1,l,p2,a] = REG_HSLA.exec(hsla) || REG_HSL.exec(hsla) || [];
 
         return m ? {
@@ -1114,15 +831,11 @@ class HslString {
  * @class Hsv
  * @private
  */
-class Hsv {
+let Hsv = {
 
-    static get name() {
-        return 'Hsv';
-    }
+    name: 'Hsv',
 
-    static get parent() {
-        return null;
-    }
+    parent: null,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -1133,13 +846,13 @@ class Hsv {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    static test(color) {
+    test: color => {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
             color.hasOwnProperty('s') &&
             color.hasOwnProperty('v');
-    }
+    },
 
     /**
      * Hsv object `{h:H, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -1156,7 +869,7 @@ class Hsv {
      * @param      {object}  hsv        Hsv object
      * @return     {object}
      */
-    static toRgb(hsv) {
+    toRgb: hsv => {
         let {h:h, s:s, v:v, a:a} = hsv;
         let c = v * s
         let x = c * (1 - Math.abs(h * 6 % 2 - 1));
@@ -1188,7 +901,7 @@ class Hsv {
             b: (b + m) * 0xFF,
             a: !isNaN(parseFloat(a)) ? a * 0xFF : 0xFF
         };
-    }
+    },
 
     /**
      * Hsv object `{h:H, s:S, v:V, a:A}` to hsl object `{h:H, s:S, l:L, a:A}`
@@ -1203,7 +916,7 @@ class Hsv {
      * @param      {object}  hsl        Hsl object
      * @return     {object}
      */
-    static toHsl(hsv) {
+    toHsl: hsv => {
         let {h:h, s:s, v:v, a:a} = hsv;
 
         let l = 0.5 * v * (2 - s);
@@ -1219,11 +932,13 @@ class Hsv {
     }
 }
 
+const TYPES = [Rgb, Int, Hex, Hsl, Hsv, HslString, RgbString];
+
 /**
  * @class Any
  * @private
  */
-class Any {
+let Any = {
 
     /**
      * Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -1241,9 +956,10 @@ class Any {
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
-    static toRgb(color) {
-        return callConverter(Rgb, color);
-    }
+    toRgb: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, Rgb, color);
+    },
 
     /**
      * Convert any color to number notation `0xRRGGBB`
@@ -1258,9 +974,10 @@ class Any {
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
-    static toInt(color) {
-        return callConverter(Int, color);
-    }
+    toInt: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, Int, color);
+    },
 
     /**
      * Convert any color to hex notation `'#RRGGBB'`
@@ -1275,9 +992,10 @@ class Any {
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
-    static toHex(color) {
-        return callConverter(Hex, color);
-    }
+    toHex: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, Hex, color);
+    },
 
     /**
      * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
@@ -1292,9 +1010,10 @@ class Any {
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
-    static toRgbString(color) {
-        return callConverter(RgbString, color);
-    }
+    toRgbString: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, RgbString, color);
+    },
 
     /**
      * Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
@@ -1309,9 +1028,10 @@ class Any {
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
-    static toHsl(color) {
-        return callConverter(Hsl, color);
-    }
+    toHsl: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, Hsl, color);
+    },
 
     /**
      * Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
@@ -1326,129 +1046,242 @@ class Any {
      * @param      {object}  color        Color in any notation
      * @return     {object}
      */
-    static toHsv(color) {
-        return callConverter(Hsv, color);
+    toHsv: color => {
+        let type = getColorType(color, TYPES);
+        return callConverter(type, Hsv, color);
     }
 }
 
-const TYPES = [Rgb, Int, Hex, Hsl, Hsv, HslString, RgbString];
+/**
+ * @class ColorUtil
+ * @classdesc Color conversion functions and gradient functions.
+ */
+let ColorUtil = {
 
-function callConverter(targetType, color) {
-    let type = getColorType(color);
+    /**
+     * Rgb conversion functions
+     *
+     * Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
+     * (red, grean, blue, alpha) range is 0-255. In some conversion functions
+     * alpha is not required. In those where it is required and not present in
+     * rgb object, a fully opaque value is used as a default.
+     *
+     * @memberof ColorUtil
+     */
+    rgb:Rgb,
 
-    if (!type) {
-        throw new Error(`Color '${color}' notation doesn't match any notation`);
-    }
+    /**
+     * Integer conversion functions.
+     *
+     * Int notation is 24-bit number represnting the RGB values `0xRRGGBB`.
+     *
+     * @memberof ColorUtil
+     */
+    int: Int,
 
-    // no need to convert anything
-    if (type === targetType) {
-        return color;
-    }
+    /**
+     * Hexadecimal conversion functions
+     *
+     * Hex notation is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
+     *
+     * @memberof ColorUtil
+     */
+    hex: Hex,
 
-    // direct conversion within a color format (rgb, hsl hsv...)
-    // e.g. int -> hex, hsl -> hslString
-    if (typeof type['to'+targetType.name] === 'function') {
-        return type['to'+targetType.name](color);
+    /**
+     * RgbString conversion functions
+     *
+     * RgbString notation is `'rgba(RRR,GGG,BBB[,A])'`
+     *
+     * @memberof ColorUtil
+     */
+    rgbString: RgbString,
 
-        return path;
-    }
+    /**
+     * Hsl conversion functions
+     *
+     * Hsl notation is `{h:H, s:S, l:L, a:A}` where each component (hue, saturation,
+     * luminosity, alpha) is in range 0-1.
+     *
+     * @memberof ColorUtil
+     */
+    hsl: Hsl,
 
-    // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)
-    // e.g. hslString -> hex, hslString -> rgbString
-    let path = getConversionPath(type, targetType);
+    /**
+     * HslString conversion functions
+     *
+     * Hsl functional notation is `'hsla(HHH,SSS%,LLL%[,A])'`
+     *
+     * @memberof ColorUtil
+     */
+    hslString: HslString,
 
-    return ColorUtil.convert(color, ...path);
-}
+    /**
+     * Hsv conversion functions
+     *
+     * Hsv notation is `{h:H, s:S, v:V, a:A}` where each component
+     * (hue, saturation, value, alpha) are in range 0-1.
+     *
+     * @memberof ColorUtil
+     */
+    hsv: Hsv,
 
-function getColorType(color) {
-    for (let type of TYPES) {
-        if (type.test(color)) {
-            return type;
+    /**
+     * Any conversion functions.
+     *
+     * Converts supported color notations to any notation.
+     *
+     * TODO: toUint32, toInt32
+     *
+     * @memberof ColorUtil
+     */
+    any: Any,
+
+    /**
+     * @memberof ColorUtil
+     *
+     * @return     {array} Array of hue colors
+     */
+    hueColors: [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
+
+    /**
+     * Get the endian used by the system.
+     *
+     * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
+     *
+     * @memberof ColorUtil
+     *
+     * @return     {number}  0=little-endian, 1=big-endian, 2=unknown-endian
+     */
+    endian: SYSTEM_ENDIAN,
+
+    /**
+     * Run conversion functions for single color, array of colors or
+     * matrix of colors.
+     *
+     * @example
+     * ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);
+     * // output: "#ff0000"
+     *
+     * ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);
+     * // output: ["#ff0000", "#00ff00"]
+     *
+     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
+     * // output: [['#ff0000', '#00ff00'], '#0000ff']
+     *
+     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);
+     * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
+     *
+     * @memberof ColorUtil
+     *
+     * @param      {*}             colors               Array of colors or single color
+     * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
+     *                                                  which are executed in the order they are listed.
+     * @return     {array}
+     */
+    convert: convert,
+
+    /**
+     * Calculate two items from a gradient array and a relative position of
+     * the gradient between those two items in an evenly distributed
+     * gradient. The resulting values can be used calculate the final color.
+     *
+     * @example
+     * // The example position 0.25 is in the middle of the first and
+     * // second colors so new 2 point gradient array contains only those
+     * // first and second colors. The given absolute position 0.25 is relatively
+     * // 0.5 between those two values.
+     * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
+     * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
+     *
+     * @memberof ColorUtil
+     *
+     * @param {array} array     Array of colors. Content of the array does not matter.
+     * @param {number} position Position on the whole gradient.
+     * @return {object} Relative position between two items and two items from gradient array
+     *                           which are the closest to the point indicated by position argument
+     */
+    convertTo2StopGradient: (array, position) => {
+        position = position < 0 ? 0 : position > 1 ? 1 : position;
+
+        let lastIndex = array.length - 1;
+        let itemIndex = (position * lastIndex) | 0;
+        let partSize = 1 / lastIndex * 1000;
+        let positionBetweenItems = ((position*1000) % partSize) / partSize;
+
+        // partSize and position are scaled in the above calculation to fix
+        // a javascrip decimal rounding problem. The issue was seen in a gradient
+        // in which there were exactly 6 colors. positionBetweenItems for the first
+        // color of the 4th gradient stop was rounded to 0.9999... where the correct
+        // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
+        // That resulted to a weird vertical line in a gradient
+
+        return {
+            array: [
+                array[itemIndex],
+                array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex]
+            ],
+            position: positionBetweenItems
         }
-    }
+    },
 
-    return null;
+    /**
+     * Get color from gradient. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
+     * ColorUtil.getGradientColor(gradient, 0.5);
+     * // output: {r: 0, g: 255, b: 0, a: 255}
+     *
+     * @memberof ColorUtil
+     *
+     * @param {array} colors            Array of colors. Colors should be in rgb object notation.
+     * @param {number} position         Position on the gradient. Value in range 0-1.
+     * @return {object} rgb object
+     */
+    getGradientColor: (colors, position) => {
+        let {
+            array: [color1, color2],
+            position: positionBetweenColors
+        } = ColorUtil.convertTo2StopGradient(colors, position);
+
+
+        return {
+            r: color1.r - positionBetweenColors * (color1.r - color2.r),
+            g: color1.g - positionBetweenColors * (color1.g - color2.g),
+            b: color1.b - positionBetweenColors * (color1.b - color2.b),
+            a: color1.a - positionBetweenColors * (color1.a - color2.a)
+        };
+    },
+
+    /**
+     * Get color from matrix. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
+     * ColorUtil.getMatrixColor(matrix, 0.5, 0.5);
+     * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
+     *
+     * @memberof ColorUtil
+     *
+     * @param {array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
+     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
+     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
+     * @return {object} rgb object
+     */
+    getMatrixColor: (matrix, x, y) => {
+        let {
+            array: [gradient1, gradient2],
+            position: positionBetweenGradients
+        } = ColorUtil.convertTo2StopGradient(matrix, y);
+
+        let color1 = ColorUtil.getGradientColor(gradient1, x);
+        let color2 = ColorUtil.getGradientColor(gradient2, x);
+
+        return ColorUtil.getGradientColor([color1, color2], positionBetweenGradients);
+    }
 }
 
-function getConversionPath(type, targetType, path=[]) {
-    let sourcePath = getPathToRoot(type);
-    let targetPath = getPathToRootReverse(targetType);
-
-    // link the two paths
-
-    let sourceRootType = sourcePath[sourcePath.length-1].type;
-    let targetRootType = targetPath[0].type;
-
-    if (typeof sourceRootType['to'+targetRootType.name] === 'function') {
-        sourcePath[sourcePath.length-1].nextType = targetPath[0].type;
-        targetPath.shift();
-
-    } else {
-        // root types are not convertible between each other
-        // find a detour path
-
-        let detourType = getRootTypeWithFunction(targetRootType);
-
-        if (!detourType) {
-            throw new Error('Color cannot be converted. This is most likely a bug');
-        }
-
-        sourcePath[sourcePath.length-1].nextType = detourType;
-        sourcePath.push({
-            type: detourType,
-            nextType: targetPath[0].type
-        });
-        targetPath.shift();
-    }
-
-    let combined = sourcePath.concat(targetPath);
-
-    return combined.map(item => item.type['to'+item.nextType.name]);
-}
-
-function getPathToRoot(type, path=[]) {
-    if(type.parent) {
-        path.push({
-            type: type,
-            nextType: type.parent
-        });
-
-        return getPathToRoot(type.parent, path);
-    }
-
-    path.push({
-        type: type
-    });
-
-    return path;
-}
-
-function getPathToRootReverse(type, path=[]) {
-
-    if(type.parent) {
-        path.push({
-            type: type.parent,
-            nextType: type
-        });
-
-        return getPathToRootReverse(type.parent, path);
-    }
-
-    path.push({
-        type: type
-    });
-
-    return path.reverse();
-}
-
-function getRootTypeWithFunction(targetType) {
-    let conversionFnName = 'to'+targetType.name;
-
-    for(let type of TYPES) {
-        if(!type.parent && typeof type[conversionFnName] === 'function') {
-            return type;
-        }
-    }
-
-    return null;
-}
+export default ColorUtil;
