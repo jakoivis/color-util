@@ -98,15 +98,12 @@ let Rgb = {
     },
 
     /**
-     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
-     * Alpha is converted from range 0-255 to 0-1. Default alpha
-     * value is 1.
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`.
+     * Alpha is converted from range 0-255 to 0-1.
      *
      * @example
      * ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255});
-     * // output: "rgba(0,128,255,1)"
-     * ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255, a: 85});
-     * // output: "rgba(0,128,255,0.3333333333333333)"
+     * // output: "rgb(0,128,255)"
      *
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toRgbString
@@ -118,6 +115,20 @@ let Rgb = {
         return `rgb(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)})`;
     },
 
+    /**
+     * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
+     * Alpha is converted from range 0-255 to 0-1.
+     *
+     * @example
+     * ColorUtil.rgb.toRgbaString({r: 0, g: 128, b: 255, a: 85});
+     * // output: "rgba(0,128,255,0.3333333333333333)"
+     *
+     * @memberof ColorUtil.rgb
+     * @alias ColorUtil.rgb.toRgbaString
+     *
+     * @param      {object}    rgb
+     * @return     {string}
+     */
     toRgbaString: rgb => {
         return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${rgb.a/0xFF})`;
     },
@@ -428,29 +439,42 @@ let Int = {
     },
 
     /**
-     * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
+     * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`
      *
      * @memberof ColorUtil.int
      * @alias ColorUtil.int.toRgbString
      *
      * @example
      * ColorUtil.int.toRgbString(0x00FF00);
-     * // output: "rgba(0,255,0,1)"
-     *
-     * ColorUtil.int.toRgbString(0x00FF00, 0.5);
-     * // output: "rgba(0,255,0,0.5)"
+     * // output: "rgb(0,255,0)"
      *
      * @param      {number}  int        Integer
-     * @param      {number}  [a=1]      Alpha value in range 0-1
      * @return     {string}
      */
-    toRgbString: (int) => {
+    toRgbString: int => {
         return 'rgb('
                 + ((int & 0xFF0000) >> 16) + ','
                 + ((int & 0x00FF00) >> 8) + ','
                 + (int & 0x0000FF) + ')';
     },
 
+    /**
+     * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
+     *
+     * @memberof ColorUtil.int
+     * @alias ColorUtil.int.toRgbaString
+     *
+     * @example
+     * ColorUtil.int.toRgbaString(0x00FF00);
+     * // output: "rgba(0,255,0,1)"
+     *
+     * ColorUtil.int.toRgbaString(0x00FF00, 0.5);
+     * // output: "rgba(0,255,0,0.5)"
+     *
+     * @param      {number}  int        Integer
+     * @param      {number}  [a=1]      Alpha value in range 0-1
+     * @return     {string}
+     */
     toRgbaString: (int, a=1) => {
         return 'rgba('
                 + ((int & 0xFF0000) >> 16) + ','
@@ -536,23 +560,19 @@ let Hex = {
     },
 
     /**
-     * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
+     * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`
      *
      * @memberof ColorUtil.hex
      * @alias ColorUtil.hex.toRgbString
      *
      * @example
      * ColorUtil.hex.toRgbString('#00FF00')
-     * // output: "rgba(0,255,0,1)"
-     *
-     * ColorUtil.hex.toRgbString('#00FF00', 0.5)
-     * // output: "rgba(0,255,0,0.5)"
+     * // output: "rgb(0,255,0)"
      *
      * @param      {string}  hex     Hexadecimal string
-     * @param      {number}  [a=1]   Alpha value in range 0-1
      * @return     {string}
      */
-    toRgbString: (hex) => {
+    toRgbString: hex => {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
         let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -564,6 +584,23 @@ let Hex = {
         : null;
     },
 
+    /**
+     * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
+     *
+     * @memberof ColorUtil.hex
+     * @alias ColorUtil.hex.toRgbaString
+     *
+     * @example
+     * ColorUtil.hex.toRgbaString('#00FF00')
+     * // output: "rgba(0,255,0,1)"
+     *
+     * ColorUtil.hex.toRgbaString('#00FF00', 0.5)
+     * // output: "rgba(0,255,0,0.5)"
+     *
+     * @param      {string}  hex     Hexadecimal string
+     * @param      {number}  [a=1]   Alpha value in range 0-1
+     * @return     {string}
+     */
     toRgbaString: (hex, a=1) => {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
@@ -783,15 +820,11 @@ let Hsl = {
     },
 
     /**
-     * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%[,A])'`.
-     * Default alpha value is 1.
+     * Convert hsl object `{h:H, s:S, l:L}` to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`.
      *
      * @example
      * ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5});
-     * // output: "hsla(120,50%,50%,1)"
-     *
-     * ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5, a:0.5});
-     * // output: "hsla(120,50%,50%,0.5)"
+     * // output: "hsl(120,50%,50%)"
      *
      * @memberof ColorUtil.hsl
      * @alias ColorUtil.hsl.toHslString
@@ -803,6 +836,19 @@ let Hsl = {
         return `hsl(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%)`;
     },
 
+    /**
+     * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`.
+     *
+     * @example
+     * ColorUtil.hsl.toHslaString({h:2/6, s:0.5, l:0.5, a:0.5});
+     * // output: "hsla(120,50%,50%,0.5)"
+     *
+     * @memberof ColorUtil.hsl
+     * @alias ColorUtil.hsl.toHslaString
+     *
+     * @param      {object}    hsl
+     * @return     {string}
+     */
     toHslaString: hsl => {
         return `hsla(${hsl.h*360},${hsl.s*100}%,${hsl.l*100}%,${hsl.a})`;
     }
@@ -1028,7 +1074,7 @@ let Any = {
     },
 
     /**
-     * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
+     * Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
      *
      * @example
      * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)')
@@ -1121,7 +1167,7 @@ let ColorUtil = {
     /**
      * RgbString conversion functions
      *
-     * RgbString notation is `'rgba(RRR,GGG,BBB[,A])'`
+     * RgbString notation is `'rgb(RRR,GGG,BBB)'`
      *
      * @memberof ColorUtil
      */
@@ -1140,7 +1186,7 @@ let ColorUtil = {
     /**
      * HslString conversion functions
      *
-     * Hsl functional notation is `'hsla(HHH,SSS%,LLL%[,A])'`
+     * Hsl functional notation is `'hsl(HHH,SSS%,LLL%)'`
      *
      * @memberof ColorUtil
      */
@@ -1200,7 +1246,7 @@ let ColorUtil = {
      * // output: [['#ff0000', '#00ff00'], '#0000ff']
      *
      * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);
-     * // output: [['rgba(255,0,0,1)', 'rgba(0,255,0,1)'], 'rgba(0,0,255,1)']
+     * // output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
      *
      * @memberof ColorUtil
      *
