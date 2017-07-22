@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>color-util benchmark</title>
+<title>color-util 0.5.0 benchmark</title>
 <script src="../node_modules/lodash/lodash.js"></script>
 <script src="../node_modules/platform/platform.js"></script>
 <script src="../node_modules/benchmark/benchmark.js"></script>
@@ -46,33 +46,41 @@ var data = {};
 _.forEach(colorUtilArgs, (value, key) => {
     suiteAny
 
-    .add(`any(${key}) -> hex`, function() {
-        ColorUtil.any.toHex(value);
-    })
-
-    .add(`any(${key}) -> rgb`, function() {
+    .add(`any(${key}) -> toRgb`, function() {
         ColorUtil.any.toRgb(value);
     })
 
-    .add(`any(${key}) -> rgbString`, function() {
+    .add(`any(${key}) -> toInt`, function() {
+        ColorUtil.any.toInt(value);
+    })
+
+    .add(`any(${key}) -> toHex`, function() {
+        ColorUtil.any.toHex(value);
+    })
+
+    .add(`any(${key}) -> toRgbString`, function() {
         ColorUtil.any.toRgbString(value);
     })
 
-    .add(`any(${key}) -> hsl`, function() {
+    .add(`any(${key}) -> toRgbaString`, function() {
+        ColorUtil.any.toRgbaString(value);
+    })
+
+    .add(`any(${key}) -> toHsl`, function() {
         ColorUtil.any.toHsl(value);
     })
 
-    .add(`any(${key}) -> hslString`, function() {
-        ColorUtil.any.toHslString(value);
-    })
-
-    .add(`any(${key}) -> hsv`, function() {
+    .add(`any(${key}) -> toHsv`, function() {
         ColorUtil.any.toHsv(value);
     })
 
-    .add(`any(${key}) -> int`, function() {
-        ColorUtil.any.toInt(value);
+    .add(`any(${key}) -> toHslString`, function() {
+        ColorUtil.any.toHslString(value);
     })
+
+    .add(`any(${key}) -> toHslaString`, function() {
+        ColorUtil.any.toHslaString(value);
+    });
 });
 
 suiteAny
@@ -89,13 +97,13 @@ suiteAny
 .on('complete', function() {
     console.log("-----");
 
-    var csv = "operation,color-util,chromatism\n";
+    var csv = "operation,operations\n";
 
-    _.forEach(data, function(item, key) {
-        csv += key + "," + (item["color-util"]||"") + "," + (item.chromatism||"") + "\n"
+    _.forEach(data, function(value, key) {
+        csv += key + "," + value + "\n";
     });
 
-    console.log(String(event.target));
+    console.log(csv);
 });
 
 
@@ -279,15 +287,15 @@ suite
 
 
 .add('rgbaString -> toRgb', function() {
-    ColorUtil.rgbString.toRgb(colorUtilArgs.rgbaString);
+    ColorUtil.rgbaString.toRgb(colorUtilArgs.rgbaString);
 })
 
 .add('rgbaString -> toInt', function() {
-    ColorUtil.rgbString.toInt(colorUtilArgs.rgbaString);
+    ColorUtil.rgbaString.toInt(colorUtilArgs.rgbaString);
 })
 
 .add('rgbaString -> toHex', function() {
-    ColorUtil.rgbString.toHex(colorUtilArgs.rgbaString);
+    ColorUtil.rgbaString.toHex(colorUtilArgs.rgbaString);
 })
 
 
@@ -335,7 +343,7 @@ suite
 
 
 .add('hslaString -> toHsl', function() {
-    ColorUtil.hslString.toHsl(colorUtilArgs.hslaString);
+    ColorUtil.hslaString.toHsl(colorUtilArgs.hslaString);
 })
 
 
@@ -485,8 +493,8 @@ suiteOther
 
 
 // suite.run({ 'async': true });
-suiteAny.run({ 'async': true });
-// suiteOther.run({ 'async': true });
+// suiteAny.run({ 'async': true });
+suiteOther.run({ 'async': true });
 
 </script>
 </body>

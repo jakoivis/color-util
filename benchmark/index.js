@@ -4,7 +4,7 @@ import Highcharts from 'highcharts/highcharts';
 import csv from './benchmark-0.5.0-chrome-result.csv';
 import csvAny from './benchmark-0.5.0-chrome-result-any.csv';
 import csvOther from './benchmark-0.5.0-chrome-result-other.csv';
-import html from './benchmark-result.html';
+import html from './benchmark-result-0.5.0.html';
 
 require('highcharts/modules/data')(Highcharts);
 
@@ -37,7 +37,7 @@ $.get("benchmark-0.5.0-chrome-result.csv", function(csv) {
             text: 'Execution speed comparison of color conversion functions.'
         },
         subtitle: {
-            text: 'Unit is operations per second. The longer column the better. Chrome Version 59.0.3071.115 (Official Build) (64-bit). Similar functions from other libraries has been taken as a reference.'
+            text: 'Unit is operations per second. The longer column the better. Chrome Version 59.0.3071.115 (Official Build) (64-bit).'
         },
         xAxis: {
             title: {
@@ -83,7 +83,7 @@ $.get("benchmark-0.5.0-chrome-result-any.csv", function(csv) {
             lineDelimiter: "\n"
         },
         title: {
-            text: 'Execution speed comparison of other color-util functions'
+            text: 'Execution speed comparison of ColorUtil.any conversion functions'
         },
         xAxis: {
             title: {
@@ -129,7 +129,7 @@ $.get("benchmark-0.5.0-chrome-result-other.csv", function(csv) {
             lineDelimiter: "\n"
         },
         title: {
-            text: 'Execution speed comparison of other color-util functions'
+            text: 'Execution speed comparison of gradients'
         },
         xAxis: {
             title: {

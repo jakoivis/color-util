@@ -8,8 +8,6 @@
 
 Note that this package is still in early version 0.x.x so you should expect some changes that break backward compatibility. Target of this package is to have color utilities that concentrate on performance rather than usability.
 
-[benchmarks](http://www.jarmokoivisto.fi/projects/color-util/benchmark-0.4.1-chrome-result.html)
-
 <a name="ColorUtil"></a>
 
 ## ColorUtil
@@ -1078,6 +1076,7 @@ let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int
     * `getGradientMatrixColor` renamed to `getMatrixColor`
     * `getSystemEndian` function changed to `endian` property
     * change `toRgbString` and `toHslString` to `toRgbString`, `toRgbaString`, `toHslString` and `toHslaString`
+    * add any.toHslString, any.toHslaString
 * 0.4.0
     * ColorUtil.any conversion functions.
     * Hue range changed to 0-1.
