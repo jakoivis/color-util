@@ -812,6 +812,59 @@ let RgbaString = {
 }
 
 /**
+ * @class Int32
+ * @private
+ */
+let Int32 = {
+
+    name: 'Int32',
+
+    parent: Rgb,
+
+    /**
+     * Test validity of a color whether it is in correct notation for this class.
+     *
+     * @memberof ColorUtil.int
+     * @alias ColorUtil.int.test
+     *
+     * @param      {*}          color   The color
+     * @return     {boolean}    True if valid, False otherwise.
+     */
+    test: color => {
+        return typeof color === 'number' &&
+            color <= 0xFFFFFFFF &&
+            color >= 0;
+    },
+
+    /**
+     * 32-bit number `0xAABBGGRR` to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @memberof ColorUtil.int32
+     * @alias ColorUtil.int32.toRgb
+     *
+     * @example
+     * ColorUtil.int.toRgb(0xFF0000);
+     * // output: {r: 255, g: 0, b: 0, a: 255}
+     *
+     * ColorUtil.int.toRgb(0xFF0000, 128);
+     * // output: {r: 255, g: 0, b: 0, a: 128}
+     *
+     * @param      {number}  int        Integer
+     * @return     {object}
+     */
+    toRgb: (int) => {
+        return {
+            a: (int >> 24) & 0xFF,
+            b: (int >> 16) & 0xFF,
+            g: (int >> 8) & 0xFF,
+            r: int & 0xFF
+        };
+    },
+
+
+};
+
+/**
  * @class Hsl
  * @private
  */
@@ -1341,18 +1394,30 @@ let ColorUtil = {
     rgb:Rgb,
 
     /**
-     * Integer conversion functions.
+     * Number conversion functions.
      *
-     * Int notation is 24-bit number represnting the RGB values `0xRRGGBB`.
+     * Int notation is 24-bit number representing the RGB values `0xRRGGBB`.
      *
      * @memberof ColorUtil
      */
     int: Int,
 
     /**
+     * Number conversion functions.
+     *
+     * Int32 notation is 32-bit number representing the RGBA values `0xAABBGGRR`.
+     * Int32 is in little-endian since 32-bit number values are mostly used in typed
+     * arrays where the endianness depend on the system. Most of the systems are
+     * in little endian and int32 expects the inputs to be in little-endian.
+     *
+     * @memberof ColorUtil
+     */
+    int32: Int32,
+
+    /**
      * Hexadecimal conversion functions
      *
-     * Hex notation is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
+     * Hex notation is 24-bit hex string representing the RGB values `'#RRGGBB'`.
      *
      * @memberof ColorUtil
      */
@@ -1418,8 +1483,6 @@ let ColorUtil = {
      * Any conversion functions.
      *
      * Converts supported color notations to any notation.
-     *
-     * TODO: toUint32, toInt32
      *
      * @memberof ColorUtil
      */
