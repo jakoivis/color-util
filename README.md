@@ -78,12 +78,13 @@ Color conversion functions and gradient functions.
         * [.toHsv(color)](#ColorUtil.any.toHsv) ⇒ <code>object</code>
         * [.toHslString(color)](#ColorUtil.any.toHslString) ⇒ <code>string</code>
         * [.toHslaString(color)](#ColorUtil.any.toHslaString) ⇒ <code>string</code>
-    * [.hueColors](#ColorUtil.hueColors) ⇒ <code>array</code>
     * [.endian](#ColorUtil.endian) ⇒ <code>number</code>
     * [.convert](#ColorUtil.convert) ⇒ <code>array</code>
-    * [.convertTo2StopGradient(array, position)](#ColorUtil.convertTo2StopGradient) ⇒ <code>object</code>
-    * [.getGradientColor(colors, position)](#ColorUtil.getGradientColor) ⇒ <code>object</code>
-    * [.getMatrixColor(matrix, x, y)](#ColorUtil.getMatrixColor) ⇒ <code>object</code>
+    * [.hueColors()](#ColorUtil.hueColors) ⇒ <code>array</code>
+    * [.hue(rgb)](#ColorUtil.hue) ⇒ <code>object</code>
+    * [.twoStopGradient(array, position)](#ColorUtil.twoStopGradient) ⇒ <code>object</code>
+    * [.gradientColor(colors, position)](#ColorUtil.gradientColor) ⇒ <code>object</code>
+    * [.matrixColor(matrix, x, y)](#ColorUtil.matrixColor) ⇒ <code>object</code>
 
 <a name="ColorUtil.rgb"></a>
 
@@ -986,11 +987,6 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 ```js
 ColorUtil.any.toHslaString({h: 0.5, s: 0.5, l: 0.6, a: 1});// output: "hsla(180,50%,60%,1)"
 ```
-<a name="ColorUtil.hueColors"></a>
-
-### ColorUtil.hueColors ⇒ <code>array</code>
-**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
-**Returns**: <code>array</code> - Array of hue colors  
 <a name="ColorUtil.endian"></a>
 
 ### ColorUtil.endian ⇒ <code>number</code>
@@ -1014,9 +1010,30 @@ Run conversion functions for single color, array of colors ormatrix of colors.
 ```js
 ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);// output: "#ff0000"ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);// output: ["#ff0000", "#00ff00"]ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);// output: [['#ff0000', '#00ff00'], '#0000ff']ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);// output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
 ```
-<a name="ColorUtil.convertTo2StopGradient"></a>
+<a name="ColorUtil.hueColors"></a>
 
-### ColorUtil.convertTo2StopGradient(array, position) ⇒ <code>object</code>
+### ColorUtil.hueColors() ⇒ <code>array</code>
+**Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
+**Returns**: <code>array</code> - Array of hue colors  
+<a name="ColorUtil.hue"></a>
+
+### ColorUtil.hue(rgb) ⇒ <code>object</code>
+A short-cut method for getting hue color
+
+**Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
+**Returns**: <code>object</code> - hue color in Rgb object notation  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| rgb | <code>object</code> | Rgb object |
+
+**Example**  
+```js
+ColorUtil.hue({r:0x7F, g: 0x7F, b:0})// output: {r: 255, g: 255, b: 0, a: 255}
+```
+<a name="ColorUtil.twoStopGradient"></a>
+
+### ColorUtil.twoStopGradient(array, position) ⇒ <code>object</code>
 Calculate two items from a gradient array and a relative position ofthe gradient between those two items in an evenly distributedgradient. The resulting values can be used calculate the final color.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
@@ -1031,9 +1048,9 @@ Calculate two items from a gradient array and a relative position ofthe gradien
 ```js
 // The example position 0.25 is in the middle of the first and// second colors so new 2 point gradient array contains only those// first and second colors. The given absolute position 0.25 is relatively// 0.5 between those two values.ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);// output: {array: [0xFF0000, 0x00FF00], position: 0.5}
 ```
-<a name="ColorUtil.getGradientColor"></a>
+<a name="ColorUtil.gradientColor"></a>
 
-### ColorUtil.getGradientColor(colors, position) ⇒ <code>object</code>
+### ColorUtil.gradientColor(colors, position) ⇒ <code>object</code>
 Get color from gradient. Calculation is done inrgb object notation so colors should be converted to object notation.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
@@ -1046,11 +1063,11 @@ Get color from gradient. Calculation is done inrgb object notation so colors sh
 
 **Example**  
 ```js
-let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);ColorUtil.getGradientColor(gradient, 0.5);// output: {r: 0, g: 255, b: 0, a: 255}
+let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);ColorUtil.gradientColor(gradient, 0.5);// output: {r: 0, g: 255, b: 0, a: 255}
 ```
-<a name="ColorUtil.getMatrixColor"></a>
+<a name="ColorUtil.matrixColor"></a>
 
-### ColorUtil.getMatrixColor(matrix, x, y) ⇒ <code>object</code>
+### ColorUtil.matrixColor(matrix, x, y) ⇒ <code>object</code>
 Get color from matrix. Calculation is done inrgb object notation so colors should be converted to object notation.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
@@ -1064,9 +1081,15 @@ Get color from matrix. Calculation is done inrgb object notation so colors shou
 
 **Example**  
 ```js
-let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);ColorUtil.getMatrixColor(matrix, 0.5, 0.5);// output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
+let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);ColorUtil.matrixColor(matrix, 0.5, 0.5);// output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
 ```
 ## Change history
+* 0.6.0
+    * hueColors -> getHueColors() & return value changed from array of numbers to array of rgb objects.
+    * shorten function names: getGradientColor -> gradientColor, getMatrixColor -> matrixColor, convertTo2StopGradient -> twoStopGradient
+    * No interface changes after this release
+    * hue shortcut mehod for getting hue color
+    * convert function bug fix.
 * 0.5.0
     * benchmarks and some optimizations added
     * `getGradientColor` and `getGradientMatrixColor` conversion arguments removed -> input and output is now only rgb object notation.

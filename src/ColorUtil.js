@@ -1476,6 +1476,12 @@ let ColorUtil = {
     /**
      * A short-cut method for getting hue color
      *
+     * @example
+     * ColorUtil.hue({r:0x7F, g: 0x7F, b:0})
+     * // output: {r: 255, g: 255, b: 0, a: 255}
+     *
+     * @memberof ColorUtil
+     *
      * @param      {object}  rgb     Rgb object
      * @return     {object}  hue color in Rgb object notation
      */
