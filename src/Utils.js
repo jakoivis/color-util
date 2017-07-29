@@ -4,7 +4,7 @@ export { convert, callConverter, getColorType };
 function convert(colors, ...conversionFunctions) {
     if (Array.isArray(colors)) {
         return colors.map(item => {
-            return this.convert(item, ...conversionFunctions);
+            return convert(item, ...conversionFunctions);
         });
     }
 

@@ -31,7 +31,7 @@ for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = ColorUtil.getMatrixColor(colors, x/width, y/height);
+        let rgb = ColorUtil.matrixColor(colors, x/width, y/height);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }

@@ -56,7 +56,11 @@ let Rgb = {
             typeof color === 'object' &&
             color.hasOwnProperty('r') &&
             color.hasOwnProperty('g') &&
-            color.hasOwnProperty('b');
+            color.hasOwnProperty('b') &&
+            (color.r >= 0 && color.r <= 255) &&
+            (color.g >= 0 && color.g <= 255) &&
+            (color.b >= 0 && color.b <= 255) &&
+            (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 255) : true);
     },
 
     /**
@@ -888,7 +892,11 @@ let Hsl = {
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
             color.hasOwnProperty('s') &&
-            color.hasOwnProperty('l');
+            color.hasOwnProperty('l') &&
+            (color.h >= 0 && color.h <= 1) &&
+            (color.s >= 0 && color.s <= 1) &&
+            (color.l >= 0 && color.l <= 1) &&
+            (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 1) : true);
     },
 
     /**
@@ -1129,7 +1137,11 @@ let Hsv = {
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
             color.hasOwnProperty('s') &&
-            color.hasOwnProperty('v');
+            color.hasOwnProperty('v') &&
+            (color.h >= 0 && color.h <= 1) &&
+            (color.s >= 0 && color.s <= 1) &&
+            (color.v >= 0 && color.v <= 1) &&
+            (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 1) : true);
     },
 
     /**
@@ -1493,7 +1505,11 @@ let ColorUtil = {
      *
      * @return     {array} Array of hue colors
      */
-    hueColors: [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
+    hueColors: () => {
+        return convert(
+            [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
+            Int.toRgb);
+    },
 
     /**
      * Get the endian used by the system.
@@ -1533,6 +1549,22 @@ let ColorUtil = {
     convert: convert,
 
     /**
+     * A short-cut method for getting hue color
+     *
+     * @example
+     * ColorUtil.hue({r:0x7F, g: 0x7F, b:0})
+     * // output: {r: 255, g: 255, b: 0, a: 255}
+     *
+     * @memberof ColorUtil
+     *
+     * @param      {object}  rgb     Rgb object
+     * @return     {object}  hue color in Rgb object notation
+     */
+    hue: (rgb) => {
+        return ColorUtil.gradientColor(ColorUtil.hueColors(), Rgb.toHsv(rgb).h);
+    },
+
+    /**
      * Calculate two items from a gradient array and a relative position of
      * the gradient between those two items in an evenly distributed
      * gradient. The resulting values can be used calculate the final color.
@@ -1552,7 +1584,7 @@ let ColorUtil = {
      * @return {object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
-    convertTo2StopGradient: (array, position) => {
+    twoStopGradient: (array, position) => {
         position = position < 0 ? 0 : position > 1 ? 1 : position;
 
         let lastIndex = array.length - 1;
@@ -1582,7 +1614,7 @@ let ColorUtil = {
      *
      * @example
      * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-     * ColorUtil.getGradientColor(gradient, 0.5);
+     * ColorUtil.gradientColor(gradient, 0.5);
      * // output: {r: 0, g: 255, b: 0, a: 255}
      *
      * @memberof ColorUtil
@@ -1591,12 +1623,11 @@ let ColorUtil = {
      * @param {number} position         Position on the gradient. Value in range 0-1.
      * @return {object} rgb object
      */
-    getGradientColor: (colors, position) => {
+    gradientColor: (colors, position) => {
         let {
             array: [color1, color2],
             position: positionBetweenColors
-        } = ColorUtil.convertTo2StopGradient(colors, position);
-
+        } = ColorUtil.twoStopGradient(colors, position);
 
         return {
             r: color1.r - positionBetweenColors * (color1.r - color2.r),
@@ -1612,7 +1643,7 @@ let ColorUtil = {
      *
      * @example
      * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-     * ColorUtil.getMatrixColor(matrix, 0.5, 0.5);
+     * ColorUtil.matrixColor(matrix, 0.5, 0.5);
      * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
      *
      * @memberof ColorUtil
@@ -1622,16 +1653,16 @@ let ColorUtil = {
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @return {object} rgb object
      */
-    getMatrixColor: (matrix, x, y) => {
+    matrixColor: (matrix, x, y) => {
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = ColorUtil.convertTo2StopGradient(matrix, y);
+        } = ColorUtil.twoStopGradient(matrix, y);
 
-        let color1 = ColorUtil.getGradientColor(gradient1, x);
-        let color2 = ColorUtil.getGradientColor(gradient2, x);
+        let color1 = ColorUtil.gradientColor(gradient1, x);
+        let color2 = ColorUtil.gradientColor(gradient2, x);
 
-        return ColorUtil.getGradientColor([color1, color2], positionBetweenGradients);
+        return ColorUtil.gradientColor([color1, color2], positionBetweenGradients);
     }
 }
 

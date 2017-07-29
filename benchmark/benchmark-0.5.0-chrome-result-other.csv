@@ -1,10 +1,10 @@
 operation,ops
-getGradientColor 2 colors,15607169
-getGradientColor 6 colors,15344336
-getGradientColor 12 colors,15344350
-getGradientColor 24 colors,15327297
-getMatrixColor 2x2 colors,4461387
-getMatrixColor 2x6 colors,4252021
-getMatrixColor 3x6 colors,4284913
-getMatrixColor 4x6 colors,4187447
-getMatrixColor 12x12 colors,4154991
+gradientColor 2 colors,15607169
+gradientColor 6 colors,15344336
+gradientColor 12 colors,15344350
+gradientColor 24 colors,15327297
+matrixColor 2x2 colors,4461387
+matrixColor 2x6 colors,4252021
+matrixColor 3x6 colors,4284913
+matrixColor 4x6 colors,4187447
+matrixColor 12x12 colors,4154991
