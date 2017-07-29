@@ -10,9 +10,10 @@
 <script>
 
 // convert colors to rgb objects so getGradientMatrixColor understands them
+// colors are written in 0xRRGGBBAA format and converted to rgb objects
 let colors = ColorUtil.convert(
-    [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]],
-    ColorUtil.int.toRgb);
+    [[0xFF0000FF, 0xFFFF0099], [0x0000FF66, 0x00FFFF22]],
+    ColorUtil.int32b.toRgb);
 
 let width = 300;
 let height = 300;
@@ -27,12 +28,10 @@ let uint8CView = new Uint8ClampedArray(buffer);
 canvas.width = width;
 canvas.height = height;
 
-// determine endianness outside the loop. rgb -> uint
-// here we use toUint32Opaque for little-endian since
-// we use fully opaque pixels only. For big-endian systems
-// toUint32BigEndian does the same job
+// determine endianness outside the loop.
+// here we use toUint32 for little-endian and toUint32b for big-endian systems
 let toUint32 = ColorUtil.endian === 0 ?
-    ColorUtil.rgb.toUint32Opaque : ColorUtil.rgb.toUint32BigEndian;
+    ColorUtil.rgb.toUint32 : ColorUtil.rgb.toUint32b;
 
 for(let x = 0; x < width; x++) {
 

@@ -5,7 +5,6 @@
 <script src="../node_modules/lodash/lodash.js"></script>
 <script src="../node_modules/platform/platform.js"></script>
 <script src="../node_modules/benchmark/benchmark.js"></script>
-<script src="../node_modules/chromatism/dist/chromatism.js"></script>
 <script src="../dist/ColorUtil.min.js"></script>
 </head>
 <body>
@@ -30,11 +29,13 @@ var colorUtilArgs = {
     hslaString: 'hsla(0, 0%, 100%, 1)',
     hsv: {h:0,s:0,l:1},
     hsva: {h:0,s:0,l:1,a:1},
-}
+};
+
+var uint32 = 0xFFFFFFFF;
 
 var suite = new Benchmark.Suite;
 var suiteAny = new Benchmark.Suite;
-let suiteOther = new Benchmark.Suite;
+var suiteOther = new Benchmark.Suite;
 var data = {};
 
 
@@ -43,7 +44,7 @@ var data = {};
 
 
 
-_.forEach(colorUtilArgs, (value, key) => {
+_.forEach(colorUtilArgs, function(value, key) {
     suiteAny
 
     .add(`any(${key}) -> toRgb`, function() {
@@ -87,7 +88,7 @@ suiteAny
 
 .on('cycle', function(event) {
 
-    let key = event.target.name;
+    var key = event.target.name;
 
     data[key] = Math.round(event.target.hz);
 
@@ -130,34 +131,6 @@ suite
     ColorUtil.rgb.toRgbString(colorUtilArgs.rgb);
 })
 
-.add('rgb -> toRgbaString', function() {
-    ColorUtil.rgb.toRgbaString(colorUtilArgs.rgb);
-})
-
-.add('rgb -> toUint32', function() {
-    ColorUtil.rgb.toUint32(colorUtilArgs.rgb);
-})
-
-.add('rgb -> toUint32Opaque', function() {
-    ColorUtil.rgb.toUint32Opaque(colorUtilArgs.rgb);
-})
-
-.add('rgb -> toUint32BigEndian', function() {
-    ColorUtil.rgb.toUint32BigEndian(colorUtilArgs.rgb);
-})
-
-.add('rgb -> toInt32', function() {
-    ColorUtil.rgb.toInt32(colorUtilArgs.rgb);
-})
-
-.add('rgb -> toInt32Opaque', function() {
-    ColorUtil.rgb.toInt32Opaque(colorUtilArgs.rgb);
-})
-
-.add('rgb -> toInt32BigEndian', function() {
-    ColorUtil.rgb.toInt32BigEndian(colorUtilArgs.rgb);
-})
-
 .add('rgb -> toHsl', function() {
     ColorUtil.rgb.toHsl(colorUtilArgs.rgb);
 })
@@ -192,8 +165,8 @@ suite
     ColorUtil.rgb.toUint32Opaque(colorUtilArgs.rgba);
 })
 
-.add('rgba -> toUint32BigEndian', function() {
-    ColorUtil.rgb.toUint32BigEndian(colorUtilArgs.rgba);
+.add('rgba -> toUint32b', function() {
+    ColorUtil.rgb.toUint32b(colorUtilArgs.rgba);
 })
 
 .add('rgba -> toInt32', function() {
@@ -204,8 +177,8 @@ suite
     ColorUtil.rgb.toInt32Opaque(colorUtilArgs.rgba);
 })
 
-.add('rgba -> toInt32BigEndian', function() {
-    ColorUtil.rgb.toInt32BigEndian(colorUtilArgs.rgba);
+.add('rgba -> toInt32b', function() {
+    ColorUtil.rgb.toInt32b(colorUtilArgs.rgba);
 })
 
 .add('rgba -> toHsl', function() {
@@ -232,6 +205,18 @@ suite
 
 .add('int -> toRgbaString', function() {
     ColorUtil.int.toRgbaString(colorUtilArgs.int);
+})
+
+
+
+.add('int32 -> toRgb', function() {
+    ColorUtil.int32.toRgb(uint32);
+})
+
+
+
+.add('int32b -> toRgb', function() {
+    ColorUtil.int32b.toRgb(uint32);
 })
 
 
@@ -370,7 +355,7 @@ suite
 
 .on('cycle', function(event) {
 
-    let key = event.target.name;
+    var key = event.target.name;
 
     data[key] = Math.round(event.target.hz);
 
@@ -472,7 +457,7 @@ suiteOther
 
 .on('cycle', function(event) {
 
-    let key = event.target.name;
+    var key = event.target.name;
 
     data[key] = Math.round(event.target.hz);
 
@@ -492,9 +477,9 @@ suiteOther
 });
 
 
-// suite.run({ 'async': true });
+suite.run({ 'async': true });
 // suiteAny.run({ 'async': true });
-suiteOther.run({ 'async': true });
+// suiteOther.run({ 'async': true });
 
 </script>
 </body>

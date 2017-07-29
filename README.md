@@ -6,7 +6,7 @@
 
 ![Preview](/example/githubimage.jpg)
 
-Note that this package is still in early version 0.x.x so you should expect some changes that break backward compatibility. Target of this package is to have color utilities that concentrate on performance rather than usability.
+Target of this package is to provide color utilities that concentrate on performance. See github page for examples.
 
 <a name="ColorUtil"></a>
 

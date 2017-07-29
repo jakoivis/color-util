@@ -8,11 +8,11 @@ import html from './benchmark-result-0.5.0.html';
 
 require('highcharts/modules/data')(Highcharts);
 
-let chart1;
-let chart2;
-let chart3;
+var chart1;
+var chart2;
+var chart3;
 
-let type = 'linear';
+var type = 'linear';
 $("#switchLog").click(function(){
     $('#switchLog').prop('value', 'switch to ' + type + ' scale');
     type = type === 'linear' ? 'logarithmic': 'linear';
