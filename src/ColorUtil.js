@@ -1474,6 +1474,16 @@ let ColorUtil = {
     convert: convert,
 
     /**
+     * A short-cut method for getting hue color
+     *
+     * @param      {object}  rgb     Rgb object
+     * @return     {object}  hue color in Rgb object notation
+     */
+    hue: (rgb) => {
+        return ColorUtil.gradientColor(ColorUtil.hueColors(), Rgb.toHsv(rgb).h);
+    },
+
+    /**
      * Calculate two items from a gradient array and a relative position of
      * the gradient between those two items in an evenly distributed
      * gradient. The resulting values can be used calculate the final color.
@@ -1537,7 +1547,6 @@ let ColorUtil = {
             array: [color1, color2],
             position: positionBetweenColors
         } = ColorUtil.twoStopGradient(colors, position);
-
 
         return {
             r: color1.r - positionBetweenColors * (color1.r - color2.r),

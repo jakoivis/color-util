@@ -697,4 +697,15 @@ describe('ColorUtil', () => {
             return C.rgb.toInt(color);
         }
     });
+
+    describe('hue', () => {
+
+        it('should return red', () => {
+            C.hue({r:0xFF, g: 0, b:0}).should.eql({r:0xFF, g: 0, b:0, a: 0xFF});
+        });
+
+        it('should return hue', () => {
+            C.hue({r:0x7F, g: 0x7F, b:0}).should.eql({r:0xFF, g: 0xFF, b:0, a: 0xFF});
+        });
+    });
 });
