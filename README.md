@@ -1087,8 +1087,9 @@ let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int
 * 0.6.0
     * hueColors -> getHueColors() & return value changed from array of numbers to array of rgb objects.
     * shorten function names: getGradientColor -> gradientColor, getMatrixColor -> matrixColor, convertTo2StopGradient -> twoStopGradient
-    * No interface changes after this release
+    * No interface changes after this release.
     * hue shortcut mehod for getting hue color
+    * more strict test functions for Rgb, Hsv and Hsl
     * convert function bug fix.
 * 0.5.0
     * benchmarks and some optimizations added

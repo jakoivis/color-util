@@ -56,7 +56,11 @@ let Rgb = {
             typeof color === 'object' &&
             color.hasOwnProperty('r') &&
             color.hasOwnProperty('g') &&
-            color.hasOwnProperty('b');
+            color.hasOwnProperty('b') &&
+            (color.r >= 0 && color.r <= 255) &&
+            (color.g >= 0 && color.g <= 255) &&
+            (color.b >= 0 && color.b <= 255) &&
+            (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 255) : true);
     },
 
     /**
@@ -835,7 +839,11 @@ let Hsl = {
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
             color.hasOwnProperty('s') &&
-            color.hasOwnProperty('l');
+            color.hasOwnProperty('l') &&
+            (color.h >= 0 && color.h <= 1) &&
+            (color.s >= 0 && color.s <= 1) &&
+            (color.l >= 0 && color.l <= 1) &&
+            (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 1) : true);
     },
 
     /**
@@ -1076,7 +1084,11 @@ let Hsv = {
             typeof color === 'object' &&
             color.hasOwnProperty('h') &&
             color.hasOwnProperty('s') &&
-            color.hasOwnProperty('v');
+            color.hasOwnProperty('v') &&
+            (color.h >= 0 && color.h <= 1) &&
+            (color.s >= 0 && color.s <= 1) &&
+            (color.v >= 0 && color.v <= 1) &&
+            (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 1) : true);
     },
 
     /**

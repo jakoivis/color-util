@@ -21,7 +21,8 @@ describe('ColorUtil', () => {
                 C.rgb.test(hex).should.be.false;
                 C.rgb.test(rgba).should.be.false;
                 C.rgb.test(rgb).should.be.true;
-                C.rgb.test({r: 170, g: 187, b: 204}).should.be.true;
+                C.rgb.test({r: -1, g: 187, b: 204}).should.be.false;
+                C.rgb.test({r: 256, g: 187, b: 204}).should.be.false;
                 C.rgb.test({h: 170, s: 187, l: 204}).should.be.false;
             });
 
@@ -280,6 +281,8 @@ describe('ColorUtil', () => {
                 C.hsl.test(rgba).should.be.false;
                 C.hsl.test({h: 0, s: 0, l: 0}).should.be.true;
                 C.hsl.test({h: 0, s: 0, v: 0}).should.be.false;
+                C.hsl.test({h: 1.2, s: 0, l: 0}).should.be.false;
+                C.hsl.test({h: -0.5, s: 0, l: 0}).should.be.false;
             });
 
             it('toRgb', () => {
@@ -371,6 +374,8 @@ describe('ColorUtil', () => {
                 C.hsv.test(rgba).should.be.false;
                 C.hsv.test({h: 0, s: 0, v: 0}).should.be.true;
                 C.hsv.test({h: 0, s: 0, l: 0}).should.be.false;
+                C.hsv.test({h: 1.2, s: 0, v: 0}).should.be.false;
+                C.hsv.test({h: -0.5, s: 0, v: 0}).should.be.false;
             });
 
             it('toRgb', () => {
