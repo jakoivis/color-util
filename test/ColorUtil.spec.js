@@ -56,12 +56,12 @@ describe('ColorUtil', () => {
                 C.rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
             });
 
-            it('toUint32BigEndian', () => {
-                C.rgb.toUint32BigEndian(rgb).should.equal(0xAABBCCFF);
-                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
-                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
-                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
-                C.rgb.toUint32BigEndian({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
+            it('toUint32b', () => {
+                C.rgb.toUint32b(rgb).should.equal(0xAABBCCFF);
+                C.rgb.toUint32b({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+                C.rgb.toUint32b({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
+                C.rgb.toUint32b({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+                C.rgb.toUint32b({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
             });
 
             it('toInt32', () => {
@@ -72,17 +72,17 @@ describe('ColorUtil', () => {
                 C.rgb.toInt32({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
             });
 
-            it('toInt32BigEndian', () => {
+            it('toInt32b', () => {
                 let AABBCCFF = -1430532865;
                 let AABBCC55 = -1430533035
                 let AABBCC00 = -1430533120;
                 let AA00CC00 = -1442788352;
 
-                C.rgb.toInt32BigEndian(rgb).should.equal(AABBCCFF);
-                C.rgb.toInt32BigEndian({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
-                C.rgb.toInt32BigEndian({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
-                C.rgb.toInt32BigEndian({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
-                C.rgb.toInt32BigEndian({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
+                C.rgb.toInt32b(rgb).should.equal(AABBCCFF);
+                C.rgb.toInt32b({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
+                C.rgb.toInt32b({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
+                C.rgb.toInt32b({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
+                C.rgb.toInt32b({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
             });
 
             it('toHsl', () => {
@@ -149,6 +149,22 @@ describe('ColorUtil', () => {
                 C.int.toRgbaString(0xAABBCC).should.equal('rgba(170,187,204,1)');
                 C.int.toRgbaString(0xAABBCC, 0).should.equal('rgba(170,187,204,0)');
                 C.int.toRgbaString(0xAABBCC, 0.1).should.equal('rgba(170,187,204,0.1)');
+            });
+        });
+
+        describe('int32', () => {
+
+            it('toRgb', () => {
+                C.int32.toRgb(0xFFAABBCC).should.eql({r: 0xCC, g: 0xBB, b: 0xAA, a: 0xFF});
+                C.int32.toRgb(-5588020).should.eql({r: 0xCC, g: 0xBB, b: 0xAA, a: 0xFF}); // 0xFFAABBCC
+            });
+        });
+
+        describe('int32b', () => {
+
+            it('toRgb', () => {
+                C.int32b.toRgb(0xFFAABBCC).should.eql({r: 0xFF, g: 0xAA, b: 0xBB, a: 0xCC});
+                C.int32b.toRgb(-5588020).should.eql({r: 0xFF, g: 0xAA, b: 0xBB, a: 0xCC}); // 0xFFAABBCC
             });
         });
 
@@ -445,9 +461,6 @@ describe('ColorUtil', () => {
                 C.any.toRgbaString(rgb).should.eql('rgba(170,187,204,1)');
                 C.any.toRgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
                 C.any.toRgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
-
-                // C.any.toRgb(0xFFAABBCC).should.eql({r:0xCC, g: 0xBB, b: 0xAA, a: 0xFF});
-                // C.any.toRgb(-3359830).should.eql({r:0xAA, g: 0xBB, b: 0xCC, a: 0xFF}); // 0xFFCCBBAA, 0xAABBGGRR
             });
 
             it('should do hsl -> rgb conversion', () => {

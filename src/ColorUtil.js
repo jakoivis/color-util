@@ -181,18 +181,18 @@ let Rgb = {
      * Resulting value is positive
      *
      * @example
-     * ColorUtil.rgb.toUint32BigEndian({r: 0, g: 128, b: 255, a: 255});
+     * ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 255});
      * // output: 8454143
-     * ColorUtil.rgb.toUint32BigEndian({r: 0, g: 128, b: 255, a: 85});
+     * ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 85});
      * // output: 8453973
      *
      * @memberof ColorUtil.rgb
-     * @alias ColorUtil.rgb.toUint32
+     * @alias ColorUtil.rgb.toUint32b
      *
      * @param      {object}    rgb
      * @return     {number}
      */
-    toUint32BigEndian: rgb => {
+    toUint32b: rgb => {
         return (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a) >>> 0;
     },
 
@@ -240,18 +240,18 @@ let Rgb = {
      * Resulting value can be negative.
      *
      * @example
-     * ColorUtil.rgb.toInt32BigEndian({r: 0, g: 128, b: 255, a: 255});
+     * ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 255});
      * // output: 8454143
-     * ColorUtil.rgb.toInt32BigEndian({r: 0, g: 128, b: 255, a: 85});
+     * ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 85});
      * // output: 8453973
      *
      * @memberof ColorUtil.rgb
-     * @alias ColorUtil.rgb.toInt32BigEndian
+     * @alias ColorUtil.rgb.toInt32b
      *
      * @param      {object}    rgb
      * @return     {number}
      */
-    toInt32BigEndian: rgb => {
+    toInt32b: rgb => {
         return rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a;
     },
 
@@ -487,6 +487,72 @@ let Int = {
                 + a +')';
     }
 }
+
+/**
+ * @class Int32
+ * @private
+ */
+let Int32 = {
+
+    name: 'Int32',
+
+    parent: Rgb,
+
+    /**
+     * 32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @memberof ColorUtil.int32
+     * @alias ColorUtil.int32.toRgb
+     *
+     * @example
+     * ColorUtil.int32.toRgb(0xFF112233)
+     * // output: {a: 255, b: 17, g: 34, r: 51}
+     *
+     * @param      {number}  int        32-bit number
+     * @return     {object}
+     */
+    toRgb: (int) => {
+        return {
+            a: (int >> 24) & 0xFF,
+            b: (int >> 16) & 0xFF,
+            g: (int >> 8) & 0xFF,
+            r: int & 0xFF
+        };
+    }
+};
+
+/**
+ * @class Int32b
+ * @private
+ */
+let Int32b = {
+
+    name: 'Int32b',
+
+    parent: Rgb,
+
+    /**
+     * 32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     *
+     * @memberof ColorUtil.int32b
+     * @alias ColorUtil.int32b.toRgb
+     *
+     * @example
+     * ColorUtil.int32b.toRgb(0xFF112233)
+     * // output: {r: 255, g: 17, b: 34, a: 51}
+     *
+     * @param      {number}  int        32-bit number
+     * @return     {object}
+     */
+    toRgb: (int) => {
+        return {
+            r: (int >> 24) & 0xFF,
+            g: (int >> 16) & 0xFF,
+            b: (int >> 8) & 0xFF,
+            a: int & 0xFF
+        };
+    }
+};
 
 const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
@@ -814,59 +880,6 @@ let RgbaString = {
         : null;
     }
 }
-
-/**
- * @class Int32
- * @private
- */
-let Int32 = {
-
-    name: 'Int32',
-
-    parent: Rgb,
-
-    /**
-     * Test validity of a color whether it is in correct notation for this class.
-     *
-     * @memberof ColorUtil.int
-     * @alias ColorUtil.int.test
-     *
-     * @param      {*}          color   The color
-     * @return     {boolean}    True if valid, False otherwise.
-     */
-    test: color => {
-        return typeof color === 'number' &&
-            color <= 0xFFFFFFFF &&
-            color >= 0;
-    },
-
-    /**
-     * 32-bit number `0xAABBGGRR` to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
-     *
-     * @memberof ColorUtil.int32
-     * @alias ColorUtil.int32.toRgb
-     *
-     * @example
-     * ColorUtil.int.toRgb(0xFF0000);
-     * // output: {r: 255, g: 0, b: 0, a: 255}
-     *
-     * ColorUtil.int.toRgb(0xFF0000, 128);
-     * // output: {r: 255, g: 0, b: 0, a: 128}
-     *
-     * @param      {number}  int        Integer
-     * @return     {object}
-     */
-    toRgb: (int) => {
-        return {
-            a: (int >> 24) & 0xFF,
-            b: (int >> 16) & 0xFF,
-            g: (int >> 8) & 0xFF,
-            r: int & 0xFF
-        };
-    },
-
-
-};
 
 /**
  * @class Hsl
@@ -1417,14 +1430,20 @@ let ColorUtil = {
     /**
      * Number conversion functions.
      *
-     * Int32 notation is 32-bit number representing the RGBA values `0xAABBGGRR`.
-     * Int32 is in little-endian since 32-bit number values are mostly used in typed
-     * arrays where the endianness depend on the system. Most of the systems are
-     * in little endian and int32 expects the inputs to be in little-endian.
+     * Int32 notation converion functions for 32-bit numbers `0xAABBGGRR` (little-endian).
      *
      * @memberof ColorUtil
      */
     int32: Int32,
+
+    /**
+     * Number conversion functions.
+     *
+     * Int32 notation converion functions for 32-bit numbers `0xRRGGBBAA` (big-endian).
+     *
+     * @memberof ColorUtil
+     */
+    int32b: Int32b,
 
     /**
      * Hexadecimal conversion functions

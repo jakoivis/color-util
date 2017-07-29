@@ -24,10 +24,10 @@ Color conversion functions and gradient functions.
         * [.toRgbaString(rgb)](#ColorUtil.rgb.toRgbaString) ⇒ <code>string</code>
         * [.toUint32(rgb)](#ColorUtil.rgb.toUint32) ⇒ <code>number</code>
         * [.toUint32Opaque(rgb)](#ColorUtil.rgb.toUint32Opaque) ⇒ <code>number</code>
-        * [.toUint32(rgb)](#ColorUtil.rgb.toUint32) ⇒ <code>number</code>
+        * [.toUint32b(rgb)](#ColorUtil.rgb.toUint32b) ⇒ <code>number</code>
         * [.toInt32(rgb)](#ColorUtil.rgb.toInt32) ⇒ <code>number</code>
         * [.toInt32Opaque(rgb)](#ColorUtil.rgb.toInt32Opaque) ⇒ <code>number</code>
-        * [.toInt32BigEndian(rgb)](#ColorUtil.rgb.toInt32BigEndian) ⇒ <code>number</code>
+        * [.toInt32b(rgb)](#ColorUtil.rgb.toInt32b) ⇒ <code>number</code>
         * [.toHsl(rgb)](#ColorUtil.rgb.toHsl) ⇒ <code>object</code>
         * [.toHsv(rgb)](#ColorUtil.rgb.toHsv) ⇒ <code>object</code>
     * [.int](#ColorUtil.int)
@@ -36,6 +36,10 @@ Color conversion functions and gradient functions.
         * [.toHex(int)](#ColorUtil.int.toHex) ⇒ <code>string</code>
         * [.toRgbString(int)](#ColorUtil.int.toRgbString) ⇒ <code>string</code>
         * [.toRgbaString(int, [a])](#ColorUtil.int.toRgbaString) ⇒ <code>string</code>
+    * [.int32](#ColorUtil.int32)
+        * [.toRgb(int)](#ColorUtil.int32.toRgb) ⇒ <code>object</code>
+    * [.int32b](#ColorUtil.int32b)
+        * [.toRgb(int)](#ColorUtil.int32b.toRgb) ⇒ <code>object</code>
     * [.hex](#ColorUtil.hex)
         * [.test(color)](#ColorUtil.hex.test) ⇒ <code>boolean</code>
         * [.toRgb(hex, [a])](#ColorUtil.hex.toRgb) ⇒ <code>object</code>
@@ -101,10 +105,10 @@ Rgb conversion functionsRgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` 
     * [.toRgbaString(rgb)](#ColorUtil.rgb.toRgbaString) ⇒ <code>string</code>
     * [.toUint32(rgb)](#ColorUtil.rgb.toUint32) ⇒ <code>number</code>
     * [.toUint32Opaque(rgb)](#ColorUtil.rgb.toUint32Opaque) ⇒ <code>number</code>
-    * [.toUint32(rgb)](#ColorUtil.rgb.toUint32) ⇒ <code>number</code>
+    * [.toUint32b(rgb)](#ColorUtil.rgb.toUint32b) ⇒ <code>number</code>
     * [.toInt32(rgb)](#ColorUtil.rgb.toInt32) ⇒ <code>number</code>
     * [.toInt32Opaque(rgb)](#ColorUtil.rgb.toInt32Opaque) ⇒ <code>number</code>
-    * [.toInt32BigEndian(rgb)](#ColorUtil.rgb.toInt32BigEndian) ⇒ <code>number</code>
+    * [.toInt32b(rgb)](#ColorUtil.rgb.toInt32b) ⇒ <code>number</code>
     * [.toHsl(rgb)](#ColorUtil.rgb.toHsl) ⇒ <code>object</code>
     * [.toHsv(rgb)](#ColorUtil.rgb.toHsv) ⇒ <code>object</code>
 
@@ -210,9 +214,9 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little
 ```js
 ColorUtil.rgb.toUint32Opaque({r: 0, g: 128, b: 255})// output: 4294934528
 ```
-<a name="ColorUtil.rgb.toUint32"></a>
+<a name="ColorUtil.rgb.toUint32b"></a>
 
-#### rgb.toUint32(rgb) ⇒ <code>number</code>
+#### rgb.toUint32b(rgb) ⇒ <code>number</code>
 Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)Resulting value is positive
 
 **Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
@@ -223,7 +227,7 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` 
 
 **Example**  
 ```js
-ColorUtil.rgb.toUint32BigEndian({r: 0, g: 128, b: 255, a: 255});// output: 8454143ColorUtil.rgb.toUint32BigEndian({r: 0, g: 128, b: 255, a: 85});// output: 8453973
+ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 255});// output: 8454143ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 85});// output: 8453973
 ```
 <a name="ColorUtil.rgb.toInt32"></a>
 
@@ -255,9 +259,9 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little
 ```js
 ColorUtil.rgb.toInt32Opaque({r: 0, g: 128, b: 255})// output: -32768
 ```
-<a name="ColorUtil.rgb.toInt32BigEndian"></a>
+<a name="ColorUtil.rgb.toInt32b"></a>
 
-#### rgb.toInt32BigEndian(rgb) ⇒ <code>number</code>
+#### rgb.toInt32b(rgb) ⇒ <code>number</code>
 Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).Resulting value can be negative.
 
 **Kind**: static method of [<code>rgb</code>](#ColorUtil.rgb)  
@@ -268,7 +272,7 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` 
 
 **Example**  
 ```js
-ColorUtil.rgb.toInt32BigEndian({r: 0, g: 128, b: 255, a: 255});// output: 8454143ColorUtil.rgb.toInt32BigEndian({r: 0, g: 128, b: 255, a: 85});// output: 8453973
+ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 255});// output: 8454143ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 85});// output: 8453973
 ```
 <a name="ColorUtil.rgb.toHsl"></a>
 
@@ -303,7 +307,7 @@ ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});// output: {h: 0, s: 1, v: 1,
 <a name="ColorUtil.int"></a>
 
 ### ColorUtil.int
-Integer conversion functions.Int notation is 24-bit number represnting the RGB values `0xRRGGBB`.
+Number conversion functions.Int notation is 24-bit number representing the RGB values `0xRRGGBB`.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -388,10 +392,52 @@ ColorUtil.int.toRgbString(0x00FF00);// output: "rgb(0,255,0)"
 ```js
 ColorUtil.int.toRgbaString(0x00FF00);// output: "rgba(0,255,0,1)"ColorUtil.int.toRgbaString(0x00FF00, 0.5);// output: "rgba(0,255,0,0.5)"
 ```
+<a name="ColorUtil.int32"></a>
+
+### ColorUtil.int32
+Number conversion functions.Int32 notation converion functions for 32-bit numbers `0xAABBGGRR` (little-endian).
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+<a name="ColorUtil.int32.toRgb"></a>
+
+#### int32.toRgb(int) ⇒ <code>object</code>
+32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Kind**: static method of [<code>int32</code>](#ColorUtil.int32)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| int | <code>number</code> | 32-bit number |
+
+**Example**  
+```js
+ColorUtil.int32.toRgb(0xFF112233)// output: {a: 255, b: 17, g: 34, r: 51}
+```
+<a name="ColorUtil.int32b"></a>
+
+### ColorUtil.int32b
+Number conversion functions.Int32 notation converion functions for 32-bit numbers `0xRRGGBBAA` (big-endian).
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+<a name="ColorUtil.int32b.toRgb"></a>
+
+#### int32b.toRgb(int) ⇒ <code>object</code>
+32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Kind**: static method of [<code>int32b</code>](#ColorUtil.int32b)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| int | <code>number</code> | 32-bit number |
+
+**Example**  
+```js
+ColorUtil.int32b.toRgb(0xFF112233)// output: {r: 255, g: 17, b: 34, a: 51}
+```
 <a name="ColorUtil.hex"></a>
 
 ### ColorUtil.hex
-Hexadecimal conversion functionsHex notation is 24-bit hex string represnting the RGB values `'#RRGGBB'`.
+Hexadecimal conversion functionsHex notation is 24-bit hex string representing the RGB values `'#RRGGBB'`.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -837,7 +883,7 @@ ColorUtil.hsv.toHsl({h: 1/6, s: 0.5, v: 0.5});// output: {h: 0.1666666666666666
 <a name="ColorUtil.any"></a>
 
 ### ColorUtil.any
-Any conversion functions.Converts supported color notations to any notation.TODO: toUint32, toInt32
+Any conversion functions.Converts supported color notations to any notation.
 
 **Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
 
@@ -1090,6 +1136,8 @@ let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int
     * No interface changes after this release.
     * hue shortcut mehod for getting hue color
     * more strict test functions for Rgb, Hsv and Hsl
+    * toUint32BigEndian and toInt32BigEndian renamed to toUint32b and toInt32b
+    * ColorUtil.int32.toRgb and ColorUtil.int32b.toRgb added
     * convert function bug fix.
 * 0.5.0
     * benchmarks and some optimizations added
