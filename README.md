@@ -2,8 +2,6 @@
 [![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)](https://npmjs.org/package/color-util)
 [![Npm version](https://img.shields.io/npm/v/color-util.svg)](https://npmjs.org/package/color-util)
 
-[![NPM](https://nodei.co/npm/color-util.png)](https://npmjs.org/package/color-util)
-
 ![Preview](/example/githubimage.jpg)
 
 Target of this package is to provide color utilities that concentrate on performance. See github page for examples.
