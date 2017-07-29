@@ -10,7 +10,7 @@
 <script>
 
 // convert colors to rgb objects so getGradientMatrixColor understands them
-// colors are written in 0xRRGGBBAA format and converted to rgb objects
+// colors are written in 0xRRGGBBAA (big-endian) format and converted to rgb objects
 let colors = ColorUtil.convert(
     [[0xFF0000FF, 0xFFFF0099], [0x0000FF66, 0x00FFFF22]],
     ColorUtil.int32b.toRgb);

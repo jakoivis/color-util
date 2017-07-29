@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Endian</title>
+<script src='/ColorUtil.js'></script>
+</head>
+<body>
+
+<div style='position:relative; width: 150px; height:150px;'>
+    <div id='hueColor' style='position:absolute;width:inherit;height:inherit;background-color:#FF0000'></div>
+    <canvas id='canvas' style='position:absolute;cursor:crosshair'></canvas>
+</div>
+
+<input type='range' id='hueSlider' value='0' min='0' max='1' step='0.01' oninput='onHueChange(this.value)' style='width:150px;'>
+
+<script>
+
+let width = 150;
+let height = 150;
+let rgb = ColorUtil.int.toRgb(0xFF0000);
+let hueRgb = ColorUtil.int.toRgb(0xFF0000);
+let hueDiv = document.getElementById('hueColor');
+let canvas = document.getElementById('canvas');
+let dragging = false;
+
+initGrayscaleOverlay();
+
+canvas.addEventListener('mousedown', function(event) {
+    dragging = true;
+});
+
+document.body.addEventListener('mouseup', function() {
+    dragging = false;
+});
+
+document.body.addEventListener('mousemove', function(event) {
+    if(!dragging) return;
+
+    let bounds = canvas.getBoundingClientRect();
+    let x = (event.clientX - bounds.left) / 150;
+    let y = (event.clientY - bounds.top) / 150;
+
+    let matrix = ColorUtil.convert(
+        [[0xFFFFFF, hueRgb], [0x000000]],
+        ColorUtil.any.toRgb);
+
+    let rgb = ColorUtil.matrixColor(matrix, x, y);
+
+    document.body.style.background = ColorUtil.rgb.toRgbString(rgb);
+});
+
+function onHueChange(hueValue) {
+    let hsv = ColorUtil.rgb.toHsv(rgb);
+    hsv.h = hueValue;
+    rgb = ColorUtil.hsv.toRgb(hsv);
+    hueRgb = ColorUtil.hue(rgb);
+
+    hueDiv.style.backgroundColor = ColorUtil.rgb.toRgbString(hueRgb);
+}
+
+function initGrayscaleOverlay() {
+    let colors = ColorUtil.convert(
+        [[0xFFFFFFFF, 0], [0x000000FF]],
+        ColorUtil.int32b.toRgb);
+
+    let canvas = document.getElementById('canvas');
+    let ctx = canvas.getContext('2d');
+    let imageData  = ctx.createImageData(width, height);
+    let buffer = imageData.data.buffer;
+    let uint32View = new Uint32Array(buffer);
+    let uint8CView = new Uint8ClampedArray(buffer);
+
+    canvas.width = width;
+    canvas.height = height;
+
+    for(let x = 0; x < width; x++) {
+
+        for(let y = 0; y < height; y++) {
+
+            let rgb = ColorUtil.matrixColor(colors, x/width, y/height);
+
+            uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+        }
+    }
+
+    imageData.data.set(uint8CView);
+
+    ctx.putImageData(imageData, 0, 0);
+}
+
+</script>
+
+</body>
+
+</html>
