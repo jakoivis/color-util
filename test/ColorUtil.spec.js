@@ -562,97 +562,97 @@ describe('ColorUtil', () => {
         });
     });
 
-    describe('convertTo2StopGradient', () => {
+    describe('twoStopGradient', () => {
 
         it('should gradient from 1 point gradient', () => {
-            C.convertTo2StopGradient([1], 0.5).array.should.eql([1,1]);
-            C.convertTo2StopGradient([1], 0.5).position.should.equal(0);
+            C.twoStopGradient([1], 0.5).array.should.eql([1,1]);
+            C.twoStopGradient([1], 0.5).position.should.equal(0);
         });
 
         it('should gradient from 2 point gradient', () => {
-            C.convertTo2StopGradient([1,2], .25).array.should.eql([1,2]);
-            C.convertTo2StopGradient([1,2], .25).position.should.equal(.25);
+            C.twoStopGradient([1,2], .25).array.should.eql([1,2]);
+            C.twoStopGradient([1,2], .25).position.should.equal(.25);
         });
 
         it('should gradient from 3 point gradient', () => {
-            C.convertTo2StopGradient([1,2,3], 0).array.should.eql([1,2]);
-            C.convertTo2StopGradient([1,2,3], 0).position.should.equal(0);
-            C.convertTo2StopGradient([1,2,3], 1).array.should.eql([3,3]);
-            C.convertTo2StopGradient([1,2,3], 1).position.should.equal(0);
-            C.convertTo2StopGradient([1,2,3], 0.25).array.should.eql([1,2]);
-            C.convertTo2StopGradient([1,2,3], 0.25).position.should.equal(0.5);
+            C.twoStopGradient([1,2,3], 0).array.should.eql([1,2]);
+            C.twoStopGradient([1,2,3], 0).position.should.equal(0);
+            C.twoStopGradient([1,2,3], 1).array.should.eql([3,3]);
+            C.twoStopGradient([1,2,3], 1).position.should.equal(0);
+            C.twoStopGradient([1,2,3], 0.25).array.should.eql([1,2]);
+            C.twoStopGradient([1,2,3], 0.25).position.should.equal(0.5);
         });
 
         it('should gradient from 4 point gradient', () => {
-            C.convertTo2StopGradient([1,2,3,4], 0).array.should.eql([1,2]);
-            C.convertTo2StopGradient([1,2,3,4], 0).position.should.equal(0);
-            C.convertTo2StopGradient([1,2,3,4], 1).array.should.eql([4,4]);
-            C.convertTo2StopGradient([1,2,3,4], 1).position.should.be.closeTo(0, 0.00000000000001);
-            C.convertTo2StopGradient([1,2,3,4], 0.25).array.should.eql([1,2]);
-            C.convertTo2StopGradient([1,2,3,4], 0.25).position.should.equal(0.75);
+            C.twoStopGradient([1,2,3,4], 0).array.should.eql([1,2]);
+            C.twoStopGradient([1,2,3,4], 0).position.should.equal(0);
+            C.twoStopGradient([1,2,3,4], 1).array.should.eql([4,4]);
+            C.twoStopGradient([1,2,3,4], 1).position.should.be.closeTo(0, 0.00000000000001);
+            C.twoStopGradient([1,2,3,4], 0.25).array.should.eql([1,2]);
+            C.twoStopGradient([1,2,3,4], 0.25).position.should.equal(0.75);
         });
     });
 
-    describe('getGradientColor', () => {
+    describe('gradientColor', () => {
 
         var toRgb = C.int.toRgb;
         var fromRgb = C.rgb.toInt;
 
         it('should get color from 1 point gradient', () => {
-            getGradientColor([0x00FF7F], 0.5)
+            gradientColor([0x00FF7F], 0.5)
                 .should.equal(0x00FF7F);
         });
 
         it('should get color from 2 point gradient', () => {
-            getGradientColor([0x00FF7F, 0xFF00FF], 0)
+            gradientColor([0x00FF7F, 0xFF00FF], 0)
                 .should.equal(0x00FF7F);
-            getGradientColor([0x00FF7F, 0xFF00FF], 1)
+            gradientColor([0x00FF7F, 0xFF00FF], 1)
                 .should.equal(0xFF00FF);
-            getGradientColor([0x00FF7F, 0xFF00FF], 0.25)
+            gradientColor([0x00FF7F, 0xFF00FF], 0.25)
                 .should.equal(0x3FBF9F);
-            getGradientColor([0x00FF7F, 0xFF00FF], 0.5)
+            gradientColor([0x00FF7F, 0xFF00FF], 0.5)
                 .should.equal(0x7F7FBF);
-            getGradientColor([0x00FF7F, 0xFF00FF], 0.75)
+            gradientColor([0x00FF7F, 0xFF00FF], 0.75)
                 .should.equal(0xBF3FDF);
         });
 
         it('should get color from 3 point gradient', () => {
-            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0)
+            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0)
                 .should.equal(0x0);
-            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1)
+            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1)
                 .should.equal(0xFFFFFF);
-            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25)
+            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25)
                 .should.equal(0x3F3F3F);
-            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5)
+            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5)
                 .should.equal(0x7F7F7F);
-            getGradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75)
+            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75)
                 .should.equal(0xBFBFBF);
         });
 
         it('should get color from 4 point gradient', () => {
-            getGradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0)
+            gradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0)
                 .should.equal(0xFFFFFF); // first color
-            getGradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1)
+            gradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1)
                 .should.equal(0xFFFFFF); // last color
-            getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25)
+            gradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25)
                 .should.equal(0xBFBFBF); // 75% between colors 0 and 1
-            getGradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5)
+            gradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5)
                 .should.equal(0xBFBFBF); // 50% beween colors 1 and 2
-            getGradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75)
+            gradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75)
                 .should.equal(0x9F9F9F); // 25% between colors 2 and 3
         });
 
         it('should return edge colors when value is out of range', () => {
-            getGradientColor([0x00FF7F, 0xFF00FF], 2)
+            gradientColor([0x00FF7F, 0xFF00FF], 2)
                 .should.equal(0xFF00FF);
-            getGradientColor([0x00FF7F, 0xFF00FF], -2)
+            gradientColor([0x00FF7F, 0xFF00FF], -2)
                 .should.equal(0x00FF7F);
         });
 
-        function getGradientColor(colors, position) {
+        function gradientColor(colors, position) {
             colors = C.convert(colors, C.int.toRgb);
 
-            let color = C.getGradientColor(colors, position);
+            let color = C.gradientColor(colors, position);
 
             return C.rgb.toInt(color);
         }
@@ -666,33 +666,33 @@ describe('ColorUtil', () => {
         ];
 
         it('should get left corner color', () => {
-            getMatrixColor(matrix, 0, 0).should.equal(0xFF0000);
+            matrixColor(matrix, 0, 0).should.equal(0xFF0000);
         });
 
         it('should get right corner color', () => {
-            getMatrixColor(matrix, 1, 0).should.equal(0x0000FF);
+            matrixColor(matrix, 1, 0).should.equal(0x0000FF);
         });
 
         it('should get bottom right corner color', () => {
-            getMatrixColor(matrix, 1, 1).should.equal(0x00FF00);
+            matrixColor(matrix, 1, 1).should.equal(0x00FF00);
         });
 
         it('should get bottom left corner color', () => {
-            getMatrixColor(matrix, 0, 1).should.equal(0x000000);
+            matrixColor(matrix, 0, 1).should.equal(0x000000);
         });
 
         it('should get bottom center color', () => {
-            getMatrixColor(matrix, 0.5, 1).should.equal(0x007f00);
+            matrixColor(matrix, 0.5, 1).should.equal(0x007f00);
         });
 
         it('should get right center color', () => {
-            getMatrixColor(matrix, 1, 0.5).should.equal(0x007f7f);
+            matrixColor(matrix, 1, 0.5).should.equal(0x007f7f);
         });
 
-        function getMatrixColor(colors, x, y) {
+        function matrixColor(colors, x, y) {
             colors = C.convert(colors, C.int.toRgb);
 
-            let color = C.getMatrixColor(colors, x, y);
+            let color = C.matrixColor(colors, x, y);
 
             return C.rgb.toInt(color);
         }

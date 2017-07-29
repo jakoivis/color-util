@@ -441,33 +441,33 @@ var matrix12x12 = ColorUtil.convert([
 
 suiteOther
 
-.add(`getGradientColor 2 colors`, function() {
-    ColorUtil.getGradientColor(gradient2, Math.random());
+.add(`gradientColor 2 colors`, function() {
+    ColorUtil.gradientColor(gradient2, Math.random());
 })
-.add(`getGradientColor 6 colors`, function() {
-    ColorUtil.getGradientColor(gradient6, Math.random());
+.add(`gradientColor 6 colors`, function() {
+    ColorUtil.gradientColor(gradient6, Math.random());
 })
-.add(`getGradientColor 12 colors`, function() {
-    ColorUtil.getGradientColor(gradient12, Math.random());
+.add(`gradientColor 12 colors`, function() {
+    ColorUtil.gradientColor(gradient12, Math.random());
 })
-.add(`getGradientColor 24 colors`, function() {
-    ColorUtil.getGradientColor(gradient24, Math.random());
+.add(`gradientColor 24 colors`, function() {
+    ColorUtil.gradientColor(gradient24, Math.random());
 })
 
-.add(`getMatrixColor 2x2 colors`, function() {
-    ColorUtil.getMatrixColor(matrix2x2, Math.random(), Math.random());
+.add(`matrixColor 2x2 colors`, function() {
+    ColorUtil.matrixColor(matrix2x2, Math.random(), Math.random());
 })
-.add(`getMatrixColor 2x6 colors`, function() {
-    ColorUtil.getMatrixColor(matrix2x6, Math.random(), Math.random());
+.add(`matrixColor 2x6 colors`, function() {
+    ColorUtil.matrixColor(matrix2x6, Math.random(), Math.random());
 })
-.add(`getMatrixColor 3x6 colors`, function() {
-    ColorUtil.getMatrixColor(matrix3x6, Math.random(), Math.random());
+.add(`matrixColor 3x6 colors`, function() {
+    ColorUtil.matrixColor(matrix3x6, Math.random(), Math.random());
 })
-.add(`getMatrixColor 4x6 colors`, function() {
-    ColorUtil.getMatrixColor(matrix4x6, Math.random(), Math.random());
+.add(`matrixColor 4x6 colors`, function() {
+    ColorUtil.matrixColor(matrix4x6, Math.random(), Math.random());
 })
-.add(`getMatrixColor 12x12 colors`, function() {
-    ColorUtil.getMatrixColor(matrix12x12, Math.random(), Math.random());
+.add(`matrixColor 12x12 colors`, function() {
+    ColorUtil.matrixColor(matrix12x12, Math.random(), Math.random());
 })
 
 .on('cycle', function(event) {

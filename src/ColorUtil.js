@@ -1430,7 +1430,11 @@ let ColorUtil = {
      *
      * @return     {array} Array of hue colors
      */
-    hueColors: [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
+    hueColors: () => {
+        return convert(
+            [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
+            Int.toRgb);
+    },
 
     /**
      * Get the endian used by the system.
@@ -1489,7 +1493,7 @@ let ColorUtil = {
      * @return {object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
-    convertTo2StopGradient: (array, position) => {
+    twoStopGradient: (array, position) => {
         position = position < 0 ? 0 : position > 1 ? 1 : position;
 
         let lastIndex = array.length - 1;
@@ -1519,7 +1523,7 @@ let ColorUtil = {
      *
      * @example
      * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-     * ColorUtil.getGradientColor(gradient, 0.5);
+     * ColorUtil.gradientColor(gradient, 0.5);
      * // output: {r: 0, g: 255, b: 0, a: 255}
      *
      * @memberof ColorUtil
@@ -1528,11 +1532,11 @@ let ColorUtil = {
      * @param {number} position         Position on the gradient. Value in range 0-1.
      * @return {object} rgb object
      */
-    getGradientColor: (colors, position) => {
+    gradientColor: (colors, position) => {
         let {
             array: [color1, color2],
             position: positionBetweenColors
-        } = ColorUtil.convertTo2StopGradient(colors, position);
+        } = ColorUtil.twoStopGradient(colors, position);
 
 
         return {
@@ -1549,7 +1553,7 @@ let ColorUtil = {
      *
      * @example
      * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-     * ColorUtil.getMatrixColor(matrix, 0.5, 0.5);
+     * ColorUtil.matrixColor(matrix, 0.5, 0.5);
      * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
      *
      * @memberof ColorUtil
@@ -1559,16 +1563,16 @@ let ColorUtil = {
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @return {object} rgb object
      */
-    getMatrixColor: (matrix, x, y) => {
+    matrixColor: (matrix, x, y) => {
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = ColorUtil.convertTo2StopGradient(matrix, y);
+        } = ColorUtil.twoStopGradient(matrix, y);
 
-        let color1 = ColorUtil.getGradientColor(gradient1, x);
-        let color2 = ColorUtil.getGradientColor(gradient2, x);
+        let color1 = ColorUtil.gradientColor(gradient1, x);
+        let color2 = ColorUtil.gradientColor(gradient2, x);
 
-        return ColorUtil.getGradientColor([color1, color2], positionBetweenGradients);
+        return ColorUtil.gradientColor([color1, color2], positionBetweenGradients);
     }
 }
 
