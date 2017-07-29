@@ -420,7 +420,7 @@ Number conversion functions.Int32 notation converion functions for 32-bit numb
 <a name="ColorUtil.int32b.toRgb"></a>
 
 #### int32b.toRgb(int) ⇒ <code>object</code>
-32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+32-bit number `0xRRGGBBAA` (big-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Kind**: static method of [<code>int32b</code>](#ColorUtil.int32b)  
 

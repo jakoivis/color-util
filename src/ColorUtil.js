@@ -532,7 +532,7 @@ let Int32b = {
     parent: Rgb,
 
     /**
-     * 32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
+     * 32-bit number `0xRRGGBBAA` (big-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
      *
      * @memberof ColorUtil.int32b
      * @alias ColorUtil.int32b.toRgb
