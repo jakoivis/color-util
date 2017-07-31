@@ -82,11 +82,14 @@ Color conversion functions and gradient functions.
         * [.toHslaString(color)](#ColorUtil.any.toHslaString) ⇒ <code>string</code>
     * [.endian](#ColorUtil.endian) ⇒ <code>number</code>
     * [.convert](#ColorUtil.convert) ⇒ <code>array</code>
+    * [.continuity](#ColorUtil.continuity)
+        * [.stop()](#ColorUtil.continuity.stop)
+        * [.repeat()](#ColorUtil.continuity.repeat)
     * [.hueColors()](#ColorUtil.hueColors) ⇒ <code>array</code>
     * [.hue(rgb)](#ColorUtil.hue) ⇒ <code>object</code>
-    * [.twoStopGradient(array, position)](#ColorUtil.twoStopGradient) ⇒ <code>object</code>
-    * [.gradientColor(colors, position)](#ColorUtil.gradientColor) ⇒ <code>object</code>
-    * [.matrixColor(matrix, x, y)](#ColorUtil.matrixColor) ⇒ <code>object</code>
+    * [.gradientColor(colors, position, [continuity])](#ColorUtil.gradientColor) ⇒ <code>object</code>
+    * [.matrixColor(matrix, x, y, [continuity])](#ColorUtil.matrixColor) ⇒ <code>object</code>
+    * [.circleGradientColor(colors, x, y, cx, cy, rotation, [continuity])](#ColorUtil.circleGradientColor) ⇒ <code>object</code>
 
 <a name="ColorUtil.rgb"></a>
 
@@ -1054,6 +1057,29 @@ Run conversion functions for single color, array of colors ormatrix of colors.
 ```js
 ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);// output: "#ff0000"ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);// output: ["#ff0000", "#00ff00"]ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);// output: [['#ff0000', '#00ff00'], '#0000ff']ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);// output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
 ```
+<a name="ColorUtil.continuity"></a>
+
+### ColorUtil.continuity
+Grdient continuity functions.
+
+**Kind**: static property of [<code>ColorUtil</code>](#ColorUtil)  
+
+* [.continuity](#ColorUtil.continuity)
+    * [.stop()](#ColorUtil.continuity.stop)
+    * [.repeat()](#ColorUtil.continuity.repeat)
+
+<a name="ColorUtil.continuity.stop"></a>
+
+#### continuity.stop()
+Stop gradient at the edge color
+
+**Kind**: static method of [<code>continuity</code>](#ColorUtil.continuity)  
+<a name="ColorUtil.continuity.repeat"></a>
+
+#### continuity.repeat()
+Repeat gradient with the same pattern
+
+**Kind**: static method of [<code>continuity</code>](#ColorUtil.continuity)  
 <a name="ColorUtil.hueColors"></a>
 
 ### ColorUtil.hueColors() ⇒ <code>array</code>
@@ -1075,35 +1101,19 @@ A short-cut method for getting hue color
 ```js
 ColorUtil.hue({r:0x7F, g: 0x7F, b:0})// output: {r: 255, g: 255, b: 0, a: 255}
 ```
-<a name="ColorUtil.twoStopGradient"></a>
-
-### ColorUtil.twoStopGradient(array, position) ⇒ <code>object</code>
-Calculate two items from a gradient array and a relative position ofthe gradient between those two items in an evenly distributedgradient. The resulting values can be used calculate the final color.
-
-**Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
-**Returns**: <code>object</code> - Relative position between two items and two items from gradient array                          which are the closest to the point indicated by position argument  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| array | <code>array</code> | Array of colors. Content of the array does not matter. |
-| position | <code>number</code> | Position on the whole gradient. |
-
-**Example**  
-```js
-// The example position 0.25 is in the middle of the first and// second colors so new 2 point gradient array contains only those// first and second colors. The given absolute position 0.25 is relatively// 0.5 between those two values.ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);// output: {array: [0xFF0000, 0x00FF00], position: 0.5}
-```
 <a name="ColorUtil.gradientColor"></a>
 
-### ColorUtil.gradientColor(colors, position) ⇒ <code>object</code>
+### ColorUtil.gradientColor(colors, position, [continuity]) ⇒ <code>object</code>
 Get color from gradient. Calculation is done inrgb object notation so colors should be converted to object notation.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
 **Returns**: <code>object</code> - rgb object  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| colors | <code>array</code> | Array of colors. Colors should be in rgb object notation. |
-| position | <code>number</code> | Position on the gradient. Value in range 0-1. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| colors | <code>array</code> |  | Array of colors. Colors should be in rgb object notation. |
+| position | <code>number</code> |  | Position on the gradient. Value in range 0-1. |
+| [continuity] | <code>function</code> | <code>ColorUtil.continuity.stop</code> | Continuity function |
 
 **Example**  
 ```js
@@ -1111,22 +1121,41 @@ let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.t
 ```
 <a name="ColorUtil.matrixColor"></a>
 
-### ColorUtil.matrixColor(matrix, x, y) ⇒ <code>object</code>
+### ColorUtil.matrixColor(matrix, x, y, [continuity]) ⇒ <code>object</code>
 Get color from matrix. Calculation is done inrgb object notation so colors should be converted to object notation.
 
 **Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
 **Returns**: <code>object</code> - rgb object  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| matrix | <code>array</code> | Array of gradient color arrays. Colors should be in rgb object notation. |
-| x | <code>number</code> | Horizontal position on the gradient. Value in range 0-1. |
-| y | <code>number</code> | Vertical position on the gradient. Value in range 0-1. |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| matrix | <code>array</code> |  | Array of gradient color arrays. Colors should be in rgb object notation. |
+| x | <code>number</code> |  | Horizontal position on the gradient. Value in range 0-1. |
+| y | <code>number</code> |  | Vertical position on the gradient. Value in range 0-1. |
+| [continuity] | <code>function</code> | <code>ColorUtil.continuity.stop</code> | Continuity function |
 
 **Example**  
 ```js
 let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);ColorUtil.matrixColor(matrix, 0.5, 0.5);// output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
 ```
+<a name="ColorUtil.circleGradientColor"></a>
+
+### ColorUtil.circleGradientColor(colors, x, y, cx, cy, rotation, [continuity]) ⇒ <code>object</code>
+Get color from circle gradient. Calculation is done inrgb object notation so colors should be converted to object notation.let colors = ColorUtil.hueColors();ColorUtil.circleGradientColor(colors, 0.1, 0.1);// output: {r: 255, g: 191.25, b: 0, a: 255}// keep center the same but rotatio 180 degreesColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);// output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+
+**Kind**: static method of [<code>ColorUtil</code>](#ColorUtil)  
+**Returns**: <code>object</code> - rgb object  
+
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| colors | <code>array</code> |  | Array of colors. Colors should be in rgb object notation. |
+| x | <code>number</code> |  | Horizontal position on the gradient. Value in range 0-1. |
+| y | <code>number</code> |  | Vertical position on the gradient. Value in range 0-1. |
+| cx | <code>number</code> |  | Horizontal position of center point. Value in range 0-1. |
+| cy | <code>number</code> |  | Vertical position of center point. Value in range 0-1. |
+| rotation | <code>number</code> |  | Rotation of the gradient. Value in range 0-1. |
+| [continuity] | <code>function</code> | <code>ColorUtil.continuity.repeat</code> | Continuity function |
+
 ## Change history
 * 0.6.0
     * hueColors -> getHueColors() & return value changed from array of numbers to array of rgb objects.
@@ -1136,6 +1165,8 @@ let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int
     * more strict test functions for Rgb, Hsv and Hsl
     * toUint32BigEndian and toInt32BigEndian renamed to toUint32b and toInt32b
     * ColorUtil.int32.toRgb and ColorUtil.int32b.toRgb added
+    * twoStopGradient to private. Can still be used, but not documented.
+    * circleGradientColor and circleMatrixColor functions added
     * convert function bug fix.
 * 0.5.0
     * benchmarks and some optimizations added

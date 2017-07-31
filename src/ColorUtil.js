@@ -1724,20 +1724,47 @@ let ColorUtil = {
      * Get color from circle gradient. Calculation is done in
      * rgb object notation so colors should be converted to object notation.
      *
+     * let colors = ColorUtil.hueColors();
+     * ColorUtil.circleGradientColor(colors, 0.1, 0.1);
+     * // output: {r: 255, g: 191.25, b: 0, a: 255}
+     *
+     * // keep center the same but rotatio 180 degrees
+     * ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
+     * // output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+     *
+     * @memberof ColorUtil
+     *
      * @param      {array}   colors      Array of colors. Colors should be in rgb object notation.
      * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
      * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
-     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
      * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
+     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
      * @param      {function}  [continuity=ColorUtil.continuity.repeat]  Continuity function
      * @return     {object}  rgb object
      */
-    circleGradientColor: (colors, x, y, rotation=0, cx=0.5, cy=0.5, continuity=ColorUtil.continuity.repeat) => {
-        let angle = (Math.atan2(y - cy, x - cx) + Math.PI) / (Math.PI * 2) - rotation;
+    circleGradientColor: (colors, x, y, cx=0.5, cy=0.5, rotation=0, continuity=ColorUtil.continuity.repeat) => {
+        let angle = (Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation;
 
         return ColorUtil.gradientColor(colors, angle, continuity);
-    }
+    },
+
+    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, continuity=ColorUtil.continuity.repeat) => {
+        var dx = cx - x;
+        var dy = cy - y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let angle = continuity((Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation);
+
+        let {
+            array: [gradient1, gradient2],
+            position: positionBetweenGradients
+        } = ColorUtil.twoStopGradient(matrix, continuity(distance));
+
+        let color1 = ColorUtil.gradientColor(gradient1, angle, ColorUtil.continuity.none);
+        let color2 = ColorUtil.gradientColor(gradient2, angle, ColorUtil.continuity.none);
+
+        return ColorUtil.gradientColor([color1, color2], positionBetweenGradients, continuity);
+    },
 }
 
 export default ColorUtil;
