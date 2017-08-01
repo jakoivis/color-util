@@ -3,20 +3,6 @@
 ### Table of Contents
 
 -   [ColorUtil](#colorutil)
-    -   [rgb](#rgb)
-        -   [ColorUtil.rgb.test](#colorutilrgbtest)
-        -   [ColorUtil.rgb.toInt](#colorutilrgbtoint)
-        -   [ColorUtil.rgb.toHex](#colorutilrgbtohex)
-        -   [ColorUtil.rgb.toRgbString](#colorutilrgbtorgbstring)
-        -   [ColorUtil.rgb.toRgbaString](#colorutilrgbtorgbastring)
-        -   [ColorUtil.rgb.toUint32](#colorutilrgbtouint32)
-        -   [ColorUtil.rgb.toUint32Opaque](#colorutilrgbtouint32opaque)
-        -   [ColorUtil.rgb.toUint32b](#colorutilrgbtouint32b)
-        -   [ColorUtil.rgb.toInt32](#colorutilrgbtoint32)
-        -   [ColorUtil.rgb.toInt32Opaque](#colorutilrgbtoint32opaque)
-        -   [ColorUtil.rgb.toInt32b](#colorutilrgbtoint32b)
-        -   [ColorUtil.rgb.toHsl](#colorutilrgbtohsl)
-        -   [ColorUtil.rgb.toHsv](#colorutilrgbtohsv)
     -   [int](#int)
         -   [ColorUtil.int.test](#colorutilinttest)
         -   [ColorUtil.int.toRgb](#colorutilinttorgb)
@@ -69,261 +55,32 @@
         -   [ColorUtil.any.toHsv](#colorutilanytohsv)
         -   [ColorUtil.any.toHslString](#colorutilanytohslstring)
         -   [ColorUtil.any.toHslaString](#colorutilanytohslastring)
+    -   [rgb](#rgb)
+        -   [test](#test)
+        -   [toInt](#toint)
+        -   [toHex](#tohex)
+        -   [toRgbString](#torgbstring)
+        -   [toRgbaString](#torgbastring)
+        -   [toUint32](#touint32)
+        -   [toUint32Opaque](#touint32opaque)
+        -   [toUint32b](#touint32b)
+        -   [toInt32](#toint32)
+        -   [toInt32Opaque](#toint32opaque)
+        -   [toInt32b](#toint32b)
+        -   [toHsl](#tohsl)
+        -   [toHsv](#tohsv)
     -   [hueColors](#huecolors)
     -   [endian](#endian)
     -   [convert](#convert)
     -   [hue](#hue)
     -   [continuity](#continuity)
-        -   [ColorUtil.continuity.stop](#colorutilcontinuitystop)
-        -   [ColorUtil.continuity.repeat](#colorutilcontinuityrepeat)
+        -   [stop](#stop)
+        -   [repeat](#repeat)
     -   [gradientColor](#gradientcolor)
     -   [matrixColor](#matrixcolor)
     -   [circleGradientColor](#circlegradientcolor)
 
 ## ColorUtil
-
-### rgb
-
-Rgb conversion functions
-
-Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
-(red, grean, blue, alpha) range is 0-255. In some conversion functions
-alpha is not required. In those where it is required and not present in
-rgb object, a fully opaque value is used as a default.
-
-#### ColorUtil.rgb.test
-
-Test validity of a color whether it is in correct notation for this class.
-
-**Parameters**
-
--   `color` **any** The color
-
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
-
-#### ColorUtil.rgb.toInt
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
-// output: 33023
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toHex
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
-// output: "#0080ff"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### ColorUtil.rgb.toRgbString
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB}` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`.
-Alpha is converted from range 0-255 to 0-1.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255});
-// output: "rgb(0,128,255)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### ColorUtil.rgb.toRgbaString
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
-Alpha is converted from range 0-255 to 0-1.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toRgbaString({r: 0, g: 128, b: 255, a: 85});
-// output: "rgba(0,128,255,0.3333333333333333)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### ColorUtil.rgb.toUint32
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
-Resulting value is positive
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 255});
-// output: 4294934528
-ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 85});
-// output: 1442807808
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toUint32Opaque
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-Alpha value is discarded and fully opaque value is used. This is faster option compared to
-`toUint32` and can be used if alpha value is not relevant. Resulting value is positive
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toUint32Opaque({r: 0, g: 128, b: 255})
-// output: 4294934528
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toUint32b
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
-Resulting value is positive
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 255});
-// output: 8454143
-ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 85});
-// output: 8453973
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toInt32
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
-Resulting value can be negative.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});
-// output: -32768
-ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 85});
-// output: 1442807808
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toInt32Opaque
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-Alpha value is discarded and fully opaque value is used. This is faster option compared to
-`toInt32` and can be used if alpha value is not relevant. Resulting value can be negative.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toInt32Opaque({r: 0, g: 128, b: 255})
-// output: -32768
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toInt32b
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
-Resulting value can be negative.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 255});
-// output: 8454143
-ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 85});
-// output: 8453973
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### ColorUtil.rgb.toHsl
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`
-where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});
-// output: {h: 0, s: 1, l: 0.5, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-#### ColorUtil.rgb.toHsv
-
-Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`
-where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
-
-**Parameters**
-
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
-
-**Examples**
-
-```javascript
-ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
-// output: {h: 0, s: 1, v: 1, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### int
 
@@ -1059,6 +816,249 @@ ColorUtil.any.toHslaString({h: 0.5, s: 0.5, l: 0.6, a: 1});
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+### rgb
+
+Rgb conversion functions
+
+Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
+(red, grean, blue, alpha) range is 0-255. In some conversion functions
+alpha is not required. In those where it is required and not present in
+rgb object, a fully opaque value is used as a default.
+
+#### test
+
+Test validity of a color whether it is in correct notation for this class.
+
+**Parameters**
+
+-   `color` **any** The color
+
+Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+
+#### toInt
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
+// output: 33023
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toHex
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
+// output: "#0080ff"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### toRgbString
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB}` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`.
+Alpha is converted from range 0-255 to 0-1.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255});
+// output: "rgb(0,128,255)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### toRgbaString
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
+Alpha is converted from range 0-255 to 0-1.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toRgbaString({r: 0, g: 128, b: 255, a: 85});
+// output: "rgba(0,128,255,0.3333333333333333)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### toUint32
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
+Resulting value is positive
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 255});
+// output: 4294934528
+ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 85});
+// output: 1442807808
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toUint32Opaque
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
+Alpha value is discarded and fully opaque value is used. This is faster option compared to
+`toUint32` and can be used if alpha value is not relevant. Resulting value is positive
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toUint32Opaque({r: 0, g: 128, b: 255})
+// output: 4294934528
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toUint32b
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
+Resulting value is positive
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 255});
+// output: 8454143
+ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 85});
+// output: 8453973
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toInt32
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
+Resulting value can be negative.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});
+// output: -32768
+ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 85});
+// output: 1442807808
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toInt32Opaque
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
+Alpha value is discarded and fully opaque value is used. This is faster option compared to
+`toInt32` and can be used if alpha value is not relevant. Resulting value can be negative.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toInt32Opaque({r: 0, g: 128, b: 255})
+// output: -32768
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toInt32b
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
+Resulting value can be negative.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 255});
+// output: 8454143
+ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 85});
+// output: 8453973
+```
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+
+#### toHsl
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`
+where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});
+// output: {h: 0, s: 1, l: 0.5, a: 1}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### toHsv
+
+Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`
+where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
+
+**Parameters**
+
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+**Examples**
+
+```javascript
+ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
+// output: {h: 0, s: 1, v: 1, a: 1}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
 ### hueColors
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of hue colors
@@ -1119,9 +1119,9 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### continuity
 
-Grdient continuity functions.
+Gradient continuity functions
 
-#### ColorUtil.continuity.stop
+#### stop
 
 Stop gradient at the edge color
 
@@ -1129,7 +1129,7 @@ Stop gradient at the edge color
 
 -   `position`  
 
-#### ColorUtil.continuity.repeat
+#### repeat
 
 Repeat gradient with the same pattern
 
@@ -1185,14 +1185,6 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 Get color from circle gradient. Calculation is done in
 rgb object notation so colors should be converted to object notation.
 
-let colors = ColorUtil.hueColors();
-ColorUtil.circleGradientColor(colors, 0.1, 0.1);
-// output: {r: 255, g: 191.25, b: 0, a: 255}
-
-// keep center the same but rotatio 180 degrees
-ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
-// output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
-
 **Parameters**
 
 -   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
@@ -1202,5 +1194,17 @@ ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
 -   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center point. Value in range 0-1. (optional, default `0.5`)
 -   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1. (optional, default `0`)
 -   `continuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `ColorUtil.continuity.repeat`)
+
+**Examples**
+
+```javascript
+let colors = ColorUtil.hueColors();
+ColorUtil.circleGradientColor(colors, 0.1, 0.1);
+// output: {r: 255, g: 191.25, b: 0, a: 255}
+
+// keep center the same but rotatio 180 degrees
+ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
+// output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
