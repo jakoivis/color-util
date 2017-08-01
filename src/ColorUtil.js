@@ -73,7 +73,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toInt
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toInt: rgb => {
@@ -90,7 +90,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toHex
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {string}
      */
     toHex: rgb => {
@@ -112,7 +112,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toRgbString
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {string}
      */
     toRgbString: rgb => {
@@ -130,7 +130,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toRgbaString
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {string}
      */
     toRgbaString: rgb => {
@@ -150,7 +150,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toUint32
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toUint32: rgb => {
@@ -169,7 +169,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toUint32Opaque
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toUint32Opaque: rgb => {
@@ -189,7 +189,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toUint32b
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toUint32b: rgb => {
@@ -209,7 +209,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toInt32
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toInt32: rgb => {
@@ -228,7 +228,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toInt32Opaque
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toInt32Opaque: rgb => {
@@ -248,7 +248,7 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toInt32b
      *
-     * @param      {object}    rgb
+     * @param      {Object}    rgb
      * @return     {number}
      */
     toInt32b: rgb => {
@@ -266,8 +266,8 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toHsl
      *
-     * @param      {object}    rgb
-     * @return     {object}
+     * @param      {Object}    rgb
+     * @return     {Object}
      */
     toHsl: rgb => {
         let {r:r, g:g, b:b, a:a} = rgb;
@@ -326,8 +326,8 @@ let Rgb = {
      * @memberof ColorUtil.rgb
      * @alias ColorUtil.rgb.toHsv
      *
-     * @param      {object}    rgb
-     * @return     {object}
+     * @param      {Object}    rgb
+     * @return     {Object}
      */
     toHsv: rgb => {
         let {r:r, g:g, b:b, a:a} = rgb;
@@ -414,7 +414,7 @@ let Int = {
      *
      * @param      {number}  int        Integer
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
-     * @return     {object}
+     * @return     {Object}
      */
     toRgb: (int, a=0xFF) => {
         return {
@@ -509,7 +509,7 @@ let Int32 = {
      * // output: {a: 255, b: 17, g: 34, r: 51}
      *
      * @param      {number}  int        32-bit number
-     * @return     {object}
+     * @return     {Object}
      */
     toRgb: (int) => {
         return {
@@ -542,7 +542,7 @@ let Int32b = {
      * // output: {r: 255, g: 17, b: 34, a: 51}
      *
      * @param      {number}  int        32-bit number
-     * @return     {object}
+     * @return     {Object}
      */
     toRgb: (int) => {
         return {
@@ -595,7 +595,7 @@ let Hex = {
      *
      * @param      {string}  hex        Hexadecimal string
      * @param      {number}  [a=0xFF]   Alpha value in range 0-255
-     * @return     {object}
+     * @return     {Object}
      */
     toRgb: (hex, a=0xFF) => {
         hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
@@ -723,7 +723,7 @@ let RgbString = {
 
      * @param      {string} rgbString   Rgb string
      * @param      {number} [a=0xFF]    Alpha value in range 0-255
-     * @return     {object}
+     * @return     {Object}
      */
     toRgb: (rgbString, a=0xFF) => {
         let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
@@ -819,7 +819,7 @@ let RgbaString = {
      * // output: {r: 0, g: 255, b: 0, a: 127}
 
      * @param      {string} rgbaString    Rgba string
-     * @return     {object}
+     * @return     {Object}
      */
     toRgb: rgbaString => {
         let [m,r,g,b,a] = REG_RGBA.exec(rgbaString) || [];
@@ -866,7 +866,7 @@ let RgbaString = {
      * ColorUtil.rgbaString.toHex('rgba(0,255,0,0.5)')
      * // output: "#00ff00"
      *
-     * @param      {string} rgba    Rgba string
+     * @param      {string} rgbaString    Rgba string
      * @return     {string}
      */
     toHex: rgbaString => {
@@ -925,8 +925,8 @@ let Hsl = {
      * @memberof ColorUtil.hsl
      * @alias ColorUtil.hsl.toRgb
      *
-     * @param      {object}  hsl        Hsl object
-     * @return     {object}
+     * @param      {Object}  hsl        Hsl object
+     * @return     {Object}
      */
     toRgb: hsl => {
         let {h:h, s:s, l:l, a:a} = hsl;
@@ -972,8 +972,8 @@ let Hsl = {
      * @memberof ColorUtil.hsl
      * @alias ColorUtil.hsl.toHsv
      *
-     * @param      {object}  hsl        Hsl object
-     * @return     {object}
+     * @param      {Object}  hsl        Hsl object
+     * @return     {Object}
      */
     toHsv: hsl => {
         let {h:h, s:s, l:l, a:a} = hsl;
@@ -999,7 +999,7 @@ let Hsl = {
      * @memberof ColorUtil.hsl
      * @alias ColorUtil.hsl.toHslString
      *
-     * @param      {object}    hsl
+     * @param      {Object}    hsl
      * @return     {string}
      */
     toHslString: hsl => {
@@ -1016,7 +1016,7 @@ let Hsl = {
      * @memberof ColorUtil.hsl
      * @alias ColorUtil.hsl.toHslaString
      *
-     * @param      {object}    hsl
+     * @param      {Object}    hsl
      * @return     {string}
      */
     toHslaString: hsl => {
@@ -1062,7 +1062,7 @@ let HslString = {
      *
      * @param      {string} hslString    Hsl string
      * @param      {number} [a=1]        Alpha value in range 0-1
-     * @return     {object}
+     * @return     {Object}
      */
     toHsl: (hslString, a=1) => {
         let [m,h,s,p1,l] = REG_HSL.exec(hslString) || [];
@@ -1111,7 +1111,7 @@ let HslaString = {
      * // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
      *
      * @param      {string} hslaString    Hsl string
-     * @return     {object}
+     * @return     {Object}
      */
     toHsl: hslaString => {
         let [m,h,s,p1,l,p2,a] = REG_HSLA.exec(hslaString) || [];
@@ -1169,8 +1169,8 @@ let Hsv = {
      * @memberof ColorUtil.hsv
      * @alias ColorUtil.hsv.toRgb
      *
-     * @param      {object}  hsv        Hsv object
-     * @return     {object}
+     * @param      {Object}  hsv        Hsv object
+     * @return     {Object}
      */
     toRgb: hsv => {
         let {h:h, s:s, v:v, a:a} = hsv;
@@ -1216,8 +1216,8 @@ let Hsv = {
      * @memberof ColorUtil.hsv
      * @alias ColorUtil.hsv.toHsl
      *
-     * @param      {object}  hsl        Hsl object
-     * @return     {object}
+     * @param      {Object}  hsv        Hsl object
+     * @return     {Object}
      */
     toHsl: hsv => {
         let {h:h, s:s, v:v, a:a} = hsv;
@@ -1256,8 +1256,8 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toRgb
      *
-     * @param      {object}  color        Color in any notation
-     * @return     {object}
+     * @param      {Object}  color        Color in any notation
+     * @return     {Object}
      */
     toRgb: color => {
         return callConverter(Rgb, color, TYPES);
@@ -1273,7 +1273,7 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toInt
      *
-     * @param      {object}  color        Color in any notation
+     * @param      {Object}  color        Color in any notation
      * @return     {number}
      */
     toInt: color => {
@@ -1290,7 +1290,7 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toHex
      *
-     * @param      {object}  color        Color in any notation
+     * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
     toHex: color => {
@@ -1307,7 +1307,7 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toRgbString
      *
-     * @param      {object}  color        Color in any notation
+     * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
     toRgbString: color => {
@@ -1324,7 +1324,7 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toRgbaString
      *
-     * @param      {object}  color        Color in any notation
+     * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
     toRgbaString: color => {
@@ -1341,8 +1341,8 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toHsl
      *
-     * @param      {object}  color        Color in any notation
-     * @return     {object}
+     * @param      {Object}  color        Color in any notation
+     * @return     {Object}
      */
     toHsl: color => {
         return callConverter(Hsl, color, TYPES);
@@ -1358,8 +1358,8 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toHsv
      *
-     * @param      {object}  color        Color in any notation
-     * @return     {object}
+     * @param      {Object}  color        Color in any notation
+     * @return     {Object}
      */
     toHsv: color => {
         return callConverter(Hsv, color, TYPES);
@@ -1375,7 +1375,7 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toHslString
      *
-     * @param      {object}  color        Color in any notation
+     * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
     toHslString: color => {
@@ -1392,7 +1392,7 @@ let Any = {
      * @memberof ColorUtil.any
      * @alias ColorUtil.any.toHslaString
      *
-     * @param      {object}  color        Color in any notation
+     * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
     toHslaString: color => {
@@ -1522,7 +1522,7 @@ let ColorUtil = {
     /**
      * @memberof ColorUtil
      *
-     * @return     {array} Array of hue colors
+     * @return     {Array} Array of hue colors
      */
     hueColors: () => {
         return convert(
@@ -1563,7 +1563,7 @@ let ColorUtil = {
      * @param      {*}             colors               Array of colors or single color
      * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
      *                                                  which are executed in the order they are listed.
-     * @return     {array}
+     * @return     {Array}
      */
     convert: convert,
 
@@ -1576,8 +1576,8 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      *
-     * @param      {object}  rgb     Rgb object
-     * @return     {object}  hue color in Rgb object notation
+     * @param      {Object}  rgb     Rgb object
+     * @return     {Object}  hue color in Rgb object notation
      */
     hue: (rgb) => {
         return ColorUtil.gradientColor(ColorUtil.hueColors(), Rgb.toHsv(rgb).h);
@@ -1630,9 +1630,9 @@ let ColorUtil = {
      * @memberof ColorUtil
      * @private
      *
-     * @param {array} array     Array of colors. Content of the array does not matter.
+     * @param {Array} array     Array of colors. Content of the array does not matter.
      * @param {number} position Position on the whole gradient.
-     * @return {object} Relative position between two items and two items from gradient array
+     * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
     twoStopGradient: (array, position) => {
@@ -1668,10 +1668,10 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      *
-     * @param {array} colors            Array of colors. Colors should be in rgb object notation.
+     * @param {Array} colors            Array of colors. Colors should be in rgb object notation.
      * @param {number} position         Position on the gradient. Value in range 0-1.
      * @param {function} [continuity=ColorUtil.continuity.stop]  Continuity function
-     * @return {object} rgb object
+     * @return {Object} rgb object
      */
     gradientColor: (colors, position, continuity=ColorUtil.continuity.stop) => {
         position = continuity(position);
@@ -1700,11 +1700,11 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      *
-     * @param {array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
+     * @param {Array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
      * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @param {function} [continuity=ColorUtil.continuity.stop]  Continuity function
-     * @return {object} rgb object
+     * @return {Object} rgb object
      */
     matrixColor: (matrix, x, y, continuity=ColorUtil.continuity.stop) => {
         x = continuity(x);
@@ -1734,14 +1734,14 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      *
-     * @param      {array}   colors      Array of colors. Colors should be in rgb object notation.
+     * @param      {Array}   colors      Array of colors. Colors should be in rgb object notation.
      * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
      * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
      * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
      * @param      {function}  [continuity=ColorUtil.continuity.repeat]  Continuity function
-     * @return     {object}  rgb object
+     * @return     {Object}  rgb object
      */
     circleGradientColor: (colors, x, y, cx=0.5, cy=0.5, rotation=0, continuity=ColorUtil.continuity.repeat) => {
         let angle = (Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation;
