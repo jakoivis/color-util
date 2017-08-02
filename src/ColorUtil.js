@@ -164,17 +164,6 @@ let ColorUtil = {
     any: Any,
 
     /**
-     * @memberof ColorUtil
-     *
-     * @return     {Array} Array of hue colors
-     */
-    hueColors: () => {
-        return convert(
-            [0xFF0000, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF, 0xFF00FF, 0xFF0000],
-            Int.toRgb);
-    },
-
-    /**
      * Get the endian used by the system.
      *
      * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
@@ -210,22 +199,6 @@ let ColorUtil = {
      * @return     {Array}
      */
     convert: convert,
-
-    /**
-     * A short-cut method for getting hue color
-     *
-     * @example
-     * ColorUtil.hue({r:0x7F, g: 0x7F, b:0})
-     * // output: {r: 255, g: 255, b: 0, a: 255}
-     *
-     * @memberof ColorUtil
-     *
-     * @param      {Object}  rgb     Rgb object
-     * @return     {Object}  hue color in Rgb object notation
-     */
-    hue: (rgb) => {
-        return ColorUtil.gradientColor(ColorUtil.hueColors(), Rgb.toHsv(rgb).h);
-    },
 
     /**
      * Gradient continuity functions
