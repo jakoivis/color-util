@@ -1,5 +1,6 @@
 
-export { convert, callConverter, getColorType };
+
+export { convert, callConverter };
 
 function convert(colors, ...conversionFunctions) {
     if (Array.isArray(colors)) {
