@@ -1,4 +1,6 @@
 
+import Gradient from './Gradient';
+
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
 
 /**
@@ -327,5 +329,115 @@ export default {
             v: max,
             a: a
         }
-    }
+    },
+
+    /**
+     * Get color from gradient. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
+     * ColorUtil.gradientColor(gradient, 0.5);
+     * // output: {r: 0, g: 255, b: 0, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param {Array} colors            Array of colors. Colors should be in rgb object notation.
+     * @param {number} position         Position on the gradient. Value in range 0-1.
+     * @param {function} [continuity=ColorUtil.continuity.stop]  Continuity function
+     * @return {Object} rgb object
+     */
+    gradientColor: (colors, position, continuity=ColorUtil.continuity.stop) => {
+        position = continuity(position);
+
+        let {
+            array: [color1, color2],
+            position: positionBetweenColors
+        } = Gradient.twoStopGradient(colors, position);
+
+        return {
+            r: color1.r - positionBetweenColors * (color1.r - color2.r),
+            g: color1.g - positionBetweenColors * (color1.g - color2.g),
+            b: color1.b - positionBetweenColors * (color1.b - color2.b),
+            a: color1.a - positionBetweenColors * (color1.a - color2.a)
+        };
+    },
+
+        /**
+     * Get color from matrix. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
+     * ColorUtil.matrixColor(matrix, 0.5, 0.5);
+     * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param {Array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
+     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
+     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
+     * @param {function} [continuity=ColorUtil.continuity.stop]  Continuity function
+     * @return {Object} rgb object
+     */
+    matrixColor: (matrix, x, y, continuity=ColorUtil.continuity.stop) => {
+        x = continuity(x);
+
+        let {
+            array: [gradient1, gradient2],
+            position: positionBetweenGradients
+        } = ColorUtil.twoStopGradient(matrix, continuity(y));
+
+        let color1 = ColorUtil.gradientColor(gradient1, x, ColorUtil.continuity.none);
+        let color2 = ColorUtil.gradientColor(gradient2, x, ColorUtil.continuity.none);
+
+        return ColorUtil.gradientColor([color1, color2], positionBetweenGradients, continuity);
+    },
+
+    /**
+     * Get color from circle gradient. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let colors = ColorUtil.hueColors();
+     * ColorUtil.circleGradientColor(colors, 0.1, 0.1);
+     * // output: {r: 255, g: 191.25, b: 0, a: 255}
+     *
+     * // keep center the same but rotatio 180 degrees
+     * ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
+     * // output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param      {Array}   colors      Array of colors. Colors should be in rgb object notation.
+     * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
+     * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
+     * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
+     * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
+     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
+     * @param      {function}  [continuity=ColorUtil.continuity.repeat]  Continuity function
+     * @return     {Object}  rgb object
+     */
+    circleGradientColor: (colors, x, y, cx=0.5, cy=0.5, rotation=0, continuity=ColorUtil.continuity.repeat) => {
+        let angle = (Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation;
+
+        return ColorUtil.gradientColor(colors, angle, continuity);
+    },
+
+    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, continuity=ColorUtil.continuity.repeat) => {
+        var dx = cx - x;
+        var dy = cy - y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let angle = continuity((Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation);
+
+        let {
+            array: [gradient1, gradient2],
+            position: positionBetweenGradients
+        } = ColorUtil.twoStopGradient(matrix, continuity(distance));
+
+        let color1 = ColorUtil.gradientColor(gradient1, angle, ColorUtil.continuity.none);
+        let color2 = ColorUtil.gradientColor(gradient2, angle, ColorUtil.continuity.none);
+
+        return ColorUtil.gradientColor([color1, color2], positionBetweenGradients, continuity);
+    },
 }
