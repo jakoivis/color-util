@@ -22,6 +22,7 @@ let hueRgb = ColorUtil.int.toRgb(0xFF0000);
 let hueDiv = document.getElementById('hueColor');
 let canvas = document.getElementById('canvas');
 let dragging = false;
+let Rgb = ColorUtil.rgb;
 
 initGrayscaleOverlay();
 
@@ -46,16 +47,16 @@ document.body.addEventListener('mousemove', function(event) {
 
     let rgb = ColorUtil.matrixColor(matrix, x, y);
 
-    document.body.style.background = ColorUtil.rgb.toRgbString(rgb);
+    document.body.style.background = Rgb.toRgbString(rgb);
 });
 
 function onHueChange(hueValue) {
-    let hsv = ColorUtil.rgb.toHsv(rgb);
+    let hsv = Rgb.toHsv(rgb);
     hsv.h = hueValue;
     rgb = ColorUtil.hsv.toRgb(hsv);
     hueRgb = ColorUtil.hue(rgb);
 
-    hueDiv.style.backgroundColor = ColorUtil.rgb.toRgbString(hueRgb);
+    hueDiv.style.backgroundColor = Rgb.toRgbString(hueRgb);
 }
 
 function initGrayscaleOverlay() {
@@ -77,9 +78,9 @@ function initGrayscaleOverlay() {
 
         for(let y = 0; y < height; y++) {
 
-            let rgb = ColorUtil.matrixColor(colors, x/width, y/height);
+            let rgb = Rgb.matrixColor(colors, x/width, y/height);
 
-            uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+            uint32View[y * width + x] = Rgb.toUint32(rgb);
         }
     }
 

@@ -9,7 +9,7 @@
 
 <script>
 
-let colors = ColorUtil.hueColors();
+let colors = ColorUtil.rgb.hueColors();
 
 let width = 300;
 let height = 300;
@@ -28,7 +28,7 @@ for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = ColorUtil.circleGradientColor(colors, x/width, y/height, 0.3, 0.7);
+        let rgb = ColorUtil.rgb.circleGradientColor(colors, x/width, y/height, 0.3, 0.7);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }
@@ -37,16 +37,6 @@ for(let x = 0; x < width; x++) {
 imageData.data.set(uint8CView);
 
 ctx.putImageData(imageData, 0, 0);
-
-
-
-canvas.addEventListener("mousemove", function(event) {
-    var rect = canvas.getBoundingClientRect();
-    var x = (event.clientX - rect.left) / 300;
-    var y = (event.clientY - rect.top) / 300;
-
-    ColorUtil.circleGradientColor(colors, x, y);
-});
 
 </script>
 

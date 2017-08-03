@@ -17,7 +17,7 @@ Target of this package is to provide color utilities that concentrate on perform
     * more strict test functions for Rgb, Hsv and Hsl
     * toUint32BigEndian and toInt32BigEndian renamed to toUint32b and toInt32b
     * ColorUtil.int32.toRgb and ColorUtil.int32b.toRgb added
-    * twoStopGradient to private. Can still be used, but not documented.
+    * twoStopGradient changed to private
     * circleGradientColor and circleMatrixColor functions added
     * convert function bug fix.
 * 0.5.0
