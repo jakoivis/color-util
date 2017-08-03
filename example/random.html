@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Random gradient matrix</title>
+<script src="/ColorUtil.js"></script>
+</head>
+<body>
+<canvas id="canvas1"></canvas>
+<canvas id="canvas2"></canvas>
+<br />
+Refresh the page to update colors
+<script>
+
+let colors = ColorUtil.convert(getRandomColors(), ColorUtil.int.toRgb);
+
+drawCanvas('canvas1', (x, y, width, height, uint32View) => {
+    let rgb = ColorUtil.rgb.matrixColor(colors, x/width, y/height);
+
+    uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+});
+
+fixColorsForCircle(colors);
+
+drawCanvas('canvas2', (x, y, width, height, uint32View) => {
+    let rgb = ColorUtil.rgb.circleMatrixColor(colors, x/150, y/150, 1, 1, 0, ColorUtil.continuity.stop);
+
+    uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+});
+
+function drawCanvas(canvasId, drawPixel) {
+    let width = 300;
+    let height = 300;
+
+    let canvas = document.getElementById(canvasId);
+    let ctx = canvas.getContext('2d');
+    let imageData  = ctx.createImageData(width, height);
+    let buffer = imageData.data.buffer;
+    let uint32View = new Uint32Array(buffer);
+    let uint8CView = new Uint8ClampedArray(buffer);
+
+    canvas.width = width;
+    canvas.height = height;
+
+    for(let x = 0; x < width; x++) {
+
+        for(let y = 0; y < height; y++) {
+
+            drawPixel(x, y, width, height, uint32View)
+        }
+    }
+
+    imageData.data.set(uint8CView);
+
+    ctx.putImageData(imageData, 0, 0);
+}
+
+function getRandomColors() {
+    var maxRowCount = 4;
+    var maxColumnCount = 10;
+
+    if(Math.random() < 0.5) {
+        maxRowCount = 10;
+        maxColumnCount = 2;
+    }
+
+    let result = [];
+    let rows = 1 + Math.random() * maxRowCount;
+
+    for (let y = 0; y < rows; y++) {
+        let cols = Math.random() * maxColumnCount;
+        let gradient = [];
+
+        result.push(gradient);
+
+        for (let x = 0; x < cols; x++) {
+            gradient.push((Math.random() * 0xFFFFFF)|0);
+        }
+    }
+
+    return result;
+}
+
+function fixColorsForCircle(matrix) {
+    for(var i = 0; i < matrix.length; i++) {
+        matrix[i].push(matrix[i][0]);
+    }
+}
+
+</script>
+
+</body>
+
+</html>
