@@ -45,7 +45,7 @@ document.body.addEventListener('mousemove', function(event) {
         [[0xFFFFFF, hueRgb], [0x000000]],
         ColorUtil.any.toRgb);
 
-    let rgb = ColorUtil.matrixColor(matrix, x, y);
+    let rgb = Rgb.matrixColor(matrix, x, y);
 
     document.body.style.background = Rgb.toRgbString(rgb);
 });
@@ -54,7 +54,7 @@ function onHueChange(hueValue) {
     let hsv = Rgb.toHsv(rgb);
     hsv.h = hueValue;
     rgb = ColorUtil.hsv.toRgb(hsv);
-    hueRgb = ColorUtil.hue(rgb);
+    hueRgb = Rgb.hue(rgb);
 
     hueDiv.style.backgroundColor = Rgb.toRgbString(hueRgb);
 }

@@ -409,31 +409,31 @@ var matrix12x12 = ColorUtil.convert([
 suiteOther
 
 .add(`gradientColor 2 colors`, function() {
-    ColorUtil.gradientColor(gradient2, Math.random());
+    ColorUtil.rgb.gradientColor(gradient2, Math.random());
 })
 .add(`gradientColor 24 colors`, function() {
-    ColorUtil.gradientColor(gradient24, Math.random());
+    ColorUtil.rgb.gradientColor(gradient24, Math.random());
 })
 
 .add(`matrixColor 2x2 colors`, function() {
-    ColorUtil.matrixColor(matrix2x2, Math.random(), Math.random());
+    ColorUtil.rgb.matrixColor(matrix2x2, Math.random(), Math.random());
 })
 .add(`matrixColor 12x12 colors`, function() {
-    ColorUtil.matrixColor(matrix12x12, Math.random(), Math.random());
+    ColorUtil.rgb.matrixColor(matrix12x12, Math.random(), Math.random());
 })
 
 .add(`circleGradientColor 2 colors`, function() {
-    ColorUtil.circleGradientColor(gradient2, Math.random(), Math.random());
+    ColorUtil.rgb.circleGradientColor(gradient2, Math.random(), Math.random());
 })
 .add(`circleGradientColor 24 colors`, function() {
-    ColorUtil.circleGradientColor(gradient24, Math.random(), Math.random());
+    ColorUtil.rgb.circleGradientColor(gradient24, Math.random(), Math.random());
 })
 
 .add(`circleMatrixColor 2x2 colors`, function() {
-    ColorUtil.circleMatrixColor(matrix2x2, Math.random(), Math.random());
+    ColorUtil.rgb.circleMatrixColor(matrix2x2, Math.random(), Math.random());
 })
 .add(`circleMatrixColor 12x12 colors`, function() {
-    ColorUtil.circleMatrixColor(matrix12x12, Math.random(), Math.random());
+    ColorUtil.rgb.circleMatrixColor(matrix12x12, Math.random(), Math.random());
 })
 
 .on('cycle', function(event) {
