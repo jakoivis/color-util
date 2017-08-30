@@ -17,6 +17,7 @@
         -   [toInt32b](#toint32b)
         -   [toHsl](#tohsl)
         -   [toHsv](#tohsv)
+        -   [hueColors](#huecolors)
         -   [hue](#hue)
         -   [gradientColor](#gradientcolor)
         -   [matrixColor](#matrixcolor)
@@ -78,7 +79,6 @@
     -   [continuity](#continuity)
         -   [stop](#stop)
         -   [repeat](#repeat)
-    -   [hueColors](#huecolors)
 
 ## ColorUtil
 
@@ -325,6 +325,10 @@ ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
+#### hueColors
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of hue colors
+
 #### hue
 
 A short-cut method for getting hue color
@@ -336,7 +340,7 @@ A short-cut method for getting hue color
 **Examples**
 
 ```javascript
-ColorUtil.hue({r:0x7F, g: 0x7F, b:0})
+ColorUtil.rgb.hue({r:0x7F, g: 0x7F, b:0})
 // output: {r: 255, g: 255, b: 0, a: 255}
 ```
 
@@ -357,7 +361,7 @@ rgb object notation so colors should be converted to object notation.
 
 ```javascript
 let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-ColorUtil.gradientColor(gradient, 0.5);
+ColorUtil.rgb.gradientColor(gradient, 0.5);
 // output: {r: 0, g: 255, b: 0, a: 255}
 ```
 
@@ -379,7 +383,7 @@ rgb object notation so colors should be converted to object notation.
 
 ```javascript
 let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-ColorUtil.matrixColor(matrix, 0.5, 0.5);
+ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
 // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
 ```
 
@@ -403,13 +407,13 @@ rgb object notation so colors should be converted to object notation.
 **Examples**
 
 ```javascript
-let colors = ColorUtil.hueColors();
-ColorUtil.circleGradientColor(colors, 0.1, 0.1);
-// output: {r: 255, g: 191.25, b: 0, a: 255}
+let colors = ColorUtil.rgb.hueColors();
+ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1);
+// output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
 
 // keep center the same but rotatio 180 degrees
-ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
-// output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
+// output: {r: 255, g: 191.25, b: 0, a: 255}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
@@ -992,6 +996,11 @@ Any conversion functions.
 
 Converts supported color notations to any notation.
 
+The any conversion functions provide an easy way to convert to specific notation
+without knowing the notation of a source color. This is just a collection of
+convenience methods making the usage a little bit easier. These functions are not
+as fast as the direct conversion functions.
+
 #### toRgb
 
 Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -1204,7 +1213,3 @@ Repeat gradient with the same pattern
 **Parameters**
 
 -   `position`  
-
-### hueColors
-
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of hue colors

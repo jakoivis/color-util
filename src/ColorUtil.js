@@ -159,6 +159,11 @@ let ColorUtil = {
      *
      * Converts supported color notations to any notation.
      *
+     * The any conversion functions provide an easy way to convert to specific notation
+     * without knowing the notation of a source color. This is just a collection of
+     * convenience methods making the usage a little bit easier. These functions are not
+     * as fast as the direct conversion functions.
+     *
      * @memberof ColorUtil
      */
     any: Any,

@@ -353,7 +353,7 @@ let Rgb = {
      * A short-cut method for getting hue color
      *
      * @example
-     * ColorUtil.hue({r:0x7F, g: 0x7F, b:0})
+     * ColorUtil.rgb.hue({r:0x7F, g: 0x7F, b:0})
      * // output: {r: 255, g: 255, b: 0, a: 255}
      *
      * @memberof ColorUtil.rgb
@@ -371,7 +371,7 @@ let Rgb = {
      *
      * @example
      * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-     * ColorUtil.gradientColor(gradient, 0.5);
+     * ColorUtil.rgb.gradientColor(gradient, 0.5);
      * // output: {r: 0, g: 255, b: 0, a: 255}
      *
      * @memberof ColorUtil.rgb
@@ -397,13 +397,13 @@ let Rgb = {
         };
     },
 
-        /**
+    /**
      * Get color from matrix. Calculation is done in
      * rgb object notation so colors should be converted to object notation.
      *
      * @example
      * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-     * ColorUtil.matrixColor(matrix, 0.5, 0.5);
+     * ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
      * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
      *
      * @memberof ColorUtil.rgb
@@ -433,13 +433,13 @@ let Rgb = {
      * rgb object notation so colors should be converted to object notation.
      *
      * @example
-     * let colors = ColorUtil.hueColors();
-     * ColorUtil.circleGradientColor(colors, 0.1, 0.1);
-     * // output: {r: 255, g: 191.25, b: 0, a: 255}
+     * let colors = ColorUtil.rgb.hueColors();
+     * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1);
+     * // output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
      *
      * // keep center the same but rotatio 180 degrees
-     * ColorUtil.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
-     * // output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+     * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
+     * // output: {r: 255, g: 191.25, b: 0, a: 255}
      *
      * @memberof ColorUtil.rgb
      *
@@ -458,6 +458,24 @@ let Rgb = {
         return Rgb.gradientColor(colors, angle, continuity);
     },
 
+    /**
+     * Get color from circle matrix.
+     *
+     * @example
+     * // center is white, outer edge has hue colors
+     * let matrix = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
+     * ColorUtil.rgb.circleMatrixColor(colors, 0.1, 0.1);
+     * // output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
+     *
+     * @param      {Array}   matrix      Matrix of colors. Colors should be in rgb object notation.
+     * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
+     * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
+     * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
+     * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
+     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
+     * @param      {function}  [continuity=Continuity.repeat]  Continuity function
+     * @return     {Object}  rgb object
+     */
     circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, continuity=Continuity.repeat) => {
         var dx = cx - x;
         var dy = cy - y;
@@ -473,7 +491,7 @@ let Rgb = {
         let color2 = Rgb.gradientColor(gradient2, angle, Continuity.none);
 
         return Rgb.gradientColor([color1, color2], positionBetweenGradients, continuity);
-    },
+    }
 };
 
 export default Rgb;
