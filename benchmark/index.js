@@ -1,10 +1,10 @@
 
 import $ from 'jquery';
 import Highcharts from 'highcharts/highcharts';
-import csv from './benchmark-0.5.0-chrome-result.csv';
-import csvAny from './benchmark-0.5.0-chrome-result-any.csv';
-import csvOther from './benchmark-0.5.0-chrome-result-other.csv';
-import html from './benchmark-result-0.5.0.html';
+import csv from './benchmark-0.6.0-chrome-result.csv';
+import csvAny from './benchmark-0.6.0-chrome-result-any.csv';
+import csvOther from './benchmark-0.6.0-chrome-result-other.csv';
+import html from './benchmark-result-0.6.0.html';
 
 require('highcharts/modules/data')(Highcharts);
 
@@ -22,7 +22,7 @@ $("#switchLog").click(function(){
     $('#axisScale').html(type + ' scale');
 });
 
-$.get("benchmark-0.5.0-chrome-result.csv", function(csv) {
+$.get("benchmark-0.6.0-chrome-result.csv", function(csv) {
     chart1 = Highcharts.chart('chart', {
         chart: {
             type: 'bar',
@@ -37,7 +37,7 @@ $.get("benchmark-0.5.0-chrome-result.csv", function(csv) {
             text: 'Execution speed comparison of color conversion functions.'
         },
         subtitle: {
-            text: 'Unit is operations per second. The longer column the better. Chrome Version 59.0.3071.115 (Official Build) (64-bit).'
+            text: 'Unit is operations per second. The longer column the better. Chrome Version 60.0.3112.113 (Official Build) (64-bit).'
         },
         xAxis: {
             title: {
@@ -71,7 +71,7 @@ $.get("benchmark-0.5.0-chrome-result.csv", function(csv) {
     });
 });
 
-$.get("benchmark-0.5.0-chrome-result-any.csv", function(csv) {
+$.get("benchmark-0.6.0-chrome-result-any.csv", function(csv) {
     chart2 = Highcharts.chart('chart-any', {
         chart: {
             type: 'bar',
@@ -117,7 +117,7 @@ $.get("benchmark-0.5.0-chrome-result-any.csv", function(csv) {
     });
 });
 
-$.get("benchmark-0.5.0-chrome-result-other.csv", function(csv) {
+$.get("benchmark-0.6.0-chrome-result-other.csv", function(csv) {
     chart3 = Highcharts.chart('chart-other', {
         chart: {
             type: 'bar',

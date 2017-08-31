@@ -2,10 +2,17 @@
 [![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)](https://npmjs.org/package/color-util)
 [![Npm version](https://img.shields.io/npm/v/color-util.svg)](https://npmjs.org/package/color-util)
 
-![Preview](/example/githubimage.jpg)
+Utility with color format conversion and gradients functions.
 
-Note that this package is still in early version 0.x.x so you should expect some changes that break backward compatibility.
-Target of this package is to provide color utilities that concentrate on performance. See github page for examples.
+Features
+- Fast color format conversion functions (number, hex, rgb, hsv, hsl, etc)
+- Slower but more flexible Any color format conversion.
+- gradient functions (regular gradient, matrix gradient, circular gradient, circular gradient matrix)
+- gradient rotation and scaling
+- gradient repeat
+- alpha support in gradients and color conversions
+
+![Preview](/example/githubimage.jpg)
 
 [API documentation](API.md)
 

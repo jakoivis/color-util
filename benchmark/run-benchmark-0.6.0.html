@@ -16,17 +16,17 @@
 
 <script>
 var colorUtilArgs = {
-    rgb: {r:255, g:255, b: 255},
-    rgba: {r:255, g:255, b: 255, a: 255},
-    int: 0xFFFFFF,
-    hex: "#FFFFFF",
-    shortHex: "#FFF",
-    rgbString: 'rgb(255, 255, 255)',
-    rgbaString: 'rgba(255, 255, 255, 0.5)',
-    hsl: {h:0,s:0,l:1},
-    hsla: {h:0,s:0,l:1,a:1},
-    hslString: 'hsl(0, 0%, 100%)',
-    hslaString: 'hsla(0, 0%, 100%, 1)',
+    // rgb: {r:255, g:255, b: 255},
+    // rgba: {r:255, g:255, b: 255, a: 255},
+    // int: 0xFFFFFF,
+    // hex: "#FFFFFF",
+    // shortHex: "#FFF",
+    // rgbString: 'rgb(255, 255, 255)',
+    // rgbaString: 'rgba(255, 255, 255, 0.5)',
+    // hsl: {h:0,s:0,l:1},
+    // hsla: {h:0,s:0,l:1,a:1},
+    // hslString: 'hsl(0, 0%, 100%)',
+    // hslaString: 'hsla(0, 0%, 100%, 1)',
     hsv: {h:0,s:0,l:1},
     hsva: {h:0,s:0,l:1,a:1},
 };
@@ -436,6 +436,10 @@ suiteOther
     ColorUtil.rgb.circleMatrixColor(matrix12x12, Math.random(), Math.random());
 })
 
+.add(`hue`, function() {
+    ColorUtil.rgb.hue({r:255, g:255, b: 255, a: 255});
+})
+
 .on('cycle', function(event) {
 
     var key = event.target.name;
@@ -459,8 +463,8 @@ suiteOther
 
 
 // suite.run({ 'async': true });
-// suiteAny.run({ 'async': true });
-suiteOther.run({ 'async': true });
+suiteAny.run({ 'async': true });
+// suiteOther.run({ 'async': true });
 
 </script>
 </body>
