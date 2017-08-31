@@ -22,7 +22,7 @@ drawCanvas('canvas1', (x, y, width, height, uint32View) => {
 fixColorsForCircle(colors);
 
 drawCanvas('canvas2', (x, y, width, height, uint32View) => {
-    let rgb = ColorUtil.rgb.circleMatrixColor(colors, x/150, y/150, 1, 1, 0, ColorUtil.continuity.stop);
+    let rgb = ColorUtil.rgb.circleMatrixColor(colors, x/300, y/300, 0.5, 0.5, 0, ColorUtil.continuity.stop);
 
     uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
 });
@@ -55,12 +55,12 @@ function drawCanvas(canvasId, drawPixel) {
 }
 
 function getRandomColors() {
-    var maxRowCount = 4;
-    var maxColumnCount = 10;
+    var maxRowCount = 5;
+    var maxColumnCount = 3;
 
     if(Math.random() < 0.5) {
-        maxRowCount = 10;
-        maxColumnCount = 2;
+        maxRowCount = 3;
+        maxColumnCount = 5;
     }
 
     let result = [];

@@ -12,7 +12,7 @@ Features
 - gradient repeat
 - alpha support in gradients and color conversions
 
-![Preview](/example/githubimage.jpg)
+![Preview](/example/githubimage.png)
 
 [API documentation](API.md)
 
