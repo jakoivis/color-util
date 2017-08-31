@@ -469,13 +469,16 @@ let Rgb = {
     },
 
     /**
-     * Get color from circle matrix.
+     * Get color from circle matrix. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
      *
      * @example
      * // center is white, outer edge has hue colors
      * let matrix = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
-     * ColorUtil.rgb.circleMatrixColor(colors, 0.1, 0.1);
+     * ColorUtil.rgb.circleMatrixColor(matrix, 0.1, 0.1);
      * // output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
+     *
+     * @memberof ColorUtil.rgb
      *
      * @param      {Array}   matrix      Matrix of colors. Colors should be in rgb object notation.
      * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
