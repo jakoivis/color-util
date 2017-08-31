@@ -3,6 +3,7 @@ import Continuity from './Continuity';
 import Gradient from './Gradient';
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
+const PI2 = Math.PI * 2;
 
 /**
  * @class Rgb
@@ -411,21 +412,32 @@ let Rgb = {
      * @param {Array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
      * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
-     * @param {function} [continuity=Continuity.stop]  Continuity function
+     * @param {function} [xContinuity=Continuity.stop]  Continuity function
+     * @param {function} [yContinuity=Continuity.stop]  Continuity function
      * @return {Object} rgb object
      */
-    matrixColor: (matrix, x, y, continuity=Continuity.stop) => {
-        x = continuity(x);
+    matrixColor: (matrix, x, y, cx=0, cy=0, rotation=0, xContinuity=Continuity.stop, yContinuity=Continuity.stop) => {
+        let radian = rotation * PI2;
+        let cos = Math.cos(radian);
+        let sin = Math.sin(radian);
+
+        let dx = x - cx;
+        let dy = y - cy;
+
+        x = cx + dx * cos - dy * sin;
+        y = cy + dx * sin + dy * cos;
+
+        x = xContinuity(x);
 
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = Gradient.twoStopGradient(matrix, continuity(y));
+        } = Gradient.twoStopGradient(matrix, yContinuity(y));
 
         let color1 = Rgb.gradientColor(gradient1, x, Continuity.none);
         let color2 = Rgb.gradientColor(gradient2, x, Continuity.none);
 
-        return Rgb.gradientColor([color1, color2], positionBetweenGradients, continuity);
+        return Rgb.gradientColor([color1, color2], positionBetweenGradients, Continuity.none);
     },
 
     /**
@@ -453,7 +465,7 @@ let Rgb = {
      * @return     {Object}  rgb object
      */
     circleGradientColor: (colors, x, y, cx=0.5, cy=0.5, rotation=0, continuity=Continuity.repeat) => {
-        let angle = (Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation;
+        let angle = (Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - rotation;
 
         return Rgb.gradientColor(colors, angle, continuity);
     },
@@ -473,24 +485,24 @@ let Rgb = {
      * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [continuity=Continuity.repeat]  Continuity function
+     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, continuity=Continuity.repeat) => {
-        var dx = cx - x;
-        var dy = cy - y;
+    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat, yContinuity2=Continuity.repeat) => {
+        let dx = cx - x;
+        let dy = cy - y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-        let angle = continuity((Math.atan2(cy - y, cx - x) + Math.PI) / (Math.PI * 2) - rotation);
+        let angle = xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - rotation);
 
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = Gradient.twoStopGradient(matrix, continuity(distance));
+        } = Gradient.twoStopGradient(matrix, yContinuity2(distance));
 
         let color1 = Rgb.gradientColor(gradient1, angle, Continuity.none);
         let color2 = Rgb.gradientColor(gradient2, angle, Continuity.none);
 
-        return Rgb.gradientColor([color1, color2], positionBetweenGradients, continuity);
+        return Rgb.gradientColor([color1, color2], positionBetweenGradients, Continuity.none);
     }
 };
 
