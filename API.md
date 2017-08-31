@@ -354,8 +354,12 @@ rgb object notation so colors should be converted to object notation.
 **Parameters**
 
 -   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
--   `position` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Position on the gradient. Value in range 0-1.
--   `continuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
+-   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
+-   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1. (optional, default `0`)
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1. (optional, default `0`)
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1. (optional, default `0`)
+-   `rotation`   (optional, default `0`)
+-   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
 
 **Examples**
 
@@ -377,7 +381,11 @@ rgb object notation so colors should be converted to object notation.
 -   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of gradient color arrays. Colors should be in rgb object notation.
 -   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
 -   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `continuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1. (optional, default `0`)
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1. (optional, default `0`)
+-   `rotation`   (optional, default `0`)
+-   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
+-   `yContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
 
 **Examples**
 
@@ -402,7 +410,7 @@ rgb object notation so colors should be converted to object notation.
 -   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center point. Value in range 0-1. (optional, default `0.5`)
 -   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center point. Value in range 0-1. (optional, default `0.5`)
 -   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1. (optional, default `0`)
--   `continuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
+-   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
 
 **Examples**
 
