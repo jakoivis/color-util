@@ -29,6 +29,7 @@ Features
     * ColorUtil.int32.toRgb and ColorUtil.int32b.toRgb added
     * twoStopGradient changed to private
     * circleGradientColor and circleMatrixColor functions added
+    * gradient rotation
     * convert function bug fix.
 * 0.5.0
     * benchmarks and some optimizations added
