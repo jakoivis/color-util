@@ -22,6 +22,7 @@
         -   [gradientColor](#gradientcolor)
         -   [matrixColor](#matrixcolor)
         -   [circleGradientColor](#circlegradientcolor)
+        -   [circleMatrixColor](#circlematrixcolor)
     -   [int](#int)
         -   [test](#test-1)
         -   [toRgb](#torgb)
@@ -422,6 +423,34 @@ ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1);
 // keep center the same but rotatio 180 degrees
 ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
 // output: {r: 255, g: 191.25, b: 0, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
+
+#### circleMatrixColor
+
+Get color from circle matrix. Calculation is done in
+rgb object notation so colors should be converted to object notation.
+
+**Parameters**
+
+-   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Matrix of colors. Colors should be in rgb object notation.
+-   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
+-   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center. Value in range 0-1. (optional, default `0.5`)
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center. Value in range 0-1. (optional, default `0.5`)
+-   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1. (optional, default `0`)
+-   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
+-   `yContinuity2`   (optional, default `Continuity.repeat`)
+-   `yContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
+
+**Examples**
+
+```javascript
+// center is white, outer edge has hue colors
+let matrix = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
+ColorUtil.rgb.circleMatrixColor(matrix, 0.1, 0.1);
+// output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
