@@ -490,10 +490,10 @@ let Rgb = {
      * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat, yContinuity2=Continuity.repeat) => {
+    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat, yContinuity=Continuity.repeat) => {
         let dx = cx - x;
         let dy = cy - y;
-        let distance = yContinuity2(Math.sqrt(dx * dx + dy * dy));
+        let distance = yContinuity(Math.sqrt(dx * dx + dy * dy));
         let angle = xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - rotation);
 
         let {
