@@ -4,7 +4,21 @@
 
 Utility with color format conversion and gradients functions.
 
-Features
+## Installation & import
+```javascript
+$ npm install color-util --save
+```
+```javascript
+var ColorUtil = require('color-util');
+```
+```javascript
+import ColorUtil from 'color-util';
+```
+```
+<script src="path/to/ColorUtil.js"></script>
+```
+
+## Features
 - Fast color format conversion functions (number, hex, rgb, hsv, hsl, etc)
 - Slower but more flexible Any color format conversion.
 - gradient functions (regular gradient, matrix gradient, circular gradient, circular gradient matrix)
@@ -12,11 +26,11 @@ Features
 - gradient repeat
 - alpha support in gradients and color conversions
 
-![Preview](/example/githubimage.png)
-
 [API documentation](API.md)
 
 [Examples](https://github.com/jakoivis/color-util/tree/master/example)
+
+![Preview](/example/githubimage.png)
 
 ## Change history
 * 0.6.0
