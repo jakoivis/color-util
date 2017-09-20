@@ -11,11 +11,51 @@ $ npm install color-util --save
 ```javascript
 var ColorUtil = require('color-util');
 ```
-```javascript
-import ColorUtil from 'color-util';
-```
+or
 ```
 <script src="path/to/ColorUtil.js"></script>
+```
+
+## Usage examples
+
+[Examples](https://github.com/jakoivis/color-util/tree/master/example)
+
+For a complete list of functions see [API documentation](API.md)
+
+### Some color format conversion examples
+```javascript
+ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
+// output: {h: 0, s: 1, v: 1, a: 1}
+
+ColorUtil.hex.toRgb('#00FF00');
+// output: {r: 0, g: 255, b: 0, a: 255}
+
+ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)');
+// output: "rgba(102,204,204,1)"
+
+ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
+// output: [['#ff0000', '#00ff00'], '#0000ff']
+```
+### Gradients
+A gradient in ColorUtil is presented as an array of colors. Gradient functions handle colors in rgb object notation. The following is a gradient from red to green and to blue.
+```javascript
+let gradientColors = [
+    {a: 255, b: 0, g: 0, r: 255},
+    {a: 255, b: 0, g: 255, r: 0},
+    {a: 255, b: 255, g: 0, r: 0}
+];
+```
+
+It might be easier to handle colors in numerical format and later convert them to rgb object notation. `gradientColors` is the same as the one above.
+```javascript
+let colors = [0xFF0000, 0x00FF00, 0x0000FF];
+let gradientColors = ColorUtil.convert(colors, ColorUtil.int.toRgb);
+```
+
+Gradient functions in ColorUtil calculate color for a single pixel.
+```javascript
+ColorUtil.rgb.gradientColor(gradientColors, 0.5);
+// output: {r: 0, g: 255, b: 0, a: 255}
 ```
 
 ## Features
@@ -26,9 +66,6 @@ import ColorUtil from 'color-util';
 - gradient repeat
 - alpha support in gradients and color conversions
 
-[API documentation](API.md)
-
-[Examples](https://github.com/jakoivis/color-util/tree/master/example)
 
 ![Preview](/example/githubimage.png)
 
