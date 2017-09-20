@@ -18,8 +18,6 @@ or
 
 ## Usage examples
 
-[Examples](https://github.com/jakoivis/color-util/tree/master/example)
-
 For a complete list of functions see [API documentation](API.md)
 
 ### Some color format conversion examples
@@ -46,17 +44,28 @@ let gradientColors = [
 ];
 ```
 
-It might be easier to handle colors in numerical format and later convert them to rgb object notation. `gradientColors` is the same as the one above.
+It might be easier to handle colors in numerical format and later convert them to rgb object notation.
 ```javascript
 let colors = [0xFF0000, 0x00FF00, 0x0000FF];
 let gradientColors = ColorUtil.convert(colors, ColorUtil.int.toRgb);
 ```
 
-Gradient functions in ColorUtil calculate color for a single pixel.
+All gradient functions in ColorUtil calculate a color for a single pixel. Assuming `gradientColors` is the same as above, this function would return a color from the middle of the gradient.
 ```javascript
 ColorUtil.rgb.gradientColor(gradientColors, 0.5);
 // output: {r: 0, g: 255, b: 0, a: 255}
 ```
+
+Gradient matrix works the same way but it needs a two dimensional color array.
+```javascript
+let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
+ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
+// output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
+```
+
+Now in order to draw a gradient you can create a canvas and draw each pixel on it. [Examples on how to do that can be found here.](https://github.com/jakoivis/color-util/tree/master/example)
+
+![Preview](/example/githubimage.png)
 
 ## Features
 - Fast color format conversion functions (number, hex, rgb, hsv, hsl, etc)
@@ -67,7 +76,7 @@ ColorUtil.rgb.gradientColor(gradientColors, 0.5);
 - alpha support in gradients and color conversions
 
 
-![Preview](/example/githubimage.png)
+
 
 ## Change history
 * 0.6.0
