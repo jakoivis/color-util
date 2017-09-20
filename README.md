@@ -50,7 +50,7 @@ let colors = [0xFF0000, 0x00FF00, 0x0000FF];
 let gradientColors = ColorUtil.convert(colors, ColorUtil.int.toRgb);
 ```
 
-All gradient functions in ColorUtil calculate a color for a single point in gradient. Position in a gradient is a value between 0 and 1. Assuming `gradientColors` is the same as above, this function would return a color from the middle of the gradient.
+All gradient functions in ColorUtil calculate a color for a single point on gradient. Position on a gradient is a value between 0 and 1. Assuming `gradientColors` is the same as above, this function would return a color from the middle of the gradient.
 ```javascript
 ColorUtil.rgb.gradientColor(gradientColors, 0.5);
 // output: {r: 0, g: 255, b: 0, a: 255}
