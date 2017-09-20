@@ -50,13 +50,13 @@ let colors = [0xFF0000, 0x00FF00, 0x0000FF];
 let gradientColors = ColorUtil.convert(colors, ColorUtil.int.toRgb);
 ```
 
-All gradient functions in ColorUtil calculate a color for a single pixel. Assuming `gradientColors` is the same as above, this function would return a color from the middle of the gradient.
+All gradient functions in ColorUtil calculate a color for a single point in gradient. Position in a gradient is a value between 0 and 1. Assuming `gradientColors` is the same as above, this function would return a color from the middle of the gradient.
 ```javascript
 ColorUtil.rgb.gradientColor(gradientColors, 0.5);
 // output: {r: 0, g: 255, b: 0, a: 255}
 ```
 
-Gradient matrix works the same way but it needs a two dimensional color array.
+Gradient matrix works the same way but it needs a two dimensional color array and x and y points on the matrix. This function would return a color from the middle of the matrix.
 ```javascript
 let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
 ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
@@ -74,8 +74,6 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
 - gradient rotation and scaling
 - gradient repeat
 - alpha support in gradients and color conversions
-
-
 
 
 ## Change history
