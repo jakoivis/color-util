@@ -77,6 +77,8 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
 
 
 ## Change history
+* 1.0.0
+    * No code changes to previous version. I just like creating new releases.
 * 0.6.0
     * hueColors -> getHueColors() & return value changed from array of numbers to array of rgb objects.
     * shorten function names: getGradientColor -> gradientColor, getMatrixColor -> matrixColor, convertTo2StopGradient -> twoStopGradient
