@@ -41,5 +41,31 @@ export default {
             ],
             position: positionBetweenItems
         }
+    },
+
+    // validateGradient: (array) => {
+
+    // },
+
+
+    twoStopGradient2: (array, position) => {
+        var i = 0;
+
+        while (array[i] && array[i].p < position) {
+            i++;
+        }
+
+        var color1 = array[i-1] !== undefined ? array[i-1] : array[i];
+        var color2 = array[i];
+
+        var partSize = color2.p - color1.p;
+
+        return {
+            array: [
+                color1,
+                color2
+            ],
+            position: ((position - color1.p) / partSize) || 0
+        }
     }
 };
