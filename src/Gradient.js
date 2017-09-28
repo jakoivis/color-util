@@ -1,5 +1,5 @@
 
-export default {
+export default new function() {
 
     /**
      * Calculate two items from a gradient array and a relative position of
@@ -21,7 +21,7 @@ export default {
      * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
-    twoStopGradient: (array, position) => {
+    this.twoStopGradient = (array, position) => {
         let lastIndex = array.length - 1;
         let itemIndex = (position * lastIndex) | 0;
         let partSize = 1 / lastIndex * 1000;
@@ -41,17 +41,73 @@ export default {
             ],
             position: positionBetweenItems
         }
-    },
+    };
 
-    // validateGradient: (array) => {
+    // var colorsInOrder = ...
+    // var allHavePValues = ...
+    //
+    // if (colorsInOrder && allHavePValues)
+    //      return as is
+    // else if (colorsInOrder && !allHavePValues)
+    //      addMissingPValues
+    // else if (!colorsInOrder && allHavePValues)
+    //      sortByPValue
+    // else
+    //      unable to validate
+    //
+    this.validate = (array) => {
 
-    // },
+        let colorsInOrder = true;
+        let prevP = 0;
 
+        for (let i = 0; i < array.length; i++) {
 
-    twoStopGradient2: (array, position) => {
+            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(p))) {
+                continue;
+            }
+
+            let p = array[i].p;
+
+            if (p < prevP) {
+                colorsInOrder = false;
+                break;
+
+            } else {
+                prevP = p;
+            }
+        }
+
+    //     var allHasP = true;
+    //     var noneHasP = true;
+    //     var color;
+
+    //     for (var i = 0; i < array.length; i++) {
+
+    //         color = array[i];
+
+    //         if (!color.hasOwnProperty('p')) {
+    //             allHasP = false;
+    //         }
+
+    //         if (color.hasOwnProperty('p')) {
+    //             noneHasP = false;
+    //         }
+    //     }
+
+    //     array.sort(function(a, b) {
+    //         return a.p - b.p;
+    //     });
+    };
+
+    // this version is relying that gradient array
+    // - has p values
+    // - p values are in order
+    // - first p value is 0 and last is 1
+    // - gradient needs to be validated before calculation
+    this.twoPointGradientWithStops = (array, position) => {
         var i = 0;
 
-        while (array[i] && array[i].p < position) {
+        while (array[i].p < position) {
             i++;
         }
 
@@ -67,5 +123,5 @@ export default {
             ],
             position: ((position - color1.p) / partSize) || 0
         }
-    }
-};
+    };
+}();
