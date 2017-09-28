@@ -441,7 +441,6 @@ rgb object notation so colors should be converted to object notation.
 -   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center. Value in range 0-1. (optional, default `0.5`)
 -   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1. (optional, default `0`)
 -   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
--   `yContinuity2`   (optional, default `Continuity.repeat`)
 -   `yContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
 
 **Examples**

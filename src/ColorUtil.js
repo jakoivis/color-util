@@ -15,6 +15,8 @@ import HslaString from './HslaString';
 import Hsv from './Hsv';
 import Any from './Any';
 
+import Gradient from './Gradient';
+
 const LITTLE_ENDIAN = 0;
 const BIG_ENDIAN = 1;
 const UNKNOWN_ENDIAN = 2;
@@ -209,6 +211,8 @@ let ColorUtil = {
      * Gradient continuity functions
      */
     continuity: Continuity,
+
+    gradient: Gradient
 }
 
 export default ColorUtil;
