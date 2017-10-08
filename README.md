@@ -35,6 +35,10 @@ ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
 // output: [['#ff0000', '#00ff00'], '#0000ff']
 ```
 ### Gradients
+The main difference to canvas gradients is that ColorUtil gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. ColorUtil gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
+
+This project started only to satisfy my curiosity, but there are some interesting things ColorUtil gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as ColorUtil has linear, matrix, circular and circlular matrix types.
+
 A gradient in ColorUtil is presented as an array of colors. Gradient functions handle colors in rgb object notation. The following is a gradient from red to green and to blue.
 ```javascript
 let gradientColors = [
@@ -66,6 +70,7 @@ ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
 Now in order to draw a gradient you can create a canvas and draw each pixel on it. [Examples on how to do that can be found here.](https://github.com/jakoivis/color-util/tree/master/example)
 
 ![Preview](/example/githubimage.png)
+
 
 ## Features
 - Fast color format conversion functions (number, hex, rgb, hsv, hsl, etc)
