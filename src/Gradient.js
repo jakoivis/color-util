@@ -1,5 +1,108 @@
 
+import Continuity from './Continuity';
+
 export default new function() {
+
+    this.createGradientFunction = (options, gradientFunctions) => {
+        let type = options.type !== "linear" && options.type !== "circular" ? "linear" : options.type;
+        let colors = options.colors || [];
+
+        let isMatrix = Array.isArray(colors[0]);
+
+        let fn;
+
+        if (type === "linear" && !isMatrix) {
+            fn = gradientFunctions.linear;
+
+        } else if (type === "linear" && isMatrix) {
+            fn = gradientFunctions.linearMatrix;
+
+        } else if (type === "circular" && !isMatrix) {
+            fn = gradientFunctions.circular;
+
+        } else if (type === "circular" && isMatrix) {
+            fn = gradientFunctions.circularMatrix;
+        }
+
+        let twoPointGradientFunction = this.twoStopGradient;
+
+        if (!isMatrix && colors[0].hasOwnProperty('p')) {
+
+            twoPointGradientFunction = this.twoPointGradientWithStops;
+        }
+        // let allColorStopsPresent = areAllColorStopsPresent();
+        // let colorsInOrder =
+
+        let gradientFunctionOptions = {
+            colors: colors,
+            cx: options.cx || 0,
+            cy: options.cy || 0,
+            rotation: options.rotation || 0,
+            xContinuity: options.xContinuity || Continuity.stop,
+            yContinuity: options.yContinuity || Continuity.stop,
+            twoPointGradientFunction: twoPointGradientFunction
+        };
+
+        return (x, y) => {
+            return fn(x, y, gradientFunctionOptions);
+        };
+    };
+
+    // var colorsInOrder = ...
+    // var allHavePValues = ...
+    //
+    // if (colorsInOrder && allHavePValues)
+    //      return as is
+    // else if (colorsInOrder && !allHavePValues)
+    //      addMissingPValues
+    // else if (!colorsInOrder && allHavePValues)
+    //      sortByPValue
+    // else
+    //      unable to validate
+    //
+    this.validate  = (array) => {
+
+        let colorsInOrder = true;
+        let prevP = 0;
+
+        for (let i = 0; i < array.length; i++) {
+
+            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(p))) {
+                continue;
+            }
+
+            let p = array[i].p;
+
+            if (p < prevP) {
+                colorsInOrder = false;
+                break;
+
+            } else {
+                prevP = p;
+            }
+        }
+    };
+
+    function areAllColorStopsPresent(array) {
+
+        for (let i = 0; i < array.length; i++) {
+
+            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].p))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function areColorsInOrder(array) {
+
+        let prevValue;
+
+        for (let i = 0; i < array.length; i++) {
+
+        }
+    }
 
     /**
      * Calculate two items from a gradient array and a relative position of
@@ -43,62 +146,6 @@ export default new function() {
         }
     };
 
-    // var colorsInOrder = ...
-    // var allHavePValues = ...
-    //
-    // if (colorsInOrder && allHavePValues)
-    //      return as is
-    // else if (colorsInOrder && !allHavePValues)
-    //      addMissingPValues
-    // else if (!colorsInOrder && allHavePValues)
-    //      sortByPValue
-    // else
-    //      unable to validate
-    //
-    this.validate = (array) => {
-
-        let colorsInOrder = true;
-        let prevP = 0;
-
-        for (let i = 0; i < array.length; i++) {
-
-            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(p))) {
-                continue;
-            }
-
-            let p = array[i].p;
-
-            if (p < prevP) {
-                colorsInOrder = false;
-                break;
-
-            } else {
-                prevP = p;
-            }
-        }
-
-    //     var allHasP = true;
-    //     var noneHasP = true;
-    //     var color;
-
-    //     for (var i = 0; i < array.length; i++) {
-
-    //         color = array[i];
-
-    //         if (!color.hasOwnProperty('p')) {
-    //             allHasP = false;
-    //         }
-
-    //         if (color.hasOwnProperty('p')) {
-    //             noneHasP = false;
-    //         }
-    //     }
-
-    //     array.sort(function(a, b) {
-    //         return a.p - b.p;
-    //     });
-    };
-
     // this version is relying that gradient array
     // - has p values
     // - p values are in order
@@ -124,4 +171,8 @@ export default new function() {
             position: ((position - color1.p) / partSize) || 0
         }
     };
+
+    function clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 }();

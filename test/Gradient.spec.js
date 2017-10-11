@@ -38,7 +38,7 @@ describe('Gradient', () => {
         });
     });
 
-    describe.only('twoPointGradientWithStops', function() {
+    describe('twoPointGradientWithStops', function() {
         xit('should calculate gradient from 1 point gradient', () => {
             G.twoPointGradientWithStops([{p:0}], 0.5).array.should.eql([1,1]);
             // G.twoPointGradientWithStops([1], 0.5).position.should.equal(0);

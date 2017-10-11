@@ -9,11 +9,11 @@ const PI2 = Math.PI * 2;
  * @class Rgb
  * @private
  */
-let Rgb = {
+let Rgb = new function() {
 
-    name: 'Rgb',
+    this.name = 'Rgb';
 
-    parent: null,
+    this.parent = null;
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
@@ -23,7 +23,7 @@ let Rgb = {
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
      */
-    test: color => {
+    this.test = color => {
         return color !== null &&
             typeof color === 'object' &&
             color.hasOwnProperty('r') &&
@@ -33,7 +33,7 @@ let Rgb = {
             (color.g >= 0 && color.g <= 255) &&
             (color.b >= 0 && color.b <= 255) &&
             (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 255) : true);
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
@@ -47,9 +47,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toInt: rgb => {
+    this.toInt = rgb => {
         return rgb.r << 16 | rgb.g << 8 | rgb.b;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
@@ -63,13 +63,13 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {string}
      */
-    toHex: rgb => {
+    this.toHex = rgb => {
         // e.g. (10<<8).toString(16) equals A00, but we need to write this in format 0A00
         // by adding 1<<16 (10000) to the result and removing the first digit
         // we have produced 0A00 like this: ((1<<16) + (10<<8)).toString(16).slice(1)
         return '#' + ((1 << 24) | (rgb.r << 16) | (rgb.g << 8) | rgb.b)
             .toString(16).slice(1);
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`.
@@ -84,9 +84,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {string}
      */
-    toRgbString: rgb => {
+    this.toRgbString = rgb => {
         return `rgb(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)})`;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
@@ -101,9 +101,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {string}
      */
-    toRgbaString: rgb => {
+    this.toRgbaString = rgb => {
         return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${rgb.a/0xFF})`;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -120,9 +120,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toUint32: rgb => {
+    this.toUint32 = rgb => {
         return (rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -138,9 +138,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toUint32Opaque: rgb => {
+    this.toUint32Opaque = rgb => {
         return (INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
@@ -157,9 +157,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toUint32b: rgb => {
+    this.toUint32b = rgb => {
         return (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a) >>> 0;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -176,9 +176,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toInt32: rgb => {
+    this.toInt32 = rgb => {
         return rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
@@ -194,9 +194,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toInt32Opaque: rgb => {
+    this.toInt32Opaque = rgb => {
         return INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
@@ -213,9 +213,9 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    toInt32b: rgb => {
+    this.toInt32b = rgb => {
         return rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a;
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`
@@ -230,7 +230,7 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {Object}
      */
-    toHsl: rgb => {
+    this.toHsl = rgb => {
         let {r:r, g:g, b:b, a:a} = rgb;
 
         r /= 0xFF;
@@ -274,7 +274,7 @@ let Rgb = {
             l: luminosity,
             a: a
         }
-    },
+    };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`
@@ -289,7 +289,7 @@ let Rgb = {
      * @param      {Object}    rgb
      * @return     {Object}
      */
-    toHsv: rgb => {
+    this.toHsv = rgb => {
         let {r:r, g:g, b:b, a:a} = rgb;
 
         r /= 0xFF;
@@ -331,14 +331,14 @@ let Rgb = {
             v: max,
             a: a
         }
-    },
+    };
 
     /**
      * @memberof ColorUtil.rgb
      *
      * @return     {Array} Array of hue colors
      */
-    hueColors: () => {
+    this.hueColors = () => {
         return [
             {a: 255, b: 0, g: 0, r: 255},
             {a: 255, b: 0, g: 255, r: 255},
@@ -348,7 +348,7 @@ let Rgb = {
             {a: 255, b: 255, g: 0, r: 255},
             {a: 255, b: 0, g: 0, r: 255}
         ];
-    },
+    };
 
     /**
      * A short-cut method for getting hue color
@@ -362,9 +362,18 @@ let Rgb = {
      * @param      {Object}  rgb     Rgb object
      * @return     {Object}  hue color in Rgb object notation
      */
-    hue: (rgb) => {
-        return Rgb.calculateGradient(Rgb.hueColors(), Rgb.toHsv(rgb).h);
-    },
+    this.hue = (rgb) => {
+        return this.calculateGradient(Rgb.hueColors(), Rgb.toHsv(rgb).h);
+    };
+
+    this.createGradientFunction = (options) => {
+        return Gradient.createGradientFunction(options, {
+            linear: this.gradientColor,
+            linearMatrix: this.matrixColor,
+            circular: this.circleGradientColor,
+            circularMatrix: this.circleGradientColor
+        });
+    };
 
     /**
      * Get color from gradient. Calculation is done in
@@ -385,17 +394,17 @@ let Rgb = {
      * @param {function} [xContinuity=Continuity.stop]  Continuity function
      * @return {Object} rgb object
      */
-    gradientColor: (colors, x, y=0, cx=0, cy=0, rotation=0, xContinuity=Continuity.stop) => {
-        let radian = rotation * PI2;
+    this.gradientColor = (x, y, options) => {
+        let radian = options.rotation * PI2;
         let cos = Math.cos(radian);
         let sin = Math.sin(radian);
-        let dx = x - cx;
-        let dy = y - cy;
+        let dx = x - options.cx;
+        let dy = y - options.cy;
 
-        x = xContinuity(cx + dx * cos - dy * sin);
+        x = options.xContinuity(options.cx + dx * cos - dy * sin);
 
-        return Rgb.calculateGradient(colors, x);
-    },
+        return this.calculateGradient(options.colors, x, options.twoPointGradientFunction);
+    };
 
     /**
      * Get color from matrix. Calculation is done in
@@ -417,26 +426,26 @@ let Rgb = {
      * @param {function} [yContinuity=Continuity.stop]  Continuity function
      * @return {Object} rgb object
      */
-    matrixColor: (matrix, x, y, cx=0, cy=0, rotation=0, xContinuity=Continuity.stop, yContinuity=Continuity.stop) => {
-        let radian = rotation * PI2;
+    this.matrixColor = (x, y, options) => {
+        let radian = options.rotation * PI2;
         let cos = Math.cos(radian);
         let sin = Math.sin(radian);
-        let dx = x - cx;
-        let dy = y - cy;
+        let dx = x - options.cx;
+        let dy = y - options.cy;
 
-        x = xContinuity(cx + dx * cos - dy * sin);
-        y = yContinuity(cy + dx * sin + dy * cos);
+        x = options.xContinuity(options.cx + dx * cos - dy * sin);
+        y = options.yContinuity(options.cy + dx * sin + dy * cos);
 
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = Gradient.twoStopGradient(matrix, y);
+        } = Gradient.twoStopGradient(options.colors, y);
 
-        let color1 = Rgb.calculateGradient(gradient1, x);
-        let color2 = Rgb.calculateGradient(gradient2, x);
+        let color1 = this.calculateGradient(gradient1, x);
+        let color2 = this.calculateGradient(gradient2, x);
 
-        return Rgb.calculateGradient([color1, color2], positionBetweenGradients);
-    },
+        return this.calculateGradient([color1, color2], positionBetweenGradients);
+    };
 
     /**
      * Get color from circle gradient. Calculation is done in
@@ -462,11 +471,11 @@ let Rgb = {
      * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    circleGradientColor: (colors, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat) => {
+    this.circleGradientColor = (colors, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat) => {
         let angle = xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - rotation);
 
-        return Rgb.calculateGradient(colors, angle);
-    },
+        return this.calculateGradient(colors, angle);
+    };
 
     /**
      * Get color from circle matrix. Calculation is done in
@@ -490,7 +499,7 @@ let Rgb = {
      * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    circleMatrixColor: (matrix, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat, yContinuity=Continuity.repeat) => {
+    this.circleMatrixColor = (matrix, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat, yContinuity=Continuity.repeat) => {
         let dx = cx - x;
         let dy = cy - y;
         let distance = yContinuity(Math.sqrt(dx * dx + dy * dy));
@@ -501,17 +510,17 @@ let Rgb = {
             position: positionBetweenGradients
         } = Gradient.twoStopGradient(matrix, distance);
 
-        let color1 = Rgb.calculateGradient(gradient1, angle);
-        let color2 = Rgb.calculateGradient(gradient2, angle);
+        let color1 = this.calculateGradient(gradient1, angle);
+        let color2 = this.calculateGradient(gradient2, angle);
 
-        return Rgb.calculateGradient([color1, color2], positionBetweenGradients);
-    },
+        return this.calculateGradient([color1, color2], positionBetweenGradients);
+    };
 
-    calculateGradient: (colors, position) => {
+    this.calculateGradient = (colors, position, twoPointGradientFunction) => {
         let {
             array: [color1, color2],
             position: positionBetweenColors
-        } = Gradient.twoStopGradient(colors, position);
+        } = (twoPointGradientFunction || Gradient.twoStopGradient)(colors, position);
 
         return {
             r: color1.r - positionBetweenColors * (color1.r - color2.r),
@@ -519,7 +528,7 @@ let Rgb = {
             b: color1.b - positionBetweenColors * (color1.b - color2.b),
             a: color1.a - positionBetweenColors * (color1.a - color2.a)
         };
-    }
-};
+    };
+}();
 
 export default Rgb;
