@@ -5,7 +5,7 @@ export default new function() {
 
     this.createGradientFunction = (options, gradientFunctions) => {
         let type = options.type !== "linear" && options.type !== "circular" ? "linear" : options.type;
-        let colors = options.colors || [];
+        let colors = clone(options.colors) || [];
 
         let isMatrix = Array.isArray(colors[0]);
 
@@ -26,10 +26,13 @@ export default new function() {
 
         let twoPointGradientFunction = this.twoStopGradient;
 
-        if (!isMatrix && colors[0].hasOwnProperty('p')) {
+        if (!isMatrix && colors[0].hasOwnProperty('x')) {
 
             twoPointGradientFunction = this.twoPointGradientWithStops;
+
+            colors.sort((a, b) => a.x - b.x);
         }
+
         // let allColorStopsPresent = areAllColorStopsPresent();
         // let colorsInOrder =
 
@@ -43,9 +46,12 @@ export default new function() {
             twoPointGradientFunction: twoPointGradientFunction
         };
 
-        return (x, y) => {
-            return fn(x, y, gradientFunctionOptions);
-        };
+        if (typeof options.debugCallback === "function") {
+
+            options.debugCallback(gradientFunctionOptions);
+        }
+
+        return (x, y) => fn(x, y, gradientFunctionOptions);
     };
 
     // var colorsInOrder = ...
@@ -71,7 +77,7 @@ export default new function() {
                 continue;
             }
 
-            let p = array[i].p;
+            let p = array[i].x;
 
             if (p < prevP) {
                 colorsInOrder = false;
@@ -87,7 +93,7 @@ export default new function() {
 
         for (let i = 0; i < array.length; i++) {
 
-            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].p))) {
+            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
                 return false;
             }
         }
@@ -154,21 +160,21 @@ export default new function() {
     this.twoPointGradientWithStops = (array, position) => {
         var i = 0;
 
-        while (array[i].p < position) {
+        while (array[i].x < position) {
             i++;
         }
 
         var color1 = array[i-1] !== undefined ? array[i-1] : array[i];
         var color2 = array[i];
 
-        var partSize = color2.p - color1.p;
+        var partSize = color2.x - color1.x;
 
         return {
             array: [
                 color1,
                 color2
             ],
-            position: ((position - color1.p) / partSize) || 0
+            position: ((position - color1.x) / partSize) || 0
         }
     };
 

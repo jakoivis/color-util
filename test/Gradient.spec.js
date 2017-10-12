@@ -40,55 +40,55 @@ describe('Gradient', () => {
 
     describe('twoPointGradientWithStops', function() {
         xit('should calculate gradient from 1 point gradient', () => {
-            G.twoPointGradientWithStops([{p:0}], 0.5).array.should.eql([1,1]);
+            G.twoPointGradientWithStops([{x:0}], 0.5).array.should.eql([1,1]);
             // G.twoPointGradientWithStops([1], 0.5).position.should.equal(0);
         });
 
         xit('should calculate gradietn from 2 point gradient', () => {
-            var data = [{p:0},{p:0.5}]
+            var data = [{x:0},{x:0.5}]
 
             // var a = G.twoPointGradientWithStops(data, 0);
-            // a.array[0].p.should.eql(0);
-            // a.array[1].p.should.equal(0);
+            // a.array[0].x.should.eql(0);
+            // a.array[1].x.should.equal(0);
             // a.position.should.equal(0);
 
             a = G.twoPointGradientWithStops(data, 1);
-            // a.array[0].p.should.equal(0);
-            // a.array[1].p.should.equal(0.5);
+            // a.array[0].x.should.equal(0);
+            // a.array[1].x.should.equal(0.5);
             // a.position.should.be.closeTo(1, 0.00001);
 
             // a = G.twoPointGradientWithStops(data, 0.3);
-            // a.array[0].p.should.equal(0);
-            // a.array[1].p.should.equal(0.4);
+            // a.array[0].x.should.equal(0);
+            // a.array[1].x.should.equal(0.4);
             // a.position.should.be.closeTo(3/4, 0.00001);
 
             // a = G.twoPointGradientWithStops(data, 0.6);
-            // a.array[0].p.should.equal(0.4);
-            // a.array[1].p.should.equal(1);
+            // a.array[0].x.should.equal(0.4);
+            // a.array[1].x.should.equal(1);
             // a.position.should.be.closeTo(1/3, 0.00001);
         });
 
         it('should calculate gradietn from 3 point gradient', () => {
-            var data = [{p:0},{p:0.4},{p:1}]
+            var data = [{x:0},{x:0.4},{x:1}]
 
             var a = G.twoPointGradientWithStops(data, 0);
-            a.array[0].p.should.eql(0);
-            a.array[1].p.should.equal(0);
+            a.array[0].x.should.eql(0);
+            a.array[1].x.should.equal(0);
             a.position.should.equal(0);
 
             a = G.twoPointGradientWithStops(data, 1);
-            a.array[0].p.should.equal(0.4);
-            a.array[1].p.should.equal(1);
+            a.array[0].x.should.equal(0.4);
+            a.array[1].x.should.equal(1);
             a.position.should.be.closeTo(1, 0.00001);
 
             a = G.twoPointGradientWithStops(data, 0.3);
-            a.array[0].p.should.equal(0);
-            a.array[1].p.should.equal(0.4);
+            a.array[0].x.should.equal(0);
+            a.array[1].x.should.equal(0.4);
             a.position.should.be.closeTo(3/4, 0.00001);
 
             a = G.twoPointGradientWithStops(data, 0.6);
-            a.array[0].p.should.equal(0.4);
-            a.array[1].p.should.equal(1);
+            a.array[0].x.should.equal(0.4);
+            a.array[1].x.should.equal(1);
             a.position.should.be.closeTo(1/3, 0.00001);
         });
     });

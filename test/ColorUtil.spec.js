@@ -581,6 +581,50 @@ describe('ColorUtil', () => {
         });
     });
 
+
+
+    [
+        {x: 1, r: 0xff, g: 0xff, b: 0xff, a: 0xff},
+        {x: 0.25, r: 0x7f, g: 0x7f, b: 0x7f, a: 0x7f},
+        {x: 0, r: 0, g: 0, b: 0, a: 0},
+    ]
+
+    describe('createGradientFunction', () => {
+
+        let color1 = {x: 0};
+        let color2 = {x: 0.25};
+        let color3 = {x: 0.5};
+        let color4 = {x: 1};
+
+        it('should sort by gradient stops', function() {
+            C.rgb.createGradientFunction({
+                colors: [color3, color2, color4, color1],
+                debugCallback: function(options) {
+                    options.colors[0].x.should.equal(0);
+                    options.colors[1].x.should.equal(0.25);
+                    options.colors[2].x.should.equal(0.5);
+                    options.colors[3].x.should.equal(1);
+                }
+            });
+        });
+
+        it('should not modify the original data', () => {
+
+            var colors = [color1];
+
+            C.rgb.createGradientFunction({
+                colors: colors,
+                debugCallback: function(options) {
+                    expect(options.colors === colors).to.be.false;
+                    expect(options.colors[0] === colors[0]).to.be.false;
+                }
+            });
+        });
+
+        xit('should add missing stops', function() {
+        });
+    });
+
     describe('linear gradient', () => {
 
         it('should get color from 1 point gradient', () => {
@@ -634,7 +678,7 @@ describe('ColorUtil', () => {
 
         xit('should get color from 1 point gradient', () => {
             let fn = C.rgb.createGradientFunction({colors: [
-                {p: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
+                {x: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
             ]});
 
             fn(0.5, 0).should.equal({r: 0, g: 0xff, b: 0x7f, a: 0xff});
@@ -642,8 +686,8 @@ describe('ColorUtil', () => {
 
         it('should get color from 2 point gradient with stops', () => {
             let fn = C.rgb.createGradientFunction({colors: [
-                {p: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
-                {p: 1, r: 0xff, g: 0, b: 0xff, a: 0xff}
+                {x: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
+                {x: 1, r: 0xff, g: 0, b: 0xff, a: 0xff}
             ]});
 
             fn(0, 0).should.eql({r: 0, g: 0xff, b: 0x7f, a: 0xff});
@@ -653,9 +697,9 @@ describe('ColorUtil', () => {
 
         it('should get color from 3 point gradient with stops', () => {
             let fn = C.rgb.createGradientFunction({colors: [
-                {p: 0, r: 0, g: 0, b: 0, a: 0},
-                {p: 0.25, r: 0x7f, g: 0x7f, b: 0x7f, a: 0x7f},
-                {p: 1, r: 0xff, g: 0xff, b: 0xff, a: 0xff}
+                {x: 0, r: 0, g: 0, b: 0, a: 0},
+                {x: 0.25, r: 0x7f, g: 0x7f, b: 0x7f, a: 0x7f},
+                {x: 1, r: 0xff, g: 0xff, b: 0xff, a: 0xff}
             ]});
 
             fn(0, 0).should.eql({r: 0, g: 0, b: 0, a: 0});
@@ -664,7 +708,6 @@ describe('ColorUtil', () => {
             fn(0.125, 0).should.eql({r: 63.5, g: 63.5, b: 63.5, a: 63.5});
             fn(0.625, 0).should.eql({r: 191, g: 191, b: 191, a: 191});
         });
-
 
         function createBasicIntTestFunction(colors) {
             let rgbColors = C.convert(colors, C.int.toRgb);
