@@ -3,6 +3,77 @@ import Continuity from './Continuity';
 
 export default new function() {
 
+/*
+internal: linear data structure
+[
+    {x:0, r: 255, g: 0, b: 0, a: 255},
+    {x:1, r: 255, g: 255, b: 0, a: 255}
+]
+colors is array
+colors[n] has x
+
+internal: self scaling linear data structure, no x and y
+[
+    {r: 255, g: 0, b: 0, a: 255},
+    {r: 255, g: 255, b: 0, a: 255}
+]
+colors is array
+colors[n] !is array
+colors[n] !has y
+colors[n] !has x
+colors[n] !has colors
+
+internal: matrix data structure
+[
+    {
+        y: 0,
+        colors: [
+            {x:0, r: 255, g: 0, b: 0, a: 255},
+            {x:1, r: 255, g: 255, b: 0, a: 255}
+        ]
+    },
+    {
+        y: 0,
+        colors: [
+            {x:0, r: 0, g: 0, b: 255, a: 255},
+            {x:0, r: 0, g: 255, b: 255, a: 255}
+        ]
+    }
+];
+colors is array
+colors[n] has y
+colors[n] has colors
+colors[n].colors[m] has x
+
+internal: self scaling matrix data structure, no x and y
+[
+    [
+        {r: 255, g: 0, b: 0, a: 255},
+        {r: 255, g: 255, b: 0, a: 255}
+        {r: 0, g: 0, b: 255, a: 255},
+        {r: 0, g: 255, b: 255, a: 255}
+    ],
+    [
+        {r: 255, g: 0, b: 0, a: 255},
+        {r: 255, g: 255, b: 0, a: 255}
+        {r: 0, g: 0, b: 255, a: 255},
+        {r: 0, g: 255, b: 255, a: 255}
+    ]
+]
+colors is array
+colors[n] is array
+
+
+user interface: compact matrix data structure
+[
+    {x:0, y: 0 r: 255, g: 0, b: 0, a: 255},
+    {x:0.25, y: ..., r: 255, g: 255, b: 0, a: 255}
+    {x:0.5, r: 0, g: 0, b: 255, a: 255},
+    {x:1, y: 1 r: 0, g: 255, b: 255, a: 255}
+];
+
+*/
+
     this.createGradientFunction = (options, gradientFunctions) => {
         let type = options.type !== "linear" && options.type !== "circular" ? "linear" : options.type;
         let colors = clone(options.colors) || [];
@@ -24,13 +95,17 @@ export default new function() {
             fn = gradientFunctions.circularMatrix;
         }
 
-        let twoPointGradientFunction = this.twoStopGradient;
+        let partialGradient = this.partialGradient;
 
         if (!isMatrix && colors[0].hasOwnProperty('x')) {
 
-            twoPointGradientFunction = this.twoPointGradientWithStops;
+            partialGradient = this.partialGradientWithStops;
 
             colors.sort((a, b) => a.x - b.x);
+
+        } else if (isMatrix && colors[0].colors[0].hasOwnProperty('x')) {
+            partialGradient = this.partialGradientWithStops;
+
         }
 
         // let allColorStopsPresent = areAllColorStopsPresent();
@@ -43,7 +118,7 @@ export default new function() {
             rotation: options.rotation || 0,
             xContinuity: options.xContinuity || Continuity.stop,
             yContinuity: options.yContinuity || Continuity.stop,
-            twoPointGradientFunction: twoPointGradientFunction
+            partialGradient: partialGradient
         };
 
         if (typeof options.debugCallback === "function") {
@@ -130,7 +205,7 @@ export default new function() {
      * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
-    this.twoStopGradient = (array, position) => {
+    this.partialGradient = (array, position) => {
         let lastIndex = array.length - 1;
         let itemIndex = (position * lastIndex) | 0;
         let partSize = 1 / lastIndex * 1000;
@@ -157,24 +232,24 @@ export default new function() {
     // - p values are in order
     // - first p value is 0 and last is 1
     // - gradient needs to be validated before calculation
-    this.twoPointGradientWithStops = (array, position) => {
+    this.partialGradientWithStops = (array, position, axis) => {
         var i = 0;
 
-        while (array[i].x < position) {
+        while (array[i][axis] < position) {
             i++;
         }
 
         var color1 = array[i-1] !== undefined ? array[i-1] : array[i];
         var color2 = array[i];
 
-        var partSize = color2.x - color1.x;
+        var partSize = color2[axis] - color1[axis];
 
         return {
             array: [
                 color1,
                 color2
             ],
-            position: ((position - color1.x) / partSize) || 0
+            position: ((position - color1[axis]) / partSize) || 0
         }
     };
 

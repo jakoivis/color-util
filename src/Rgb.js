@@ -403,7 +403,7 @@ let Rgb = new function() {
 
         x = options.xContinuity(options.cx + dx * cos - dy * sin);
 
-        return this.calculateGradient(options.colors, x, options.twoPointGradientFunction);
+        return this.calculateGradient(options.colors, x, options.partialGradient);
     };
 
     /**
@@ -439,12 +439,12 @@ let Rgb = new function() {
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = Gradient.twoStopGradient(options.colors, y);
+        } = options.partialGradient(options.colors, y);
 
-        let color1 = this.calculateGradient(gradient1, x);
-        let color2 = this.calculateGradient(gradient2, x);
+        let color1 = this.calculateGradient(gradient1, x, options.partialGradient);
+        let color2 = this.calculateGradient(gradient2, x, options.partialGradient);
 
-        return this.calculateGradient([color1, color2], positionBetweenGradients);
+        return this.calculateGradient([color1, color2], positionBetweenGradients, options.partialGradient);
     };
 
     /**
@@ -471,10 +471,10 @@ let Rgb = new function() {
      * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    this.circleGradientColor = (colors, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat) => {
-        let angle = xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - rotation);
+    this.circleGradientColor = (x, y, options) => {
+        let angle = options.xContinuity((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
 
-        return this.calculateGradient(colors, angle);
+        return this.calculateGradient(options.colors, angle, options.partialGradient);
     };
 
     /**
@@ -499,28 +499,30 @@ let Rgb = new function() {
      * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    this.circleMatrixColor = (matrix, x, y, cx=0.5, cy=0.5, rotation=0, xContinuity=Continuity.repeat, yContinuity=Continuity.repeat) => {
+    this.circleMatrixColor = (x, y, options) => {
+        let cx = options.cx;
+        let cy = options.cy;
         let dx = cx - x;
         let dy = cy - y;
-        let distance = yContinuity(Math.sqrt(dx * dx + dy * dy));
-        let angle = xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - rotation);
+        let distance = options.yContinuity(Math.sqrt(dx * dx + dy * dy));
+        let angle = options.xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - options.rotation);
 
         let {
             array: [gradient1, gradient2],
             position: positionBetweenGradients
-        } = Gradient.twoStopGradient(matrix, distance);
+        } = options.partialGradient(options.colors, distance);
 
-        let color1 = this.calculateGradient(gradient1, angle);
-        let color2 = this.calculateGradient(gradient2, angle);
+        let color1 = this.calculateGradient(gradient1, angle, options.partialGradient);
+        let color2 = this.calculateGradient(gradient2, angle, options.partialGradient);
 
-        return this.calculateGradient([color1, color2], positionBetweenGradients);
+        return this.calculateGradient([color1, color2], positionBetweenGradients, options.partialGradient);
     };
 
-    this.calculateGradient = (colors, position, twoPointGradientFunction) => {
+    this.calculateGradient = (colors, position, partialGradient) => {
         let {
             array: [color1, color2],
             position: positionBetweenColors
-        } = (twoPointGradientFunction || Gradient.twoStopGradient)(colors, position);
+        } = partialGradient(colors, position, 'x');
 
         return {
             r: color1.r - positionBetweenColors * (color1.r - color2.r),

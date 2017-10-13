@@ -7,7 +7,7 @@ let expect = require('chai').expect;
 
 describe('Gradient', () => {
 
-    describe('twoStopGradient', () => {
+    xdescribe('twoStopGradient', () => {
 
         it('should calculate gradient from 1 point gradient', () => {
             G.twoStopGradient([1], 0.5).array.should.eql([1,1]);
@@ -38,7 +38,7 @@ describe('Gradient', () => {
         });
     });
 
-    describe('twoPointGradientWithStops', function() {
+    xdescribe('twoPointGradientWithStops', function() {
         xit('should calculate gradient from 1 point gradient', () => {
             G.twoPointGradientWithStops([{x:0}], 0.5).array.should.eql([1,1]);
             // G.twoPointGradientWithStops([1], 0.5).position.should.equal(0);

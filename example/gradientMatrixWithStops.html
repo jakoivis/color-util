@@ -9,6 +9,24 @@
 
 <script>
 
+// convert colors to rgb objects so getGradientMatrixColor understands them
+let colors = [
+    {
+        y: 0,
+        colors: [
+            {x:0, r: 255, g: 0, b: 0, a: 255},
+            {x:1, r: 255, g: 255, b: 0, a: 255}
+        ]
+    },
+    {
+        y: 0,
+        colors: [
+            {x:0, r: 0, g: 0, b: 255, a: 255},
+            {x:0, r: 0, g: 255, b: 255, a: 255}
+        ]
+    }
+];
+
 let width = 300;
 let height = 300;
 
@@ -21,11 +39,6 @@ let uint8CView = new Uint8ClampedArray(buffer);
 
 canvas.width = width;
 canvas.height = height;
-
-// convert colors to rgb objects so getGradientMatrixColor understands them
-let colors = ColorUtil.convert(
-    [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]],
-    ColorUtil.int.toRgb);
 
 let gradient = ColorUtil.rgb.createGradientFunction({
     colors: colors

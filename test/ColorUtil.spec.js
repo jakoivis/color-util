@@ -581,32 +581,12 @@ describe('ColorUtil', () => {
         });
     });
 
-
-
-    [
-        {x: 1, r: 0xff, g: 0xff, b: 0xff, a: 0xff},
-        {x: 0.25, r: 0x7f, g: 0x7f, b: 0x7f, a: 0x7f},
-        {x: 0, r: 0, g: 0, b: 0, a: 0},
-    ]
-
     describe('createGradientFunction', () => {
 
         let color1 = {x: 0};
         let color2 = {x: 0.25};
         let color3 = {x: 0.5};
         let color4 = {x: 1};
-
-        it('should sort by gradient stops', function() {
-            C.rgb.createGradientFunction({
-                colors: [color3, color2, color4, color1],
-                debugCallback: function(options) {
-                    options.colors[0].x.should.equal(0);
-                    options.colors[1].x.should.equal(0.25);
-                    options.colors[2].x.should.equal(0.5);
-                    options.colors[3].x.should.equal(1);
-                }
-            });
-        });
 
         it('should not modify the original data', () => {
 
@@ -621,11 +601,28 @@ describe('ColorUtil', () => {
             });
         });
 
+        describe('linear', () => {
+
+            it('should sort by gradient stops', function() {
+
+                C.rgb.createGradientFunction({
+                    colors: [color3, color2, color4, color1],
+                    debugCallback: function(options) {
+                        options.colors[0].x.should.equal(0);
+                        options.colors[1].x.should.equal(0.25);
+                        options.colors[2].x.should.equal(0.5);
+                        options.colors[3].x.should.equal(1);
+                    }
+                });
+            });
+        });
+
         xit('should add missing stops', function() {
+
         });
     });
 
-    describe('linear gradient', () => {
+    xdescribe('linear gradient', () => {
 
         it('should get color from 1 point gradient', () => {
             let fn = createBasicIntTestFunction([0x00FF7F]);
@@ -719,7 +716,7 @@ describe('ColorUtil', () => {
         }
     });
 
-    describe('getGradientMatrixColor', () => {
+    xdescribe('getGradientMatrixColor', () => {
 
         let matrix = [
             [0xFF0000, 0x0000FF],
@@ -759,7 +756,7 @@ describe('ColorUtil', () => {
         }
     });
 
-    describe('hue', () => {
+    xdescribe('hue', () => {
 
         it('should return red', () => {
             C.rgb.hue({r:0xFF, g: 0, b:0}).should.eql({r:0xFF, g: 0, b:0, a: 0xFF});
