@@ -3,7 +3,6 @@ import Continuity from './Continuity';
 import Gradient from './Gradient';
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
-const PI2 = Math.PI * 2;
 
 /**
  * @class Rgb
@@ -367,170 +366,21 @@ let Rgb = new function() {
     };
 
     this.createGradientFunction = (options) => {
+
         return Gradient.createGradientFunction(options, {
-            linear: this.gradientColor,
-            linearMatrix: this.matrixColor,
-            circular: this.circleGradientColor,
-            circularMatrix: this.circleGradientColor
+
+            gradientPointColor: (color1, color2, position) => {
+
+                return {
+                    r: color1.r - position * (color1.r - color2.r),
+                    g: color1.g - position * (color1.g - color2.g),
+                    b: color1.b - position * (color1.b - color2.b),
+                    a: color1.a - position * (color1.a - color2.a)
+                }
+            }
         });
     };
 
-    /**
-     * Get color from gradient. Calculation is done in
-     * rgb object notation so colors should be converted to object notation.
-     *
-     * @example
-     * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-     * ColorUtil.rgb.gradientColor(gradient, 0.5);
-     * // output: {r: 0, g: 255, b: 0, a: 255}
-     *
-     * @memberof ColorUtil.rgb
-     *
-     * @param {Array} colors    Array of colors. Colors should be in rgb object notation.
-     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
-     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
-     * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
-     * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
-     * @param {function} [xContinuity=Continuity.stop]  Continuity function
-     * @return {Object} rgb object
-     */
-    this.gradientColor = (x, y, options) => {
-        let radian = options.rotation * PI2;
-        let cos = Math.cos(radian);
-        let sin = Math.sin(radian);
-        let dx = x - options.cx;
-        let dy = y - options.cy;
-
-        x = options.xContinuity(options.cx + dx * cos - dy * sin);
-
-        return this.calculateGradient(options.colors, x, options.partialGradient);
-    };
-
-    /**
-     * Get color from matrix. Calculation is done in
-     * rgb object notation so colors should be converted to object notation.
-     *
-     * @example
-     * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-     * ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
-     * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
-     *
-     * @memberof ColorUtil.rgb
-     *
-     * @param {Array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
-     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
-     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
-     * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
-     * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
-     * @param {function} [xContinuity=Continuity.stop]  Continuity function
-     * @param {function} [yContinuity=Continuity.stop]  Continuity function
-     * @return {Object} rgb object
-     */
-    this.matrixColor = (x, y, options) => {
-        let radian = options.rotation * PI2;
-        let cos = Math.cos(radian);
-        let sin = Math.sin(radian);
-        let dx = x - options.cx;
-        let dy = y - options.cy;
-
-        x = options.xContinuity(options.cx + dx * cos - dy * sin);
-        y = options.yContinuity(options.cy + dx * sin + dy * cos);
-
-        let {
-            array: [gradient1, gradient2],
-            position: positionBetweenGradients
-        } = options.partialGradient(options.colors, y);
-
-        let color1 = this.calculateGradient(gradient1, x, options.partialGradient);
-        let color2 = this.calculateGradient(gradient2, x, options.partialGradient);
-
-        return this.calculateGradient([color1, color2], positionBetweenGradients, options.partialGradient);
-    };
-
-    /**
-     * Get color from circle gradient. Calculation is done in
-     * rgb object notation so colors should be converted to object notation.
-     *
-     * @example
-     * let colors = ColorUtil.rgb.hueColors();
-     * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1);
-     * // output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
-     *
-     * // keep center the same but rotatio 180 degrees
-     * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
-     * // output: {r: 255, g: 191.25, b: 0, a: 255}
-     *
-     * @memberof ColorUtil.rgb
-     *
-     * @param      {Array}   colors      Array of colors. Colors should be in rgb object notation.
-     * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
-     * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
-     * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
-     * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
-     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
-     * @return     {Object}  rgb object
-     */
-    this.circleGradientColor = (x, y, options) => {
-        let angle = options.xContinuity((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
-
-        return this.calculateGradient(options.colors, angle, options.partialGradient);
-    };
-
-    /**
-     * Get color from circle matrix. Calculation is done in
-     * rgb object notation so colors should be converted to object notation.
-     *
-     * @example
-     * // center is white, outer edge has hue colors
-     * let matrix = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
-     * ColorUtil.rgb.circleMatrixColor(matrix, 0.1, 0.1);
-     * // output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
-     *
-     * @memberof ColorUtil.rgb
-     *
-     * @param      {Array}   matrix      Matrix of colors. Colors should be in rgb object notation.
-     * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
-     * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
-     * @param      {number}  cx          Horizontal position of center. Value in range 0-1.
-     * @param      {number}  cy          Vertical position of center. Value in range 0-1.
-     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
-     * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
-     * @return     {Object}  rgb object
-     */
-    this.circleMatrixColor = (x, y, options) => {
-        let cx = options.cx;
-        let cy = options.cy;
-        let dx = cx - x;
-        let dy = cy - y;
-        let distance = options.yContinuity(Math.sqrt(dx * dx + dy * dy));
-        let angle = options.xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - options.rotation);
-
-        let {
-            array: [gradient1, gradient2],
-            position: positionBetweenGradients
-        } = options.partialGradient(options.colors, distance);
-
-        let color1 = this.calculateGradient(gradient1, angle, options.partialGradient);
-        let color2 = this.calculateGradient(gradient2, angle, options.partialGradient);
-
-        return this.calculateGradient([color1, color2], positionBetweenGradients, options.partialGradient);
-    };
-
-    this.calculateGradient = (colors, position, partialGradient) => {
-        let {
-            array: [color1, color2],
-            position: positionBetweenColors
-        } = partialGradient(colors, position, 'x');
-
-        return {
-            r: color1.r - positionBetweenColors * (color1.r - color2.r),
-            g: color1.g - positionBetweenColors * (color1.g - color2.g),
-            b: color1.b - positionBetweenColors * (color1.b - color2.b),
-            a: color1.a - positionBetweenColors * (color1.a - color2.a)
-        };
-    };
 }();
 
 export default Rgb;

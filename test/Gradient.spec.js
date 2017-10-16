@@ -1,11 +1,98 @@
 
+import sinon from 'sinon';
 import chai from 'chai';
 import G from '../src/Gradient.js';
 
 chai.should();
 let expect = require('chai').expect;
 
-describe('Gradient', () => {
+xdescribe('Gradient', () => {
+
+    describe('createGradientFunction', () => {
+
+        let gradientFunctions;
+
+        describe('linear with stops', () => {
+
+            beforeEach(() => {
+                gradientFunctions = {
+                    linear: sinon.spy(),
+                    linearMatrix: sinon.stub().throws(),
+                    circular: sinon.stub().throws(),
+                    circularMatrix: sinon.stub().throws()
+                }
+            });
+
+            let color1 = {x: 0, r: 255, g: 0, b: 0, a: 255};
+            let color2 = {x: 0.25, r: 0, g: 255, b: 0, a: 255};
+            let color3 = {x: 0.5, r: 0, g: 0, b: 255, a: 255};
+            let color4 = {x: 1, r: 255, g: 255, b: 0, a: 255};
+
+            it('should call correct method for linear gradient with stops', () => {
+
+                G.createGradientFunction({colors: [color1]}, gradientFunctions)();
+
+                gradientFunctions.linear.calledOnce.should.be.true;
+                gradientFunctions.linearMatrix.notCalled.should.be.true;
+                gradientFunctions.circular.notCalled.should.be.true;
+                gradientFunctions.circularMatrix.notCalled.should.be.true;
+            });
+
+            it('should transfer x and y', () => {
+
+                gradientFunctions.linear = (x, y, options) => {
+                    x.should.equal(1);
+                    y.should.equal(2);
+                };
+
+                G.createGradientFunction({colors: [color1]}, gradientFunctions)(1, 2);
+            });
+
+            it('should not modify the original data', () => {
+
+                let colors = [color1];
+
+                gradientFunctions.linear = (x, y, options) => {
+                    expect(options.colors === colors).to.be.false;
+                    expect(options.colors[0] === colors[0]).to.be.false;
+                };
+
+                G.createGradientFunction({colors: colors}, gradientFunctions)();
+            });
+
+            it('should have correct partial gradient function', () => {
+
+                gradientFunctions.linear = (x, y, options) => {
+                    expect(options.partialGradient === G.partialGradientWithStops).to.be.true;
+                };
+
+                G.createGradientFunction({colors: [color1]}, gradientFunctions)();
+            });
+
+            it('should sort by gradient stops', () => {
+
+                gradientFunctions.linear = (x, y, options) => {
+                    options.colors[0].should.eql(color1);
+                    options.colors[1].should.eql(color2);
+                    options.colors[2].should.eql(color3);
+                    options.colors[3].should.eql(color4);
+                };
+
+                G.createGradientFunction({colors: [color3, color2, color4, color1]}, gradientFunctions)();
+            });
+
+            xit('should add missing stops to the right end', () => {
+
+                gradientFunctions.linear = (x, y, options) => {
+                    options.colors[0].should.eql(color1);
+                    options.colors[1].should.eql(color2);
+                    options.colors[2].should.eql({x: 1, r: 0, g: 255, b: 0, a: 255});
+                };
+
+                G.createGradientFunction({colors: [color1, color2]}, gradientFunctions)();
+            });
+        });
+    });
 
     xdescribe('twoStopGradient', () => {
 

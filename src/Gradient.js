@@ -1,4 +1,5 @@
 
+import _ from './Utils';
 import Continuity from './Continuity';
 
 export default new function() {
@@ -11,6 +12,8 @@ internal: linear data structure
 ]
 colors is array
 colors[n] has x
+colors[n] !has y
+colors[n] !has colors
 
 internal: self scaling linear data structure, no x and y
 [
@@ -73,43 +76,48 @@ user interface: compact matrix data structure
 ];
 
 */
+    const PI2 = Math.PI * 2;
 
-    this.createGradientFunction = (options, gradientFunctions) => {
-        let type = options.type !== "linear" && options.type !== "circular" ? "linear" : options.type;
-        let colors = clone(options.colors) || [];
+    this.createGradientFunction = (options, typeOptions={}) => {
 
-        let isMatrix = Array.isArray(colors[0]);
+        let type = _.includes(['linear', 'circular'], options.type) ? options.type : 'linear';
+        let colors = _.clone(options.colors);
+
+        let sample = _.get(colors, '0');
+        let hasX = _.has(sample, 'x');
+        let hasY = _.has(sample, 'y');
+        let hasColors = _.has(sample, 'colors');
 
         let fn;
 
-        if (type === "linear" && !isMatrix) {
-            fn = gradientFunctions.linear;
+        if (hasX && !hasY && !hasColors && type === 'linear') {
 
-        } else if (type === "linear" && isMatrix) {
-            fn = gradientFunctions.linearMatrix;
+            fn = this.linearGradient;
 
-        } else if (type === "circular" && !isMatrix) {
-            fn = gradientFunctions.circular;
+        } else if (hasY && hasColors && type === 'linear') {
 
-        } else if (type === "circular" && isMatrix) {
-            fn = gradientFunctions.circularMatrix;
+            fn = this.linearMatrixGradient;
+
+        } else if (hasX && !hasY && !hasColors && type === 'circular') {
+
+            fn = circularGradient;
+
+        } else if (hasY && hasColors && type === 'circular') {
+
+            fn = circularMatrixGradient;
+
+        } else {
+
+            return null;
         }
 
-        let partialGradient = this.partialGradient;
+        // let allColorStopsPresent = areAllColorStopsPresent(colors);
 
-        if (!isMatrix && colors[0].hasOwnProperty('x')) {
+        // if (!isMatrix && colors[0].hasOwnProperty('x')) {
 
-            partialGradient = this.partialGradientWithStops;
+        //     colors.sort((a, b) => a.x - b.x);
 
-            colors.sort((a, b) => a.x - b.x);
-
-        } else if (isMatrix && colors[0].colors[0].hasOwnProperty('x')) {
-            partialGradient = this.partialGradientWithStops;
-
-        }
-
-        // let allColorStopsPresent = areAllColorStopsPresent();
-        // let colorsInOrder =
+        // }
 
         let gradientFunctionOptions = {
             colors: colors,
@@ -118,13 +126,8 @@ user interface: compact matrix data structure
             rotation: options.rotation || 0,
             xContinuity: options.xContinuity || Continuity.stop,
             yContinuity: options.yContinuity || Continuity.stop,
-            partialGradient: partialGradient
+            gradientPointColor: typeOptions.gradientPointColor
         };
-
-        if (typeof options.debugCallback === "function") {
-
-            options.debugCallback(gradientFunctionOptions);
-        }
 
         return (x, y) => fn(x, y, gradientFunctionOptions);
     };
@@ -140,50 +143,50 @@ user interface: compact matrix data structure
     //      sortByPValue
     // else
     //      unable to validate
-    //
-    this.validate  = (array) => {
+    // //
+    // this.validate  = (array) => {
 
-        let colorsInOrder = true;
-        let prevP = 0;
+    //     let colorsInOrder = true;
+    //     let prevP = 0;
 
-        for (let i = 0; i < array.length; i++) {
+    //     for (let i = 0; i < array.length; i++) {
 
-            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(p))) {
-                continue;
-            }
+    //         if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(p))) {
+    //             continue;
+    //         }
 
-            let p = array[i].x;
+    //         let p = array[i].x;
 
-            if (p < prevP) {
-                colorsInOrder = false;
-                break;
+    //         if (p < prevP) {
+    //             colorsInOrder = false;
+    //             break;
 
-            } else {
-                prevP = p;
-            }
-        }
-    };
+    //         } else {
+    //             prevP = p;
+    //         }
+    //     }
+    // };
 
-    function areAllColorStopsPresent(array) {
+    // function areAllColorStopsPresent(array) {
 
-        for (let i = 0; i < array.length; i++) {
+    //     for (let i = 0; i < array.length; i++) {
 
-            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
-                return false;
-            }
-        }
+    //         if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
+    //             return false;
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
-    function areColorsInOrder(array) {
+    // function areColorsInOrder(array) {
 
-        let prevValue;
+    //     let prevValue;
 
-        for (let i = 0; i < array.length; i++) {
+    //     for (let i = 0; i < array.length; i++) {
 
-        }
-    }
+    //     }
+    // }
 
     /**
      * Calculate two items from a gradient array and a relative position of
@@ -205,27 +208,27 @@ user interface: compact matrix data structure
      * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
-    this.partialGradient = (array, position) => {
-        let lastIndex = array.length - 1;
-        let itemIndex = (position * lastIndex) | 0;
-        let partSize = 1 / lastIndex * 1000;
-        let positionBetweenItems = ((position*1000) % partSize) / partSize;
+    // this.partialGradient = (array, position) => {
+    //     let lastIndex = array.length - 1;
+    //     let itemIndex = (position * lastIndex) | 0;
+    //     let partSize = 1 / lastIndex * 1000;
+    //     let positionBetweenItems = ((position*1000) % partSize) / partSize;
 
-        // partSize and position are scaled in the above calculation to fix
-        // a javascrip decimal rounding problem. The issue was seen in a gradient
-        // in which there were exactly 6 colors. positionBetweenItems for the first
-        // color of the 4th gradient stop was rounded to 0.9999... where the correct
-        // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
-        // That resulted to a weird vertical line in a gradient
+    //     // partSize and position are scaled in the above calculation to fix
+    //     // a javascrip decimal rounding problem. The issue was seen in a gradient
+    //     // in which there were exactly 6 colors. positionBetweenItems for the first
+    //     // color of the 4th gradient stop was rounded to 0.9999... where the correct
+    //     // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
+    //     // That resulted to a weird vertical line in a gradient
 
-        return {
-            array: [
-                array[itemIndex],
-                array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex]
-            ],
-            position: positionBetweenItems
-        }
-    };
+    //     return {
+    //         array: [
+    //             array[itemIndex],
+    //             array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex]
+    //         ],
+    //         position: positionBetweenItems
+    //     }
+    // };
 
     // this version is relying that gradient array
     // - has p values
@@ -239,21 +242,167 @@ user interface: compact matrix data structure
             i++;
         }
 
-        var color1 = array[i-1] !== undefined ? array[i-1] : array[i];
-        var color2 = array[i];
+        var item1 = array[i-1] !== undefined ? array[i-1] : array[i];
+        var item2 = array[i];
 
-        var partSize = color2[axis] - color1[axis];
+        var partSize = item2[axis] - item1[axis];
 
         return {
-            array: [
-                color1,
-                color2
-            ],
-            position: ((position - color1[axis]) / partSize) || 0
+            item1: item1,
+            item2: item2,
+            position: ((position - item1[axis]) / partSize) || 0
         }
     };
 
-    function clone(obj) {
-        return JSON.parse(JSON.stringify(obj));
+    /**
+     * Get color from gradient. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
+     * ColorUtil.rgb.gradientColor(gradient, 0.5);
+     * // output: {r: 0, g: 255, b: 0, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param {Array} colors    Array of colors. Colors should be in rgb object notation.
+     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
+     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
+     * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
+     * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
+     * @param {function} [xContinuity=Continuity.stop]  Continuity function
+     * @return {Object} rgb object
+     */
+    this.linearGradient = (x, y, options) => {
+        let radian = options.rotation * PI2;
+        let cos = Math.cos(radian);
+        let sin = Math.sin(radian);
+        let dx = x - options.cx;
+        let dy = y - options.cy;
+
+        x = options.xContinuity(options.cx + dx * cos - dy * sin);
+
+        let parts = this.partialGradientWithStops(options.colors, x, 'x');
+
+        return options.gradientPointColor(
+            parts.item1,
+            parts.item2,
+            parts.position);
+    };
+
+        /**
+     * Get color from matrix. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
+     * ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
+     * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param {Array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
+     * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
+     * @param {number} y        Vertical position on the gradient. Value in range 0-1.
+     * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
+     * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
+     * @param {function} [xContinuity=Continuity.stop]  Continuity function
+     * @param {function} [yContinuity=Continuity.stop]  Continuity function
+     * @return {Object} rgb object
+     */
+    this.linearMatrixGradient = (x, y, options) => {
+
+        let radian = options.rotation * PI2;
+        let cos = Math.cos(radian);
+        let sin = Math.sin(radian);
+        let dx = x - options.cx;
+        let dy = y - options.cy;
+
+        x = options.xContinuity(options.cx + dx * cos - dy * sin);
+        y = options.yContinuity(options.cy + dx * sin + dy * cos);
+
+        // get gradients and y position between them
+        let gradients = this.partialGradientWithStops(options.colors, y, 'y');
+        let parts1 = this.partialGradientWithStops(gradients.item1.colors, x, 'x');
+        let parts2 = this.partialGradientWithStops(gradients.item2.colors, x, 'x');
+
+        let color1 = options.gradientPointColor(parts1.item1, parts1.item2, parts1.position);
+        let color2 = options.gradientPointColor(parts2.item1, parts2.item2, parts2.position);
+
+        return options.gradientPointColor(color1, color2, gradients.position);
+    };
+
+    /**
+     * Get color from circle gradient. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * let colors = ColorUtil.rgb.hueColors();
+     * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1);
+     * // output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
+     *
+     * // keep center the same but rotatio 180 degrees
+     * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
+     * // output: {r: 255, g: 191.25, b: 0, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param      {Array}   colors      Array of colors. Colors should be in rgb object notation.
+     * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
+     * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
+     * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
+     * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
+     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
+     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
+     * @return     {Object}  rgb object
+     */
+    this.circleGradient = (x, y, options) => {
+
+        let angle = options.xContinuity((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
+        let parts = this.partialGradientWithStops(options.colors, angle, 'x');
+
+        return options.gradientPointColor(parts.item1, parts.item2, parts.position);
     }
+
+    /**
+     * Get color from circle matrix. Calculation is done in
+     * rgb object notation so colors should be converted to object notation.
+     *
+     * @example
+     * // center is white, outer edge has hue colors
+     * let matrix = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
+     * ColorUtil.rgb.circleMatrixColor(matrix, 0.1, 0.1);
+     * // output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
+     *
+     * @memberof ColorUtil.rgb
+     *
+     * @param      {Array}   matrix      Matrix of colors. Colors should be in rgb object notation.
+     * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
+     * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
+     * @param      {number}  cx          Horizontal position of center. Value in range 0-1.
+     * @param      {number}  cy          Vertical position of center. Value in range 0-1.
+     * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
+     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
+     * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
+     * @return     {Object}  rgb object
+     */
+    this.circleMatrixGradient = (x, y, options) => {
+        let cx = options.cx;
+        let cy = options.cy;
+        let dx = cx - x;
+        let dy = cy - y;
+        let distance = options.yContinuity(Math.sqrt(dx * dx + dy * dy));
+        let angle = options.xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - options.rotation);
+
+        // get gradients and y position between them
+        let gradients = this.partialGradientWithStops(options.colors, distance, 'y');
+        let parts1 = this.partialGradientWithStops(gradients.item1.colors, angle, 'x');
+        let parts2 = this.partialGradientWithStops(gradients.item2.colors, angle, 'x');
+
+        let color1 = options.gradientPointColor(parts1.item1, parts1.item2, parts1.position);
+        let color2 = options.gradientPointColor(parts2.item1, parts2.item2, parts2.position);
+
+        return options.gradientPointColor(color1, color2, gradients.position);
+    }
+
 }();

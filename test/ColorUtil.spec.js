@@ -581,47 +581,6 @@ describe('ColorUtil', () => {
         });
     });
 
-    describe('createGradientFunction', () => {
-
-        let color1 = {x: 0};
-        let color2 = {x: 0.25};
-        let color3 = {x: 0.5};
-        let color4 = {x: 1};
-
-        it('should not modify the original data', () => {
-
-            var colors = [color1];
-
-            C.rgb.createGradientFunction({
-                colors: colors,
-                debugCallback: function(options) {
-                    expect(options.colors === colors).to.be.false;
-                    expect(options.colors[0] === colors[0]).to.be.false;
-                }
-            });
-        });
-
-        describe('linear', () => {
-
-            it('should sort by gradient stops', function() {
-
-                C.rgb.createGradientFunction({
-                    colors: [color3, color2, color4, color1],
-                    debugCallback: function(options) {
-                        options.colors[0].x.should.equal(0);
-                        options.colors[1].x.should.equal(0.25);
-                        options.colors[2].x.should.equal(0.5);
-                        options.colors[3].x.should.equal(1);
-                    }
-                });
-            });
-        });
-
-        xit('should add missing stops', function() {
-
-        });
-    });
-
     xdescribe('linear gradient', () => {
 
         it('should get color from 1 point gradient', () => {

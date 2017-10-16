@@ -27,6 +27,10 @@ let colors = ColorUtil.convert(
     [0x99CC00, 0xFFCC00, 0x660066],
     ColorUtil.int.toRgb);
 
+colors[0].x = 0;
+colors[1].x = 0.5;
+colors[2].x = 1;
+
 let gradient = ColorUtil.rgb.createGradientFunction({
     colors: colors
 });
