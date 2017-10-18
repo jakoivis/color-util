@@ -581,7 +581,7 @@ describe('ColorUtil', () => {
         });
     });
 
-    xdescribe('linear gradient', () => {
+    describe('linear gradient', () => {
 
         it('should get color from 1 point gradient', () => {
             let fn = createBasicIntTestFunction([0x00FF7F]);

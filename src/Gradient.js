@@ -4,21 +4,27 @@ import Continuity from './Continuity';
 
 export default new function() {
 
+const DATA_STRUCTURE_UNKNOWN = 'unknown';
+const DATA_STRUCTURE_OBJECTS = 'objects';
+const DATA_STRUCTURE_OBJECTS_WITH_COLORS = 'objectsWithColors';
+const DATA_STRUCTURE_ARRAYS_WITH_OBJECTS = 'arraysWithObjects';
+
+
 /*
 internal: linear data structure
 [
-    {x:0, r: 255, g: 0, b: 0, a: 255},
-    {x:1, r: 255, g: 255, b: 0, a: 255}
+    {x:0},
+    {x:1}
 ]
 colors is array
 colors[n] has x
 colors[n] !has y
 colors[n] !has colors
 
-internal: self scaling linear data structure, no x and y
+user interface: self scaling linear data structure, no x and y
 [
-    {r: 255, g: 0, b: 0, a: 255},
-    {r: 255, g: 255, b: 0, a: 255}
+    {},
+    {}
 ]
 colors is array
 colors[n] !is array
@@ -31,15 +37,15 @@ internal: matrix data structure
     {
         y: 0,
         colors: [
-            {x:0, r: 255, g: 0, b: 0, a: 255},
-            {x:1, r: 255, g: 255, b: 0, a: 255}
+            {x:0},
+            {x:1}
         ]
     },
     {
         y: 0,
         colors: [
-            {x:0, r: 0, g: 0, b: 255, a: 255},
-            {x:0, r: 0, g: 255, b: 255, a: 255}
+            {x:0},
+            {x:1}
         ]
     }
 ];
@@ -48,19 +54,15 @@ colors[n] has y
 colors[n] has colors
 colors[n].colors[m] has x
 
-internal: self scaling matrix data structure, no x and y
+user interface: self scaling matrix data structure, no x and y
 [
     [
-        {r: 255, g: 0, b: 0, a: 255},
-        {r: 255, g: 255, b: 0, a: 255}
-        {r: 0, g: 0, b: 255, a: 255},
-        {r: 0, g: 255, b: 255, a: 255}
+        {},
+        {}
     ],
     [
-        {r: 255, g: 0, b: 0, a: 255},
-        {r: 255, g: 255, b: 0, a: 255}
-        {r: 0, g: 0, b: 255, a: 255},
-        {r: 0, g: 255, b: 255, a: 255}
+        {},
+        {}
     ]
 ]
 colors is array
@@ -69,10 +71,10 @@ colors[n] is array
 
 user interface: compact matrix data structure
 [
-    {x:0, y: 0 r: 255, g: 0, b: 0, a: 255},
-    {x:0.25, y: ..., r: 255, g: 255, b: 0, a: 255}
-    {x:0.5, r: 0, g: 0, b: 255, a: 255},
-    {x:1, y: 1 r: 0, g: 255, b: 255, a: 255}
+    {x:0, y: 0},
+    {x:1, y: 0},
+    {x:0, y: 1},
+    {x:1, y: 1}
 ];
 
 */
@@ -88,30 +90,33 @@ user interface: compact matrix data structure
         let hasY = _.has(sample, 'y');
         let hasColors = _.has(sample, 'colors');
 
+        let allColorStopsPresent = areAllColorStopsPresent(colors);
+
         let fn;
 
-        if (hasX && !hasY && !hasColors && type === 'linear') {
+        // if (hasX && !hasY && !hasColors && type === 'linear') {
 
             fn = this.linearGradient;
 
-        } else if (hasY && hasColors && type === 'linear') {
+        // } else if (hasY && hasColors && type === 'linear') {
 
-            fn = this.linearMatrixGradient;
+        //     fn = this.linearMatrixGradient;
 
-        } else if (hasX && !hasY && !hasColors && type === 'circular') {
+        // } else if (hasX && !hasY && !hasColors && type === 'circular') {
 
-            fn = circularGradient;
+        //     fn = this.circularGradient;
 
-        } else if (hasY && hasColors && type === 'circular') {
+        // } else if (hasY && hasColors && type === 'circular') {
 
-            fn = circularMatrixGradient;
+        //     fn = this.circularMatrixGradient;
 
-        } else {
+        // } else {
 
-            return null;
-        }
+        //     return null;
+        // }
 
-        // let allColorStopsPresent = areAllColorStopsPresent(colors);
+
+        validate(colors);
 
         // if (!isMatrix && colors[0].hasOwnProperty('x')) {
 
@@ -143,41 +148,195 @@ user interface: compact matrix data structure
     //      sortByPValue
     // else
     //      unable to validate
-    // //
-    // this.validate  = (array) => {
+    //
+    //
+    //
+    function findPropertyIndex(array, property, startIndex) {
 
-    //     let colorsInOrder = true;
-    //     let prevP = 0;
+        for (let i = startIndex || 0; i < array.length; i++) {
 
-    //     for (let i = 0; i < array.length; i++) {
+            if (_.has(array[i], property)) {
 
-    //         if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(p))) {
-    //             continue;
-    //         }
+                return i;
+            }
+        }
 
-    //         let p = array[i].x;
+        return -1;
+    }
 
-    //         if (p < prevP) {
-    //             colorsInOrder = false;
-    //             break;
+    function addMissingStops(array, property) {
 
-    //         } else {
-    //             prevP = p;
-    //         }
-    //     }
-    // };
+        if (array.length === 1) {
 
-    // function areAllColorStopsPresent(array) {
+            array[0][property] = 0;
 
-    //     for (let i = 0; i < array.length; i++) {
+            let lastItem = _.clone(array[0]);
 
-    //         if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
-    //             return false;
-    //         }
-    //     }
+            lastItem[property] = 1;
 
-    //     return true;
-    // }
+            array.push(lastItem);
+        }
+
+        let index1 = findPropertyIndex(array, property);
+        let i = 0, index2;
+
+        if (index1 === -1) {
+
+            array[0][property] = 0;
+            array[array.length-1][property] = 1;
+
+            addMissingStopsBetweenIndexes(array, property, 0, array.length-1);
+
+            return;
+        }
+
+        // while (i < colors.length) {
+
+        //     index2 = findPropertyIndex(colors, 'x', index1+1);
+
+        // }
+    }
+
+    function addMissingStopsBetweenIndexes(array, property, startIndex, endIndex) {
+
+        let startStop = array[startIndex][property];
+        let endStop = array[endIndex][property];
+
+        let steps = endIndex - startIndex;
+        let stepSize = (endStop - startStop) / steps;
+
+        for (let i = startIndex + 1; i < endIndex; i++) {
+
+            array[i][property] = startStop + i * stepSize;
+        }
+    }
+
+    const DATA_VALIDATORS = [
+        {
+            structureType: DATA_STRUCTURE_OBJECTS,
+
+            testStructureSample: (item) => {
+
+                return _.isObject(item) && !_.has(item, 'colors');
+            },
+
+            validateStops: (colors) => {
+
+                addMissingStops(colors, 'x');
+            }
+        },
+        {
+            structureType: DATA_STRUCTURE_OBJECTS_WITH_COLORS,
+
+            testStructureSample: (sample) => {
+
+                let subSamples = _.get(sample, 'colors');
+                let isValid = _.isObject(sample) && Array.isArray(subSamples);
+
+                if (!isValid) {
+
+                    return false;
+                }
+
+                for (let subSample of subSamples) {
+
+                    isValid = _.isObject(subSample);
+
+                    if (!isValid) {
+
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        },
+        {
+            structureType: DATA_STRUCTURE_ARRAYS_WITH_OBJECTS,
+
+            testStructureSample: (sample) => {
+
+                let subSamples = sample;
+                let isValid = Array.isArray(sample);
+
+                if (!isValid) {
+
+                    return false;
+                }
+
+                for (let subSample of subSamples) {
+
+                    isValid = _.isObject(subSample);
+
+                    if (!isValid) {
+
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+    ];
+
+    function validate(colors) {
+
+        let validator = getDataStructureValidatorFromFirstSample(colors);
+
+        if (!validator) {
+
+            throw new Error('One sample was tested and it did not match any supported data structure.');
+        }
+
+        let isValidStructure = verifyExpectedDataStructureInAllSamples(colors, validator);
+
+        if (!isValidStructure) {
+
+            throw new Error('Color data structure is not consistent / valid');
+        }
+
+        validator.validateStops(colors);
+    }
+
+    function getDataStructureValidatorFromFirstSample(colors) {
+
+        let sample = _.get(colors, "0");
+
+        for (let validator of DATA_VALIDATORS) {
+
+            if (validator.testStructureSample(sample)) {
+
+                return validator;
+            }
+        }
+
+        return null;
+    }
+
+    function verifyExpectedDataStructureInAllSamples(colors, validator) {
+
+        for (let sample of colors) {
+
+            if (!validator.testStructureSample(sample)) {
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function areAllColorStopsPresent(array) {
+
+        for (let i = 0; i < array.length; i++) {
+
+            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     // function areColorsInOrder(array) {
 
@@ -356,7 +515,7 @@ user interface: compact matrix data structure
      * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    this.circleGradient = (x, y, options) => {
+    this.circularGradient = (x, y, options) => {
 
         let angle = options.xContinuity((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
         let parts = this.partialGradientWithStops(options.colors, angle, 'x');
@@ -386,7 +545,7 @@ user interface: compact matrix data structure
      * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
      * @return     {Object}  rgb object
      */
-    this.circleMatrixGradient = (x, y, options) => {
+    this.circularMatrixGradient = (x, y, options) => {
         let cx = options.cx;
         let cy = options.cy;
         let dx = cx - x;

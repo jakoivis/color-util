@@ -66,4 +66,11 @@ describe('Utils', () => {
         Utils.includes([1,2,3], 5).should.equal(false);
         Utils.includes({a:1, b:2, c:3}, 5).should.equal(false);
     });
+
+    it('should detect object type', () => {
+        Utils.isObject({}).should.equal(true);
+        Utils.isObject([]).should.equal(false);
+        Utils.isObject(123).should.equal(false);
+        Utils.isObject(null).should.equal(false);
+    });
 });

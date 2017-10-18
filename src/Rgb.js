@@ -377,6 +377,14 @@ let Rgb = new function() {
                     b: color1.b - position * (color1.b - color2.b),
                     a: color1.a - position * (color1.a - color2.a)
                 }
+            },
+            defaults: () => {
+                return {
+                    r: 0,
+                    g: 0,
+                    b: 0,
+                    a: 255
+                };
             }
         });
     };

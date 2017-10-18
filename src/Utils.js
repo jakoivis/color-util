@@ -61,4 +61,9 @@ module.exports = new function() {
 
         return false;
     };
+
+    this.isObject = (value) => {
+
+        return value !== null && typeof value === 'object' && !Array.isArray(value);
+    }
 };
