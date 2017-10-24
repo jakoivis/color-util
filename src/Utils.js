@@ -14,7 +14,7 @@ module.exports = new function() {
 
         if (obj.hasOwnProperty(first)) {
 
-            return this.get(obj[first], parts);
+            return this.get(obj[first], parts, defaultValue);
         }
 
         return defaultValue;
@@ -37,6 +37,28 @@ module.exports = new function() {
         }
 
         return false;
+    };
+
+    this.set = (obj, path, value) => {
+
+        let parts = Array.isArray(path) ? path : path.split('.');
+        let first = parts.shift();
+
+        if (!parts.length) {
+
+            obj[first] = value;
+
+            return;
+        }
+
+        if (!obj.hasOwnProperty(first)) {
+
+            let next = parts[0];
+
+            obj[first] = this.isNumeric(next) ? [] : {};
+        }
+
+        this.set(obj[first], parts, value);
     };
 
     this.clone = (obj) => {
@@ -65,5 +87,15 @@ module.exports = new function() {
     this.isObject = (value) => {
 
         return value !== null && typeof value === 'object' && !Array.isArray(value);
+    }
+
+    this.isNumber = (value) => {
+
+        return typeof value === 'number' && !isNaN(value);
+    }
+
+    this.isNumeric = (value) => {
+
+        return !isNaN(parseInt(value));
     }
 };

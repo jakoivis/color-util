@@ -1,83 +1,10 @@
 
 import _ from './Utils';
 import Continuity from './Continuity';
+import GradientData from './GradientData';
 
 export default new function() {
 
-const DATA_STRUCTURE_UNKNOWN = 'unknown';
-const DATA_STRUCTURE_OBJECTS = 'objects';
-const DATA_STRUCTURE_OBJECTS_WITH_COLORS = 'objectsWithColors';
-const DATA_STRUCTURE_ARRAYS_WITH_OBJECTS = 'arraysWithObjects';
-
-
-/*
-internal: linear data structure
-[
-    {x:0},
-    {x:1}
-]
-colors is array
-colors[n] has x
-colors[n] !has y
-colors[n] !has colors
-
-user interface: self scaling linear data structure, no x and y
-[
-    {},
-    {}
-]
-colors is array
-colors[n] !is array
-colors[n] !has y
-colors[n] !has x
-colors[n] !has colors
-
-internal: matrix data structure
-[
-    {
-        y: 0,
-        colors: [
-            {x:0},
-            {x:1}
-        ]
-    },
-    {
-        y: 0,
-        colors: [
-            {x:0},
-            {x:1}
-        ]
-    }
-];
-colors is array
-colors[n] has y
-colors[n] has colors
-colors[n].colors[m] has x
-
-user interface: self scaling matrix data structure, no x and y
-[
-    [
-        {},
-        {}
-    ],
-    [
-        {},
-        {}
-    ]
-]
-colors is array
-colors[n] is array
-
-
-user interface: compact matrix data structure
-[
-    {x:0, y: 0},
-    {x:1, y: 0},
-    {x:0, y: 1},
-    {x:1, y: 1}
-];
-
-*/
     const PI2 = Math.PI * 2;
 
     this.createGradientFunction = (options, typeOptions={}) => {
@@ -90,7 +17,7 @@ user interface: compact matrix data structure
         let hasY = _.has(sample, 'y');
         let hasColors = _.has(sample, 'colors');
 
-        let allColorStopsPresent = areAllColorStopsPresent(colors);
+        // let allColorStopsPresent = areAllColorStopsPresent(colors);
 
         let fn;
 
@@ -115,8 +42,9 @@ user interface: compact matrix data structure
         //     return null;
         // }
 
+        let validator = GradientData.createValidator(colors);
 
-        validate(colors);
+        GradientData.validate(colors, validator);
 
         // if (!isMatrix && colors[0].hasOwnProperty('x')) {
 
@@ -136,216 +64,6 @@ user interface: compact matrix data structure
 
         return (x, y) => fn(x, y, gradientFunctionOptions);
     };
-
-    // var colorsInOrder = ...
-    // var allHavePValues = ...
-    //
-    // if (colorsInOrder && allHavePValues)
-    //      return as is
-    // else if (colorsInOrder && !allHavePValues)
-    //      addMissingPValues
-    // else if (!colorsInOrder && allHavePValues)
-    //      sortByPValue
-    // else
-    //      unable to validate
-    //
-    //
-    //
-    function findPropertyIndex(array, property, startIndex) {
-
-        for (let i = startIndex || 0; i < array.length; i++) {
-
-            if (_.has(array[i], property)) {
-
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    function addMissingStops(array, property) {
-
-        if (array.length === 1) {
-
-            array[0][property] = 0;
-
-            let lastItem = _.clone(array[0]);
-
-            lastItem[property] = 1;
-
-            array.push(lastItem);
-        }
-
-        let index1 = findPropertyIndex(array, property);
-        let i = 0, index2;
-
-        if (index1 === -1) {
-
-            array[0][property] = 0;
-            array[array.length-1][property] = 1;
-
-            addMissingStopsBetweenIndexes(array, property, 0, array.length-1);
-
-            return;
-        }
-
-        // while (i < colors.length) {
-
-        //     index2 = findPropertyIndex(colors, 'x', index1+1);
-
-        // }
-    }
-
-    function addMissingStopsBetweenIndexes(array, property, startIndex, endIndex) {
-
-        let startStop = array[startIndex][property];
-        let endStop = array[endIndex][property];
-
-        let steps = endIndex - startIndex;
-        let stepSize = (endStop - startStop) / steps;
-
-        for (let i = startIndex + 1; i < endIndex; i++) {
-
-            array[i][property] = startStop + i * stepSize;
-        }
-    }
-
-    const DATA_VALIDATORS = [
-        {
-            structureType: DATA_STRUCTURE_OBJECTS,
-
-            testStructureSample: (item) => {
-
-                return _.isObject(item) && !_.has(item, 'colors');
-            },
-
-            validateStops: (colors) => {
-
-                addMissingStops(colors, 'x');
-            }
-        },
-        {
-            structureType: DATA_STRUCTURE_OBJECTS_WITH_COLORS,
-
-            testStructureSample: (sample) => {
-
-                let subSamples = _.get(sample, 'colors');
-                let isValid = _.isObject(sample) && Array.isArray(subSamples);
-
-                if (!isValid) {
-
-                    return false;
-                }
-
-                for (let subSample of subSamples) {
-
-                    isValid = _.isObject(subSample);
-
-                    if (!isValid) {
-
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        },
-        {
-            structureType: DATA_STRUCTURE_ARRAYS_WITH_OBJECTS,
-
-            testStructureSample: (sample) => {
-
-                let subSamples = sample;
-                let isValid = Array.isArray(sample);
-
-                if (!isValid) {
-
-                    return false;
-                }
-
-                for (let subSample of subSamples) {
-
-                    isValid = _.isObject(subSample);
-
-                    if (!isValid) {
-
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-    ];
-
-    function validate(colors) {
-
-        let validator = getDataStructureValidatorFromFirstSample(colors);
-
-        if (!validator) {
-
-            throw new Error('One sample was tested and it did not match any supported data structure.');
-        }
-
-        let isValidStructure = verifyExpectedDataStructureInAllSamples(colors, validator);
-
-        if (!isValidStructure) {
-
-            throw new Error('Color data structure is not consistent / valid');
-        }
-
-        validator.validateStops(colors);
-    }
-
-    function getDataStructureValidatorFromFirstSample(colors) {
-
-        let sample = _.get(colors, "0");
-
-        for (let validator of DATA_VALIDATORS) {
-
-            if (validator.testStructureSample(sample)) {
-
-                return validator;
-            }
-        }
-
-        return null;
-    }
-
-    function verifyExpectedDataStructureInAllSamples(colors, validator) {
-
-        for (let sample of colors) {
-
-            if (!validator.testStructureSample(sample)) {
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    function areAllColorStopsPresent(array) {
-
-        for (let i = 0; i < array.length; i++) {
-
-            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    // function areColorsInOrder(array) {
-
-    //     let prevValue;
-
-    //     for (let i = 0; i < array.length; i++) {
-
-    //     }
-    // }
 
     /**
      * Calculate two items from a gradient array and a relative position of

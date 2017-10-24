@@ -5,7 +5,7 @@ import Utils from '../src/Utils.js';
 chai.should();
 let expect = require('chai').expect;
 
-describe('Utils', () => {
+describe.only('Utils', () => {
 
     var obj = {
         a: 1,
@@ -28,15 +28,20 @@ describe('Utils', () => {
         Utils.get(obj, 'b.b.1').should.equal(4);
         Utils.get(obj, 'b.b.2').should.equal(5);
         Utils.get(obj, 'b.c.0.a').should.equal(6);
+        Utils.get(obj, ['b', 'c', 0, 'a']).should.equal(6);
     });
 
     it('should return default when object does not exist', () => {
         expect(Utils.get(obj, 'a.a')).to.equal(undefined);
+        expect(Utils.get(obj, 'a.a', 10)).to.equal(10);
         expect(Utils.get(obj, 'a.a.a')).to.equal(undefined);
+        expect(Utils.get(obj, 'a.a.a', 10)).to.equal(10);
         expect(Utils.get(obj, 'x.a')).to.equal(undefined);
         expect(Utils.get(obj, 'x.a', 10)).to.equal(10);
         expect(Utils.get(obj, 'b.b.4')).to.equal(undefined);
+        expect(Utils.get(obj, 'b.b.4', 10)).to.equal(10);
         expect(Utils.get(obj, 'b.b.4.1.a')).to.equal(undefined);
+        expect(Utils.get(obj, ['b', 'b', 4], 10)).to.equal(10);
     });
 
     it('should return true for existing properties', () => {
@@ -57,6 +62,31 @@ describe('Utils', () => {
         expect(Utils.has(obj, 'b.b.4.1.a')).to.equal(false);
     });
 
+    it('should set property value to data structure', () => {
+
+        let o = {};
+
+        Utils.set(o, 'a', 1);
+        Utils.set(o, 'b.a.a', 2);
+        Utils.set(o, 'b.b.1', 4);
+        Utils.set(o, 'b.c.0.a', 6);
+        Utils.set(o, ['c', 'a'], 7);
+
+        o.a.should.equal(1);
+        o.b.a.a.should.equal(2);
+        expect(Array.isArray(o.b.b)).to.equal(true);
+        o.b.b[1].should.equal(4);
+        o.b.b.length.should.equal(2);
+        o.b.c[0].a.should.equal(6);
+        o.c.a.should.equal(7);
+
+        let a = [];
+
+        Utils.set(a, '1.a', 1);
+
+        a[1].a.should.equal(1);
+    });
+
     it('should include', () => {
         Utils.includes([1,2,3], 2).should.equal(true);
         Utils.includes({a:1, b:2, c:3}, 2).should.equal(true);
@@ -69,8 +99,35 @@ describe('Utils', () => {
 
     it('should detect object type', () => {
         Utils.isObject({}).should.equal(true);
+
         Utils.isObject([]).should.equal(false);
         Utils.isObject(123).should.equal(false);
         Utils.isObject(null).should.equal(false);
+    });
+
+    it('should detect number type', () => {
+        Utils.isNumber(0).should.equal(true);
+        Utils.isNumber(0.1).should.equal(true);
+        Utils.isNumber(-0.1).should.equal(true);
+
+        Utils.isNumber('0').should.equal(false);
+        Utils.isNumber(0/0).should.equal(false);
+        Utils.isNumber(null).should.equal(false);
+        Utils.isNumber(undefined).should.equal(false);
+        Utils.isNumber('asd').should.equal(false);
+    });
+
+    it('should detect numeric type', () => {
+        Utils.isNumeric(0).should.equal(true);
+        Utils.isNumeric(0.1).should.equal(true);
+        Utils.isNumeric(-0.1).should.equal(true);
+        Utils.isNumeric('0').should.equal(true);
+        Utils.isNumeric('0.1').should.equal(true);
+        Utils.isNumeric('-0.1').should.equal(true);
+
+        Utils.isNumeric(0/0).should.equal(false);
+        Utils.isNumeric(null).should.equal(false);
+        Utils.isNumeric(undefined).should.equal(false);
+        Utils.isNumeric('asd').should.equal(false);
     });
 });
