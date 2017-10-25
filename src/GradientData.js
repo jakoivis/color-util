@@ -223,93 +223,70 @@ user interface: compact matrix data structure
     //
     //
 
-    function findPropertyIndex(array, property, startIndex) {
-
-        for (let i = startIndex || 0; i < array.length; i++) {
-
-            if (_.has(array[i], property)) {
-
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    function findLastPropertyIndex(array, property, startIndex) {
-
-        for(let i = startIndex || array.length - 1; i > -1; i--) {
-
-            if (_.has(array[i], property)) {
-
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
     function addMissingStops(array, property) {
 
         array = _.clone(array);
 
+        // handle case for colors with 1 point
+
         if (array.length === 1) {
-            // delte property and diplicate
 
-            array[0][property] = 0;
+            delete array[0].property;
 
-            let lastItem = _.clone(array[0]);
-
-            lastItem[property] = 1;
-
-            array.push(lastItem);
-
-            return array;
+            array.push(_.clone(array[0]));
         }
 
-        let firstProperty = findPropertyIndex(array, property);
-        let lastProperty = findLastPropertyIndex(array, property);
+        // always set first and last indexes
+
+        let firstProperty = _.findIndex(array, (o) => _.has(o, property));
+        let firstItem = array[0];
+        let newItem;
 
         if (firstProperty > 0 || firstProperty === -1) {
 
-            array[0][property] = 0;
+            firstItem[property] = 0;
+
+        } else if (firstItem[property] !== 0) {
+
+            newItem = _.clone(firstItem);
+            newItem[property] = 0;
+
+            array.unshift(newItem);
         }
+
+        let lastProperty = _.findLastIndex(array, (o) => _.has(o, property));
+        let lastItem = array[array.length-1];
 
         if (lastProperty < array.length - 1) {
 
-            array[array.length-1][property] = 1;
+            lastItem[property] = 1;
+
+        } else if (lastItem[property] !== 1) {
+
+            newItem = _.clone(lastItem);
+            newItem[property] = 1;
+
+            array.push(newItem);
         }
 
-        addMissingStopsBetweenIndexes(array, property, 0, array.length-1);
+        // set the rest in between
+
+        let start = 0, end = 0;
+
+        while (end > -1) {
+
+            start = _.findIndex(array, (o) => _.has(o, property), start);
+            end = _.findIndex(array, (o) => _.has(o, property), start + 1);
+
+            if (end > -1) {
+
+                addMissingStopsBetweenIndexes(array, property, start, end);
+            }
+
+            start = end;
+        }
 
         return array;
-        // let index1 = findPropertyIndex(array, property);
-        // // let i = 0, index2;
-
-        // // add property to first and last
-
-        // if (index1 === -1) {
-
-        //     array[0][property] = 0;
-        //     array[array.length-1][property] = 1;
-
-        //     addMissingStopsBetweenIndexes(array, property, 0, array.length-1);
-
-        //     return array;
-        // }
-
-        // do {
-        //     index1 = findPropertyIndex(array, property);
-
-
-        // } while (index1 !== -1)
-
-
-        // while (i < colors.length) {
-
-        //     index2 = _findPropertyIndex(colors, 'x', index1+1);
-
-        // }
     }
 
     function addMissingStopsBetweenIndexes(array, property, startIndex, endIndex) {
@@ -320,23 +297,23 @@ user interface: compact matrix data structure
         let steps = endIndex - startIndex;
         let stepSize = (endStop - startStop) / steps;
 
-        for (let i = startIndex + 1; i < endIndex; i++) {
+        for (let i = 0; i < steps; i++) {
 
-            array[i][property] = startStop + i * stepSize;
+            array[startIndex + i][property] = startStop + i * stepSize;
         }
     }
 
-    function areAllColorStopsPresent(array) {
+    // function areAllColorStopsPresent(array) {
 
-        for (let i = 0; i < array.length; i++) {
+    //     for (let i = 0; i < array.length; i++) {
 
-            if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
-                return false;
-            }
-        }
+    //         if (!array[i].hasOwnProperty('p') || isNaN(parseFloat(array[i].x))) {
+    //             return false;
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     // function areColorsInOrder(array) {
 

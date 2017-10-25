@@ -5,7 +5,7 @@ import Utils from '../src/Utils.js';
 chai.should();
 let expect = require('chai').expect;
 
-describe.only('Utils', () => {
+describe('Utils', () => {
 
     var obj = {
         a: 1,
@@ -129,5 +129,45 @@ describe.only('Utils', () => {
         Utils.isNumeric(null).should.equal(false);
         Utils.isNumeric(undefined).should.equal(false);
         Utils.isNumeric('asd').should.equal(false);
+    });
+
+    it('should find correct index', () => {
+
+        let data = ['A','B','C','D','A','B','C','D'];
+
+        // basic
+        Utils.findIndex(data, (value, index) => value === 'B').should.equal(1);
+        Utils.findIndex(data, (value, index) => value === 'X').should.equal(-1);
+        Utils.findIndex(data, (value, index) => index === 1).should.equal(1);
+
+        // start index
+        Utils.findIndex(data, (value, index) => value === 'B', 1).should.equal(1);
+        Utils.findIndex(data, (value, index) => value === 'B', 2).should.equal(5);
+        Utils.findIndex(data, (value, index) => value === 'B', 6).should.equal(-1);
+
+        // negative start index
+        Utils.findIndex(data, (value, index) => value === 'B', -2).should.equal(-1);
+        Utils.findIndex(data, (value, index) => value === 'B', -3).should.equal(5);
+        Utils.findIndex(data, (value, index) => value === 'B', -20).should.equal(1);
+    });
+
+    it('should find correct last index', () => {
+
+        let data = ['A','B','C','D','A','B','C','D'];
+
+        // basic
+        Utils.findLastIndex(data, (value, index) => value === 'B').should.equal(5);
+        Utils.findLastIndex(data, (value, index) => value === 'X').should.equal(-1);
+        Utils.findLastIndex(data, (value, index) => index === 1).should.equal(1);
+
+        // start index
+        Utils.findLastIndex(data, (value, index) => value === 'B', 5).should.equal(5);
+        Utils.findLastIndex(data, (value, index) => value === 'B', 4).should.equal(1);
+        Utils.findLastIndex(data, (value, index) => value === 'B', 0).should.equal(-1);
+
+        // negative start index
+        Utils.findLastIndex(data, (value, index) => value === 'B', -3).should.equal(5);
+        Utils.findLastIndex(data, (value, index) => value === 'B', -4).should.equal(1);
+        Utils.findLastIndex(data, (value, index) => value === 'B', -20).should.equal(-1);
     });
 });

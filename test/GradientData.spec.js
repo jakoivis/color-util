@@ -99,13 +99,14 @@ describe.only('GradientData', () => {
 
         describe('DATA_STRUCTURE_OBJECTS', () => {
 
-            let color1, color2, color3;
+            let color1, color2, color3, color4;
 
             beforeEach(() => {
 
                 color1 = {r: 1, g: 2, b: 3, a: 4};
                 color2 = {r: 11, g: 12, b: 13, a: 14};
                 color3 = {r: 21, g: 22, b: 23, a: 24};
+                color4 = {r: 31, g: 32, b: 33, a: 34};
             })
 
             it('should add stops for 1 point gradient', () => {
@@ -126,8 +127,8 @@ describe.only('GradientData', () => {
                 let data = validateStops([{}, {}]);
 
                 data.length.should.equal(2);
-                data[0].x = 0;
-                data[1].x = 1;
+                data[0].x.should.equal(0);
+                data[1].x.should.equal(1);
             });
 
             it('should add stops for 3 point gradient', () => {
@@ -135,9 +136,9 @@ describe.only('GradientData', () => {
                 let data = validateStops([{}, {}, {}]);
 
                 data.length.should.equal(3);
-                data[0].x = 0;
-                data[1].x = 0.5;
-                data[2].x = 1;
+                data[0].x.should.equal(0);
+                data[1].x.should.equal(0.5);
+                data[2].x.should.equal(1);
             });
 
             it('should add stops for 4 point gradient', () => {
@@ -145,25 +146,65 @@ describe.only('GradientData', () => {
                 let data = validateStops([{}, {}, {}, {}]);
 
                 data.length.should.equal(4);
-                data[0].x = 0;
-                data[1].x = 1/3;
-                data[2].x = 2/3;
-                data[3].x = 1;
+                data[0].x.should.equal(0);
+                data[1].x.should.equal(1/3);
+                data[2].x.should.equal(2/3);
+                data[3].x.should.equal(1);
             });
 
-            it('should add end-point stops', () => {
+            it('should add missing stops (end-stops missing)', () => {
 
-                let data = validateStops([{}, {x: 0.5}, {}]);
+                let data = validateStops([color1, {x: 0.4}, color2]);
 
                 data.length.should.equal(3);
-                data[0].x = 0;
-                data[1].x = 0.5;
-                data[2].x = 1;
+                data[0].x.should.equal(0);
+                data[1].x.should.equal(0.4);
+                data[2].x.should.equal(1);
+
+                data[0].r.should.equal(1);
+                expect(data[1].r).to.equal(undefined);
+                data[2].r.should.equal(11);
             });
 
-            it('should add stops when some of the point have been assinged', () => {
+            it('should add missing stops (end-stops + 1 missing)', () => {
 
+                let data = validateStops([color1, color2, {x: 0.2}, color3, color4]);
+
+                data.length.should.equal(5);
+                data[0].x.should.equal(0);
+                data[1].x.should.equal(0.1);
+                data[2].x.should.equal(0.2);
+                data[3].x.should.equal(0.2 + 0.4);
+                data[4].x.should.equal(1);
+
+                data[0].r.should.equal(1);
+                data[1].r.should.equal(11);
+                expect(data[2].r).to.equal(undefined);
+                data[3].r.should.equal(21);
+                data[4].r.should.equal(31);
             });
+
+            it('should add missing stops (end-colors missing)', () => {
+
+                let data = validateStops([{x: 0.2, r: 1}, color2, {x: 0.8, r: 21}]);
+
+                data.length.should.equal(5);
+                data[0].x.should.equal(0);
+                data[1].x.should.equal(0.2);
+                data[2].x.should.equal(0.5);
+                data[3].x.should.equal(0.8);
+                data[4].x.should.equal(1);
+
+                data[0].r.should.equal(1);
+                data[1].r.should.equal(1);
+                data[2].r.should.equal(11);
+                data[3].r.should.equal(21);
+                data[4].r.should.equal(21);
+            });
+
+            // it('should add stops when some of the point have been assinged', () => {
+
+            // });
 
             function validateStops(data) {
 

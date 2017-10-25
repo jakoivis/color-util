@@ -98,4 +98,45 @@ module.exports = new function() {
 
         return !isNaN(parseInt(value));
     }
+
+    this.findIndex = (array, matcher, startIndex) => {
+
+        startIndex = startIndex || 0;
+
+        if (startIndex < 0) {
+
+            startIndex = array.length + startIndex;
+        }
+
+        for (let i = startIndex; i < array.length; i++) {
+
+            if (matcher(array[i], i)) {
+
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    this.findLastIndex = (array, matcher, startIndex) => {
+
+        startIndex = this.isNumber(startIndex) ? startIndex : array.length - 1;
+
+        if (startIndex < 0) {
+
+            startIndex = array.length + startIndex;
+        }
+
+        for(let i = startIndex; i > -1; i--) {
+
+            if (matcher(array[i], i)) {
+
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
 };
