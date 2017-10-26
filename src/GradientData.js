@@ -4,14 +4,37 @@ import _ from './Utils';
 export default new function() {
 
     this.DATA_STRUCTURE_OBJECTS = 'objects';
+    this.DATA_STRUCTURE_OBJECTS_MATRIX = 'objectsMatrix';
     this.DATA_STRUCTURE_OBJECTS_WITH_COLORS = 'objectsWithColors';
     this.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS = 'arraysWithObjects';
 
     const DATA_VALIDATORS = [
+        /*
+
+        one dimensional data structure for normal gradients
+        [
+            {x:0},
+            {x:1}
+        ]
+        colors is array
+        colors[n] has x
+        colors[n] !has y
+        colors[n] !has colors
+
+        x properties are optional
+
+        used internally
+
+        */
         {
             structureType: this.DATA_STRUCTURE_OBJECTS,
 
-            testStructureSample: (item) => {
+            testStructureAllSamples: (colors) => {
+
+                return _.findIndex(colors, 'y') === -1;
+            },
+
+            testStructureSingleSample: (item) => {
 
                 return _.isObject(item) && !_.has(item, 'colors');
             },
@@ -21,15 +44,55 @@ export default new function() {
                 return addMissingStops(colors, 'x');
             }
         },
+
+        /*
+
+        two dimensional data structure for matrix gradients
+        [
+            {
+                y: 0,
+                colors: [
+                    {x:0},
+                    {x:1}
+                ]
+            },
+            {
+                y: 0,
+                colors: [
+                    {x:0},
+                    {x:1}
+                ]
+            }
+        ];
+        colors is array
+        colors[n] has y
+        colors[n] has colors
+        colors[n].colors[m] has x
+
+        x and y properties are optional
+
+        used internally
+
+        */
         {
             structureType: this.DATA_STRUCTURE_OBJECTS_WITH_COLORS,
 
-            testStructureSample: (sample) => {
+            testStructureAllSamples: (colors) => {
+
+                return true;
+            },
+
+            testStructureSingleSample: (sample) => {
 
                 let subSamples = _.get(sample, 'colors');
                 let isValid = _.isObject(sample) && Array.isArray(subSamples);
 
                 if (!isValid) {
+
+                    return false;
+                }
+
+                if (subSamples.length < 1) {
 
                     return false;
                 }
@@ -45,12 +108,47 @@ export default new function() {
                 }
 
                 return true;
+            },
+
+            validateStops: (colors) => {
+
+                let data = addMissingStops(colors, 'y');
+
+                for (var i = 0; i < data.length; i++) {
+
+                    data[i].colors = addMissingStops(data[i].colors, 'x');
+                }
+
+                return data;
             }
         },
+
+        /*
+        two dimensional self scaling data structure for matrix gradients
+        [
+            [
+                {},
+                {}
+            ],
+            [
+                {},
+                {x: ...}
+            ].y = ...
+        ]
+        colors is array
+        colors[n] is array
+
+        x & y are optional
+        */
         {
             structureType: this.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS,
 
-            testStructureSample: (sample) => {
+            testStructureAllSamples: (colors) => {
+
+                return true;
+            },
+
+            testStructureSingleSample: (sample) => {
 
                 let subSamples = sample;
                 let isValid = Array.isArray(sample) && subSamples.length > 0;
@@ -71,8 +169,104 @@ export default new function() {
                 }
 
                 return true;
+            },
+
+            validateStops: (colors) => {
+
+                let data = colors.map((item) => {
+
+                    let newItem = {}
+
+                    if (_.isNumber(item.y)) {
+
+                        newItem.y = item.y;
+                    }
+
+                    newItem.colors = item;
+
+                    return newItem;
+                });
+
+                data = addMissingStops(data, 'y');
+
+                for (var i = 0; i < data.length; i++) {
+
+                    data[i].colors = addMissingStops(data[i].colors, 'x');
+                }
+
+                return data;
             }
-        }
+        },
+
+        /*
+        TODO: user interface: compact matrix data structure
+        [
+            {x:0, y: 0},
+            {x:1, y: 0},
+            {x:0, y: 1},
+            {x:1, y: 1}
+        ];
+
+            {y: 0}
+            {}
+            {y: 0.5}
+            {y: 1}
+        */
+       {
+            structureType: this.DATA_STRUCTURE_OBJECTS_MATRIX,
+
+            testStructureAllSamples: (colors) => {
+
+                return _.findIndex(colors, 'y') > -1;
+            },
+
+            testStructureSingleSample: (item) => {
+
+                return _.isObject(item) && !_.has(item, 'colors');
+            },
+
+            validateStops: (colors) => {
+
+                colors = _.clone(colors);
+
+                let data = [];
+
+                for (let item of colors) {
+
+                    if (_.isNumber(item.y)) {
+
+                        let existing = _.find(data, ['y', item.y]);
+
+                        if (existing) {
+
+                            existing.colors.push(item);
+
+                            continue;
+
+                        } else {
+
+                            let y = item.y;
+
+                            delete item.y;
+
+                            data.push({
+                                y: y,
+                                colors: [item]
+                            });
+                        }
+
+                    } else {
+
+                        data.push(item)
+                    }
+                };
+
+
+                data = addMissingStops(data, 'y');
+
+                return data;
+            }
+        },
     ];
 
     this.createValidator = (colors) => {
@@ -88,7 +282,6 @@ export default new function() {
 
             throw new Error('One sample was tested and it did not match any supported data structure.');
         }
-
 
         return validator;
     };
@@ -116,7 +309,8 @@ export default new function() {
 
         for (let validator of DATA_VALIDATORS) {
 
-            if (validator.testStructureSample(sample)) {
+            if (validator.testStructureSingleSample(sample) &&
+                validator.testStructureAllSamples(colors)) {
 
                 return validator;
             }
@@ -129,7 +323,7 @@ export default new function() {
 
         for (let sample of colors) {
 
-            if (!validator.testStructureSample(sample)) {
+            if (!validator.testStructureSingleSample(sample)) {
 
                 return false;
             }
@@ -137,75 +331,6 @@ export default new function() {
 
         return true;
     }
-
-    /*
-internal: linear data structure
-[
-    {x:0},
-    {x:1}
-]
-colors is array
-colors[n] has x
-colors[n] !has y
-colors[n] !has colors
-
-user interface: self scaling linear data structure, no x and y
-[
-    {},
-    {}
-]
-colors is array
-colors[n] !is array
-colors[n] !has y
-colors[n] !has x
-colors[n] !has colors
-
-internal: matrix data structure
-[
-    {
-        y: 0,
-        colors: [
-            {x:0},
-            {x:1}
-        ]
-    },
-    {
-        y: 0,
-        colors: [
-            {x:0},
-            {x:1}
-        ]
-    }
-];
-colors is array
-colors[n] has y
-colors[n] has colors
-colors[n].colors[m] has x
-
-user interface: self scaling matrix data structure, no x and y
-[
-    [
-        {},
-        {}
-    ],
-    [
-        {},
-        {}
-    ]
-]
-colors is array
-colors[n] is array
-
-
-user interface: compact matrix data structure
-[
-    {x:0, y: 0},
-    {x:1, y: 0},
-    {x:0, y: 1},
-    {x:1, y: 1}
-];
-
-*/
 
 
     // var colorsInOrder = ...
@@ -231,14 +356,14 @@ user interface: compact matrix data structure
 
         if (array.length === 1) {
 
-            delete array[0].property;
+            delete array[0][property];
 
             array.push(_.clone(array[0]));
         }
 
-        // always set first and last indexes
+        // always set first and last indexes to 0 and 1
 
-        let firstProperty = _.findIndex(array, (o) => _.has(o, property));
+        let firstProperty = _.findIndex(array, property);
         let firstItem = array[0];
         let newItem;
 
@@ -254,7 +379,7 @@ user interface: compact matrix data structure
             array.unshift(newItem);
         }
 
-        let lastProperty = _.findLastIndex(array, (o) => _.has(o, property));
+        let lastProperty = _.findLastIndex(array, property);
         let lastItem = array[array.length-1];
 
         if (lastProperty < array.length - 1) {
@@ -275,8 +400,8 @@ user interface: compact matrix data structure
 
         while (end > -1) {
 
-            start = _.findIndex(array, (o) => _.has(o, property), start);
-            end = _.findIndex(array, (o) => _.has(o, property), start + 1);
+            start = _.findIndex(array, property, start);
+            end = _.findIndex(array, property, start + 1);
 
             if (end > -1) {
 
@@ -297,7 +422,7 @@ user interface: compact matrix data structure
         let steps = endIndex - startIndex;
         let stepSize = (endStop - startStop) / steps;
 
-        for (let i = 0; i < steps; i++) {
+        for (let i = 1; i < steps; i++) {
 
             array[startIndex + i][property] = startStop + i * stepSize;
         }

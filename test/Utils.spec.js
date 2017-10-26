@@ -134,6 +134,7 @@ describe('Utils', () => {
     it('should find correct index', () => {
 
         let data = ['A','B','C','D','A','B','C','D'];
+        let obj = [{a:1}, {b:2}, {c:3, b:3}];
 
         // basic
         Utils.findIndex(data, (value, index) => value === 'B').should.equal(1);
@@ -149,11 +150,21 @@ describe('Utils', () => {
         Utils.findIndex(data, (value, index) => value === 'B', -2).should.equal(-1);
         Utils.findIndex(data, (value, index) => value === 'B', -3).should.equal(5);
         Utils.findIndex(data, (value, index) => value === 'B', -20).should.equal(1);
+
+        // property matcher
+        Utils.findIndex(obj, 'b').should.equal(1);
+        Utils.findIndex(obj, 'd').should.equal(-1);
+
+        // property value matcher
+        Utils.findIndex(obj, ['b', 2]).should.equal(1);
+        Utils.findIndex(obj, ['b', 3]).should.equal(2);
+        Utils.findIndex(obj, ['b', 4]).should.equal(-1);
     });
 
     it('should find correct last index', () => {
 
         let data = ['A','B','C','D','A','B','C','D'];
+        let obj = [{a:1}, {b:2}, {c:3, b:3}];
 
         // basic
         Utils.findLastIndex(data, (value, index) => value === 'B').should.equal(5);
@@ -169,5 +180,22 @@ describe('Utils', () => {
         Utils.findLastIndex(data, (value, index) => value === 'B', -3).should.equal(5);
         Utils.findLastIndex(data, (value, index) => value === 'B', -4).should.equal(1);
         Utils.findLastIndex(data, (value, index) => value === 'B', -20).should.equal(-1);
+
+        // property matcher
+        Utils.findLastIndex(obj, 'b').should.equal(2);
+        Utils.findLastIndex(obj, 'd').should.equal(-1);
+
+        // property value matcher
+        Utils.findLastIndex(obj, ['b', 2]).should.equal(1);
+        Utils.findLastIndex(obj, ['b', 3]).should.equal(2);
+        Utils.findLastIndex(obj, ['b', 4]).should.equal(-1);
+    });
+
+    it('should find correct item', () => {
+
+        let obj = [{a:1}, {b:2}, {c:3, b:3}];
+
+        Utils.find(obj, ['b', 2]).should.equal(obj[1]);
+        Utils.findLast(obj, ['b', 2]).should.equal(obj[1]);
     });
 });
