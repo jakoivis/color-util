@@ -12,7 +12,7 @@ module.exports = new function() {
 
         let first = parts.shift();
 
-        if (obj.hasOwnProperty(first)) {
+        if (obj && obj.hasOwnProperty(first)) {
 
             return this.get(obj[first], parts, defaultValue);
         }
@@ -31,7 +31,7 @@ module.exports = new function() {
 
         let first = parts.shift();
 
-        if (obj.hasOwnProperty(first)) {
+        if (obj && obj.hasOwnProperty(first)) {
 
             return this.has(obj[first], parts);
         }

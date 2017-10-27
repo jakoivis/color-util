@@ -6,7 +6,14 @@ import GradientDataObjectsWithColorsValidator from './GradientDataObjectsWithCol
 import GradientDataArraysWithObjectsValidator from './GradientDataArraysWithObjectsValidator';
 import GradientDataObjectsMatrixValidator from './GradientDataObjectsMatrixValidator';
 
-export default new function() {
+const DATA_VALIDATORS = [
+   GradientDataObjectsValidator,
+   GradientDataObjectsWithColorsValidator,
+   GradientDataArraysWithObjectsValidator,
+   GradientDataObjectsMatrixValidator
+];
+
+export default class {
 
     // var colorsInOrder = ...
     // var allHavePValues = ...
@@ -20,26 +27,20 @@ export default new function() {
     // else
     //      unable to validate
     //
-    this.DATA_STRUCTURE_OBJECTS = 'objects';
-    this.DATA_STRUCTURE_OBJECTS_MATRIX = 'objectsMatrix';
-    this.DATA_STRUCTURE_OBJECTS_WITH_COLORS = 'objectsWithColors';
-    this.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS = 'arraysWithObjects';
 
-    const DATA_VALIDATORS = [
-       GradientDataObjectsValidator,
-       GradientDataObjectsWithColorsValidator,
-       GradientDataArraysWithObjectsValidator,
-       GradientDataObjectsMatrixValidator
-    ];
+    static get validators() {
 
-    this.create = (colors) => {
+        return DATA_VALIDATORS;
+    }
+
+    static create(colors) {
 
         if (!Array.isArray(colors) || !colors.length) {
 
             throw new Error('Argument should be and array with at least one item.');
         }
 
-        let validator = getDataStructureValidatorFromFirstSample(colors);
+        let validator = this._getValidatorFromFirstSample(colors);
 
         if (!validator) {
 
@@ -47,16 +48,13 @@ export default new function() {
         }
 
         return validator;
-    };
+    }
 
-    function getDataStructureValidatorFromFirstSample(colors) {
-
-        let sample = _.get(colors, "0");
+    static _getValidatorFromFirstSample(colors) {
 
         for (let validator of DATA_VALIDATORS) {
 
-            if (validator.testStructureSingleSample(sample) &&
-                validator.testStructureAllSamples(colors)) {
+            if (validator.isMatchingStructure(colors)) {
 
                 return validator;
             }
@@ -64,4 +62,4 @@ export default new function() {
 
         return null;
     }
-}();
+};

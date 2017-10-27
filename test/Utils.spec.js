@@ -7,7 +7,7 @@ let expect = require('chai').expect;
 
 describe('Utils', () => {
 
-    var obj = {
+    let obj = {
         a: 1,
         b: {
             a: {
@@ -42,6 +42,7 @@ describe('Utils', () => {
         expect(Utils.get(obj, 'b.b.4', 10)).to.equal(10);
         expect(Utils.get(obj, 'b.b.4.1.a')).to.equal(undefined);
         expect(Utils.get(obj, ['b', 'b', 4], 10)).to.equal(10);
+        expect(Utils.get(undefined, '0')).to.equal(undefined);
     });
 
     it('should return true for existing properties', () => {
@@ -60,6 +61,7 @@ describe('Utils', () => {
         expect(Utils.has(obj, 'x.a')).to.equal(false);
         expect(Utils.has(obj, 'b.b.4')).to.equal(false);
         expect(Utils.has(obj, 'b.b.4.1.a')).to.equal(false);
+        expect(Utils.has(undefined, '0')).to.equal(false);
     });
 
     it('should set property value to data structure', () => {

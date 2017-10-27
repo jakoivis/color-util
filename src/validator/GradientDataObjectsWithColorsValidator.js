@@ -32,19 +32,16 @@ used internally
 */
 export default class {
 
-    static get structureType() {
+    static isMatchingStructure(colors) {
 
-        return 'objectsWithColors';
+        let sample = _.get(colors, '0');
+
+        return this.testStructureSingleSample(sample);
     }
 
     static verifyStructure(colors) {
 
         return GradientDataValidatorUtil.verifyStructure(colors, this);
-    }
-
-    static testStructureAllSamples(colors) {
-
-        return true;
     }
 
     static testStructureSingleSample(sample) {

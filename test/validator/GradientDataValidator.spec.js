@@ -37,11 +37,11 @@ describe.only('GradientDataValidator', () => {
 
             let data = [{}];
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS);
+            create(data).should.equal(GradientDataValidator.validators[0]);
 
             data = [{x: 0}]
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS);
+            create(data).should.equal(GradientDataValidator.validators[0]);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
@@ -50,37 +50,37 @@ describe.only('GradientDataValidator', () => {
                 colors:[{}]
             }];
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
+            create(data).should.equal(GradientDataValidator.validators[1]);
 
             data = [{
                 y: 0,
                 colors:[{x: 0}]
             }];
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
+            create(data).should.equal(GradientDataValidator.validators[1]);
         });
 
         it('should return type DATA_STRUCTURE_ARRAYS_WITH_OBJECTS', () => {
 
             let data = [[{}]];
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
+            create(data).should.equal(GradientDataValidator.validators[2]);
 
             data = [[{x: 0}]];
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
+            create(data).should.equal(GradientDataValidator.validators[2]);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_MATRIX', () => {
 
             let data = [{x: 0, y: 0}];
 
-            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS_MATRIX);
+            create(data).should.equal(GradientDataValidator.validators[3]);
         });
 
         function create(data) {
 
-            return GradientDataValidator.create(data).structureType;
+            return GradientDataValidator.create(data);
         }
     });
 
