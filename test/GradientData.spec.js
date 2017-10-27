@@ -9,28 +9,28 @@ let expect = require('chai').expect;
 
 describe.only('GradientData', () => {
 
-    describe('createValidator', () => {
+    describe('create', () => {
 
         it('should not accept invalida data structures', () => {
 
             expect(() => {
-                GradientData.createValidator([]);
+                GradientData.create([]);
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientData.createValidator({});
+                GradientData.create({});
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientData.createValidator([{colors:{}}]);
+                GradientData.create([{colors:{}}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientData.createValidator([{colors:[]}]);
+                GradientData.create([{colors:[]}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientData.createValidator([[]]);
+                GradientData.create([[]]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
         });
 
@@ -38,11 +38,11 @@ describe.only('GradientData', () => {
 
             let data = [{}];
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS);
 
             data = [{x: 0}]
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
@@ -51,37 +51,37 @@ describe.only('GradientData', () => {
                 colors:[{}]
             }];
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
 
             data = [{
                 y: 0,
                 colors:[{x: 0}]
             }];
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
         });
 
         it('should return type DATA_STRUCTURE_ARRAYS_WITH_OBJECTS', () => {
 
             let data = [[{}]];
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
 
             data = [[{x: 0}]];
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_MATRIX', () => {
 
             let data = [{x: 0, y: 0}];
 
-            createValidator(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_MATRIX);
+            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_MATRIX);
         });
 
-        function createValidator(data) {
+        function create(data) {
 
-            return GradientData.createValidator(data).structureType;
+            return GradientData.create(data).structureType;
         }
     });
 
@@ -143,7 +143,7 @@ describe.only('GradientData', () => {
 
         function verifyStructure(data) {
 
-            let validator = GradientData.createValidator(data);
+            let validator = GradientData.create(data);
 
             return GradientData.verifyStructure(data, validator);
         }
@@ -375,7 +375,7 @@ describe.only('GradientData', () => {
             });
         });
 
-        xdescribe('DATA_STRUCTURE_OBJECTS_MATRIX', () => {
+        describe('DATA_STRUCTURE_OBJECTS_MATRIX', () => {
 
             it('should add stops for 1 point 1 row gradient', () => {
 
@@ -388,22 +388,34 @@ describe.only('GradientData', () => {
                 verifyMatrix1x1(data);
             });
 
-            // it('should add stops for 3 point 3 row gradient', () => {
+            xit('should add stops for 3 point 3 row gradient', () => {
 
-            //     let data = validateStops([
-            //         {
-            //             colors: [color1, color2, color3]
-            //         },
-            //         {
-            //             colors: [color1, color2, color3]
-            //         },
-            //         {
-            //             colors: [color1, color2, color3]
-            //         }
-            //     ]);
+                let color4 = _.clone(color1);
+                let color5 = _.clone(color2);
+                let color6 = _.clone(color3);
 
-            //     verifyMatrix3x3(data);
-            // });
+                let color7 = _.clone(color1);
+                let color8 = _.clone(color2);
+                let color9 = _.clone(color3);
+
+                color2.x = 0.4;
+                color5.x = 0.4;
+                color8.x = 0.4;
+
+                color4.y = 0.4;
+                color5.y = 0.4;
+                color6.y = 0.4;
+
+                let data = validateStops([
+                    color1, color2, color3,
+                    color4, color5, color6,
+                    color7, color8, color9
+                ]);
+
+                console.log(data);
+
+                verifyMatrix3x3(data);
+            });
 
             // it('should add missing stops (end-stops missing)', () => {
 
@@ -506,7 +518,7 @@ describe.only('GradientData', () => {
 
         function validateStops(data) {
 
-            let validator = GradientData.createValidator(data);
+            let validator = GradientData.create(data);
 
             return GradientData.validateStops(data, validator);
         }
