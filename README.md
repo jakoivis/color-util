@@ -77,6 +77,10 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
 
 
 ## Change history
+* 2.0.0
+    * Gradient color stops
+    * Gradient data validator
+    * Multiple types of gradient data structures allowed
 * 1.0.0
     * No code changes to previous version. I just like creating new releases.
 * 0.6.0

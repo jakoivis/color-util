@@ -1,25 +1,25 @@
 
 import _ from '../Utils';
-import GradientDataValidator from './GradientDataValidator';
+import GradientDataValidatorUtil from './GradientDataValidatorUtil';
 /*
-        TODO: user interface: compact matrix data structure
-        [
-            {x:0, y: 0},
-            {x:1, y: 0},
-            {x:0, y: 1},
-            {x:1, y: 1}
-        ];
-
-            {y: 0}
-            {}
-            {y: 0.5}
-            {y: 1}
-        */
-export default class extends GradientDataValidator {
+two dimensional flat matrix data structure
+[
+    {x:0, y: 0},
+    {x:1, y: 0},
+    {x:0, y: 1},
+    {x:1, y: 1}
+];
+*/
+export default class {
 
     static get structureType() {
 
         return 'objectsMatrix';
+    }
+
+    static verifyStructure(colors) {
+
+        return GradientDataValidatorUtil.verifyStructure(colors, this);
     }
 
     static testStructureAllSamples(colors) {
@@ -68,6 +68,6 @@ export default class extends GradientDataValidator {
             }
         };
 
-        return this.addMissingStopsXY(data);
+        return GradientDataValidatorUtil.addMissingStopsXY(data);
     }
 }

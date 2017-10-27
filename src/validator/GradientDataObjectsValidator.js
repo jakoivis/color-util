@@ -1,6 +1,6 @@
 
 import _ from '../Utils';
-import GradientDataValidator from './GradientDataValidator';
+import GradientDataValidatorUtil from './GradientDataValidatorUtil';
 
  /*
 
@@ -19,11 +19,16 @@ x properties are optional
 used internally
 
 */
-export default class extends GradientDataValidator {
+export default class {
 
     static get structureType() {
 
         return 'objects'
+    }
+
+    static verifyStructure(colors) {
+
+        return GradientDataValidatorUtil.verifyStructure(colors, this);
     }
 
     static testStructureAllSamples(colors) {
@@ -38,6 +43,6 @@ export default class extends GradientDataValidator {
 
     static validateStops(colors) {
 
-        return this.addMissingStops(colors, 'x');
+        return GradientDataValidatorUtil.addMissingStops(colors, 'x');
     }
 }

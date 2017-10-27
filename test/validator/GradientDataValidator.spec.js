@@ -1,36 +1,35 @@
 
 import sinon from 'sinon';
 import chai from 'chai';
-import GradientData from '../src/GradientData.js';
-import _ from '../src/Utils.js';
+import GradientDataValidator from '../../src/validator/GradientDataValidator.js';
 
 chai.should();
 let expect = require('chai').expect;
 
-describe.only('GradientData', () => {
+describe.only('GradientDataValidator', () => {
 
     describe('create', () => {
 
         it('should not accept invalida data structures', () => {
 
             expect(() => {
-                GradientData.create([]);
+                GradientDataValidator.create([]);
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientData.create({});
+                GradientDataValidator.create({});
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientData.create([{colors:{}}]);
+                GradientDataValidator.create([{colors:{}}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientData.create([{colors:[]}]);
+                GradientDataValidator.create([{colors:[]}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientData.create([[]]);
+                GradientDataValidator.create([[]]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
         });
 
@@ -38,11 +37,11 @@ describe.only('GradientData', () => {
 
             let data = [{}];
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS);
 
             data = [{x: 0}]
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
@@ -51,37 +50,37 @@ describe.only('GradientData', () => {
                 colors:[{}]
             }];
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
 
             data = [{
                 y: 0,
                 colors:[{x: 0}]
             }];
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS_WITH_COLORS);
         });
 
         it('should return type DATA_STRUCTURE_ARRAYS_WITH_OBJECTS', () => {
 
             let data = [[{}]];
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
 
             data = [[{x: 0}]];
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_MATRIX', () => {
 
             let data = [{x: 0, y: 0}];
 
-            create(data).should.equal(GradientData.DATA_STRUCTURE_OBJECTS_MATRIX);
+            create(data).should.equal(GradientDataValidator.DATA_STRUCTURE_OBJECTS_MATRIX);
         });
 
         function create(data) {
 
-            return GradientData.create(data).structureType;
+            return GradientDataValidator.create(data).structureType;
         }
     });
 
@@ -143,11 +142,10 @@ describe.only('GradientData', () => {
 
         function verifyStructure(data) {
 
-            let validator = GradientData.create(data);
+            let validator = GradientDataValidator.create(data);
 
-            return GradientData.verifyStructure(data, validator);
+            return validator.verifyStructure(data);
         }
-
     });
 
     describe('validateStops', () => {
@@ -518,9 +516,9 @@ describe.only('GradientData', () => {
 
         function validateStops(data) {
 
-            let validator = GradientData.create(data);
+            let validator = GradientDataValidator.create(data);
 
-            return GradientData.validateStops(data, validator);
+            return validator.validateStops(data);
         }
     });
 });

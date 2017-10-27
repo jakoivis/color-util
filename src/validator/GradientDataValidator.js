@@ -1,97 +1,67 @@
 
 import _ from '../Utils';
 
-export default class {
+import GradientDataObjectsValidator from './GradientDataObjectsValidator';
+import GradientDataObjectsWithColorsValidator from './GradientDataObjectsWithColorsValidator';
+import GradientDataArraysWithObjectsValidator from './GradientDataArraysWithObjectsValidator';
+import GradientDataObjectsMatrixValidator from './GradientDataObjectsMatrixValidator';
 
-    static addMissingStopsXY(data) {
+export default new function() {
 
-        data = this.addMissingStops(data, 'y');
+    // var colorsInOrder = ...
+    // var allHavePValues = ...
+    //
+    // if (colorsInOrder && allHavePValues)
+    //      return as is
+    // else if (colorsInOrder && !allHavePValues)
+    //      addMissingPValues
+    // else if (!colorsInOrder && allHavePValues)
+    //      sortByPValue
+    // else
+    //      unable to validate
+    //
+    this.DATA_STRUCTURE_OBJECTS = 'objects';
+    this.DATA_STRUCTURE_OBJECTS_MATRIX = 'objectsMatrix';
+    this.DATA_STRUCTURE_OBJECTS_WITH_COLORS = 'objectsWithColors';
+    this.DATA_STRUCTURE_ARRAYS_WITH_OBJECTS = 'arraysWithObjects';
 
-        for (var i = 0; i < data.length; i++) {
+    const DATA_VALIDATORS = [
+       GradientDataObjectsValidator,
+       GradientDataObjectsWithColorsValidator,
+       GradientDataArraysWithObjectsValidator,
+       GradientDataObjectsMatrixValidator
+    ];
 
-            data[i].colors = this.addMissingStops(data[i].colors, 'x');
+    this.create = (colors) => {
+
+        if (!Array.isArray(colors) || !colors.length) {
+
+            throw new Error('Argument should be and array with at least one item.');
         }
 
-        return data;
-    }
+        let validator = getDataStructureValidatorFromFirstSample(colors);
 
-    static addMissingStops(array, property) {
+        if (!validator) {
 
-        array = _.clone(array);
-
-        // handle case for colors with 1 point
-
-        if (array.length === 1) {
-
-            delete array[0][property];
-
-            array.push(_.clone(array[0]));
+            throw new Error('One sample was tested and it did not match any supported data structure.');
         }
 
-        // always set first and last indexes to 0 and 1
+        return validator;
+    };
 
-        let firstProperty = _.findIndex(array, property);
-        let firstItem = array[0];
-        let newItem;
+    function getDataStructureValidatorFromFirstSample(colors) {
 
-        if (firstProperty > 0 || firstProperty === -1) {
+        let sample = _.get(colors, "0");
 
-            firstItem[property] = 0;
+        for (let validator of DATA_VALIDATORS) {
 
-        } else if (firstItem[property] !== 0) {
+            if (validator.testStructureSingleSample(sample) &&
+                validator.testStructureAllSamples(colors)) {
 
-            newItem = _.clone(firstItem);
-            newItem[property] = 0;
-
-            array.unshift(newItem);
-        }
-
-        let lastProperty = _.findLastIndex(array, property);
-        let lastItem = array[array.length-1];
-
-        if (lastProperty < array.length - 1) {
-
-            lastItem[property] = 1;
-
-        } else if (lastItem[property] !== 1) {
-
-            newItem = _.clone(lastItem);
-            newItem[property] = 1;
-
-            array.push(newItem);
-        }
-
-        // set the rest in between
-
-        let start = 0, end = 0;
-
-        while (end > -1) {
-
-            start = _.findIndex(array, property, start);
-            end = _.findIndex(array, property, start + 1);
-
-            if (end > -1) {
-
-                this.addMissingStopsBetweenIndexes(array, property, start, end);
+                return validator;
             }
-
-            start = end;
         }
 
-        return array;
+        return null;
     }
-
-    static addMissingStopsBetweenIndexes(array, property, startIndex, endIndex) {
-
-        let startStop = array[startIndex][property];
-        let endStop = array[endIndex][property];
-
-        let steps = endIndex - startIndex;
-        let stepSize = (endStop - startStop) / steps;
-
-        for (let i = 1; i < steps; i++) {
-
-            array[startIndex + i][property] = startStop + i * stepSize;
-        }
-    }
-}
+}();

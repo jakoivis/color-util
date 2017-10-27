@@ -1,6 +1,6 @@
 
 import _ from '../Utils';
-import GradientDataValidator from './GradientDataValidator';
+import GradientDataValidatorUtil from './GradientDataValidatorUtil';
 /*
 two dimensional self scaling data structure for matrix gradients
 [
@@ -18,11 +18,16 @@ colors[n] is array
 
 x & y are optional
 */
-export default class extends GradientDataValidator {
+export default class {
 
     static get structureType() {
 
         return 'arraysWithObjects';
+    }
+
+    static verifyStructure(colors) {
+
+        return GradientDataValidatorUtil.verifyStructure(colors, this);
     }
 
     static testStructureAllSamples(colors) {
@@ -69,6 +74,6 @@ export default class extends GradientDataValidator {
             return newItem;
         });
 
-        return this.addMissingStopsXY(data);
+        return GradientDataValidatorUtil.addMissingStopsXY(data);
     }
 }

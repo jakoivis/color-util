@@ -1,7 +1,7 @@
 
 import _ from './Utils';
 import Continuity from './Continuity';
-import GradientData from './GradientData';
+import GradientDataValidator from './validator/GradientDataValidator';
 
 export default new function() {
 
@@ -42,9 +42,9 @@ export default new function() {
         //     return null;
         // }
 
-        let validator = GradientData.createValidator(colors);
+        let validator = GradientDataValidator.crete(colors);
 
-        GradientData.validate(colors, validator);
+        // validator.validate(colors, validator);
 
         // if (!isMatrix && colors[0].hasOwnProperty('x')) {
 
