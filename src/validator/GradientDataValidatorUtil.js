@@ -97,7 +97,7 @@ export default class {
 
             if (end > -1) {
 
-                this._addMissingStopsBetweenIndexes(array, property, start, end);
+                this._addStopsBetweenIndexes(array, property, start, end);
             }
 
             start = end;
@@ -106,7 +106,7 @@ export default class {
         return array;
     }
 
-    static _addMissingStopsBetweenIndexes(array, property, startIndex, endIndex) {
+    static _addStopsBetweenIndexes(array, property, startIndex, endIndex) {
 
         let startStop = array[startIndex][property];
         let endStop = array[endIndex][property];

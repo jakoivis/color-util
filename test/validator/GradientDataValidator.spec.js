@@ -2,11 +2,12 @@
 import sinon from 'sinon';
 import chai from 'chai';
 import GradientDataValidator from '../../src/validator/GradientDataValidator.js';
+import _ from '../../src/Utils';
 
 chai.should();
 let expect = require('chai').expect;
 
-describe.only('GradientDataValidator', () => {
+describe('GradientDataValidator', () => {
 
     describe('create', () => {
 
@@ -386,7 +387,38 @@ describe.only('GradientDataValidator', () => {
                 verifyMatrix1x1(data);
             });
 
-            xit('should add stops for 3 point 3 row gradient', () => {
+            it('should add stops for 3 point 3 row gradient', () => {
+
+                let color4 = _.clone(color1);
+                let color5 = _.clone(color2);
+                let color6 = _.clone(color3);
+
+                let color7 = _.clone(color1);
+                let color8 = _.clone(color2);
+                let color9 = _.clone(color3);
+
+                color1.y = 0;
+                color2.y = 0;
+                color3.y = 0;
+
+                color4.y = 0.5;
+                color5.y = 0.5;
+                color6.y = 0.5;
+
+                color7.y = 1;
+                color8.y = 1;
+                color9.y = 1;
+
+                let data = validateStops([
+                    color1, color2, color3,
+                    color4, color5, color6,
+                    color7, color8, color9
+                ]);
+
+                verifyMatrix3x3(data);
+            });
+
+            it('should add missing stops (end-stops missing)', () => {
 
                 let color4 = _.clone(color1);
                 let color5 = _.clone(color2);
@@ -401,8 +433,8 @@ describe.only('GradientDataValidator', () => {
                 color8.x = 0.4;
 
                 color4.y = 0.4;
-                color5.y = 0.4;
-                color6.y = 0.4;
+
+                color7.y = 1;
 
                 let data = validateStops([
                     color1, color2, color3,
@@ -410,30 +442,8 @@ describe.only('GradientDataValidator', () => {
                     color7, color8, color9
                 ]);
 
-                console.log(data);
-
-                verifyMatrix3x3(data);
+                verifyMatrix3x3WithMissingEndPoints(data);
             });
-
-            // it('should add missing stops (end-stops missing)', () => {
-
-            //     color2.x = 0.4;
-
-            //     let data = validateStops([
-            //         {
-            //             colors: [color1, color2, color3]
-            //         },
-            //         {
-            //             y: 0.4,
-            //             colors: [color1, color2, color3]
-            //         },
-            //         {
-            //             colors: [color1, color2, color3]
-            //         }
-            //     ]);
-
-            //     verifyMatrix3x3WithMissingEndPoints(data);
-            // });
         });
 
         function verifyMatrix1x1(data) {

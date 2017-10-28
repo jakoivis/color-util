@@ -593,9 +593,9 @@ describe('ColorUtil', () => {
 
             fn(0, 0).should.equal(0x00FF7F);
             fn(1, 0).should.equal(0xFF00FF);
-            // fn(0.25, 0).should.equal(0x3FBF9F);
-            // fn(0.5, 0).should.equal(0x7F7FBF);
-            // fn(0.75, 0).should.equal(0xBF3FDF);
+            fn(0.25, 0).should.equal(0x3FBF9F);
+            fn(0.5, 0).should.equal(0x7F7FBF);
+            fn(0.75, 0).should.equal(0xBF3FDF);
         });
 
         it('should get color from 3 point gradient', () => {
@@ -665,14 +665,7 @@ describe('ColorUtil', () => {
             fn(0.625, 0).should.eql({r: 191, g: 191, b: 191, a: 191});
         });
 
-        function createBasicIntTestFunction(colors) {
-            let rgbColors = C.convert(colors, C.int.toRgb);
-            let gradientFn = C.rgb.createGradientFunction({colors:rgbColors});
 
-            return (x, y) => {
-                return C.rgb.toInt(gradientFn(x, y));
-            }
-        }
     });
 
     describe('getGradientMatrixColor', () => {
@@ -682,41 +675,44 @@ describe('ColorUtil', () => {
             [0x000000, 0x00FF00]
         ];
 
+        let fn = createBasicIntTestFunction(matrix);
+
         it('should get left corner color', () => {
-            matrixColor(matrix, 0, 0).should.equal(0xFF0000);
+            fn(0, 0).should.equal(0xFF0000);
         });
 
         it('should get right corner color', () => {
-            matrixColor(matrix, 1, 0).should.equal(0x0000FF);
+            fn(1, 0).should.equal(0x0000FF);
         });
 
         it('should get bottom right corner color', () => {
-            matrixColor(matrix, 1, 1).should.equal(0x00FF00);
+            fn(1, 1).should.equal(0x00FF00);
         });
 
         it('should get bottom left corner color', () => {
-            matrixColor(matrix, 0, 1).should.equal(0x000000);
+            fn(0, 1).should.equal(0x000000);
         });
 
         it('should get bottom center color', () => {
-            matrixColor(matrix, 0.5, 1).should.equal(0x007f00);
+            fn(0.5, 1).should.equal(0x007f00);
         });
 
         it('should get right center color', () => {
-            matrixColor(matrix, 1, 0.5).should.equal(0x007f7f);
+            fn(1, 0.5).should.equal(0x007f7f);
         });
-
-        function matrixColor(colors, x, y) {
-            let rgbColors = C.convert(colors, C.int.toRgb);
-            let gradientFn = C.rgb.createGradientFunction({colors:rgbColors})(x, y);
-
-            return (x, y) => {
-                return C.rgb.toInt(gradientFn(x, y));
-            }
-        }
     });
 
-    xdescribe('hue', () => {
+    function createBasicIntTestFunction(colors) {
+        let rgbColors = C.convert(colors, C.int.toRgb);
+
+        let gradientFn = C.rgb.createGradientFunction({colors:rgbColors});
+
+        return (x, y) => {
+            return C.rgb.toInt(gradientFn(x, y));
+        }
+    }
+
+    describe('hue', () => {
 
         it('should return red', () => {
             C.rgb.hue({r:0xFF, g: 0, b:0}).should.eql({r:0xFF, g: 0, b:0, a: 0xFF});

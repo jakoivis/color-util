@@ -362,22 +362,21 @@ let Rgb = new function() {
      * @return     {Object}  hue color in Rgb object notation
      */
     this.hue = (rgb) => {
-        return this.calculateGradient(Rgb.hueColors(), Rgb.toHsv(rgb).h);
+
+        let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.toHsv(rgb).h);
+
+        return gradientPointColor(
+            parts.item1,
+            parts.item2,
+            parts.position);
     };
 
     this.createGradientFunction = (options) => {
 
         return Gradient.createGradientFunction(options, {
 
-            gradientPointColor: (color1, color2, position) => {
+            gradientPointColor: gradientPointColor,
 
-                return {
-                    r: color1.r - position * (color1.r - color2.r),
-                    g: color1.g - position * (color1.g - color2.g),
-                    b: color1.b - position * (color1.b - color2.b),
-                    a: color1.a - position * (color1.a - color2.a)
-                }
-            },
             defaults: () => {
                 return {
                     r: 0,
@@ -388,6 +387,16 @@ let Rgb = new function() {
             }
         });
     };
+
+    function gradientPointColor(color1, color2, position) {
+
+        return {
+            r: color1.r - position * (color1.r - color2.r),
+            g: color1.g - position * (color1.g - color2.g),
+            b: color1.b - position * (color1.b - color2.b),
+            a: color1.a - position * (color1.a - color2.a)
+        }
+    }
 
 }();
 

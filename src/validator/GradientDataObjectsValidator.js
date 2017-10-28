@@ -21,6 +21,11 @@ used internally
 */
 export default class {
 
+    static get isMatrix() {
+
+        return false;
+    }
+
     static isMatchingStructure(colors) {
 
         let sample = _.get(colors, '0');

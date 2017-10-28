@@ -1,8 +1,12 @@
 
 import _ from '../Utils';
 import GradientDataValidatorUtil from './GradientDataValidatorUtil';
+
 /*
-two dimensional self scaling data structure for matrix gradients
+Two dimensional self scaling matrix data structure
+
+
+
 [
     [
         {},
@@ -12,13 +16,18 @@ two dimensional self scaling data structure for matrix gradients
         {},
         {x: ...}
     ].y = ...
-]
+];
 colors is array
 colors[n] is array
 
 x & y are optional
 */
 export default class {
+
+    static get isMatrix() {
+
+        return true;
+    }
 
     static isMatchingStructure(colors) {
 

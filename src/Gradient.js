@@ -11,46 +11,34 @@ export default new function() {
 
         let type = _.includes(['linear', 'circular'], options.type) ? options.type : 'linear';
         let colors = _.clone(options.colors);
+        let fn = null;
 
-        let sample = _.get(colors, '0');
-        let hasX = _.has(sample, 'x');
-        let hasY = _.has(sample, 'y');
-        let hasColors = _.has(sample, 'colors');
+        let validator = GradientDataValidator.create(colors);
 
-        // let allColorStopsPresent = areAllColorStopsPresent(colors);
+        validator.verifyStructure(colors);
 
-        let fn;
+        colors = validator.validateStops(colors);
 
-        // if (hasX && !hasY && !hasColors && type === 'linear') {
+        if (!validator.isMatrix && type === 'linear') {
 
             fn = this.linearGradient;
 
-        // } else if (hasY && hasColors && type === 'linear') {
+        } else if (validator.isMatrix && type === 'linear') {
 
-        //     fn = this.linearMatrixGradient;
+            fn = this.linearMatrixGradient;
 
-        // } else if (hasX && !hasY && !hasColors && type === 'circular') {
+        } else if (!validator.isMatrix && type === 'circular') {
 
-        //     fn = this.circularGradient;
+            fn = this.circularGradient;
 
-        // } else if (hasY && hasColors && type === 'circular') {
+        } else if (validator.isMatrix && type === 'circular') {
 
-        //     fn = this.circularMatrixGradient;
+            fn = this.circularMatrixGradient;
 
-        // } else {
+        } else {
 
-        //     return null;
-        // }
-
-        let validator = GradientDataValidator.crete(colors);
-
-        // validator.validate(colors, validator);
-
-        // if (!isMatrix && colors[0].hasOwnProperty('x')) {
-
-        //     colors.sort((a, b) => a.x - b.x);
-
-        // }
+            return null;
+        }
 
         let gradientFunctionOptions = {
             colors: colors,
@@ -85,27 +73,28 @@ export default new function() {
      * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
      */
-    // this.partialGradient = (array, position) => {
-    //     let lastIndex = array.length - 1;
-    //     let itemIndex = (position * lastIndex) | 0;
-    //     let partSize = 1 / lastIndex * 1000;
-    //     let positionBetweenItems = ((position*1000) % partSize) / partSize;
+    this.partialGradient = (array, position) => {
+        let lastIndex = array.length - 1;
+        let itemIndex = (position * lastIndex) | 0;
+        let partSize = 1 / lastIndex * 1000;
+        let positionBetweenItems = ((position*1000) % partSize) / partSize;
 
-    //     // partSize and position are scaled in the above calculation to fix
-    //     // a javascrip decimal rounding problem. The issue was seen in a gradient
-    //     // in which there were exactly 6 colors. positionBetweenItems for the first
-    //     // color of the 4th gradient stop was rounded to 0.9999... where the correct
-    //     // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
-    //     // That resulted to a weird vertical line in a gradient
+        // partSize and position are scaled in the above calculation to fix
+        // a javascrip decimal rounding problem. The issue was seen in a gradient
+        // in which there were exactly 6 colors. positionBetweenItems for the first
+        // color of the 4th gradient stop was rounded to 0.9999... where the correct
+        // value was 0 (0.6 % 0.2 = 0.1999.... should be 0)
+        // That resulted to a weird vertical line in a gradient
 
-    //     return {
-    //         array: [
-    //             array[itemIndex],
-    //             array[itemIndex+1] !== undefined ? array[itemIndex+1] : array[itemIndex]
-    //         ],
-    //         position: positionBetweenItems
-    //     }
-    // };
+        let item1 = array[itemIndex];
+        let item2 = array[itemIndex+1] !== undefined ? array[itemIndex+1] : item1;
+
+        return {
+            item1: item1,
+            item2: item2,
+            position: positionBetweenItems
+        }
+    };
 
     // this version is relying that gradient array
     // - has p values

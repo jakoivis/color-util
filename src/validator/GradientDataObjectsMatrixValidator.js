@@ -1,8 +1,12 @@
 
 import _ from '../Utils';
 import GradientDataValidatorUtil from './GradientDataValidatorUtil';
+
 /*
-two dimensional flat matrix data structure
+Two dimensional flat matrix data structure
+
+Must have at least one y-value specified.
+
 [
     {x:0, y: 0},
     {x:1, y: 0},
@@ -11,6 +15,11 @@ two dimensional flat matrix data structure
 ];
 */
 export default class {
+
+    static get isMatrix() {
+
+        return true;
+    }
 
     static isMatchingStructure(colors) {
 
@@ -40,35 +49,30 @@ export default class {
         colors = _.clone(colors);
 
         let data = [];
+        let prevY = 0;
+        let y;
 
         for (let item of colors) {
 
-            if (_.isNumber(item.y)) {
+            y = _.isNumber(item.y) ? item.y : prevY;
 
-                let existing = _.find(data, ['y', item.y]);
+            let existing = _.find(data, ['y', y]);
 
-                if (existing) {
+            if (existing) {
 
-                    existing.colors.push(item);
-
-                    continue;
-
-                } else {
-
-                    let y = item.y;
-
-                    delete item.y;
-
-                    data.push({
-                        y: y,
-                        colors: [item]
-                    });
-                }
+                existing.colors.push(item);
 
             } else {
 
-                data.push(item)
+                data.push({
+                    y: y,
+                    colors: [item]
+                });
             }
+
+            prevY = y;
+
+            delete item.y;
         };
 
         return GradientDataValidatorUtil.addMissingStopsXY(data);
