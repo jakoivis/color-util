@@ -2,24 +2,22 @@
 import sinon from 'sinon';
 import chai from 'chai';
 import G from '../src/Gradient.js';
+import C from '../src/ColorUtil.js';
 
 chai.should();
 let expect = require('chai').expect;
 
-xdescribe('Gradient', () => {
+describe('Gradient', () => {
 
-    describe('createGradientFunction', () => {
+    xdescribe('createGradientFunction', () => {
 
-        let gradientFunctions;
+        let typeOptions;
 
         describe('linear with stops', () => {
 
             beforeEach(() => {
-                gradientFunctions = {
-                    linear: sinon.spy(),
-                    linearMatrix: sinon.stub().throws(),
-                    circular: sinon.stub().throws(),
-                    circularMatrix: sinon.stub().throws()
+                typeOptions = {
+                    gradientPointColor: sinon.spy()
                 }
             });
 
@@ -30,7 +28,7 @@ xdescribe('Gradient', () => {
 
             it('should call correct method for linear gradient with stops', () => {
 
-                G.createGradientFunction({colors: [color1]}, gradientFunctions)();
+                G.createGradientFunction({colors: [color1]}, typeOptions)();
 
                 gradientFunctions.linear.calledOnce.should.be.true;
                 gradientFunctions.linearMatrix.notCalled.should.be.true;
@@ -45,83 +43,70 @@ xdescribe('Gradient', () => {
                     y.should.equal(2);
                 };
 
-                G.createGradientFunction({colors: [color1]}, gradientFunctions)(1, 2);
-            });
-
-            it('should not modify the original data', () => {
-
-                let colors = [color1];
-
-                gradientFunctions.linear = (x, y, options) => {
-                    expect(options.colors === colors).to.be.false;
-                    expect(options.colors[0] === colors[0]).to.be.false;
-                };
-
-                G.createGradientFunction({colors: colors}, gradientFunctions)();
-            });
-
-            it('should have correct partial gradient function', () => {
-
-                gradientFunctions.linear = (x, y, options) => {
-                    expect(options.partialGradient === G.partialGradientWithStops).to.be.true;
-                };
-
-                G.createGradientFunction({colors: [color1]}, gradientFunctions)();
-            });
-
-            it('should sort by gradient stops', () => {
-
-                gradientFunctions.linear = (x, y, options) => {
-                    options.colors[0].should.eql(color1);
-                    options.colors[1].should.eql(color2);
-                    options.colors[2].should.eql(color3);
-                    options.colors[3].should.eql(color4);
-                };
-
-                G.createGradientFunction({colors: [color3, color2, color4, color1]}, gradientFunctions)();
-            });
-
-            xit('should add missing stops to the right end', () => {
-
-                gradientFunctions.linear = (x, y, options) => {
-                    options.colors[0].should.eql(color1);
-                    options.colors[1].should.eql(color2);
-                    options.colors[2].should.eql({x: 1, r: 0, g: 255, b: 0, a: 255});
-                };
-
-                G.createGradientFunction({colors: [color1, color2]}, gradientFunctions)();
+                G.createGradientFunction({colors: [color1]}, typeOptions)(1, 2);
             });
         });
     });
 
-    xdescribe('twoStopGradient', () => {
+    describe('partialGradient', () => {
 
         it('should calculate gradient from 1 point gradient', () => {
-            G.twoStopGradient([1], 0.5).array.should.eql([1,1]);
-            G.twoStopGradient([1], 0.5).position.should.equal(0);
+
+            G.partialGradient([1], 0.5).should.eql({
+                item1: 1,
+                item2: 1,
+                position: 0
+            });
         });
 
         it('should calculate gradient from 2 point gradient', () => {
-            G.twoStopGradient([1,2], .25).array.should.eql([1,2]);
-            G.twoStopGradient([1,2], .25).position.should.equal(.25);
+
+            G.partialGradient([1,2], .25).should.eql({
+                item1: 1,
+                item2: 2,
+                position: .25
+            });
         });
 
         it('should calculate gradient from 3 point gradient', () => {
-            G.twoStopGradient([1,2,3], 0).array.should.eql([1,2]);
-            G.twoStopGradient([1,2,3], 0).position.should.equal(0);
-            G.twoStopGradient([1,2,3], 1).array.should.eql([3,3]);
-            G.twoStopGradient([1,2,3], 1).position.should.equal(0);
-            G.twoStopGradient([1,2,3], 0.25).array.should.eql([1,2]);
-            G.twoStopGradient([1,2,3], 0.25).position.should.equal(0.5);
+
+            G.partialGradient([1,2,3], 0).should.eql({
+                item1: 1,
+                item2: 2,
+                position: 0
+            });
+
+            G.partialGradient([1,2,3], 1).should.eql({
+                item1: 3,
+                item2: 3,
+                position: 0
+            });
+
+            G.partialGradient([1,2,3], 0.25).should.eql({
+                item1: 1,
+                item2: 2,
+                position: 0.5
+            });
         });
 
         it('should calculate gradient from 4 point gradient', () => {
-            G.twoStopGradient([1,2,3,4], 0).array.should.eql([1,2]);
-            G.twoStopGradient([1,2,3,4], 0).position.should.equal(0);
-            G.twoStopGradient([1,2,3,4], 1).array.should.eql([4,4]);
-            G.twoStopGradient([1,2,3,4], 1).position.should.be.closeTo(0, 0.00000000000001);
-            G.twoStopGradient([1,2,3,4], 0.25).array.should.eql([1,2]);
-            G.twoStopGradient([1,2,3,4], 0.25).position.should.equal(0.75);
+
+            G.partialGradient([1,2,3,4], 0).should.eql({
+                item1: 1,
+                item2: 2,
+                position: 0
+            });
+
+            let result = G.partialGradient([1,2,3,4], 1);
+            result.item1.should.equal(4);
+            result.item2.should.equal(4);
+            result.position.should.be.closeTo(0, 0.00000000000001);
+
+            G.partialGradient([1,2,3,4], 0.25).should.eql({
+                item1: 1,
+                item2: 2,
+                position: 0.75
+            });
         });
     });
 
