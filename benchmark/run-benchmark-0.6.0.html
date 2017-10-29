@@ -36,6 +36,7 @@ var uint32 = 0xFFFFFFFF;
 var suite = new Benchmark.Suite;
 var suiteAny = new Benchmark.Suite;
 var suiteOther = new Benchmark.Suite;
+var temp = new Benchmark.Suite;
 var data = {};
 
 
@@ -461,10 +462,48 @@ suiteOther
     console.log(csv);
 });
 
+var gradient1 = [1,2,3,4,5,6,7,8,9,10];
+var gradient11 = [1,2,3,4,5];
+var gradient2 = [{p:0},{p:0.1},{p:0.2},{p:0.3},{p:0.4},{p:0.5},{p:0.6},{p:0.7},{p:0.8},{p:0.9},{p:1}];
+var gradient22 = [{p:0},{p:0.1},{p:0.2},{p:0.3},{p:0.4},{p:1}];
+
+temp
+.add('even distribution 10', function() {
+    Math.random();
+})
+.add('even distribution 10', function() {
+    ColorUtil.gradient.twoStopGradient(gradient1, Math.random());
+})
+.add('even distribution 5', function() {
+    ColorUtil.gradient.twoStopGradient(gradient11, Math.random());
+})
+.add('with stops 10', function() {
+    ColorUtil.gradient.twoStopGradient2(gradient2, Math.random());
+})
+.add('with stops 5', function() {
+    ColorUtil.gradient.twoStopGradient2(gradient22, Math.random());
+})
+.on('cycle', function(event) {
+
+    console.log(String(event.target));
+})
+
+// .on('complete', function() {
+//     console.log("-----");
+
+//     var csv = "operation,ops\n";
+
+//     _.forEach(data, function(ops, operation) {
+//         csv += operation + "," + ops + "\n";
+//     });
+
+//     console.log(csv);
+// });
 
 // suite.run({ 'async': true });
-suiteAny.run({ 'async': true });
+// suiteAny.run({ 'async': true });
 // suiteOther.run({ 'async': true });
+temp.run({ 'async': true });
 
 </script>
 </body>

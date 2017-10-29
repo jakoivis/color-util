@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gradient matrix</title>
+<title>Gradient</title>
 <script src="/ColorUtil.js"></script>
 </head>
 <body>
@@ -9,13 +9,8 @@
 
 <script>
 
-// convert colors to rgb objects so getGradientMatrixColor understands them
-let colors = ColorUtil.convert(
-    [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]],
-    ColorUtil.int.toRgb);
-
 let width = 300;
-let height = 300;
+let height = 100;
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -27,11 +22,18 @@ let uint8CView = new Uint8ClampedArray(buffer);
 canvas.width = width;
 canvas.height = height;
 
+// convert colors to rgb objects so getGradientMatrixColor understands them
+let gradient = ColorUtil.rgb.createGradientFunction({
+    colors: ColorUtil.convert(
+        [0xff00a8, 0xfef6a1, 0x00e4ff],
+        ColorUtil.int.toRgb)
+});
+
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = ColorUtil.rgb.matrixColor(colors, x/width, y/height);
+        let rgb = gradient(x/width, 0);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }

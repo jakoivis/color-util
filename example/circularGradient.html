@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Matrix circle</title>
+<title>Gradient circle</title>
 <script src="/ColorUtil.js"></script>
 </head>
 <body>
@@ -9,14 +9,8 @@
 
 <script>
 
-let colors = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
-
 let width = 300;
 let height = 300;
-
-var scale = 0.5;
-var center = 0.5 / scale;
-var size = width * scale;
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -28,11 +22,19 @@ let uint8CView = new Uint8ClampedArray(buffer);
 canvas.width = width;
 canvas.height = height;
 
+let gradientFunction = ColorUtil.rgb.createGradientFunction({
+    colors: ColorUtil.rgb.hueColors(),
+    type: 'circular',
+    cx: 0.5,
+    cy: 0.5,
+    rotation: 0.25
+});
+
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = ColorUtil.rgb.circleMatrixColor(colors, x/size, y/size, center, center);
+        let rgb = gradientFunction(x/width, y/height);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }

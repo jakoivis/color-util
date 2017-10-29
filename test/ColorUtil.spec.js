@@ -14,6 +14,7 @@ describe('ColorUtil', () => {
         let hex = '#aabbcc';
         let rgba = 'rgba(170,187,204,1)';
 
+
         describe('rgb', () => {
 
             it('test', () => {
@@ -580,66 +581,91 @@ describe('ColorUtil', () => {
         });
     });
 
-    describe('gradientColor', () => {
+    describe('linear gradient', () => {
 
         it('should get color from 1 point gradient', () => {
-            gradientColor([0x00FF7F], 0.5, 0)
-                .should.equal(0x00FF7F);
+            let fn = createBasicIntTestFunction([0x00FF7F]);
+            fn(0.5, 0).should.equal(0x00FF7F);
         });
 
         it('should get color from 2 point gradient', () => {
-            gradientColor([0x00FF7F, 0xFF00FF], 0, 0)
-                .should.equal(0x00FF7F);
-            gradientColor([0x00FF7F, 0xFF00FF], 1, 0)
-                .should.equal(0xFF00FF);
-            gradientColor([0x00FF7F, 0xFF00FF], 0.25, 0)
-                .should.equal(0x3FBF9F);
-            gradientColor([0x00FF7F, 0xFF00FF], 0.5, 0)
-                .should.equal(0x7F7FBF);
-            gradientColor([0x00FF7F, 0xFF00FF], 0.75, 0)
-                .should.equal(0xBF3FDF);
+            let fn = createBasicIntTestFunction([0x00FF7F, 0xFF00FF]);
+
+            fn(0, 0).should.equal(0x00FF7F);
+            fn(1, 0).should.equal(0xFF00FF);
+            fn(0.25, 0).should.equal(0x3FBF9F);
+            fn(0.5, 0).should.equal(0x7F7FBF);
+            fn(0.75, 0).should.equal(0xBF3FDF);
         });
 
         it('should get color from 3 point gradient', () => {
-            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0, 0)
-                .should.equal(0x0);
-            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 1, 0)
-                .should.equal(0xFFFFFF);
-            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.25, 0)
-                .should.equal(0x3F3F3F);
-            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.5, 0)
-                .should.equal(0x7F7F7F);
-            gradientColor([0x000000, 0x7F7F7F, 0xFFFFFF], 0.75, 0)
-                .should.equal(0xBFBFBF);
+            let fn = createBasicIntTestFunction([0x000000, 0x7F7F7F, 0xFFFFFF]);
+
+            fn(0, 0).should.equal(0x0);
+            fn(1, 0).should.equal(0xFFFFFF);
+            fn(0.25, 0).should.equal(0x3F3F3F);
+            fn(0.5, 0).should.equal(0x7F7F7F);
+            fn(0.75, 0).should.equal(0xBFBFBF);
         });
 
         it('should get color from 4 point gradient', () => {
-            gradientColor([0xFFFFFF, 0x0, 0x0, 0x0], 0, 0)
-                .should.equal(0xFFFFFF); // first color
-            gradientColor([0x0, 0x0, 0x0, 0xFFFFFF], 1, 0)
-                .should.equal(0xFFFFFF); // last color
-            gradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F], 0.25, 0)
-                .should.equal(0xBFBFBF); // 75% between colors 0 and 1
-            gradientColor([0x0, 0xFFFFFF, 0x7F7F7F, 0x0], 0.5, 0)
-                .should.equal(0xBFBFBF); // 50% beween colors 1 and 2
-            gradientColor([0x0, 0x0, 0x7F7F7F, 0xFFFFFF], 0.75, 0)
-                .should.equal(0x9F9F9F); // 25% between colors 2 and 3
+            let fn = createBasicIntTestFunction([0xFFFFFF, 0x0, 0x0, 0x0]);
+            fn(0, 0).should.equal(0xFFFFFF); // first color
+
+            fn = createBasicIntTestFunction([0x0, 0x0, 0x0, 0xFFFFFF]);
+            fn(1, 0).should.equal(0xFFFFFF); // last color
+
+            fn = createBasicIntTestFunction([0x0, 0xFFFFFF, 0x7F7F7F, 0x7F7F7F]);
+            fn(0.25, 0).should.equal(0xBFBFBF); // 75% between colors 0 and 1
+
+            fn = createBasicIntTestFunction([0x0, 0xFFFFFF, 0x7F7F7F, 0x0]);
+            fn(0.5, 0).should.equal(0xBFBFBF); // 50% beween colors 1 and 2
+
+            fn = createBasicIntTestFunction([0x0, 0x0, 0x7F7F7F, 0xFFFFFF]);
+            fn(0.75, 0).should.equal(0x9F9F9F); // 25% between colors 2 and 3
         });
 
         it('should return edge colors when value is out of range', () => {
-            gradientColor([0x00FF7F, 0xFF00FF], 2, 0)
-                .should.equal(0xFF00FF);
-            gradientColor([0x00FF7F, 0xFF00FF], -2, 0)
-                .should.equal(0x00FF7F);
+            let fn = createBasicIntTestFunction([0x00FF7F, 0xFF00FF]);
+
+            fn(2, 0).should.equal(0xFF00FF);
+            fn(-2, 0).should.equal(0x00FF7F);
         });
 
-        function gradientColor(colors, x, y) {
-            colors = C.convert(colors, C.int.toRgb);
+        it('should get color from 1 point gradient', () => {
+            let fn = C.rgb.createGradientFunction({colors: [
+                {x: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
+            ]});
 
-            let color = C.rgb.gradientColor(colors, x, y);
+            fn(0.5, 0).should.eql({r: 0, g: 0xff, b: 0x7f, a: 0xff});
+        });
 
-            return C.rgb.toInt(color);
-        }
+        it('should get color from 2 point gradient with stops', () => {
+            let fn = C.rgb.createGradientFunction({colors: [
+                {x: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
+                {x: 1, r: 0xff, g: 0, b: 0xff, a: 0xff}
+            ]});
+
+            fn(0, 0).should.eql({r: 0, g: 0xff, b: 0x7f, a: 0xff});
+            fn(1, 0).should.eql({r: 0xff, g: 0, b: 0xff, a: 0xff});
+            fn(0.25, 0).should.eql({r: 63.75, g: 191.25, b: 0x9f, a: 0xff});
+        });
+
+        it('should get color from 3 point gradient with stops', () => {
+            let fn = C.rgb.createGradientFunction({colors: [
+                {x: 0, r: 0, g: 0, b: 0, a: 0},
+                {x: 0.25, r: 0x7f, g: 0x7f, b: 0x7f, a: 0x7f},
+                {x: 1, r: 0xff, g: 0xff, b: 0xff, a: 0xff}
+            ]});
+
+            fn(0, 0).should.eql({r: 0, g: 0, b: 0, a: 0});
+            fn(1, 0).should.eql({r: 0xff, g: 0xff, b: 0xff, a: 0xff});
+            fn(0.25, 0).should.eql({r: 0x7f, g: 0x7f, b: 0x7f, a: 0x7f});
+            fn(0.125, 0).should.eql({r: 63.5, g: 63.5, b: 63.5, a: 63.5});
+            fn(0.625, 0).should.eql({r: 191, g: 191, b: 191, a: 191});
+        });
+
+
     });
 
     describe('getGradientMatrixColor', () => {
@@ -649,38 +675,42 @@ describe('ColorUtil', () => {
             [0x000000, 0x00FF00]
         ];
 
+        let fn = createBasicIntTestFunction(matrix);
+
         it('should get left corner color', () => {
-            matrixColor(matrix, 0, 0).should.equal(0xFF0000);
+            fn(0, 0).should.equal(0xFF0000);
         });
 
         it('should get right corner color', () => {
-            matrixColor(matrix, 1, 0).should.equal(0x0000FF);
+            fn(1, 0).should.equal(0x0000FF);
         });
 
         it('should get bottom right corner color', () => {
-            matrixColor(matrix, 1, 1).should.equal(0x00FF00);
+            fn(1, 1).should.equal(0x00FF00);
         });
 
         it('should get bottom left corner color', () => {
-            matrixColor(matrix, 0, 1).should.equal(0x000000);
+            fn(0, 1).should.equal(0x000000);
         });
 
         it('should get bottom center color', () => {
-            matrixColor(matrix, 0.5, 1).should.equal(0x007f00);
+            fn(0.5, 1).should.equal(0x007f00);
         });
 
         it('should get right center color', () => {
-            matrixColor(matrix, 1, 0.5).should.equal(0x007f7f);
+            fn(1, 0.5).should.equal(0x007f7f);
         });
-
-        function matrixColor(colors, x, y) {
-            colors = C.convert(colors, C.int.toRgb);
-
-            let color = C.rgb.matrixColor(colors, x, y);
-
-            return C.rgb.toInt(color);
-        }
     });
+
+    function createBasicIntTestFunction(colors) {
+        let rgbColors = C.convert(colors, C.int.toRgb);
+
+        let gradientFn = C.rgb.createGradientFunction({colors:rgbColors});
+
+        return (x, y) => {
+            return C.rgb.toInt(gradientFn(x, y));
+        }
+    }
 
     describe('hue', () => {
 
