@@ -45,8 +45,8 @@ export default new function() {
             cx: options.cx || 0,
             cy: options.cy || 0,
             rotation: options.rotation || 0,
-            xContinuity: options.xContinuity || Continuity.stop,
-            yContinuity: options.yContinuity || Continuity.stop,
+            xContinuity: options.xContinuity || Continuity.repeat,
+            yContinuity: options.yContinuity || Continuity.repeat,
             gradientPointColor: typeOptions.gradientPointColor
         };
 

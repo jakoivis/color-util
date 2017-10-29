@@ -9,8 +9,6 @@
 
 <script>
 
-let colors = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
-
 let width = 300;
 let height = 300;
 
@@ -28,13 +26,28 @@ let uint8CView = new Uint8ClampedArray(buffer);
 canvas.width = width;
 canvas.height = height;
 
+let gradientFunction = ColorUtil.rgb.createGradientFunction({
+    colors: [
+        [{r:255, g: 255, b: 255, a: 255}],
+        ColorUtil.rgb.hueColors()
+    ],
+    type: 'circular',
+    cx: center,
+    cy: center,
+    rotation: 0.25
+});
+
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = ColorUtil.rgb.circleMatrixColor(colors, x/size, y/size, center, center);
+        // if (x === 0 && y === 0) {
 
-        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+            // debugger;
+            let rgb = gradientFunction(x/size, y/size);
+
+            uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+        // }
     }
 }
 

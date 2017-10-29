@@ -45,7 +45,11 @@ document.body.addEventListener('mousemove', function(event) {
         [[0xFFFFFF, hueRgb], [0x000000]],
         ColorUtil.any.toRgb);
 
-    let rgb = Rgb.matrixColor(matrix, x, y);
+    let gradient = ColorUtil.rgb.createGradientFunction({
+        colors: matrix
+    });
+
+    let rgb = gradient(x, y);
 
     document.body.style.background = Rgb.toRgbString(rgb);
 });
@@ -74,11 +78,15 @@ function initGrayscaleOverlay() {
     canvas.width = width;
     canvas.height = height;
 
+    let gradient = ColorUtil.rgb.createGradientFunction({
+        colors: colors
+    });
+
     for(let x = 0; x < width; x++) {
 
         for(let y = 0; y < height; y++) {
 
-            let rgb = Rgb.matrixColor(colors, x/width, y/height);
+            let rgb = gradient(x/width, y/height);
 
             uint32View[y * width + x] = Rgb.toUint32(rgb);
         }

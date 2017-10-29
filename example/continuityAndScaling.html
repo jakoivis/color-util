@@ -37,10 +37,10 @@ label {
     <div>
         <label for='gradientTypePulldown'>gradient type</label>
         <select id='gradientTypePulldown' onchange='onGradientTypeChange(this)'>
-            <option value="gradientColor">ColorUtil.rgb.gradientColor</option>
-            <option value="matrixColor">ColorUtil.rgb.matrixColor</option>
-            <option value="circleGradientColor">ColorUtil.rgb.circleGradientColor</option>
-            <option value="circleMatrixColor">ColorUtil.rgb.circleMatrixColor</option>
+            <option value="linear">linear</option>
+            <option value="linearMatrix">linear matrix</option>
+            <option value="circular">circular</option>
+            <option value="circularMatrix">circular matrix</option>
         </select>
     </div>
     <div>
@@ -104,7 +104,7 @@ let circleGradientColors = ColorUtil.rgb.hueColors();
 
 let circleMatrixColors = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
 
-let gradientType = 'gradientColor';
+let gradientType = 'linear';
 let gradientWidth = 300;
 let gradientHeight = 300;
 let canvasWidth = 300;
@@ -175,21 +175,21 @@ function continuity2Change(input) {
 }
 
 function updateCanvas() {
-    if (gradientType === 'gradientColor') {
-        updateGradient(gradientType, gradientColors)
+    if (gradientType === 'linear') {
+        updateGradient('linear', gradientColors)
 
-    } else if (gradientType === 'matrixColor') {
-        updateGradient(gradientType, matrixColors)
+    } else if (gradientType === 'linearMatrix') {
+        updateGradient('linear', matrixColors)
 
-    } else if (gradientType === 'circleMatrixColor') {
-        updateGradient(gradientType, circleMatrixColors);
+    } else if (gradientType === 'circularMatrix') {
+        updateGradient('circular', circleMatrixColors);
 
-    } else if (gradientType === 'circleGradientColor') {
-        updateGradient(gradientType, circleGradientColors);
+    } else if (gradientType === 'circular') {
+        updateGradient('circular', circleGradientColors);
     }
 }
 
-function updateGradient(gradientFnName, colors) {
+function updateGradient(type, colors) {
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext('2d');
     let imageData  = ctx.createImageData(canvasWidth, canvasHeight);
@@ -200,11 +200,21 @@ function updateGradient(gradientFnName, colors) {
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 
+    let gradientFunction = ColorUtil.rgb.createGradientFunction({
+        colors: colors,
+        type: type,
+        cx: gradientCenterX,
+        cy: gradientCenterY,
+        rotation: gradientRotation,
+        xContinuity: continuity,
+        yContinuity: continuity2
+    })
+
     for(let x = 0; x < canvasWidth; x++) {
 
         for(let y = 0; y < canvasHeight; y++) {
 
-            let rgb = ColorUtil.rgb[gradientFnName](colors, x/gradientWidth, y/gradientHeight, gradientCenterX, gradientCenterY, gradientRotation, continuity, continuity2);
+            let rgb = gradientFunction(x/gradientWidth, y/gradientHeight);
 
             uint32View[y * canvasWidth + x] = ColorUtil.rgb.toUint32(rgb);
         }

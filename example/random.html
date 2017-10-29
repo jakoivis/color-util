@@ -13,21 +13,28 @@ Refresh the page to update colors
 
 let colors = ColorUtil.convert(getRandomColors(), ColorUtil.int.toRgb);
 
-drawCanvas('canvas1', (x, y, width, height, uint32View) => {
-    let rgb = ColorUtil.rgb.matrixColor(colors, x/width, y/height);
-
-    uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+drawCanvas({
+    canvasId: 'canvas1',
+    gradientOptions: {
+        colors: colors
+    }
 });
 
 fixColorsForCircle(colors);
 
-drawCanvas('canvas2', (x, y, width, height, uint32View) => {
-    let rgb = ColorUtil.rgb.circleMatrixColor(colors, x/300, y/300, 0.5, 0.5, 0, ColorUtil.continuity.stop);
-
-    uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+drawCanvas({
+    canvasId: 'canvas2',
+    gradientOptions: {
+        colors: colors,
+        type: 'circular'
+    }
 });
 
-function drawCanvas(canvasId, drawPixel) {
+function drawCanvas(options) {
+
+    let canvasId = options.canvasId;
+    let gradientOptions = options.gradientOptions;
+
     let width = 300;
     let height = 300;
 
@@ -41,11 +48,15 @@ function drawCanvas(canvasId, drawPixel) {
     canvas.width = width;
     canvas.height = height;
 
+    let gradient = ColorUtil.rgb.createGradientFunction(gradientOptions);
+
     for(let x = 0; x < width; x++) {
 
         for(let y = 0; y < height; y++) {
 
-            drawPixel(x, y, width, height, uint32View)
+            let rgb = gradient(x/width, y/height);
+
+            uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
         }
     }
 
