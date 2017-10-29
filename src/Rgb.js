@@ -1,5 +1,4 @@
 
-import Continuity from './Continuity';
 import Gradient from './Gradient';
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;

@@ -1,6 +1,6 @@
 
 import _ from './Utils';
-import Continuity from './Continuity';
+import Repeat from './Repeat';
 import GradientDataValidator from './validator/GradientDataValidator';
 
 export default new function() {
@@ -45,8 +45,8 @@ export default new function() {
             cx: options.cx || 0,
             cy: options.cy || 0,
             rotation: options.rotation || 0,
-            xContinuity: options.xContinuity || Continuity.repeat,
-            yContinuity: options.yContinuity || Continuity.repeat,
+            xRepeat: options.xRepeat || Repeat.repeat,
+            yRepeat: options.yRepeat || Repeat.repeat,
             gradientPointColor: typeOptions.gradientPointColor
         };
 
@@ -136,7 +136,7 @@ export default new function() {
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
      * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
-     * @param {function} [xContinuity=Continuity.stop]  Continuity function
+     * @param {function} [xRepeat=Repeat.stop]  Repeat function
      * @return {Object} rgb object
      */
     this.linearGradient = (x, y, options) => {
@@ -146,7 +146,7 @@ export default new function() {
         let dx = x - options.cx;
         let dy = y - options.cy;
 
-        x = options.xContinuity(options.cx + dx * cos - dy * sin);
+        x = options.xRepeat(options.cx + dx * cos - dy * sin);
 
         let parts = this.partialGradientWithStops(options.colors, x, 'x');
 
@@ -172,8 +172,8 @@ export default new function() {
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
      * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
-     * @param {function} [xContinuity=Continuity.stop]  Continuity function
-     * @param {function} [yContinuity=Continuity.stop]  Continuity function
+     * @param {function} [xRepeat=Repeat.stop]  Repeat function
+     * @param {function} [yRepeat=Repeat.stop]  Repeat function
      * @return {Object} rgb object
      */
     this.linearMatrixGradient = (x, y, options) => {
@@ -184,8 +184,8 @@ export default new function() {
         let dx = x - options.cx;
         let dy = y - options.cy;
 
-        x = options.xContinuity(options.cx + dx * cos - dy * sin);
-        y = options.yContinuity(options.cy + dx * sin + dy * cos);
+        x = options.xRepeat(options.cx + dx * cos - dy * sin);
+        y = options.yRepeat(options.cy + dx * sin + dy * cos);
 
         // get gradients and y position between them
         let gradients = this.partialGradientWithStops(options.colors, y, 'y');
@@ -219,12 +219,12 @@ export default new function() {
      * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
+     * @param      {function}  [xRepeat=Repeat.repeat]  Repeat function
      * @return     {Object}  rgb object
      */
     this.circularGradient = (x, y, options) => {
 
-        let angle = options.xContinuity((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
+        let angle = options.xRepeat((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
         let parts = this.partialGradientWithStops(options.colors, angle, 'x');
 
         return options.gradientPointColor(parts.item1, parts.item2, parts.position);
@@ -248,8 +248,8 @@ export default new function() {
      * @param      {number}  cx          Horizontal position of center. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center. Value in range 0-1.
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [xContinuity=Continuity.repeat]  Continuity function
-     * @param      {function}  [yContinuity=Continuity.repeat]  Continuity function
+     * @param      {function}  [xRepeat=Repeat.repeat]  Repeat function
+     * @param      {function}  [yRepeat=Repeat.repeat]  Repeat function
      * @return     {Object}  rgb object
      */
     this.circularMatrixGradient = (x, y, options) => {
@@ -257,8 +257,8 @@ export default new function() {
         let cy = options.cy;
         let dx = cx - x;
         let dy = cy - y;
-        let distance = options.yContinuity(Math.sqrt(dx * dx + dy * dy));
-        let angle = options.xContinuity((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - options.rotation);
+        let distance = options.yRepeat(Math.sqrt(dx * dx + dy * dy));
+        let angle = options.xRepeat((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - options.rotation);
 
         // get gradients and y position between them
         let gradients = this.partialGradientWithStops(options.colors, distance, 'y');

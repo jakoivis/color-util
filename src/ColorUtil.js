@@ -1,5 +1,5 @@
 
-import Continuity from './Continuity';
+import Repeat from './Repeat';
 import {convert} from './conversionFunctions';
 
 import Rgb from './Rgb';
@@ -208,9 +208,9 @@ let ColorUtil = {
     convert: convert,
 
     /**
-     * Gradient continuity functions
+     * Gradient Repeat functions
      */
-    continuity: Continuity,
+    Repeat: Repeat,
 
     gradient: Gradient
 }

@@ -19,10 +19,10 @@
         -   [toHsv](#tohsv)
         -   [hueColors](#huecolors)
         -   [hue](#hue)
-        -   [gradientColor](#gradientcolor)
-        -   [matrixColor](#matrixcolor)
-        -   [circleGradientColor](#circlegradientcolor)
-        -   [circleMatrixColor](#circlematrixcolor)
+        -   [linearGradient](#lineargradient)
+        -   [linearMatrixGradient](#linearmatrixgradient)
+        -   [circularGradient](#circulargradient)
+        -   [circularMatrixGradient](#circularmatrixgradient)
     -   [int](#int)
         -   [test](#test-1)
         -   [toRgb](#torgb)
@@ -77,9 +77,9 @@
         -   [toHslaString](#tohslastring-1)
     -   [endian](#endian)
     -   [convert](#convert)
-    -   [continuity](#continuity)
+    -   [Repeat](#repeat)
         -   [stop](#stop)
-        -   [repeat](#repeat)
+        -   [repeat](#repeat-1)
 
 ## ColorUtil
 
@@ -347,20 +347,20 @@ ColorUtil.rgb.hue({r:0x7F, g: 0x7F, b:0})
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** hue color in Rgb object notation
 
-#### gradientColor
+#### linearGradient
 
 Get color from gradient. Calculation is done in
 rgb object notation so colors should be converted to object notation.
 
 **Parameters**
 
--   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
 -   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
--   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1. (optional, default `0`)
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1. (optional, default `0`)
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1. (optional, default `0`)
--   `rotation`   (optional, default `0`)
--   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
+-   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
+-   `options`  
+-   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1.
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1.
+-   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.stop`)
 
 **Examples**
 
@@ -372,21 +372,21 @@ ColorUtil.rgb.gradientColor(gradient, 0.5);
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
 
-#### matrixColor
+#### linearMatrixGradient
 
 Get color from matrix. Calculation is done in
 rgb object notation so colors should be converted to object notation.
 
 **Parameters**
 
--   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of gradient color arrays. Colors should be in rgb object notation.
 -   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
 -   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1. (optional, default `0`)
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1. (optional, default `0`)
--   `rotation`   (optional, default `0`)
--   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
--   `yContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.stop`)
+-   `options`  
+-   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of gradient color arrays. Colors should be in rgb object notation.
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1.
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1.
+-   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.stop`)
+-   `yRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.stop`)
 
 **Examples**
 
@@ -398,20 +398,21 @@ ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
 
-#### circleGradientColor
+#### circularGradient
 
 Get color from circle gradient. Calculation is done in
 rgb object notation so colors should be converted to object notation.
 
 **Parameters**
 
--   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
 -   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
 -   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center point. Value in range 0-1. (optional, default `0.5`)
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center point. Value in range 0-1. (optional, default `0.5`)
--   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1. (optional, default `0`)
--   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
+-   `options`  
+-   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center point. Value in range 0-1.
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center point. Value in range 0-1.
+-   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1.
+-   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.repeat`)
 
 **Examples**
 
@@ -427,21 +428,22 @@ ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
 
-#### circleMatrixColor
+#### circularMatrixGradient
 
 Get color from circle matrix. Calculation is done in
 rgb object notation so colors should be converted to object notation.
 
 **Parameters**
 
--   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Matrix of colors. Colors should be in rgb object notation.
 -   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
 -   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center. Value in range 0-1. (optional, default `0.5`)
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center. Value in range 0-1. (optional, default `0.5`)
--   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1. (optional, default `0`)
--   `xContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
--   `yContinuity` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Continuity function (optional, default `Continuity.repeat`)
+-   `options`  
+-   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Matrix of colors. Colors should be in rgb object notation.
+-   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center. Value in range 0-1.
+-   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center. Value in range 0-1.
+-   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1.
+-   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.repeat`)
+-   `yRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.repeat`)
 
 **Examples**
 
@@ -1230,9 +1232,9 @@ ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUt
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
 
-### continuity
+### Repeat
 
-Gradient continuity functions
+Gradient Repeat functions
 
 #### stop
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Continuity and scaling</title>
+<title>Repeat and scaling</title>
 <script src="/ColorUtil.js"></script>
 
 <style>
@@ -69,17 +69,17 @@ label {
         <span id='rotationSliderValue'></span>
     </div>
     <div>
-        <label for='continuityPulldown'>gradient x continuity</label>
-        <select id='continuityPulldown' onchange='continuityChange(this)'>
-            <option value="stop">ColorUtil.continuity.stop</option>
-            <option value="repeat">ColorUtil.continuity.repeat</option>
+        <label for='repeatPulldown'>gradient x Repeat</label>
+        <select id='repeatPulldown' onchange='repeatChange(this)'>
+            <option value="stop">ColorUtil.Repeat.stop</option>
+            <option value="repeat">ColorUtil.Repeat.repeat</option>
         </select>
     </div>
     <div>
-        <label for='continuityPulldown2'>gradient y continuity (matrix only)</label>
-        <select id='continuityPulldown2' onchange='continuity2Change(this)'>
-            <option value="stop">ColorUtil.continuity.stop</option>
-            <option value="repeat">ColorUtil.continuity.repeat</option>
+        <label for='repeatPulldown2'>gradient y Repeat (matrix only)</label>
+        <select id='repeatPulldown2' onchange='repeat2Change(this)'>
+            <option value="stop">ColorUtil.Repeat.stop</option>
+            <option value="repeat">ColorUtil.Repeat.repeat</option>
         </select>
     </div>
 </form>
@@ -112,8 +112,8 @@ let canvasHeight = 300;
 let gradientCenterX = 0.5;
 let gradientCenterY = 0.5;
 let gradientRotation = 0;
-let continuity = ColorUtil.continuity.stop;
-let continuity2 = ColorUtil.continuity.stop;
+let repeat = ColorUtil.Repeat.stop;
+let repeat2 = ColorUtil.Repeat.stop;
 
 updateCanvas();
 
@@ -164,13 +164,13 @@ function onRotationChange(input) {
     updateCanvas();
 }
 
-function continuityChange(input) {
-    continuity = ColorUtil.continuity[input.value];
+function repeatChange(input) {
+    repeat = ColorUtil.Repeat[input.value];
     updateCanvas();
 }
 
-function continuity2Change(input) {
-    continuity2 = ColorUtil.continuity[input.value];
+function repeat2Change(input) {
+    repeat2 = ColorUtil.Repeat[input.value];
     updateCanvas();
 }
 
@@ -206,8 +206,8 @@ function updateGradient(type, colors) {
         cx: gradientCenterX,
         cy: gradientCenterY,
         rotation: gradientRotation,
-        xContinuity: continuity,
-        yContinuity: continuity2
+        xRepeat: repeat,
+        yRepeat: repeat2
     })
 
     for(let x = 0; x < canvasWidth; x++) {
