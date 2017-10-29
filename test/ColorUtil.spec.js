@@ -626,7 +626,8 @@ describe('ColorUtil', () => {
         });
 
         it('should return edge colors when value is out of range', () => {
-            let fn = createBasicIntTestFunction([0x00FF7F, 0xFF00FF]);
+            let fn = createBasicIntTestFunction([0x00FF7F, 0xFF00FF], {
+                xContinuity: C.continuity.stop});
 
             fn(2, 0).should.equal(0xFF00FF);
             fn(-2, 0).should.equal(0x00FF7F);
@@ -702,10 +703,13 @@ describe('ColorUtil', () => {
         });
     });
 
-    function createBasicIntTestFunction(colors) {
+    function createBasicIntTestFunction(colors, additionalOptions) {
         let rgbColors = C.convert(colors, C.int.toRgb);
 
-        let gradientFn = C.rgb.createGradientFunction({colors:rgbColors});
+        additionalOptions = additionalOptions || {};
+
+        let gradientFn = C.rgb.createGradientFunction(
+            Object.assign({colors:rgbColors}, additionalOptions));
 
         return (x, y) => {
             return C.rgb.toInt(gradientFn(x, y));
