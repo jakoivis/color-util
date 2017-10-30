@@ -208,7 +208,7 @@ let ColorUtil = {
     convert: convert,
 
     /**
-     * Gradient Repeat functions
+     * Gradient repeat functions
      */
     Repeat: Repeat,
 

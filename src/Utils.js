@@ -1,6 +1,8 @@
 
 module.exports = new function() {
 
+    this.noop = () => {};
+
     this.get = (obj, path, defaultValue) => {
 
         let parts = Array.isArray(path) ? path : path.split('.');

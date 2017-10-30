@@ -7,17 +7,31 @@ export default new function() {
 
     const PI2 = Math.PI * 2;
 
-    this.createGradientFunction = (options, typeOptions={}) => {
+    // TODO: document
+    this.createGradient = (options, typeOptions={}) => {
+
+        options = options || {};
 
         let type = _.includes(['linear', 'circular'], options.type) ? options.type : 'linear';
+        let verifyStructure = _.get(options, 'verifyStructure', false);
+        let validateStops = _.get(options, 'validateStops', true);
+        let onValidationComplete = options.onValidationComplete || _.noop;
         let colors = _.clone(options.colors);
         let fn = null;
 
         let validator = GradientDataValidator.create(colors);
 
-        validator.verifyStructure(colors);
+        if (verifyStructure) {
 
-        colors = validator.validateStops(colors);
+            validator.verifyStructure(colors);
+        }
+
+        if (validateStops) {
+
+            colors = validator.validateStops(colors);
+        }
+
+        onValidationComplete(colors);
 
         if (!validator.isMatrix && type === 'linear') {
 
@@ -74,6 +88,7 @@ export default new function() {
      *                           which are the closest to the point indicated by position argument
      */
     this.partialGradient = (array, position) => {
+
         let lastIndex = array.length - 1;
         let itemIndex = (position * lastIndex) | 0;
         let partSize = 1 / lastIndex * 1000;
@@ -96,12 +111,28 @@ export default new function() {
         }
     };
 
-    // this version is relying that gradient array
-    // - has p values
-    // - p values are in order
-    // - first p value is 0 and last is 1
-    // - gradient needs to be validated before calculation
+    /**
+     * Calculate two items from a gradient array and a relative position of
+     * the gradient between those two items in a gradient whichs has stop colors
+     * The resulting values can be used calculate the final color.
+     *
+     * @example
+     * // The example position 0.25 is in the middle of the first and
+     * // second colors so new 2 point gradient array contains only those
+     * // first and second colors. The given absolute position 0.25 is relatively
+     * // 0.5 between those two values.
+     * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
+     * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
+     *
+     * @private
+     *
+     * @param {Array} array      Array of colors. Array should have colors stops on x or y axis.
+     * @param {number} position  Position on the whole gradient.
+     * @return {Object} Relative position between two items and two items from gradient array
+     *                           which are the closest to the point indicated by position argument
+     */
     this.partialGradientWithStops = (array, position, axis) => {
+
         var i = 0;
 
         while (array[i][axis] < position) {
@@ -110,7 +141,6 @@ export default new function() {
 
         var item1 = array[i-1] !== undefined ? array[i-1] : array[i];
         var item2 = array[i];
-
         var partSize = item2[axis] - item1[axis];
 
         return {

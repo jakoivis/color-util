@@ -370,9 +370,9 @@ let Rgb = new function() {
             parts.position);
     };
 
-    this.createGradientFunction = (options) => {
+    this.createGradient = (options) => {
 
-        return Gradient.createGradientFunction(options, {
+        return Gradient.createGradient(options, {
 
             gradientPointColor: gradientPointColor,
 
