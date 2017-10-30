@@ -22,7 +22,7 @@ let uint8CView = new Uint8ClampedArray(buffer);
 canvas.width = width;
 canvas.height = height;
 
-let gradientFunction = ColorUtil.rgb.createGradientFunction({
+let gradientFunction = ColorUtil.rgb.createGradient({
     colors: ColorUtil.rgb.hueColors(),
     type: 'circular',
     cx: 0.5,

@@ -200,7 +200,7 @@ function updateGradient(type, colors) {
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
 
-    let gradientFunction = ColorUtil.rgb.createGradientFunction({
+    let gradientFunction = ColorUtil.rgb.createGradient({
         colors: colors,
         type: type,
         cx: gradientCenterX,

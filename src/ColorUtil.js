@@ -1,21 +1,20 @@
 
 import Repeat from './Repeat';
 import {convert} from './conversionFunctions';
-
-import Rgb from './Rgb';
-import Int from './Int';
-import Int32 from './Int32';
-import Int32b from './Int32b';
-import Hex from './Hex';
-import RgbString from './RgbString';
-import RgbaString from './RgbaString';
-import Hsl from './Hsl';
-import HslString from './HslString';
-import HslaString from './HslaString';
-import Hsv from './Hsv';
-import Any from './Any';
-
 import Gradient from './Gradient';
+
+import Rgb from './types/Rgb';
+import Int from './types/Int';
+import Int32 from './types/Int32';
+import Int32b from './types/Int32b';
+import Hex from './types/Hex';
+import RgbString from './types/RgbString';
+import RgbaString from './types/RgbaString';
+import Hsl from './types/Hsl';
+import HslString from './types/HslString';
+import HslaString from './types/HslaString';
+import Hsv from './types/Hsv';
+import Any from './types/Any';
 
 const LITTLE_ENDIAN = 0;
 const BIG_ENDIAN = 1;

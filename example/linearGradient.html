@@ -23,7 +23,7 @@ canvas.width = width;
 canvas.height = height;
 
 // convert colors to rgb objects so getGradientMatrixColor understands them
-let gradient = ColorUtil.rgb.createGradientFunction({
+let gradient = ColorUtil.rgb.createGradient({
     colors: ColorUtil.convert(
         [0xff00a8, 0xfef6a1, 0x00e4ff],
         ColorUtil.int.toRgb)
