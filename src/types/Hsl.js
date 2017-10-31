@@ -1,4 +1,6 @@
 
+import Gradient from '../Gradient';
+
 /**
  * @class Hsl
  * @private
@@ -134,5 +136,33 @@ export default {
      */
     toHslaString: hsl => {
         return `hsla(${Math.round(hsl.h*360)},${Math.round(hsl.s*100)}%,${Math.round(hsl.l*100)}%,${hsl.a})`;
+    },
+
+
+    createGradient: options => {
+
+        return Gradient.createGradient(options, {
+
+            gradientPointColor: gradientPointColor,
+
+            defaults: () => {
+                return {
+                    h: 0,
+                    s: 0,
+                    l: 0,
+                    a: 1
+                };
+            }
+        });
+    }
+}
+
+function gradientPointColor(color1, color2, position) {
+
+    return {
+        h: color1.h - position * (color1.h - color2.h),
+        s: color1.s - position * (color1.s - color2.s),
+        l: color1.l - position * (color1.l - color2.l),
+        a: color1.a - position * (color1.a - color2.a)
     }
 }
