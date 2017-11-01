@@ -82,4 +82,9 @@ export default class {
 
         return GradientDataValidatorUtil.addMissingStopsXY(data);
     }
+
+    static addDefaultColors(colors, defaultColor) {
+
+        GradientDataValidatorUtil.addDefaultColorsForMatrix(colors, defaultColor, this);
+    }
 }

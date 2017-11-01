@@ -376,13 +376,11 @@ let Rgb = new function() {
 
             gradientPointColor: gradientPointColor,
 
-            defaults: () => {
-                return {
-                    r: 0,
-                    g: 0,
-                    b: 0,
-                    a: 255
-                };
+            defaultColor: {
+                r: 0,
+                g: 0,
+                b: 0,
+                a: 255
             }
         });
     };

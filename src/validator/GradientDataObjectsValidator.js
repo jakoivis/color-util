@@ -53,4 +53,9 @@ export default class {
 
         return GradientDataValidatorUtil.addMissingStops(colors, 'x');
     }
+
+    static addDefaultColors(colors, defaultColor) {
+
+        GradientDataValidatorUtil.addDefaultColors(colors, defaultColor, this);
+    }
 }

@@ -3,6 +3,46 @@ import _ from '../Utils';
 
 export default class {
 
+    static addDefaultColorsForMatrix(colors, defaultColor, validatorClass) {
+
+        let keys = Object.keys(defaultColor);
+
+        for (let item of colors) {
+
+            for (let color of item.colors) {
+
+                for (let key of keys) {
+
+                    if (!_.has(color, key)) {
+
+                        color[key] = defaultColor[key];
+                    }
+                }
+            }
+        }
+    }
+
+    static addDefaultColors(colors, defaultColor, validatorClass) {
+
+        let keys = Object.keys(defaultColor);
+
+        for (let color of colors) {
+
+            for (let key of keys) {
+
+                if (!_.has(color, key)) {
+
+                    color[key] = defaultColor[key];
+                }
+            }
+        }
+    }
+
+    // testStructureSingleSample() {
+
+    //    throw new Error('You have to implement the method doSomething!');
+    // }
+
     static verifyStructure(colors, validatorClass) {
 
         let isValidStructure = this._verifyExpectedDataStructureInAllSamples(colors, validatorClass);

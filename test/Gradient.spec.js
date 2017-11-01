@@ -14,7 +14,8 @@ describe('Gradient', () => {
         it('should not validate data structure by default', () => {
 
             G.createGradient({
-                colors: [{}, []]
+                colors: [{}, []],
+                addDefaultColors: false
             });
         });
 
@@ -23,7 +24,8 @@ describe('Gradient', () => {
             expect(() => {
                 G.createGradient({
                     colors: [{}, []],
-                    verifyStructure: true
+                    verifyStructure: true,
+                    addDefaultColors: false
                 });
             }).to.throw('Color data structure is not consistent / valid');
         });
@@ -36,7 +38,8 @@ describe('Gradient', () => {
                     colors.length.should.equal(2);
                     colors[0].x.should.equal(0);
                     colors[1].x.should.equal(1);
-                }
+                },
+                addDefaultColors: false
             });
         });
 
@@ -48,7 +51,41 @@ describe('Gradient', () => {
                     colors.length.should.equal(1);
                     expect(colors[0].x).to.equal(undefined);
                 },
-                validateStops: false
+                validateStops: false,
+                addDefaultColors: false
+            });
+        });
+
+        it('should add default colors by default using typeOptions', () => {
+
+            G.createGradient({
+                    colors: [{b: 4}],
+                    onValidationComplete: (colors) => {
+                        colors.length.should.equal(2);
+                        colors[0].a.should.equal(1);
+                        colors[0].b.should.equal(4);
+                        colors[0].c.should.equal(3);
+                    }
+                },
+                {
+                    defaultColor: {a: 1, b: 2, c: 3}
+                });
+        });
+
+        it('should add default colors by default using options', () => {
+
+            G.createGradient({
+                colors: [{b: 4}],
+                onValidationComplete: (colors) => {
+                    colors.length.should.equal(2);
+                    colors[0].a.should.equal(5);
+                    colors[0].b.should.equal(4);
+                    colors[0].c.should.equal(7);
+                },
+                defaultColor: {a: 5, b: 6, c: 7}
+            },
+            {
+                defaultColor: {a: 1, b: 2, c: 3}
             });
         });
     });

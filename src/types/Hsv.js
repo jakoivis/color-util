@@ -112,13 +112,11 @@ export default {
 
             gradientPointColor: gradientPointColor,
 
-            defaults: () => {
-                return {
-                    h: 0,
-                    s: 0,
-                    v: 0,
-                    a: 1
-                };
+            defaultColor: {
+                h: 0,
+                s: 0,
+                v: 0,
+                a: 1
             }
         });
     }

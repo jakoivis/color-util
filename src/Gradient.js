@@ -15,6 +15,7 @@ export default new function() {
         let type = _.includes(['linear', 'circular'], options.type) ? options.type : 'linear';
         let verifyStructure = _.get(options, 'verifyStructure', false);
         let validateStops = _.get(options, 'validateStops', true);
+        let addDefaultColors = _.get(options, 'addDefaultColors', true);
         let onValidationComplete = options.onValidationComplete || _.noop;
         let colors = _.clone(options.colors);
         let fn = null;
@@ -29,6 +30,18 @@ export default new function() {
         if (validateStops) {
 
             colors = validator.validateStops(colors);
+        }
+
+        if (addDefaultColors) {
+
+            let defaultColor = options.defaultColor || typeOptions.defaultColor;
+
+            if (!defaultColor) {
+
+                throw new Error('Default color should be specified');
+            }
+
+            validator.addDefaultColors(colors, defaultColor)
         }
 
         onValidationComplete(colors);
