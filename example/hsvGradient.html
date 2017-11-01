@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gradient</title>
+<script src="/ColorUtil.js"></script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<script>
+
+let width = 300;
+let height = 300;
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let imageData  = ctx.createImageData(width, height);
+let buffer = imageData.data.buffer;
+let uint32View = new Uint32Array(buffer);
+let uint8CView = new Uint8ClampedArray(buffer);
+
+canvas.width = width;
+canvas.height = height;
+
+// convert colors to rgb objects so getGradientMatrixColor understands them
+let gradient = ColorUtil.hsv.createGradient({
+    type: 'circular',
+    cx: 1,
+    cy: 1,
+    colors: [
+        {
+            y: 0,
+            colors: [
+                {h:1, s:1, v:0.5, a:1},
+                {h:0, s:1, v:0.5, a:1},
+            ]
+        },
+        {
+            y: 0.8,
+            colors: [
+                {h:1, s:0, v:1, a:1},
+                {h:0.1, s:0.8, v:1, a:1},
+                {h:0.1, s:1, v:1, a:1},
+                {h:0.1, s:0.8, v:1, a:1},
+                {h:0, s:0, v:1, a:1},
+            ]
+        },
+        {
+            y: 1,
+            colors: [
+                {h:1, s:1, v:0.5, a:1},
+                {h:0, s:1, v:0.5, a:1},
+            ]
+        }
+    ],
+    // colors: [
+    //     [
+    //         {h:1, s:1, v:1, a:1},
+    //         {h:0, s:1, v:1, a:1},
+    //     ],
+    //     [
+    //         {h:1, s:1, v:1, a:1},
+    //         {h:1, s:1, v:1, a:1},
+    //     ]
+    // ],
+    // xRepeat: ColorUtil.Repeat.stop,
+    // yRepeat: ColorUtil.Repeat.stop
+});
+
+debugger;
+for(let x = 0; x < width; x++) {
+
+    for(let y = 0; y < height; y++) {
+
+        let hsv = gradient(x/150, y/150);
+        let rgb = ColorUtil.hsv.toRgb(hsv);
+
+        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+    }
+}
+
+imageData.data.set(uint8CView);
+
+ctx.putImageData(imageData, 0, 0);
+
+</script>
+
+</body>
+
+</html>

@@ -1,4 +1,6 @@
 
+import Gradient from '../Gradient';
+
 /**
  * @class Hsv
  * @private
@@ -102,5 +104,32 @@ export default {
             l: l,
             a: a === undefined ? 1 : a
         };
+    },
+
+    createGradient: options => {
+
+        return Gradient.createGradient(options, {
+
+            gradientPointColor: gradientPointColor,
+
+            defaults: () => {
+                return {
+                    h: 0,
+                    s: 0,
+                    v: 0,
+                    a: 1
+                };
+            }
+        });
+    }
+}
+
+function gradientPointColor(color1, color2, position) {
+
+    return {
+        h: color1.h - position * (color1.h - color2.h),
+        s: color1.s - position * (color1.s - color2.s),
+        v: color1.v - position * (color1.v - color2.v),
+        a: color1.a - position * (color1.a - color2.a)
     }
 }
