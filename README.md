@@ -87,6 +87,7 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
     * Gradient data validator
     * Multiple types of gradient data structures allowed
     * HSL & HSV gradients
+    * Default gradient color
     * Continuity renamed to Repeat
 * 1.0.0
     * No code changes to previous version. I just like creating new releases.

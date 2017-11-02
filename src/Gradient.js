@@ -7,7 +7,32 @@ export default new function() {
 
     const PI2 = Math.PI * 2;
 
-    // TODO: document
+    /**
+     * Creates a gradient.
+     *
+     * @param      {Object}    options                              Options provided by user
+     * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
+     *                                                              defines whether the gradient is one or two dimensional.
+     * @param      {string}    [options.type='linear']              Gradient type: linear|circular
+     * @param      {boolean}   [options.verifyStructure=false]      Verify that each of the colors in colors property have valid data structure.
+     *                                                              If set to true, createGradient will throw an error if data structure is not correct.
+     *                                                              Data structure is tested from one sample to identify the data structure. This does not
+     *                                                              affect that behavior.
+     * @param      {boolean}   [options.validateStops=true]         Validate and add missing color stops and convert colors data structure to internal data structure
+     * @param      {boolean}   [options.addDefaultColors=true]      Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
+     *                                                              as a red value for Rgb gradinet without the need for defining the rest of the color components.
+     *                                                              Use defaultColor property to specify a color.
+     * @param      {function}  [options.onValidationComplete]       Called after the modifications to data is complete
+     * @param      {function}  [options.defaultColor]               Default color used to fill the missing color components in gradinet colors
+     *
+     * @param      {Object}    typeOptions                          Options provided by the color type
+     * @param      {Object}    typeOptions.defaultColor             Default color used to fill the missing color components in gradinet colors.
+     *                                                              User options override this.
+     * @param      {function}  typeOptions.gradientPointColor       Function calculating the mix of two colors
+     * @return     {function}
+     *
+     * @private
+     */
     this.createGradient = (options, typeOptions={}) => {
 
         options = options || {};
@@ -29,7 +54,7 @@ export default new function() {
 
         if (validateStops) {
 
-            colors = validator.validateStops(colors);
+            colors = validator.validateStops(colors); // TODO: rename this since this also changes the structure to internal data structure
         }
 
         if (addDefaultColors) {
@@ -74,7 +99,7 @@ export default new function() {
             rotation: options.rotation || 0,
             xRepeat: options.xRepeat || Repeat.repeat,
             yRepeat: options.yRepeat || Repeat.repeat,
-            gradientPointColor: typeOptions.gradientPointColor
+            gradientPointColor: typeOptions.gradientPointColor  // TODO: rename this to mixColors
         };
 
         return (x, y) => fn(x, y, gradientFunctionOptions);
@@ -93,12 +118,12 @@ export default new function() {
      * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
      * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
      *
-     * @private
-     *
      * @param {Array} array     Array of colors. Content of the array does not matter.
      * @param {number} position Position on the whole gradient.
      * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
+     *
+     * @private
      */
     this.partialGradient = (array, position) => {
 
@@ -137,12 +162,12 @@ export default new function() {
      * ColorUtil.convertTo2StopGradient([0xFF0000, 0x00FF00, 0x0000FF], 0.25);
      * // output: {array: [0xFF0000, 0x00FF00], position: 0.5}
      *
-     * @private
-     *
      * @param {Array} array      Array of colors. Array should have colors stops on x or y axis.
      * @param {number} position  Position on the whole gradient.
      * @return {Object} Relative position between two items and two items from gradient array
      *                           which are the closest to the point indicated by position argument
+     *
+     * @private
      */
     this.partialGradientWithStops = (array, position, axis) => {
 
@@ -172,8 +197,6 @@ export default new function() {
      * ColorUtil.rgb.gradientColor(gradient, 0.5);
      * // output: {r: 0, g: 255, b: 0, a: 255}
      *
-     * @memberof ColorUtil.rgb
-     *
      * @param {Array} colors    Array of colors. Colors should be in rgb object notation.
      * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
@@ -181,6 +204,8 @@ export default new function() {
      * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
      * @param {function} [xRepeat=Repeat.stop]  Repeat function
      * @return {Object} rgb object
+     *
+     * @private
      */
     this.linearGradient = (x, y, options) => {
         let radian = options.rotation * PI2;
@@ -199,7 +224,7 @@ export default new function() {
             parts.position);
     };
 
-        /**
+    /**
      * Get color from matrix. Calculation is done in
      * rgb object notation so colors should be converted to object notation.
      *
@@ -207,8 +232,6 @@ export default new function() {
      * let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
      * ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
      * // output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
-     *
-     * @memberof ColorUtil.rgb
      *
      * @param {Array} matrix    Array of gradient color arrays. Colors should be in rgb object notation.
      * @param {number} x        Horizontal position on the gradient. Value in range 0-1.
@@ -218,6 +241,8 @@ export default new function() {
      * @param {function} [xRepeat=Repeat.stop]  Repeat function
      * @param {function} [yRepeat=Repeat.stop]  Repeat function
      * @return {Object} rgb object
+     *
+     * @private
      */
     this.linearMatrixGradient = (x, y, options) => {
 
@@ -254,8 +279,6 @@ export default new function() {
      * ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
      * // output: {r: 255, g: 191.25, b: 0, a: 255}
      *
-     * @memberof ColorUtil.rgb
-     *
      * @param      {Array}   colors      Array of colors. Colors should be in rgb object notation.
      * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
      * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
@@ -264,6 +287,8 @@ export default new function() {
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
      * @param      {function}  [xRepeat=Repeat.repeat]  Repeat function
      * @return     {Object}  rgb object
+     *
+     * @private
      */
     this.circularGradient = (x, y, options) => {
 
@@ -283,8 +308,6 @@ export default new function() {
      * ColorUtil.rgb.circleMatrixColor(matrix, 0.1, 0.1);
      * // output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
      *
-     * @memberof ColorUtil.rgb
-     *
      * @param      {Array}   matrix      Matrix of colors. Colors should be in rgb object notation.
      * @param      {number}  x           Horizontal position on the gradient. Value in range 0-1.
      * @param      {number}  y           Vertical position on the gradient. Value in range 0-1.
@@ -294,6 +317,8 @@ export default new function() {
      * @param      {function}  [xRepeat=Repeat.repeat]  Repeat function
      * @param      {function}  [yRepeat=Repeat.repeat]  Repeat function
      * @return     {Object}  rgb object
+     *
+     * @private
      */
     this.circularMatrixGradient = (x, y, options) => {
         let cx = options.cx;
