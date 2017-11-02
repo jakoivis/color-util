@@ -29,7 +29,8 @@ export default new function() {
      * @param      {Object}    typeOptions.defaultColor             Default color used to fill the missing color components in gradinet colors.
      *                                                              User options override this.
      * @param      {function}  typeOptions.gradientPointColor       Function calculating the mix of two colors
-     * @return     {function}
+     * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters in range 0 to 1.
+     *                         Though the x and y may exceed the limit, but gradient repeat will take effect.
      *
      * @private
      */
@@ -96,6 +97,8 @@ export default new function() {
             colors: colors,
             cx: options.cx || 0,
             cy: options.cy || 0,
+            translateX: options.translateX || 0,
+            translateY: options.translateY || 0,
             rotation: options.rotation || 0,
             xRepeat: options.xRepeat || Repeat.repeat,
             yRepeat: options.yRepeat || Repeat.repeat,
@@ -211,8 +214,8 @@ export default new function() {
         let radian = options.rotation * PI2;
         let cos = Math.cos(radian);
         let sin = Math.sin(radian);
-        let dx = x - options.cx;
-        let dy = y - options.cy;
+        let dx = (x - options.cx) - options.translateX;
+        let dy = (y - options.cy) - options.translateY;
 
         x = options.xRepeat(options.cx + dx * cos - dy * sin);
 
@@ -249,8 +252,8 @@ export default new function() {
         let radian = options.rotation * PI2;
         let cos = Math.cos(radian);
         let sin = Math.sin(radian);
-        let dx = x - options.cx;
-        let dy = y - options.cy;
+        let dx = (x - options.cx) - options.translateX;
+        let dy = (y - options.cy) - options.translateY;
 
         x = options.xRepeat(options.cx + dx * cos - dy * sin);
         y = options.yRepeat(options.cy + dx * sin + dy * cos);
@@ -292,7 +295,11 @@ export default new function() {
      */
     this.circularGradient = (x, y, options) => {
 
-        let angle = options.xRepeat((Math.atan2(options.cy - y, options.cx - x) + Math.PI) / PI2 - options.rotation);
+        let tx = options.translateX;
+        let ty = options.translateY;
+
+        let angle = options.xRepeat(
+            (Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
         let parts = this.partialGradientWithStops(options.colors, angle, 'x');
 
         return options.gradientPointColor(parts.item1, parts.item2, parts.position);
@@ -321,12 +328,13 @@ export default new function() {
      * @private
      */
     this.circularMatrixGradient = (x, y, options) => {
-        let cx = options.cx;
-        let cy = options.cy;
-        let dx = cx - x;
-        let dy = cy - y;
+
+        let tx = options.translateX;
+        let ty = options.translateY;
+        let dx = tx - x;
+        let dy = ty - y;
         let distance = options.yRepeat(Math.sqrt(dx * dx + dy * dy));
-        let angle = options.xRepeat((Math.atan2(cy - y, cx - x) + Math.PI) / PI2 - options.rotation);
+        let angle = options.xRepeat((Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
 
         // get gradients and y position between them
         let gradients = this.partialGradientWithStops(options.colors, distance, 'y');

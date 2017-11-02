@@ -1,5 +1,6 @@
 2.0
 - example for generating any kind of gradient with specific colors
+- example of some color picker gradients
 - document data structures
 - rename cx cy.
     - in linear gradients it is more like rotation center
@@ -22,9 +23,5 @@ Maybe
 - circleMatrixColor by radius and distance instead of x & y
 - maybe a shortcut method for getting the grayscale matrix (white, black, hue)
 - maybe provide validation and input patterns
-- I need to easily create rgb object with specific alpha value e.g.
-    - ColorUtil.uint32be.toRgb(0x00000000)
-    - instead of writing {r: 0, g: 0, b: 0, a: 0}
-    - ... getter. ColorUtil.rgb.getWhite, getBlack, getTransparent
-- vertical gradient example
+
 [![NPM](https://nodei.co/npm/color-util.png)](https://npmjs.org/package/color-util)

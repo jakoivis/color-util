@@ -63,6 +63,18 @@ label {
         <input type='range' id='centerYSlider' value='0.5' min='-2' max='2' step='0.1' oninput='onCenterYChange(this)' style='width:150px;'>
         <span id='centerYSliderValue'></span>
     </div>
+
+    <div>
+        <label for='translateXSlider'>translateX</label>
+        <input type='range' id='translateXSlider' value='0' min='-2' max='2' step='0.1' oninput='onTranslateXChange(this)' style='width:150px;'>
+        <span id='translateXSliderValue'></span>
+    </div>
+    <div>
+        <label for='translateYSlider'>translateY</label>
+        <input type='range' id='translateYSlider' value='0' min='-2' max='2' step='0.1' oninput='onTranslateYChange(this)' style='width:150px;'>
+        <span id='translateYSliderValue'></span>
+    </div>
+
     <div>
         <label for='rotationSlider'>gradient rotation</label>
         <input type='range' id='rotationSlider' value='0' min='-1' max='1' step='0.01' oninput='onRotationChange(this)' style='width:150px;'>
@@ -111,6 +123,8 @@ let canvasWidth = 300;
 let canvasHeight = 300;
 let gradientCenterX = 0.5;
 let gradientCenterY = 0.5;
+let translateX = 0;
+let translateY = 0;
 let gradientRotation = 0;
 let repeat = ColorUtil.Repeat.stop;
 let repeat2 = ColorUtil.Repeat.stop;
@@ -154,6 +168,18 @@ function onCenterXChange(input) {
 
 function onCenterYChange(input) {
     gradientCenterY = parseFloat(input.value);
+    updateSliderValueDisplay(input);
+    updateCanvas();
+}
+
+function onTranslateXChange(input) {
+    translateX = parseFloat(input.value);
+    updateSliderValueDisplay(input);
+    updateCanvas();
+}
+
+function onTranslateYChange(input) {
+    translateY = parseFloat(input.value);
     updateSliderValueDisplay(input);
     updateCanvas();
 }
@@ -205,6 +231,8 @@ function updateGradient(type, colors) {
         type: type,
         cx: gradientCenterX,
         cy: gradientCenterY,
+        translateX: translateX,
+        translateY: translateY,
         rotation: gradientRotation,
         xRepeat: repeat,
         yRepeat: repeat2
