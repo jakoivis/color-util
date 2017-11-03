@@ -20,23 +20,27 @@ label {
     width: 150px;
     text-align: right;
 }
+
+input {
+    width: 150px;
+}
 </style>
 </head>
 <body>
 <form>
     <div>
         <label for='canvasWidthSlider'>canvas width</label>
-        <input type='range' id='canvasWidthSlider' value='300' min='10' max='500' step='10' oninput='onCanvasWidthChange(this)' style='width:150px;'>
+        <input type='range' id='canvasWidthSlider' value='300' min='10' max='500' step='10' oninput='onSliderValueChange(this, "canvasWidth")'>
         <span id='canvasWidthSliderValue'></span>
     </div>
     <div>
         <label for='canvasHeightSlider'>canvas height</label>
-        <input type='range' id='canvasHeightSlider' value='300' min='10' max='500' step='10' oninput='onCanvasHeightChange(this)' style='width:150px;'>
+        <input type='range' id='canvasHeightSlider' value='300' min='10' max='500' step='10' oninput='onSliderValueChange(this, "canvasHeight")'>
         <span id='canvasHeightSliderValue'></span>
     </div>
     <div>
         <label for='gradientTypePulldown'>gradient type</label>
-        <select id='gradientTypePulldown' onchange='onGradientTypeChange(this)'>
+        <select id='gradientTypePulldown' onchange='onPulldownValueChange(this, "gradientType")'>
             <option value="linear">linear</option>
             <option value="linearMatrix">linear matrix</option>
             <option value="circular">circular</option>
@@ -45,51 +49,51 @@ label {
     </div>
     <div>
         <label for='widthSlider'>gradient width</label>
-        <input type='range' id='widthSlider' value='300' min='0' max='500' step='10' oninput='onWidthChange(this)' style='width:150px;'>
+        <input type='range' id='widthSlider' value='300' min='0' max='500' step='10' oninput='onSliderValueChange(this, "width")'>
         <span id='widthSliderValue'></span>
     </div>
     <div>
         <label for='heightSlider'>gradient height</label>
-        <input type='range' id='heightSlider' value='300' min='0' max='500' step='10' oninput='onHeightChange(this)' style='width:150px;'>
+        <input type='range' id='heightSlider' value='300' min='0' max='500' step='10' oninput='onSliderValueChange(this, "height")'>
         <span id='heightSliderValue'></span>
     </div>
     <div>
-        <label for='centerXSlider'>gradient center X</label>
-        <input type='range' id='centerXSlider' value='0.5' min='-2' max='2' step='0.1' oninput='onCenterXChange(this)' style='width:150px;'>
+        <label for='centerXSlider'>centerX</label>
+        <input type='range' id='centerXSlider' value='0.5' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "centerX")'>
         <span id='centerXSliderValue'></span>
     </div>
     <div>
-        <label for='centerYSlider'>gradient center Y</label>
-        <input type='range' id='centerYSlider' value='0.5' min='-2' max='2' step='0.1' oninput='onCenterYChange(this)' style='width:150px;'>
+        <label for='centerYSlider'>centerY</label>
+        <input type='range' id='centerYSlider' value='0.5' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "centerY")'>
         <span id='centerYSliderValue'></span>
     </div>
 
     <div>
         <label for='translateXSlider'>translateX</label>
-        <input type='range' id='translateXSlider' value='0' min='-2' max='2' step='0.1' oninput='onTranslateXChange(this)' style='width:150px;'>
+        <input type='range' id='translateXSlider' value='0' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "translateX")'>
         <span id='translateXSliderValue'></span>
     </div>
     <div>
         <label for='translateYSlider'>translateY</label>
-        <input type='range' id='translateYSlider' value='0' min='-2' max='2' step='0.1' oninput='onTranslateYChange(this)' style='width:150px;'>
+        <input type='range' id='translateYSlider' value='0' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "translateY")'>
         <span id='translateYSliderValue'></span>
     </div>
 
     <div>
-        <label for='rotationSlider'>gradient rotation</label>
-        <input type='range' id='rotationSlider' value='0' min='-1' max='1' step='0.01' oninput='onRotationChange(this)' style='width:150px;'>
+        <label for='rotationSlider'>rotation</label>
+        <input type='range' id='rotationSlider' value='0' min='-1' max='1' step='0.01' oninput='onSliderValueChange(this, "rotation")'>
         <span id='rotationSliderValue'></span>
     </div>
     <div>
-        <label for='repeatPulldown'>gradient x Repeat</label>
-        <select id='repeatPulldown' onchange='repeatChange(this)'>
+        <label for='repeatPulldown'>repeatX</label>
+        <select id='repeatPulldown' onchange='onRepeatChange(this, "repeatX")'>
             <option value="stop">ColorUtil.Repeat.stop</option>
             <option value="repeat">ColorUtil.Repeat.repeat</option>
         </select>
     </div>
     <div>
-        <label for='repeatPulldown2'>gradient y Repeat (matrix only)</label>
-        <select id='repeatPulldown2' onchange='repeat2Change(this)'>
+        <label for='repeatPulldown2'>repeatY</label>
+        <select id='repeatPulldown2' onchange='onRepeatChange(this, "repeatY")'>
             <option value="stop">ColorUtil.Repeat.stop</option>
             <option value="repeat">ColorUtil.Repeat.repeat</option>
         </select>
@@ -116,135 +120,89 @@ let circleGradientColors = ColorUtil.rgb.hueColors();
 
 let circleMatrixColors = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
 
-let gradientType = 'linear';
-let gradientWidth = 300;
-let gradientHeight = 300;
-let canvasWidth = 300;
-let canvasHeight = 300;
-let gradientCenterX = 0.5;
-let gradientCenterY = 0.5;
-let translateX = 0;
-let translateY = 0;
-let gradientRotation = 0;
-let repeat = ColorUtil.Repeat.stop;
-let repeat2 = ColorUtil.Repeat.stop;
+var options = {
+    width: 300,
+    height: 300,
+    canvasWidth: 300,
+    canvasHeight: 300,
+    type: 'lienar',
+    centerX: 0,
+    centerY: 0,
+    translateX: 0,
+    translateY: 0,
+    rotation: 0,
+    repeatX: ColorUtil.Repeat.stop,
+    repeatY: ColorUtil.Repeat.stop
+};
 
 updateCanvas();
 
-function onCanvasWidthChange(input) {
-    canvasWidth = parseInt(input.value);
+function onSliderValueChange(input, property) {
+
+    options[property] = parseFloat(input.value);
     updateSliderValueDisplay(input);
     updateCanvas();
 }
 
-function onCanvasHeightChange(input) {
-    canvasHeight = parseInt(input.value);
-    updateSliderValueDisplay(input);
+function onPulldownValueChange(input, property) {
+
+    options[property] = input.value;
     updateCanvas();
 }
 
-function onGradientTypeChange(input) {
-    gradientType = input.value;
-    updateCanvas();
-}
+function onRepeatChange(input, property) {
 
-function onWidthChange(input) {
-    gradientWidth = parseInt(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function onHeightChange(input) {
-    gradientHeight = parseInt(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function onCenterXChange(input) {
-    gradientCenterX = parseFloat(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function onCenterYChange(input) {
-    gradientCenterY = parseFloat(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function onTranslateXChange(input) {
-    translateX = parseFloat(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function onTranslateYChange(input) {
-    translateY = parseFloat(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function onRotationChange(input) {
-    gradientRotation = parseFloat(input.value);
-    updateSliderValueDisplay(input);
-    updateCanvas();
-}
-
-function repeatChange(input) {
-    repeat = ColorUtil.Repeat[input.value];
-    updateCanvas();
-}
-
-function repeat2Change(input) {
-    repeat2 = ColorUtil.Repeat[input.value];
+    options[property] = ColorUtil.Repeat[input.value];
     updateCanvas();
 }
 
 function updateCanvas() {
-    if (gradientType === 'linear') {
-        updateGradient('linear', gradientColors)
+    if (options.gradientType === 'linear') {
+        options.type = 'linear'
+        updateGradient(gradientColors)
 
-    } else if (gradientType === 'linearMatrix') {
-        updateGradient('linear', matrixColors)
+    } else if (options.gradientType === 'linearMatrix') {
+        options.type = 'linear';
+        updateGradient(matrixColors)
 
-    } else if (gradientType === 'circularMatrix') {
-        updateGradient('circular', circleMatrixColors);
+    } else if (options.gradientType === 'circularMatrix') {
+        options.type = 'circular';
+        updateGradient(circleMatrixColors);
 
-    } else if (gradientType === 'circular') {
-        updateGradient('circular', circleGradientColors);
+    } else if (options.gradientType === 'circular') {
+        option.type = 'circular';
+        updateGradient(circleGradientColors);
     }
 }
 
-function updateGradient(type, colors) {
+function updateGradient(colors) {
+
+    let cWidth = options.canvasWidth;
+    let cHeight = options.canvasHeight;
+    let width = options.width;
+    let height = options.height;
+
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext('2d');
-    let imageData  = ctx.createImageData(canvasWidth, canvasHeight);
+    let imageData  = ctx.createImageData(cWidth, cHeight);
     let buffer = imageData.data.buffer;
     let uint32View = new Uint32Array(buffer);
     let uint8CView = new Uint8ClampedArray(buffer);
 
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
+    canvas.width = cWidth;
+    canvas.height = cHeight;
 
-    let gradientFunction = ColorUtil.rgb.createGradient({
-        colors: colors,
-        type: type,
-        cx: gradientCenterX,
-        cy: gradientCenterY,
-        translateX: translateX,
-        translateY: translateY,
-        rotation: gradientRotation,
-        xRepeat: repeat,
-        yRepeat: repeat2
-    })
+    var gradientOptions = Object.assign({colors: colors}, options)
 
-    for(let x = 0; x < canvasWidth; x++) {
+    let gradientFunction = ColorUtil.rgb.createGradient(gradientOptions)
 
-        for(let y = 0; y < canvasHeight; y++) {
+    for(let x = 0; x < cWidth; x++) {
 
-            let rgb = gradientFunction(x/gradientWidth, y/gradientHeight);
+        for(let y = 0; y < cHeight; y++) {
 
-            uint32View[y * canvasWidth + x] = ColorUtil.rgb.toUint32(rgb);
+            let rgb = gradientFunction(x/width, y/height);
+
+            uint32View[y * cWidth + x] = ColorUtil.rgb.toUint32(rgb);
         }
     }
 
@@ -254,6 +212,7 @@ function updateGradient(type, colors) {
 }
 
 function updateSliderValueDisplay(slider) {
+
     document.getElementById(slider.getAttribute('id') + 'Value').innerText = slider.value;
 }
 
