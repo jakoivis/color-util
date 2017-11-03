@@ -100,8 +100,8 @@ export default new function() {
             translateX: options.translateX || 0,
             translateY: options.translateY || 0,
             rotation: options.rotation || 0,
-            xRepeat: options.xRepeat || Repeat.repeat,
-            yRepeat: options.yRepeat || Repeat.repeat,
+            repeatX: options.repeatX || Repeat.repeat,
+            repeatY: options.repeatY || Repeat.repeat,
             gradientPointColor: typeOptions.gradientPointColor  // TODO: rename this to mixColors
         };
 
@@ -205,7 +205,7 @@ export default new function() {
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
      * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
-     * @param {function} [xRepeat=Repeat.stop]  Repeat function
+     * @param {function} [repeatX=Repeat.stop]  Repeat function
      * @return {Object} rgb object
      *
      * @private
@@ -217,7 +217,7 @@ export default new function() {
         let dx = (x - options.cx) - options.translateX;
         let dy = (y - options.cy) - options.translateY;
 
-        x = options.xRepeat(options.cx + dx * cos - dy * sin);
+        x = options.repeatX(options.cx + dx * cos - dy * sin);
 
         let parts = this.partialGradientWithStops(options.colors, x, 'x');
 
@@ -241,8 +241,8 @@ export default new function() {
      * @param {number} y        Vertical position on the gradient. Value in range 0-1.
      * @param {number} cx       Horizontal position of rotation center. Value in range 0-1.
      * @param {number} cy       Vertical position of rotation center. Value in range 0-1.
-     * @param {function} [xRepeat=Repeat.stop]  Repeat function
-     * @param {function} [yRepeat=Repeat.stop]  Repeat function
+     * @param {function} [repeatX=Repeat.stop]  Repeat function
+     * @param {function} [repeatY=Repeat.stop]  Repeat function
      * @return {Object} rgb object
      *
      * @private
@@ -255,8 +255,8 @@ export default new function() {
         let dx = (x - options.cx) - options.translateX;
         let dy = (y - options.cy) - options.translateY;
 
-        x = options.xRepeat(options.cx + dx * cos - dy * sin);
-        y = options.yRepeat(options.cy + dx * sin + dy * cos);
+        x = options.repeatX(options.cx + dx * cos - dy * sin);
+        y = options.repeatY(options.cy + dx * sin + dy * cos);
 
         // get gradients and y position between them
         let gradients = this.partialGradientWithStops(options.colors, y, 'y');
@@ -288,7 +288,7 @@ export default new function() {
      * @param      {number}  cx          Horizontal position of center point. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center point. Value in range 0-1.
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [xRepeat=Repeat.repeat]  Repeat function
+     * @param      {function}  [repeatX=Repeat.repeat]  Repeat function
      * @return     {Object}  rgb object
      *
      * @private
@@ -298,7 +298,7 @@ export default new function() {
         let tx = options.translateX;
         let ty = options.translateY;
 
-        let angle = options.xRepeat(
+        let angle = options.repeatX(
             (Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
         let parts = this.partialGradientWithStops(options.colors, angle, 'x');
 
@@ -321,8 +321,8 @@ export default new function() {
      * @param      {number}  cx          Horizontal position of center. Value in range 0-1.
      * @param      {number}  cy          Vertical position of center. Value in range 0-1.
      * @param      {number}  rotation    Rotation of the gradient. Value in range 0-1.
-     * @param      {function}  [xRepeat=Repeat.repeat]  Repeat function
-     * @param      {function}  [yRepeat=Repeat.repeat]  Repeat function
+     * @param      {function}  [repeatX=Repeat.repeat]  Repeat function
+     * @param      {function}  [repeatY=Repeat.repeat]  Repeat function
      * @return     {Object}  rgb object
      *
      * @private
@@ -333,8 +333,8 @@ export default new function() {
         let ty = options.translateY;
         let dx = tx - x;
         let dy = ty - y;
-        let distance = options.yRepeat(Math.sqrt(dx * dx + dy * dy));
-        let angle = options.xRepeat((Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
+        let distance = options.repeatY(Math.sqrt(dx * dx + dy * dy));
+        let angle = options.repeatX((Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
 
         // get gradients and y position between them
         let gradients = this.partialGradientWithStops(options.colors, distance, 'y');
