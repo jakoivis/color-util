@@ -24,7 +24,7 @@ describe('Gradient', () => {
             expect(() => {
                 G.createGradient({
                     colors: [{}, []],
-                    verifyStructure: true,
+                    verify: true,
                     addDefaultColors: false
                 });
             }).to.throw('Color data structure is not consistent / valid');
@@ -51,7 +51,7 @@ describe('Gradient', () => {
                     colors.length.should.equal(1);
                     expect(colors[0].x).to.equal(undefined);
                 },
-                validateStops: false,
+                validate: false,
                 addDefaultColors: false
             });
         });

@@ -110,7 +110,7 @@ export default {
 
         return Gradient.createGradient(options, {
 
-            gradientPointColor: gradientPointColor,
+            mixColors: mixColors,
 
             defaultColor: {
                 h: 0,
@@ -122,7 +122,7 @@ export default {
     }
 }
 
-function gradientPointColor(color1, color2, position) {
+function mixColors(color1, color2, position) {
 
     return {
         h: color1.h - position * (color1.h - color2.h),

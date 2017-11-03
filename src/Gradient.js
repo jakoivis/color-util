@@ -14,11 +14,11 @@ export default new function() {
      * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
      *                                                              defines whether the gradient is one or two dimensional.
      * @param      {string}    [options.type='linear']              Gradient type: linear|circular
-     * @param      {boolean}   [options.verifyStructure=false]      Verify that each of the colors in colors property have valid data structure.
+     * @param      {boolean}   [options.verify=false]               Verify that each of the colors in colors property have valid data structure.
      *                                                              If set to true, createGradient will throw an error if data structure is not correct.
      *                                                              Data structure is tested from one sample to identify the data structure. This does not
      *                                                              affect that behavior.
-     * @param      {boolean}   [options.validateStops=true]         Validate and add missing color stops and convert colors data structure to internal data structure
+     * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
      * @param      {boolean}   [options.addDefaultColors=true]      Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
      *                                                              as a red value for Rgb gradinet without the need for defining the rest of the color components.
      *                                                              Use defaultColor property to specify a color.
@@ -28,7 +28,7 @@ export default new function() {
      * @param      {Object}    typeOptions                          Options provided by the color type
      * @param      {Object}    typeOptions.defaultColor             Default color used to fill the missing color components in gradinet colors.
      *                                                              User options override this.
-     * @param      {function}  typeOptions.gradientPointColor       Function calculating the mix of two colors
+     * @param      {function}  typeOptions.mixColors                Function calculating the mix of two colors
      * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters in range 0 to 1.
      *                         Though the x and y may exceed the limit, but gradient repeat will take effect.
      *
@@ -39,8 +39,8 @@ export default new function() {
         options = options || {};
 
         let type = _.includes(['linear', 'circular'], options.type) ? options.type : 'linear';
-        let verifyStructure = _.get(options, 'verifyStructure', false);
-        let validateStops = _.get(options, 'validateStops', true);
+        let verify = _.get(options, 'verify', false);
+        let validate = _.get(options, 'validate', true);
         let addDefaultColors = _.get(options, 'addDefaultColors', true);
         let onValidationComplete = options.onValidationComplete || _.noop;
         let colors = _.clone(options.colors);
@@ -48,14 +48,14 @@ export default new function() {
 
         let validator = GradientDataValidator.create(colors);
 
-        if (verifyStructure) {
+        if (verify) {
 
-            validator.verifyStructure(colors);
+            validator.verify(colors);
         }
 
-        if (validateStops) {
+        if (validate) {
 
-            colors = validator.validateStops(colors); // TODO: rename this since this also changes the structure to internal data structure
+            colors = validator.validate(colors);
         }
 
         if (addDefaultColors) {
@@ -102,7 +102,7 @@ export default new function() {
             rotation: options.rotation || 0,
             repeatX: options.repeatX || Repeat.repeat,
             repeatY: options.repeatY || Repeat.repeat,
-            gradientPointColor: typeOptions.gradientPointColor  // TODO: rename this to mixColors
+            mixColors: typeOptions.mixColors
         };
 
         return (x, y) => fn(x, y, gradientFunctionOptions);
@@ -221,7 +221,7 @@ export default new function() {
 
         let parts = this.partialGradientWithStops(options.colors, x, 'x');
 
-        return options.gradientPointColor(
+        return options.mixColors(
             parts.item1,
             parts.item2,
             parts.position);
@@ -263,10 +263,10 @@ export default new function() {
         let parts1 = this.partialGradientWithStops(gradients.item1.colors, x, 'x');
         let parts2 = this.partialGradientWithStops(gradients.item2.colors, x, 'x');
 
-        let color1 = options.gradientPointColor(parts1.item1, parts1.item2, parts1.position);
-        let color2 = options.gradientPointColor(parts2.item1, parts2.item2, parts2.position);
+        let color1 = options.mixColors(parts1.item1, parts1.item2, parts1.position);
+        let color2 = options.mixColors(parts2.item1, parts2.item2, parts2.position);
 
-        return options.gradientPointColor(color1, color2, gradients.position);
+        return options.mixColors(color1, color2, gradients.position);
     };
 
     /**
@@ -302,7 +302,7 @@ export default new function() {
             (Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
         let parts = this.partialGradientWithStops(options.colors, angle, 'x');
 
-        return options.gradientPointColor(parts.item1, parts.item2, parts.position);
+        return options.mixColors(parts.item1, parts.item2, parts.position);
     }
 
     /**
@@ -341,10 +341,10 @@ export default new function() {
         let parts1 = this.partialGradientWithStops(gradients.item1.colors, angle, 'x');
         let parts2 = this.partialGradientWithStops(gradients.item2.colors, angle, 'x');
 
-        let color1 = options.gradientPointColor(parts1.item1, parts1.item2, parts1.position);
-        let color2 = options.gradientPointColor(parts2.item1, parts2.item2, parts2.position);
+        let color1 = options.mixColors(parts1.item1, parts1.item2, parts1.position);
+        let color2 = options.mixColors(parts2.item1, parts2.item2, parts2.position);
 
-        return options.gradientPointColor(color1, color2, gradients.position);
+        return options.mixColors(color1, color2, gradients.position);
     }
 
 }();

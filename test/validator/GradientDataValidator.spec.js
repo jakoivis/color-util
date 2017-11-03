@@ -85,31 +85,31 @@ describe('GradientDataValidator', () => {
         }
     });
 
-    describe('verifyStructure', () => {
+    describe('verify', () => {
 
         describe('DATA_STRUCTURE_OBJECTS', () => {
 
             it('should accept structures', () => {
 
-                verifyStructure([{}])
+                verify([{}])
                     .should.equal(true);
 
-                verifyStructure([{}, {}])
+                verify([{}, {}])
                     .should.equal(true);
             });
 
             it('should not accept structures', () => {
 
                 expect(() => {
-                    verifyStructure([{}, {colors:{}}]);
+                    verify([{}, {colors:{}}]);
                 }).to.throw('Color data structure is not consistent / valid');
 
                 expect(() => {
-                    verifyStructure([{}, 1]);
+                    verify([{}, 1]);
                 }).to.throw('Color data structure is not consistent / valid');
 
                 expect(() => {
-                    verifyStructure([{}, []]);
+                    verify([{}, []]);
                 }).to.throw('Color data structure is not consistent / valid');
             });
         });
@@ -118,38 +118,38 @@ describe('GradientDataValidator', () => {
 
             it('should accept structures', () => {
 
-                verifyStructure([{x: 0, y: 0}])
+                verify([{x: 0, y: 0}])
                     .should.equal(true);
 
-                verifyStructure([{x: 0, y: 0}, {x: 1, y: 1}])
+                verify([{x: 0, y: 0}, {x: 1, y: 1}])
                     .should.equal(true);
             });
 
             it('should not accept structures', () => {
 
                 expect(() => {
-                    verifyStructure([{x:0, y:0}, {colors:{}}]);
+                    verify([{x:0, y:0}, {colors:{}}]);
                 }).to.throw('Color data structure is not consistent / valid');
 
                 expect(() => {
-                    verifyStructure([{x:0, y:0}, 1]);
+                    verify([{x:0, y:0}, 1]);
                 }).to.throw('Color data structure is not consistent / valid');
 
                 expect(() => {
-                    verifyStructure([{x:0, y:0}, []]);
+                    verify([{x:0, y:0}, []]);
                 }).to.throw('Color data structure is not consistent / valid');
             });
         });
 
-        function verifyStructure(data) {
+        function verify(data) {
 
             let validator = GradientDataValidator.create(data);
 
-            return validator.verifyStructure(data);
+            return validator.verify(data);
         }
     });
 
-    describe('validateStops', () => {
+    describe('validate', () => {
 
         let color1, color2, color3, color4;
 
@@ -165,7 +165,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 1 point gradient', () => {
 
-                let data = validateStops([color1]);
+                let data = validate([color1]);
 
                 data.length.should.equal(2);
                 data[0].x.should.equal(0);
@@ -178,7 +178,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 2 point gradient', () => {
 
-                let data = validateStops([{}, {}]);
+                let data = validate([{}, {}]);
 
                 data.length.should.equal(2);
                 data[0].x.should.equal(0);
@@ -187,7 +187,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 3 point gradient', () => {
 
-                let data = validateStops([{}, {}, {}]);
+                let data = validate([{}, {}, {}]);
 
                 data.length.should.equal(3);
                 data[0].x.should.equal(0);
@@ -197,7 +197,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 4 point gradient', () => {
 
-                let data = validateStops([{}, {}, {}, {}]);
+                let data = validate([{}, {}, {}, {}]);
 
                 data.length.should.equal(4);
                 data[0].x.should.equal(0);
@@ -208,7 +208,7 @@ describe('GradientDataValidator', () => {
 
             it('should add missing stops (end-stops missing)', () => {
 
-                let data = validateStops([color1, {x: 0.4}, color2]);
+                let data = validate([color1, {x: 0.4}, color2]);
 
                 data.length.should.equal(3);
                 data[0].x.should.equal(0);
@@ -222,7 +222,7 @@ describe('GradientDataValidator', () => {
 
             it('should add missing stops (end-stops + 1 missing)', () => {
 
-                let data = validateStops([color1, color2, {x: 0.2}, color3, color4]);
+                let data = validate([color1, color2, {x: 0.2}, color3, color4]);
 
                 data.length.should.equal(5);
                 data[0].x.should.equal(0);
@@ -240,7 +240,7 @@ describe('GradientDataValidator', () => {
 
             it('should add missing stops (end-colors missing)', () => {
 
-                let data = validateStops([{x: 0.2, r: 1}, color2, {x: 0.8, r: 111}]);
+                let data = validate([{x: 0.2, r: 1}, color2, {x: 0.8, r: 111}]);
 
                 data.length.should.equal(5);
                 data[0].x.should.equal(0);
@@ -262,7 +262,7 @@ describe('GradientDataValidator', () => {
                 color2.x = 0.2;
                 color3.x = 1;
 
-                let data = validateStops([color1, color2, color3]);
+                let data = validate([color1, color2, color3]);
 
                 data.length.should.equal(3);
                 data[0].x.should.equal(0);
@@ -279,7 +279,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 1 point 1 row gradient', () => {
 
-                let data = validateStops([
+                let data = validate([
                     {
                         colors: [color1]
                     }
@@ -290,7 +290,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 3 point 3 row gradient', () => {
 
-                let data = validateStops([
+                let data = validate([
                     {
                         colors: [color1, color2, color3]
                     },
@@ -309,7 +309,7 @@ describe('GradientDataValidator', () => {
 
                 color2.x = 0.4;
 
-                let data = validateStops([
+                let data = validate([
                     {
                         colors: [color1, color2, color3]
                     },
@@ -330,7 +330,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 1 point 1 row gradient', () => {
 
-                let data = validateStops([
+                let data = validate([
                     [
                         color1
                     ]
@@ -341,7 +341,7 @@ describe('GradientDataValidator', () => {
 
             it('should add stops for 3 point 3 row gradient', () => {
 
-                let data = validateStops([
+                let data = validate([
                     [
                         color1, color2, color3
                     ],
@@ -366,7 +366,7 @@ describe('GradientDataValidator', () => {
 
                 row2.y = 0.4;
 
-                let data = validateStops([
+                let data = validate([
                     row1, row2, row3
                 ]);
 
@@ -380,7 +380,7 @@ describe('GradientDataValidator', () => {
 
                 color1.y = 0;
 
-                let data = validateStops([
+                let data = validate([
                     color1
                 ]);
 
@@ -409,7 +409,7 @@ describe('GradientDataValidator', () => {
                 color8.y = 1;
                 color9.y = 1;
 
-                let data = validateStops([
+                let data = validate([
                     color1, color2, color3,
                     color4, color5, color6,
                     color7, color8, color9
@@ -436,7 +436,7 @@ describe('GradientDataValidator', () => {
 
                 color7.y = 1;
 
-                let data = validateStops([
+                let data = validate([
                     color1, color2, color3,
                     color4, color5, color6,
                     color7, color8, color9
@@ -524,11 +524,11 @@ describe('GradientDataValidator', () => {
             data[1].colors[2].r.should.equal(111);
         }
 
-        function validateStops(data) {
+        function validate(data) {
 
             let validator = GradientDataValidator.create(data);
 
-            return validator.validateStops(data);
+            return validator.validate(data);
         }
     });
 });

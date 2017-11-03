@@ -36,9 +36,9 @@ export default class {
         return this.testStructureSingleSample(sample);
     }
 
-    static verifyStructure(colors) {
+    static verify(colors) {
 
-        return GradientDataValidatorUtil.verifyStructure(colors, this);
+        return GradientDataValidatorUtil.verify(colors, this);
     }
 
     static testStructureSingleSample(sample) {
@@ -64,7 +64,7 @@ export default class {
         return true;
     }
 
-    static validateStops(colors) {
+    static validate(colors) {
 
         let data = colors.map((item) => {
 

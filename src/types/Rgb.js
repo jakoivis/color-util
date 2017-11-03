@@ -364,7 +364,7 @@ let Rgb = new function() {
 
         let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.toHsv(rgb).h);
 
-        return gradientPointColor(
+        return mixColors(
             parts.item1,
             parts.item2,
             parts.position);
@@ -374,7 +374,7 @@ let Rgb = new function() {
 
         return Gradient.createGradient(options, {
 
-            gradientPointColor: gradientPointColor,
+            mixColors: mixColors,
 
             defaultColor: {
                 r: 0,
@@ -385,7 +385,7 @@ let Rgb = new function() {
         });
     };
 
-    function gradientPointColor(color1, color2, position) {
+    function mixColors(color1, color2, position) {
 
         return {
             r: color1.r - position * (color1.r - color2.r),

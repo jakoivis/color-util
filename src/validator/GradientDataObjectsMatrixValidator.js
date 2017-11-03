@@ -29,9 +29,9 @@ export default class {
             this._testStructureAllSamples(colors);
     }
 
-    static verifyStructure(colors) {
+    static verify(colors) {
 
-        return GradientDataValidatorUtil.verifyStructure(colors, this);
+        return GradientDataValidatorUtil.verify(colors, this);
     }
 
     static testStructureSingleSample(item) {
@@ -44,7 +44,7 @@ export default class {
         return _.findIndex(colors, 'y') > -1;
     }
 
-    static validateStops(colors) {
+    static validate(colors) {
 
         colors = _.clone(colors);
 
