@@ -38,14 +38,21 @@ let colors = [
 ];
 
 let gradient = ColorUtil.rgb.createGradient({
-    colors: colors
+    colors: colors,
+    width: 300,
+    height: 300,
+    // centerX: 0.5,
+    // centerY: 0.5,
+    scaleX: 0.5,
+    scaleY: 0.5,
+    centerize: true
 });
 
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = gradient(x/width, y/height);
+        let rgb = gradient(x, y);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }

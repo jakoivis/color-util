@@ -87,6 +87,9 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
     * Gradient data validator
     * Multiple types of gradient data structures allowed
     * HSL & HSV gradients
+    * Gradient scaling handled internally
+    * Gradient translate added
+    * Gradient centerize property added. Automatically adjusts translate.
     * Default gradient color
     * Renaming of some properties
 * 1.0.0

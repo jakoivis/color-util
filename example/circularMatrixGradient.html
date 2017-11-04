@@ -12,9 +12,9 @@
 let width = 300;
 let height = 300;
 
-var scale = 0.5;
-var center = 0.5 / scale;
-var size = width * scale;
+// var scale = 0.5;
+// var center = 0.5 / scale;
+// var size = width * scale;
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -32,22 +32,25 @@ let gradientFunction = ColorUtil.rgb.createGradient({
         ColorUtil.rgb.hueColors()
     ],
     type: 'circular',
-    cx: center,
-    cy: center,
-    rotation: 0.25
+    // translateX: center,
+    // translateY: center,
+    rotation: 0.25,
+
+    width: 300,
+    height: 300,
+    scaleX: 0.5,
+    scaleY: 0.5,
+    centerize: false
 });
 
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        // if (x === 0 && y === 0) {
+        // let rgb = gradientFunction(x/size, y/size);
+        let rgb = gradientFunction(x, y);
 
-            // debugger;
-            let rgb = gradientFunction(x/size, y/size);
-
-            uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
-        // }
+        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
     }
 }
 

@@ -72,13 +72,20 @@ export default new function() {
 
         onValidationComplete(colors);
 
+        let centerX = 0;
+        let centerY = 0;
+
         if (!validator.isMatrix && type === 'linear') {
 
             fn = this.linearGradient;
+            centerX = options.centerX;
+            centerY = options.centerY;
 
         } else if (validator.isMatrix && type === 'linear') {
 
             fn = this.linearMatrixGradient;
+            centerX = options.centerX;
+            centerY = options.centerY;
 
         } else if (!validator.isMatrix && type === 'circular') {
 
@@ -93,19 +100,37 @@ export default new function() {
             return null;
         }
 
+        let width = options.width || 100;
+        let height = options.height || 100;
+        let scaleX = options.scaleX || 1;
+        let scaleY = options.scaleY || 1;
+        let sizeX = width * scaleX;
+        let sizeY = height * scaleY;
+        let translateX = options.translateX || 0;
+        let translateY = options.translateY || 0;
+
+        if (options.centerize) {
+
+            translateX = 0.5 / scaleX - centerX;
+            translateY = 0.5 / scaleY - centerY;
+        }
+
         let gradientFunctionOptions = {
             colors: colors,
             centerX: options.centerX || 0,
             centerY: options.centerY || 0,
-            translateX: options.translateX || 0,
-            translateY: options.translateY || 0,
+            translateX: translateX,
+            translateY: translateY,
             rotation: options.rotation || 0,
             repeatX: options.repeatX || Repeat.repeat,
             repeatY: options.repeatY || Repeat.repeat,
             mixColors: typeOptions.mixColors
         };
 
-        return (x, y) => fn(x, y, gradientFunctionOptions);
+        return (x, y) => {
+
+            return fn(x/sizeX, y/sizeY, gradientFunctionOptions);
+        };
     };
 
     /**
@@ -334,7 +359,7 @@ export default new function() {
         let dx = tx - x;
         let dy = ty - y;
         let distance = options.repeatY(Math.sqrt(dx * dx + dy * dy));
-        let angle = options.repeatX((Math.atan2(ty - y, tx - x) + Math.PI) / PI2 - options.rotation);
+        let angle = options.repeatX((Math.atan2(dy, dx) + Math.PI) / PI2 - options.rotation);
 
         // get gradients and y position between them
         let gradients = this.partialGradientWithStops(options.colors, distance, 'y');

@@ -57,6 +57,19 @@ input {
         <input type='range' id='heightSlider' value='300' min='0' max='500' step='10' oninput='onSliderValueChange(this, "height")'>
         <span id='heightSliderValue'></span>
     </div>
+
+    <div>
+        <label for='scaleXSlider'>scaleX</label>
+        <input type='range' id='scaleXSlider' value='1' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "scaleX")'>
+        <span id='scaleXSliderValue'></span>
+    </div>
+    <div>
+        <label for='scaleYSlider'>scaleY</label>
+        <input type='range' id='scaleYSlider' value='1' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "scaleY")'>
+        <span id='scaleYSliderValue'></span>
+    </div>
+
+
     <div>
         <label for='centerXSlider'>centerX</label>
         <input type='range' id='centerXSlider' value='0.5' min='-2' max='2' step='0.1' oninput='onSliderValueChange(this, "centerX")'>
@@ -87,15 +100,20 @@ input {
     <div>
         <label for='repeatPulldown'>repeatX</label>
         <select id='repeatPulldown' onchange='onRepeatChange(this, "repeatX")'>
-            <option value="stop">ColorUtil.Repeat.stop</option>
             <option value="repeat">ColorUtil.Repeat.repeat</option>
+            <option value="stop">ColorUtil.Repeat.stop</option>
         </select>
     </div>
     <div>
         <label for='repeatPulldown2'>repeatY</label>
         <select id='repeatPulldown2' onchange='onRepeatChange(this, "repeatY")'>
-            <option value="stop">ColorUtil.Repeat.stop</option>
             <option value="repeat">ColorUtil.Repeat.repeat</option>
+            <option value="stop">ColorUtil.Repeat.stop</option>
+        </select>
+    </div>
+    <div>
+        <label for='centerizeCheckbox'>centerize</label>
+        <input type='checkbox' id='centerizeCheckbox' onchange='onCheckboxValueChange(this, "centerize")'>
         </select>
     </div>
 </form>
@@ -123,6 +141,8 @@ let circleMatrixColors = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueCo
 var options = {
     width: 300,
     height: 300,
+    scaleX: 1,
+    scaleY: 1,
     canvasWidth: 300,
     canvasHeight: 300,
     type: 'linear',
@@ -131,9 +151,10 @@ var options = {
     translateX: 0,
     translateY: 0,
     rotation: 0,
-    repeatX: ColorUtil.Repeat.stop,
-    repeatY: ColorUtil.Repeat.stop,
-    gradientType: 'linear'
+    repeatX: ColorUtil.Repeat.repeat,
+    repeatY: ColorUtil.Repeat.repeat,
+    gradientType: 'linear',
+    centerize: false
 };
 
 updateCanvas();
@@ -155,7 +176,13 @@ function onRepeatChange(input, property) {
 
     options[property] = ColorUtil.Repeat[input.value];
     updateCanvas();
-}
+}   
+
+function onCheckboxValueChange(input, property) {
+
+    options[property] = !!input.checked;
+    updateCanvas();
+} 
 
 function updateCanvas() {
     if (options.gradientType === 'linear') {
@@ -171,7 +198,7 @@ function updateCanvas() {
         updateGradient(circleMatrixColors);
 
     } else if (options.gradientType === 'circular') {
-        option.type = 'circular';
+        options.type = 'circular';
         updateGradient(circleGradientColors);
     }
 }
@@ -201,7 +228,7 @@ function updateGradient(colors) {
 
         for(let y = 0; y < cHeight; y++) {
 
-            let rgb = gradientFunction(x/width, y/height);
+            let rgb = gradientFunction(x, y);
 
             uint32View[y * cWidth + x] = ColorUtil.rgb.toUint32(rgb);
         }
