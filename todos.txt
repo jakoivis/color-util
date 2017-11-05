@@ -1,5 +1,4 @@
 2.0
-- example of some color picker gradients
 - document data structures
 - document rotation center behavior on scaling (+translate??)
 
