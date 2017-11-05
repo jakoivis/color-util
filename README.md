@@ -69,6 +69,71 @@ ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
 
 Now in order to draw a gradient you can create a canvas and draw each pixel on it. [Examples on how to do that can be found here.](https://github.com/jakoivis/color-util/tree/master/example)
 
+#### Gradient data structures
+There are couple of supported data structures. In the examples below RGB colors are used, but the same format is supported by HSV and HSL gradients. 
+
+RGB colors consist of four components (r, g, b, a). With `createGradient` function's default settings these colors are optional. If any of the missing component is missing from color object it is filled with default values. Default values can be changed with `defaultColor` property.
+
+x and y properties within color object are color stops; they indicate the position of a color within a gradient. x and y propperties are also optional. If they are missing `createGradient` will generate them. You may leave some or all of the propertis unspecified in which case the colors are distributed evenly. Value of x and y properties range from 0 to 1.
+
+##### Data structure option 1
+One dimensional gradient from red to green. This data structure is used internally by ColorUtil for regular linear gradients. 
+```javascript
+[
+    {x:0, r: 255},
+    {x:1: g: 255}
+]
+```
+
+##### Data structure option 2
+Two dimensional structure where top is gradient from red to green, bottom is gradient from blue to transparent. This data structure is used internally by ColorUtil for matrix gradients.
+```javascript
+[
+    {
+        y: 0,
+        colors: [
+            {x:0, r: 255},
+            {x:1, g: 255}
+        ]
+    },
+    {
+        y: 1,
+        colors: [
+            {x:0, b: 255},
+            {x:1, a: 0}
+        ]
+    }
+];
+```
+
+##### Data structure option 3
+Same gradient as above but with this structure it is not possible to specify y-stops.
+```javascript
+[
+    [
+        {x:0, r: 255},
+        {x:1, g: 255}
+    ],
+    [
+        {x:0, b: 255},
+        {x:1, a: 0}
+    ]
+];
+```
+
+##### Data structure option 4
+Same gradient as above. Noteice that this structure is same as data structure option 1, but the difference is that this is two dimensional. This data structure is identified as two dimensional if it has at least one y property within the struccture otherwise it is understood as one dimensional. 
+```javascript
+[
+    {x:0, y:0, r: 255},
+    {x:1, y:0, g: 255},
+    {x:0, y:1, b: 255},
+    {x:1, y:1, a: 0}
+];
+```
+
+#### Rotation, scaling and translation
+
 ![Preview](/example/githubimage.png)
 
 
