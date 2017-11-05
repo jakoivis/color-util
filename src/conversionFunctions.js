@@ -29,9 +29,8 @@ function callConverter(targetType, color, availableTypes) {
     // direct conversion within a color format (rgb, hsl hsv...)
     // e.g. int -> hex, hsl -> hslString
     if (typeof type['to'+targetType.name] === 'function') {
+        
         return type['to'+targetType.name](color);
-
-        return path;
     }
 
     // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)

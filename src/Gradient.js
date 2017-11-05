@@ -102,8 +102,8 @@ export default new function() {
 
         let width = options.width || 100;
         let height = options.height || 100;
-        let scaleX = options.scaleX || 1;
-        let scaleY = options.scaleY || 1;
+        let scaleX = options.scaleX || options.scale || 1;
+        let scaleY = options.scaleY || options.scale || 1;
         let sizeX = width * scaleX;
         let sizeY = height * scaleY;
         let translateX = options.translateX || 0;

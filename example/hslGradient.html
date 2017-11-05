@@ -25,55 +25,28 @@ canvas.height = height;
 // convert colors to rgb objects so getGradientMatrixColor understands them
 let gradient = ColorUtil.hsl.createGradient({
     type: 'circular',
-    cx: 1,
-    cy: 1,
-    // colors: [
-    //     {
-    //         y: 0,
-    //         colors: [
-    //             {h:1, s:1, l:0.5, a:1},
-    //             {h:0, s:1, l:0.5, a:1},
-    //         ]
-    //     },
-    //     {
-    //         y: 0.5,
-    //         colors: [
-    //             {h:1, s:1, l:0.5, a:1},
-    //             {h:0.1, s:1, l:0.5, a:1},
-    //             {h:0, s:1, l:0.5, a:1},
-    //         ]
-    //     },
-    //     {
-    //         y: 1,
-    //         colors: [
-    //             {h:1, s:1, l:0.5, a:1},
-    //             {h:0, s:1, l:0.5, a:1},
-    //         ]
-    //     }
-    // ],
+    width: width,
+    height: height,
+    centerize: true,
+    scale: 0.5,
+
     colors: [
-    // [
-    //         {h:1, s:1, l:1, a:1},
-    //         {h:0, s:1, l:1, a:1},
-    //     ],
         [
-            {h:1, s:1, l:0.5, a:1},
-            {h:0, s:1, l:0.5, a:1},
+            {h:1, s:1, l:1},
+            {h:0, s:1, l:1},
         ],
         [
-            {h:1, s:1, l:0, a:1},
-            {h:0, s:1, l:0, a:1},
+            {h:1, s:1, l:0},
+            {h:0, s:1, l:0},
         ]
-    ],
-    // repeatX: ColorUtil.Repeat.stop,
-    // repeatY: ColorUtil.Repeat.stop
+    ]
 });
 
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let hsl = gradient(x/150, y/150);
+        let hsl = gradient(x, y);
         let rgb = ColorUtil.hsl.toRgb(hsl);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);

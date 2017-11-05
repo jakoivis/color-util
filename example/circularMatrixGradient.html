@@ -32,15 +32,11 @@ let gradientFunction = ColorUtil.rgb.createGradient({
         ColorUtil.rgb.hueColors()
     ],
     type: 'circular',
-    // translateX: center,
-    // translateY: center,
     rotation: 0.25,
-
-    width: 300,
-    height: 300,
-    scaleX: 0.5,
-    scaleY: 0.5,
-    centerize: false
+    width: height,
+    height: height,
+    scale: 0.5,
+    centerize: true
 });
 
 for(let x = 0; x < width; x++) {

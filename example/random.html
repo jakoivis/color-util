@@ -16,7 +16,9 @@ let colors = ColorUtil.convert(getRandomColors(), ColorUtil.int.toRgb);
 drawCanvas({
     canvasId: 'canvas1',
     gradientOptions: {
-        colors: colors
+        colors: colors,
+        width: 300,
+        height: 300
     }
 });
 
@@ -26,7 +28,11 @@ drawCanvas({
     canvasId: 'canvas2',
     gradientOptions: {
         colors: colors,
-        type: 'circular'
+        type: 'circular',
+        scale: 0.5,
+        centerize: true,
+        width: 300,
+        height: 300
     }
 });
 
@@ -54,7 +60,7 @@ function drawCanvas(options) {
 
         for(let y = 0; y < height; y++) {
 
-            let rgb = gradient(x/width, y/height);
+            let rgb = gradient(x, y);
 
             uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
         }

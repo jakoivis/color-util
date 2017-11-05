@@ -38,15 +38,19 @@ document.body.addEventListener('mousemove', function(event) {
     if(!dragging) return;
 
     let bounds = canvas.getBoundingClientRect();
-    let x = (event.clientX - bounds.left) / 150;
-    let y = (event.clientY - bounds.top) / 150;
+    let x = (event.clientX - bounds.left);
+    let y = (event.clientY - bounds.top);
 
     let matrix = ColorUtil.convert(
         [[0xFFFFFF, hueRgb], [0x000000]],
         ColorUtil.any.toRgb);
 
     let gradient = ColorUtil.rgb.createGradient({
-        colors: matrix
+        colors: matrix,
+        width: 150,
+        height: 150,
+        repeatX: ColorUtil.Repeat.stop,
+        repeatY: ColorUtil.Repeat.stop
     });
 
     let rgb = gradient(x, y);
@@ -79,14 +83,16 @@ function initGrayscaleOverlay() {
     canvas.height = height;
 
     let gradient = ColorUtil.rgb.createGradient({
-        colors: colors
+        colors: colors,
+        width: 150,
+        height: 150
     });
 
     for(let x = 0; x < width; x++) {
 
         for(let y = 0; y < height; y++) {
 
-            let rgb = gradient(x/width, y/height);
+            let rgb = gradient(x, y);
 
             uint32View[y * width + x] = Rgb.toUint32(rgb);
         }

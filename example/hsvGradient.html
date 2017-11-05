@@ -25,13 +25,16 @@ canvas.height = height;
 // convert colors to rgb objects so getGradientMatrixColor understands them
 let gradient = ColorUtil.hsv.createGradient({
     type: 'circular',
-    cx: 1,
-    cy: 1,
+    width: width,
+    height: height,
+    // translateY: 1,
+    scale: 0.5,
     colors: [
         {
             y: 0,
             colors: [
                 {h:1, s:1, v:0.5, a:1},
+                {h:1, s:1, v:0, a:1},
                 {h:0, s:1, v:0.5, a:1},
             ]
         },
@@ -53,26 +56,30 @@ let gradient = ColorUtil.hsv.createGradient({
             ]
         }
     ],
+
     // colors: [
     //     [
-    //         {h:1, s:1, v:1, a:1},
-    //         {h:0, s:1, v:1, a:1},
+    //         {h:1, s:1, v:1},
+    //         {h:0, s:1, v:1},
     //     ],
     //     [
-    //         {h:1, s:1, v:1, a:1},
-    //         {h:1, s:1, v:1, a:1},
+    //         {h:1, s:1, v:0.5},
+    //         {h:0, s:1, v:0.5},
+    //     ],
+    //     [
+    //         {h:1, s:1, v:0},
+    //         {h:0, s:1, v:0},
     //     ]
-    // ],
+    // ]
     // repeatX: ColorUtil.Repeat.stop,
     // repeatY: ColorUtil.Repeat.stop
 });
 
-debugger;
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let hsv = gradient(x/150, y/150);
+        let hsv = gradient(x, y);
         let rgb = ColorUtil.hsv.toRgb(hsv);
 
         uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
