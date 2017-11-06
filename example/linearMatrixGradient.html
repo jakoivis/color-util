@@ -23,18 +23,14 @@ canvas.width = width;
 canvas.height = height;
 
 let colors = [
-    {
-        colors: [
-            {r: 255, g: 0, b: 0, a: 255},
-            {r: 255, g: 255, b: 0, a: 255}
-        ]
-    },
-    {
-        colors: [
-            {r: 0, g: 0, b: 255, a: 255},
-            {r: 0, g: 255, b: 255, a: 255}
-        ]
-    }
+    [
+        {r: 255},
+        {r: 255, g: 255}
+    ],
+    [
+        {b: 255},
+        {g: 255, b: 255}
+    ]
 ];
 
 let gradient = ColorUtil.rgb.createGradient({
@@ -42,6 +38,8 @@ let gradient = ColorUtil.rgb.createGradient({
     width: width,
     height: height
 });
+
+console.log(gradient(300, 300));
 
 for(let x = 0; x < width; x++) {
 

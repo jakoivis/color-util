@@ -19,10 +19,7 @@
         -   [toHsv](#tohsv)
         -   [hueColors](#huecolors)
         -   [hue](#hue)
-        -   [linearGradient](#lineargradient)
-        -   [linearMatrixGradient](#linearmatrixgradient)
-        -   [circularGradient](#circulargradient)
-        -   [circularMatrixGradient](#circularmatrixgradient)
+        -   [createGradient](#creategradient)
     -   [int](#int)
         -   [test](#test-1)
         -   [toRgb](#torgb)
@@ -55,6 +52,7 @@
         -   [toHsv](#tohsv-1)
         -   [toHslString](#tohslstring)
         -   [toHslaString](#tohslastring)
+        -   [createGradient](#creategradient-1)
     -   [hslString](#hslstring)
         -   [test](#test-6)
         -   [toHsl](#tohsl-1)
@@ -65,6 +63,7 @@
         -   [test](#test-8)
         -   [toRgb](#torgb-7)
         -   [toHsl](#tohsl-3)
+        -   [createGradient](#creategradient-2)
     -   [any](#any)
         -   [toRgb](#torgb-8)
         -   [toInt](#toint-4)
@@ -347,114 +346,44 @@ ColorUtil.rgb.hue({r:0x7F, g: 0x7F, b:0})
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** hue color in Rgb object notation
 
-#### linearGradient
+#### createGradient
 
-Get color from gradient. Calculation is done in
-rgb object notation so colors should be converted to object notation.
-
-**Parameters**
-
--   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
--   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `options`  
--   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1.
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1.
--   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.stop`)
-
-**Examples**
-
-```javascript
-let gradient = ColorUtil.convert([0xFF0000, 0x00FF00, 0x0000FF], ColorUtil.int.toRgb);
-ColorUtil.rgb.gradientColor(gradient, 0.5);
-// output: {r: 0, g: 255, b: 0, a: 255}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
-
-#### linearMatrixGradient
-
-Get color from matrix. Calculation is done in
-rgb object notation so colors should be converted to object notation.
+Creates a gradient.
 
 **Parameters**
 
--   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
--   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `options`  
--   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of gradient color arrays. Colors should be in rgb object notation.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of rotation center. Value in range 0-1.
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of rotation center. Value in range 0-1.
--   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.stop`)
--   `yRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.stop`)
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options provided by user
+    -   `options.colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. There are multiple types of data structures. Data structure
+                                                                     defines whether the gradient is one or two dimensional.
+    -   `options.type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Gradient type: linear|circular (optional, default `'linear'`)
+    -   `options.verify` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Verify that each of the colors in colors property have valid data structure.
+                                                                     If set to true, createGradient will throw an error if data structure is not correct.
+                                                                     Data structure is tested from one sample to identify the data structure. This does not
+                                                                     affect that behavior. (optional, default `false`)
+    -   `options.validate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
+    -   `options.addDefaultColors` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
+                                                                     as a red value for Rgb gradinet without the need for defining the rest of the color components.
+                                                                     Use defaultColor property to specify a color. (optional, default `true`)
+    -   `options.onValidationComplete` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Called after the modifications to data is complete
+    -   `options.defaultColor` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Default color used to fill the missing color components in gradinet colors (optional, default `{r:0,g:0,b:0,a:255}`)
+    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.centerX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+                                                                     centerX can be used with linear type of gradients to set point of rotation. (optional, default `0`)
+    -   `options.centerY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+                                                                     centerY can be used with linear type of gradients to set point of rotation. (optional, default `0`)
+    -   `options.scale` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.centerize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
+    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
 
-**Examples**
-
-```javascript
-let matrix = ColorUtil.convert([[0xFF0000, 0x00FF00], [0x0000FF]], ColorUtil.int.toRgb);
-ColorUtil.rgb.matrixColor(matrix, 0.5, 0.5);
-// output: {r: 63.75, g: 63.75, b: 127.5, a: 255}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
-
-#### circularGradient
-
-Get color from circle gradient. Calculation is done in
-rgb object notation so colors should be converted to object notation.
-
-**Parameters**
-
--   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
--   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `options`  
--   `colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. Colors should be in rgb object notation.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center point. Value in range 0-1.
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center point. Value in range 0-1.
--   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1.
--   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.repeat`)
-
-**Examples**
-
-```javascript
-let colors = ColorUtil.rgb.hueColors();
-ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1);
-// output: {r: 0, g: 63.74999999999994, b: 255, a: 255}
-
-// keep center the same but rotatio 180 degrees
-ColorUtil.rgb.circleGradientColor(colors, 0.1, 0.1, 0.5, 0.5, 0.5);
-// output: {r: 255, g: 191.25, b: 0, a: 255}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
-
-#### circularMatrixGradient
-
-Get color from circle matrix. Calculation is done in
-rgb object notation so colors should be converted to object notation.
-
-**Parameters**
-
--   `x` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position on the gradient. Value in range 0-1.
--   `y` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position on the gradient. Value in range 0-1.
--   `options`  
--   `matrix` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Matrix of colors. Colors should be in rgb object notation.
--   `cx` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Horizontal position of center. Value in range 0-1.
--   `cy` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Vertical position of center. Value in range 0-1.
--   `rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0-1.
--   `xRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.repeat`)
--   `yRepeat` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Repeat function (optional, default `Repeat.repeat`)
-
-**Examples**
-
-```javascript
-// center is white, outer edge has hue colors
-let matrix = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
-ColorUtil.rgb.circleMatrixColor(matrix, 0.1, 0.1);
-// output: {r: 110.75021663794428, g: 146.81266247845818, b: 255, a: 255}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** rgb object
+Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters in range 0 to 1.
+                        Though the x and y may exceed the limit, but gradient repeat will take effect.
 
 ### int
 
@@ -908,6 +837,45 @@ ColorUtil.hsl.toHslaString({h:2/6, s:0.5, l:0.5, a:0.5});
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
+#### createGradient
+
+Creates a gradient.
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options provided by user
+    -   `options.colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. There are multiple types of data structures. Data structure
+                                                                     defines whether the gradient is one or two dimensional.
+    -   `options.type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Gradient type: linear|circular (optional, default `'linear'`)
+    -   `options.verify` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Verify that each of the colors in colors property have valid data structure.
+                                                                     If set to true, createGradient will throw an error if data structure is not correct.
+                                                                     Data structure is tested from one sample to identify the data structure. This does not
+                                                                     affect that behavior. (optional, default `false`)
+    -   `options.validate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
+    -   `options.addDefaultColors` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
+                                                                     as a red value for Rgb gradinet without the need for defining the rest of the color components.
+                                                                     Use defaultColor property to specify a color. (optional, default `true`)
+    -   `options.onValidationComplete` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Called after the modifications to data is complete
+    -   `options.defaultColor` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Default color used to fill the missing color components in gradinet colors (optional, default `{h:0,s:0,l:0,a:1}`)
+    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.centerX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+                                                                     centerX can be used with linear type of gradients to set point of rotation. (optional, default `0`)
+    -   `options.centerY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+                                                                     centerY can be used with linear type of gradients to set point of rotation. (optional, default `0`)
+    -   `options.scale` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.centerize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
+    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+
+Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters in range 0 to 1.
+                        Though the x and y may exceed the limit, but gradient repeat will take effect.
+
 ### hslString
 
 HslString conversion functions
@@ -1027,6 +995,45 @@ ColorUtil.hsv.toHsl({h: 1/6, s: 0.5, v: 0.5});
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### createGradient
+
+Creates a gradient.
+
+**Parameters**
+
+-   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options provided by user
+    -   `options.colors` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. There are multiple types of data structures. Data structure
+                                                                     defines whether the gradient is one or two dimensional.
+    -   `options.type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Gradient type: linear|circular (optional, default `'linear'`)
+    -   `options.verify` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Verify that each of the colors in colors property have valid data structure.
+                                                                     If set to true, createGradient will throw an error if data structure is not correct.
+                                                                     Data structure is tested from one sample to identify the data structure. This does not
+                                                                     affect that behavior. (optional, default `false`)
+    -   `options.validate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
+    -   `options.addDefaultColors` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
+                                                                     as a red value for Rgb gradinet without the need for defining the rest of the color components.
+                                                                     Use defaultColor property to specify a color. (optional, default `true`)
+    -   `options.onValidationComplete` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** Called after the modifications to data is complete
+    -   `options.defaultColor` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Default color used to fill the missing color components in gradinet colors (optional, default `{h:0,s:0,v:0,a:1}`)
+    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.centerX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+                                                                     centerX can be used with linear type of gradients to set point of rotation. (optional, default `0`)
+    -   `options.centerY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+                                                                     centerY can be used with linear type of gradients to set point of rotation. (optional, default `0`)
+    -   `options.scale` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.centerize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
+    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+
+Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters in range 0 to 1.
+                        Though the x and y may exceed the limit, but gradient repeat will take effect.
 
 ### any
 
@@ -1234,7 +1241,7 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 ### Repeat
 
-Gradient Repeat functions
+Gradient repeat functions
 
 #### stop
 
