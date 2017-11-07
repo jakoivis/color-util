@@ -76,7 +76,7 @@
         -   [toHslaString](#tohslastring-1)
     -   [endian](#endian)
     -   [convert](#convert)
-    -   [Repeat](#repeat)
+    -   [repeat](#repeat)
         -   [stop](#stop)
         -   [repeat](#repeat-1)
 
@@ -376,10 +376,10 @@ Creates a gradient.
     -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
     -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
     -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.centerize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.centralize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
     -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
-    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
-    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.repeat.repeat`)
+    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.repeat.repeat`)
 
 Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
                         Though the x and y may exceed the limit, but gradient repeat will take effect.
@@ -866,10 +866,10 @@ Creates a gradient.
     -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
     -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
     -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.centerize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.centralize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
     -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
-    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
-    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.repeat.repeat`)
+    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.repeat.repeat`)
 
 Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
                         Though the x and y may exceed the limit, but gradient repeat will take effect.
@@ -1024,10 +1024,10 @@ Creates a gradient.
     -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
     -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
     -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.centerize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.centralize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
     -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
-    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
-    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.Repeat.repeat`)
+    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.repeat.repeat`)
+    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `ColorUtil.repeat.repeat`)
 
 Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
                         Though the x and y may exceed the limit, but gradient repeat will take effect.
@@ -1236,7 +1236,7 @@ ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUt
 
 Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
 
-### Repeat
+### repeat
 
 Gradient repeat functions
 

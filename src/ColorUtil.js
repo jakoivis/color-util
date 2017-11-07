@@ -209,7 +209,7 @@ let ColorUtil = {
     /**
      * Gradient repeat functions
      */
-    Repeat: Repeat,
+    repeat: Repeat,
 
     gradient: Gradient
 }

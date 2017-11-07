@@ -36,8 +36,8 @@ export default new function() {
      * @param      {number}    [options.translateY=0]               Translate gradient along y axis. Value in range 0 to 1.
      * @param      {boolean}   [options.centralize=false]           Overrides translate values and automatically adjusts the positioning to the center.
      * @param      {number}    [options.rotation=0]                 Rotation of the gradient. Value in range 0 to 1.
-     * @param      {function}  [options.repeatX=ColorUtil.Repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
-     * @param      {function}  [options.repeatY=ColorUtil.Repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatX=ColorUtil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatY=ColorUtil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
      *
      * @param      {Object}    typeOptions                          Options provided by the color type
      * @param      {Object}    typeOptions.defaultColor             Default color used to fill the missing color components in gradinet colors.

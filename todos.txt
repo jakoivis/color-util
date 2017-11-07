@@ -1,7 +1,8 @@
 2.0
-- centerize -> centralize
+- benchmarks
 
 Can be done in future release without braking backward compatibility
+- repeat.invert
 - document rotation center behavior on scaling (+translate??)
 - example for generating any kind of gradient with specific colors
 - take transformations apart from the gradients and cache some of the calculations

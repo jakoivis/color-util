@@ -100,15 +100,15 @@ input {
     <div>
         <label for='repeatPulldown'>repeatX</label>
         <select id='repeatPulldown' onchange='onRepeatChange(this, "repeatX")'>
-            <option value="repeat">ColorUtil.Repeat.repeat</option>
-            <option value="stop">ColorUtil.Repeat.stop</option>
+            <option value="repeat">ColorUtil.repeat.repeat</option>
+            <option value="stop">ColorUtil.repeat.stop</option>
         </select>
     </div>
     <div>
         <label for='repeatPulldown2'>repeatY</label>
         <select id='repeatPulldown2' onchange='onRepeatChange(this, "repeatY")'>
-            <option value="repeat">ColorUtil.Repeat.repeat</option>
-            <option value="stop">ColorUtil.Repeat.stop</option>
+            <option value="repeat">ColorUtil.repeat.repeat</option>
+            <option value="stop">ColorUtil.repeat.stop</option>
         </select>
     </div>
     <div>
@@ -151,8 +151,8 @@ var options = {
     translateX: 0,
     translateY: 0,
     rotation: 0,
-    repeatX: ColorUtil.Repeat.repeat,
-    repeatY: ColorUtil.Repeat.repeat,
+    repeatX: ColorUtil.repeat.repeat,
+    repeatY: ColorUtil.repeat.repeat,
     gradientType: 'linear',
     centralize: false
 };
@@ -174,7 +174,7 @@ function onPulldownValueChange(input, property) {
 
 function onRepeatChange(input, property) {
 
-    options[property] = ColorUtil.Repeat[input.value];
+    options[property] = ColorUtil.repeat[input.value];
     updateCanvas();
 }
 

@@ -169,7 +169,7 @@ describe('Rgb', () => {
 
         it('should return edge colors when value is out of range', () => {
             let fn = createBasicIntTestFunction([0x00FF7F, 0xFF00FF], {
-                repeatX: C.Repeat.stop});
+                repeatX: C.repeat.stop});
 
             fn(2, 0).should.equal(0xFF00FF);
             fn(-2, 0).should.equal(0x00FF7F);

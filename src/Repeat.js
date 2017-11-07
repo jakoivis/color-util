@@ -12,7 +12,7 @@ export default {
     /**
      * Stop gradient at the edge color
      *
-     * @memberof ColorUtil.Repeat
+     * @memberof ColorUtil.repeat
      */
     stop: (position) => {
         return position < 0 ? 0 : position > 1 ? 1 : position;
@@ -21,7 +21,7 @@ export default {
     /**
      * Repeat gradient with the same pattern
      *
-     * @memberof ColorUtil.Repeat
+     * @memberof ColorUtil.repeat
      */
     repeat: (position) => {
         return position < 0 ? 1 + position % 1 : position > 1 ? position % 1 : position;
