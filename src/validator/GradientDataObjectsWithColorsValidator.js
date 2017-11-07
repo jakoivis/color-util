@@ -4,6 +4,7 @@ import GradientDataValidatorUtil from './GradientDataValidatorUtil';
 /*
 
 two dimensional data structure for matrix gradients
+
 [
     {
         y: 0,
@@ -20,15 +21,6 @@ two dimensional data structure for matrix gradients
         ]
     }
 ];
-colors is array
-colors[n] has y
-colors[n] has colors
-colors[n].colors[m] has x
-
-x and y properties are optional
-
-used internally
-
 */
 export default class {
 

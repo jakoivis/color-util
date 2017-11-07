@@ -145,18 +145,17 @@ export default {
      *
      * @param      {Object}    options                              Options provided by user
      * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
-     *                                                              defines whether the gradient is one or two dimensional.
-     * @param      {string}    [options.type='linear']              Gradient type: linear|circular
+     *                                                              defines whether the gradient is one or two-dimensional.
+     * @param      {string}    [options.type='linear']              Gradient type: linear | circular
      * @param      {boolean}   [options.verify=false]               Verify that each of the colors in colors property have valid data structure.
      *                                                              If set to true, createGradient will throw an error if data structure is not correct.
      *                                                              Data structure is tested from one sample to identify the data structure. This does not
      *                                                              affect that behavior.
      * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
      * @param      {boolean}   [options.addDefaultColors=true]      Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
-     *                                                              as a red value for Rgb gradinet without the need for defining the rest of the color components.
+     *                                                              as a red value for Rgb gradient without the need for defining the rest of the color components.
      *                                                              Use defaultColor property to specify a color.
-     * @param      {function}  [options.onValidationComplete]       Called after the modifications to data is complete
-     * @param      {function}  [options.defaultColor={h:0,s:0,l:0,a:1}] Default color used to fill the missing color components in gradinet colors
+     * @param      {function}  [options.defaultColor={h:0,s:0,l:0,a:1}] Default color used to fill the missing color components in gradient colors
      * @param      {number}    [options.width=100]                  Set size of the gradient in pixels.
      * @param      {number}    [options.height=100]                 Set size of the gradient in pixels.
      * @param      {number}    [options.centerX=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
@@ -170,10 +169,10 @@ export default {
      * @param      {number}    [options.translateY=0]               Translate gradient along y axis. Value in range 0 to 1.
      * @param      {boolean}   [options.centerize=false]            Overrides translate values and automatically adjusts the positioning to the center.
      * @param      {number}    [options.rotation=0]                 Rotation of the gradient. Value in range 0 to 1.
-     * @param      {function}  [options.repeatX=ColorUtil.Repeat.repeat] X repetition of gradient when calculating color that is out of normal range 0 to 1.
-     * @param      {function}  [options.repeatY=ColorUtil.Repeat.repeat] Y repetition of gradient when calculating color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatX=ColorUtil.Repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatY=ColorUtil.Repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
      *
-     * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters in range 0 to 1.
+     * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters.
      *                         Though the x and y may exceed the limit, but gradient repeat will take effect.
      */
     createGradient: options => {

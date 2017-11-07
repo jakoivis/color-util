@@ -4,9 +4,6 @@ import GradientDataValidatorUtil from './GradientDataValidatorUtil';
 
 /*
 Two dimensional self scaling matrix data structure
-
-
-
 [
     [
         {},
@@ -17,10 +14,6 @@ Two dimensional self scaling matrix data structure
         {x: ...}
     ].y = ...
 ];
-colors is array
-colors[n] is array
-
-x & y are optional
 */
 export default class {
 

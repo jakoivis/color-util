@@ -2,22 +2,12 @@
 import _ from '../Utils';
 import GradientDataValidatorUtil from './GradientDataValidatorUtil';
 
- /*
-
+/*
 one dimensional data structure for normal gradients
 [
     {x:0},
     {x:1}
 ]
-colors is array
-colors[n] has x
-colors[n] !has y
-colors[n] !has colors
-
-x properties are optional
-
-used internally
-
 */
 export default class {
 

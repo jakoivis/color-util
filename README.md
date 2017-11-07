@@ -37,10 +37,12 @@ ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
 ### Gradients
 The main difference to native canvas gradients is that ColorUtil gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. ColorUtil gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
 
-This project started only to satisfy my curiosity, but there are some interesting things ColorUtil gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as ColorUtil has linear, matrix, circular and circlular matrix types.
+This project started only to satisfy my curiosity, but there are some interesting things ColorUtil gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as ColorUtil has linear, matrix, circular and circular matrix types.
 
 ```javascript
-// There are couple of different ways to present colors. In this example a two dimensional RGB color array is used to create a gradient where each corner has of a square has different color value.
+// There are couple of different ways to present colors. In this
+// example a two dimensional RGB color array is used to create a
+// gradient where each corner has of a square has different color value.
 
 let colors = [
     [
@@ -53,13 +55,17 @@ let colors = [
     ]
 ];
 
-// Since we are using rgb colors here we use ColorUtil.rgb.createGradient to create a gradient function. HSV and HSL colors both have the same function.
+// Since we are using rgb colors here we use ColorUtil.rgb.createGradient
+// to create a gradient function. HSV and HSL colors both have the same function.
 
 let gradient = ColorUtil.rgb.createGradient({
     colors: colors,
     width: 300,
     height: 300
 });
+
+// Color is calculate with this gradient function
+// by providing x and y coordinates
 
 console.log(gradient(150, 150));
 // {r: 127.5, g: 127.5, b: 127.5, a: 255}
@@ -76,7 +82,7 @@ There are couple of supported data structures. You may choose the one you like. 
 
 In the examples below RGB colors are used, but the same format is supported by HSV and HSL gradients. RGB colors consist of four components (r, g, b, a). If any of the component is missing from color object, default value is used. Default values can be changed with `createGradient` function's `defaultColor` property.
 
-x and y properties within color object are color stops; they indicate the position of a color within a gradient. x and y propperties are also optional. If they are missing `createGradient` will generate them. You may leave some or all of the properties unspecified in which case the colors are distributed evenly. Value of x and y properties range from 0 to 1.
+x and y properties within color object are color stops; they indicate the position of a color within a gradient. x and y properties are also optional. If they are missing `createGradient` will generate them. You may leave some or all of the properties unspecified in which case the colors are distributed evenly. Value of x and y properties range from 0 to 1.
 
 ##### Data structure 1
 One dimensional gradient from red to green.
@@ -124,7 +130,7 @@ Two dimensional structure. This example produces exact same gradient as structur
 ```
 
 ##### Data structure 4
-Two dimensional structure. This example produces exact same gradient as structure 2 above. Noteice that this structure is similar to structure 1, but the difference is that this is two dimensional. This data structure is identified as two dimensional if it has at least one y property specified within the structure. Otherwise it is understood as one dimensional.
+Two dimensional structure. This example produces exact same gradient as structure 2 above. Notice that this structure is similar to structure 1, but the difference is that this is two-dimensional. This data structure is identified as two-dimensional if it has at least one y property specified within the structure, otherwise it is understood as one dimensional.
 ```javascript
 [
     {x:0, y:0, r: 255},
@@ -149,6 +155,7 @@ Two dimensional structure. This example produces exact same gradient as structur
 
 ## Change history
 * 2.0.0
+    * Gradients are accessed with createGradient method
     * Gradient color stops
     * Gradient data validator
     * Multiple types of gradient data structures allowed
@@ -162,7 +169,7 @@ Two dimensional structure. This example produces exact same gradient as structur
     * hueColors -> getHueColors() & return value changed from array of numbers to array of rgb objects.
     * shorten function names: getGradientColor -> gradientColor, getMatrixColor -> matrixColor, convertTo2StopGradient -> twoStopGradient
     * No interface changes after this release.
-    * hue shortcut mehod for getting hue color
+    * hue shortcut method for getting hue color
     * more strict test functions for Rgb, Hsv and Hsl
     * toUint32BigEndian and toInt32BigEndian renamed to toUint32b and toInt32b
     * ColorUtil.int32.toRgb and ColorUtil.int32b.toRgb added
