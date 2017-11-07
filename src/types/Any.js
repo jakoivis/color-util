@@ -11,7 +11,7 @@ import HslString from './HslString';
 import HslaString from './HslaString';
 import Hsv from './Hsv';
 
-import {callConverter} from '../conversionFunctions';
+import {callConverter} from '../conversionUtils';
 
 const TYPES = [Rgb, Int, Hex, Hsl, Hsv, RgbaString, RgbString, HslaString, HslString];
 

@@ -1,6 +1,6 @@
- 
+
 import Repeat from './Repeat';
-import {convert} from './conversionFunctions';
+import {convert} from './conversionUtils';
 import Gradient from './Gradient';
 
 import Rgb from './types/Rgb';

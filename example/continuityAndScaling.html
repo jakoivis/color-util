@@ -112,8 +112,8 @@ input {
         </select>
     </div>
     <div>
-        <label for='centerizeCheckbox'>centerize</label>
-        <input type='checkbox' id='centerizeCheckbox' onchange='onCheckboxValueChange(this, "centerize")'>
+        <label for='centerizeCheckbox'>centralize</label>
+        <input type='checkbox' id='centerizeCheckbox' onchange='onCheckboxValueChange(this, "centralize")'>
         </select>
     </div>
 </form>
@@ -154,7 +154,7 @@ var options = {
     repeatX: ColorUtil.Repeat.repeat,
     repeatY: ColorUtil.Repeat.repeat,
     gradientType: 'linear',
-    centerize: false
+    centralize: false
 };
 
 updateCanvas();
@@ -176,13 +176,13 @@ function onRepeatChange(input, property) {
 
     options[property] = ColorUtil.Repeat[input.value];
     updateCanvas();
-}   
+}
 
 function onCheckboxValueChange(input, property) {
 
     options[property] = !!input.checked;
     updateCanvas();
-} 
+}
 
 function updateCanvas() {
     if (options.gradientType === 'linear') {
