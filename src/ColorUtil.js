@@ -5,8 +5,8 @@ import Gradient from './Gradient';
 
 import Rgb from './types/Rgb';
 import Int from './types/Int';
-import Int32 from './types/Int32';
-import Int32b from './types/Int32b';
+import Int32ABGR from './types/Int32ABGR';
+import Int32RGBA from './types/Int32RGBA';
 import Hex from './types/Hex';
 import RgbString from './types/RgbString';
 import RgbaString from './types/RgbaString';
@@ -79,7 +79,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    int32: Int32,
+    int32ABGR: Int32ABGR,
 
     /**
      * Number conversion functions.
@@ -88,7 +88,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    int32b: Int32b,
+    int32RGBA: Int32RGBA,
 
     /**
      * Hexadecimal conversion functions
@@ -158,7 +158,7 @@ let ColorUtil = {
     /**
      * Any conversion functions.
      *
-     * Converts supported color notations to any notation.
+     * Converts color notations to any notation. (Except for Int32RGBA and Int32ABGR)
      *
      * The any conversion functions provide an easy way to convert to specific notation
      * without knowing the notation of a source color. This is just a collection of

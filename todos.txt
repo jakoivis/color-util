@@ -1,5 +1,6 @@
 2.0
 - benchmarks
+- fix liearMatrixGradientWithStopExample
 
 Can be done in future release without braking backward compatibility
 - repeat.invert

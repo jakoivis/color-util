@@ -65,7 +65,7 @@ for(let x = 0; x < width; x++) {
         let hsv = gradient(x, y);
         let rgb = ColorUtil.hsv.toRgb(hsv);
 
-        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+        uint32View[y * width + x] = ColorUtil.rgb.toInt32ABGR(rgb);
     }
 }
 

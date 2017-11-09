@@ -9,12 +9,12 @@
         -   [toHex](#tohex)
         -   [toRgbString](#torgbstring)
         -   [toRgbaString](#torgbastring)
-        -   [toUint32](#touint32)
-        -   [toUint32Opaque](#touint32opaque)
-        -   [toUint32b](#touint32b)
-        -   [toInt32](#toint32)
-        -   [toInt32Opaque](#toint32opaque)
-        -   [toInt32b](#toint32b)
+        -   [toUint32ABGR](#touint32abgr)
+        -   [toUint32ABGROpaque](#touint32abgropaque)
+        -   [toUint32RGBA](#touint32rgba)
+        -   [toInt32ABGR](#toint32abgr)
+        -   [toInt32ABGROpaque](#toint32abgropaque)
+        -   [toInt32RGBA](#toint32rgba)
         -   [toHsl](#tohsl)
         -   [toHsv](#tohsv)
         -   [hueColors](#huecolors)
@@ -26,9 +26,9 @@
         -   [toHex](#tohex-1)
         -   [toRgbString](#torgbstring-1)
         -   [toRgbaString](#torgbastring-1)
-    -   [int32](#int32)
+    -   [int32ABGR](#int32abgr)
         -   [toRgb](#torgb-1)
-    -   [int32b](#int32b)
+    -   [int32RGBA](#int32rgba)
         -   [toRgb](#torgb-2)
     -   [hex](#hex)
         -   [test](#test-2)
@@ -171,7 +171,7 @@ ColorUtil.rgb.toRgbaString({r: 0, g: 128, b: 255, a: 85});
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-#### toUint32
+#### toUint32ABGR
 
 Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
 Resulting value is positive
@@ -183,19 +183,18 @@ Resulting value is positive
 **Examples**
 
 ```javascript
-ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 255});
+ColorUtil.rgb.toUint32ABGR({r: 0, g: 128, b: 255, a: 255});
 // output: 4294934528
-ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 85});
+ColorUtil.rgb.toUint32ABGR({r: 0, g: 128, b: 255, a: 85});
 // output: 1442807808
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
-#### toUint32Opaque
+#### toUint32ABGROpaque
 
 Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-Alpha value is discarded and fully opaque value is used. This is faster option compared to
-`toUint32` and can be used if alpha value is not relevant. Resulting value is positive
+Alpha value is discarded and fully opaque value is used. Resulting value is positive
 
 **Parameters**
 
@@ -204,13 +203,13 @@ Alpha value is discarded and fully opaque value is used. This is faster option c
 **Examples**
 
 ```javascript
-ColorUtil.rgb.toUint32Opaque({r: 0, g: 128, b: 255})
+ColorUtil.rgb.toUint32ABGROpaque({r: 0, g: 128, b: 255})
 // output: 4294934528
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
-#### toUint32b
+#### toUint32RGBA
 
 Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
 Resulting value is positive
@@ -222,15 +221,15 @@ Resulting value is positive
 **Examples**
 
 ```javascript
-ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 255});
+ColorUtil.rgb.toUint32RGBA({r: 0, g: 128, b: 255, a: 255});
 // output: 8454143
-ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 85});
+ColorUtil.rgb.toUint32RGBA({r: 0, g: 128, b: 255, a: 85});
 // output: 8453973
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
-#### toInt32
+#### toInt32ABGR
 
 Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
 Resulting value can be negative.
@@ -242,19 +241,18 @@ Resulting value can be negative.
 **Examples**
 
 ```javascript
-ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});
+ColorUtil.rgb.toInt32ABGR({r: 0, g: 128, b: 255, a: 255});
 // output: -32768
-ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 85});
+ColorUtil.rgb.toInt32ABGR({r: 0, g: 128, b: 255, a: 85});
 // output: 1442807808
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
-#### toInt32Opaque
+#### toInt32ABGROpaque
 
 Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-Alpha value is discarded and fully opaque value is used. This is faster option compared to
-`toInt32` and can be used if alpha value is not relevant. Resulting value can be negative.
+Alpha value is discarded and fully opaque value is used. Resulting value can be negative.
 
 **Parameters**
 
@@ -263,13 +261,13 @@ Alpha value is discarded and fully opaque value is used. This is faster option c
 **Examples**
 
 ```javascript
-ColorUtil.rgb.toInt32Opaque({r: 0, g: 128, b: 255})
+ColorUtil.rgb.toInt32ABGROpaque({r: 0, g: 128, b: 255})
 // output: -32768
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
-#### toInt32b
+#### toInt32RGBA
 
 Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
 Resulting value can be negative.
@@ -281,9 +279,9 @@ Resulting value can be negative.
 **Examples**
 
 ```javascript
-ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 255});
+ColorUtil.rgb.toInt32RGBA({r: 0, g: 128, b: 255, a: 255});
 // output: 8454143
-ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 85});
+ColorUtil.rgb.toInt32RGBA({r: 0, g: 128, b: 255, a: 85});
 // output: 8453973
 ```
 
@@ -476,7 +474,7 @@ ColorUtil.int.toRgbaString(0x00FF00, 0.5);
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
-### int32
+### int32ABGR
 
 Number conversion functions.
 
@@ -493,13 +491,13 @@ Int32 notation converion functions for 32-bit numbers `0xAABBGGRR` (little-endia
 **Examples**
 
 ```javascript
-ColorUtil.int32.toRgb(0xFF112233)
+ColorUtil.int32ABGR.toRgb(0xFF112233)
 // output: {a: 255, b: 17, g: 34, r: 51}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
-### int32b
+### int32RGBA
 
 Number conversion functions.
 
@@ -516,7 +514,7 @@ Int32 notation converion functions for 32-bit numbers `0xRRGGBBAA` (big-endian).
 **Examples**
 
 ```javascript
-ColorUtil.int32b.toRgb(0xFF112233)
+ColorUtil.int32RGBA.toRgb(0xFF112233)
 // output: {r: 255, g: 17, b: 34, a: 51}
 ```
 
@@ -1036,7 +1034,7 @@ Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Ref
 
 Any conversion functions.
 
-Converts supported color notations to any notation.
+Converts color notations to any notation. (Except for Int32RGBA and Int32ABGR)
 
 The any conversion functions provide an easy way to convert to specific notation
 without knowing the notation of a source color. This is just a collection of

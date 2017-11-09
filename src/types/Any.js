@@ -1,8 +1,6 @@
 
 import Rgb from './Rgb';
 import Int from './Int';
-import Int32 from './Int32';
-import Int32b from './Int32b';
 import Hex from './Hex';
 import RgbString from './RgbString';
 import RgbaString from './RgbaString';

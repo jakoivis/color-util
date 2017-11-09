@@ -70,7 +70,7 @@ function onHueChange(hueValue) {
 function initGrayscaleOverlay() {
     let colors = ColorUtil.convert(
         [[0xFFFFFFFF, 0], [0x000000FF]],
-        ColorUtil.int32b.toRgb);
+        ColorUtil.int32RGBA.toRgb);
 
     let canvas = document.getElementById('canvas');
     let ctx = canvas.getContext('2d');
@@ -94,7 +94,7 @@ function initGrayscaleOverlay() {
 
             let rgb = gradient(x, y);
 
-            uint32View[y * width + x] = Rgb.toUint32(rgb);
+            uint32View[y * width + x] = Rgb.toInt32ABGR(rgb);
         }
     }
 

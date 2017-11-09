@@ -12,10 +12,6 @@
 let width = 300;
 let height = 300;
 
-// var scale = 0.5;
-// var center = 0.5 / scale;
-// var size = width * scale;
-
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
 let imageData  = ctx.createImageData(width, height);
@@ -43,10 +39,9 @@ for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        // let rgb = gradientFunction(x/size, y/size);
         let rgb = gradientFunction(x, y);
 
-        uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+        uint32View[y * width + x] = ColorUtil.rgb.toInt32ABGR(rgb);
     }
 }
 

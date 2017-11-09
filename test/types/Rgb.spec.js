@@ -42,41 +42,41 @@ describe('Rgb', () => {
             Rgb.toRgbaString({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
         });
 
-        it('toUint32', () => {
-            Rgb.toUint32({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
-            Rgb.toUint32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-            Rgb.toUint32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-            Rgb.toUint32({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
-            Rgb.toUint32({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
+        it('toUint32ABGR', () => {
+            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
+            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+            Rgb.toUint32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
         });
 
-        it('toUint32b', () => {
-            Rgb.toUint32b({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
-            Rgb.toUint32b({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
-            Rgb.toUint32b({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
-            Rgb.toUint32b({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
-            Rgb.toUint32b({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
+        it('toUint32RGBA', () => {
+            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
+            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+            Rgb.toUint32RGBA({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
+            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
         });
 
-        it('toInt32', () => {
-            Rgb.toInt32({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
-            Rgb.toInt32({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-            Rgb.toInt32({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
-            Rgb.toInt32({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-            Rgb.toInt32({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
+        it('toInt32ABGR', () => {
+            Rgb.toInt32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
+            Rgb.toInt32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+            Rgb.toInt32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+            Rgb.toInt32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+            Rgb.toInt32ABGR({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
         });
 
-        it('toInt32b', () => {
+        it('toInt32RGBA', () => {
             let AABBCCFF = -1430532865;
             let AABBCC55 = -1430533035
             let AABBCC00 = -1430533120;
             let AA00CC00 = -1442788352;
 
-            Rgb.toInt32b({r: 170, g: 187, b: 204, a: 255}).should.equal(AABBCCFF);
-            Rgb.toInt32b({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
-            Rgb.toInt32b({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
-            Rgb.toInt32b({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
-            Rgb.toInt32b({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
+            Rgb.toInt32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(AABBCCFF);
+            Rgb.toInt32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
+            Rgb.toInt32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
+            Rgb.toInt32RGBA({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
+            Rgb.toInt32RGBA({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
         });
 
         it('toHsl', () => {

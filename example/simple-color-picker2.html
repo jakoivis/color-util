@@ -102,7 +102,7 @@ function initHue() {
             let hsl = gradient(x, y);
             let rgb = ColorUtil.hsl.toRgb(hsl);
 
-            uint32View[y * width + x] = Rgb.toUint32(rgb);
+            uint32View[y * width + x] = Rgb.toInt32ABGR(rgb);
         }
     }
 

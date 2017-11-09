@@ -230,7 +230,7 @@ function updateGradient(colors) {
 
             let rgb = gradientFunction(x, y);
 
-            uint32View[y * cWidth + x] = ColorUtil.rgb.toUint32(rgb);
+            uint32View[y * cWidth + x] = ColorUtil.rgb.toInt32ABGR(rgb);
         }
     }
 

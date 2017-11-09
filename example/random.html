@@ -62,7 +62,7 @@ function drawCanvas(options) {
 
             let rgb = gradient(x, y);
 
-            uint32View[y * width + x] = ColorUtil.rgb.toUint32(rgb);
+            uint32View[y * width + x] = ColorUtil.rgb.toInt32ABGR(rgb);
         }
     }
 

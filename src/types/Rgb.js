@@ -108,9 +108,9 @@ let Rgb = new function() {
      * Resulting value is positive
      *
      * @example
-     * ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 255});
+     * ColorUtil.rgb.toUint32ABGR({r: 0, g: 128, b: 255, a: 255});
      * // output: 4294934528
-     * ColorUtil.rgb.toUint32({r: 0, g: 128, b: 255, a: 85});
+     * ColorUtil.rgb.toUint32ABGR({r: 0, g: 128, b: 255, a: 85});
      * // output: 1442807808
      *
      * @memberof ColorUtil.rgb
@@ -118,17 +118,16 @@ let Rgb = new function() {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    this.toUint32 = rgb => {
+    this.toUint32ABGR = rgb => {
         return (rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
     };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-     * Alpha value is discarded and fully opaque value is used. This is faster option compared to
-     * `toUint32` and can be used if alpha value is not relevant. Resulting value is positive
+     * Alpha value is discarded and fully opaque value is used. Resulting value is positive
      *
      * @example
-     * ColorUtil.rgb.toUint32Opaque({r: 0, g: 128, b: 255})
+     * ColorUtil.rgb.toUint32ABGROpaque({r: 0, g: 128, b: 255})
      * // output: 4294934528
      *
      * @memberof ColorUtil.rgb
@@ -136,7 +135,7 @@ let Rgb = new function() {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    this.toUint32Opaque = rgb => {
+    this.toUint32ABGROpaque = rgb => {
         return (INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r) >>> 0
     };
 
@@ -145,9 +144,9 @@ let Rgb = new function() {
      * Resulting value is positive
      *
      * @example
-     * ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 255});
+     * ColorUtil.rgb.toUint32RGBA({r: 0, g: 128, b: 255, a: 255});
      * // output: 8454143
-     * ColorUtil.rgb.toUint32b({r: 0, g: 128, b: 255, a: 85});
+     * ColorUtil.rgb.toUint32RGBA({r: 0, g: 128, b: 255, a: 85});
      * // output: 8453973
      *
      * @memberof ColorUtil.rgb
@@ -155,7 +154,7 @@ let Rgb = new function() {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    this.toUint32b = rgb => {
+    this.toUint32RGBA = rgb => {
         return (rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a) >>> 0;
     };
 
@@ -164,9 +163,9 @@ let Rgb = new function() {
      * Resulting value can be negative.
      *
      * @example
-     * ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 255});
+     * ColorUtil.rgb.toInt32ABGR({r: 0, g: 128, b: 255, a: 255});
      * // output: -32768
-     * ColorUtil.rgb.toInt32({r: 0, g: 128, b: 255, a: 85});
+     * ColorUtil.rgb.toInt32ABGR({r: 0, g: 128, b: 255, a: 85});
      * // output: 1442807808
      *
      * @memberof ColorUtil.rgb
@@ -174,17 +173,16 @@ let Rgb = new function() {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    this.toInt32 = rgb => {
+    this.toInt32ABGR = rgb => {
         return rgb.a << 24 | rgb.b << 16 | rgb.g << 8 | rgb.r;
     };
 
     /**
      * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-     * Alpha value is discarded and fully opaque value is used. This is faster option compared to
-     * `toInt32` and can be used if alpha value is not relevant. Resulting value can be negative.
+     * Alpha value is discarded and fully opaque value is used. Resulting value can be negative.
      *
      * @example
-     * ColorUtil.rgb.toInt32Opaque({r: 0, g: 128, b: 255})
+     * ColorUtil.rgb.toInt32ABGROpaque({r: 0, g: 128, b: 255})
      * // output: -32768
      *
      * @memberof ColorUtil.rgb
@@ -192,7 +190,7 @@ let Rgb = new function() {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    this.toInt32Opaque = rgb => {
+    this.toInt32ABGROpaque = rgb => {
         return INT32_ALPHA_LE | rgb.b << 16 | rgb.g << 8 | rgb.r;
     };
 
@@ -201,9 +199,9 @@ let Rgb = new function() {
      * Resulting value can be negative.
      *
      * @example
-     * ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 255});
+     * ColorUtil.rgb.toInt32RGBA({r: 0, g: 128, b: 255, a: 255});
      * // output: 8454143
-     * ColorUtil.rgb.toInt32b({r: 0, g: 128, b: 255, a: 85});
+     * ColorUtil.rgb.toInt32RGBA({r: 0, g: 128, b: 255, a: 85});
      * // output: 8453973
      *
      * @memberof ColorUtil.rgb
@@ -211,7 +209,7 @@ let Rgb = new function() {
      * @param      {Object}    rgb
      * @return     {number}
      */
-    this.toInt32b = rgb => {
+    this.toInt32RGBA = rgb => {
         return rgb.r << 24 | rgb.g << 16 | rgb.b << 8 | rgb.a;
     };
 

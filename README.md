@@ -162,7 +162,7 @@ Two dimensional structure. This example produces exact same gradient as structur
     * HSL & HSV gradients
     * Gradient scaling, translate and centerize
     * Default gradient color
-    * Renaming of some properties
+    * Renaming of some properties functions and classes
 * 1.0.0
     * No code changes to previous version. I just like creating new releases.
 * 0.6.0
