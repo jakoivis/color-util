@@ -1,6 +1,6 @@
 
 
-export { convert, callConverter };
+export { convert, callConverter, getColorType };
 
 function convert(colors, ...conversionFunctions) {
     if (Array.isArray(colors)) {
@@ -29,7 +29,7 @@ function callConverter(targetType, color, availableTypes) {
     // direct conversion within a color format (rgb, hsl hsv...)
     // e.g. int -> hex, hsl -> hslString
     if (typeof type['to'+targetType.name] === 'function') {
-        
+
         return type['to'+targetType.name](color);
     }
 

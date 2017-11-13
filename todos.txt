@@ -1,6 +1,15 @@
 2.0
 - benchmarks
 - fix liearMatrixGradientWithStopExample
+- check npm packaging: why the sources are there?
+- change default matrix size to 1x1 to simulate old behavior???
+- rgb.setHue:
+        let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
+        let hueHsv = ColorUtil.rgb.toHsv(rgbHue);
+        hsv.h = hueHsv.h;
+        let rgb = ColorUtil.hsv.toRgb(hsv);
+- investigate usage of let color = new ColorUtil(color);
+- investigate chaining color.hue(hueColor)
 
 Can be done in future release without braking backward compatibility
 - repeat.invert
@@ -10,11 +19,6 @@ Can be done in future release without braking backward compatibility
 
 Maybe
 - color mix. functionality is basically there already
-- rgb.setHue:
-        let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
-        let hueHsv = ColorUtil.rgb.toHsv(hue);
-        hsv.h = hueHsv.h;
-        let rgb = ColorUtil.hsv.toRgb(hsv);
 - radius for circle gradients. undefined = no radius. out of radius values are transparent
 - circleMatrixColor by radius and distance instead of x & y
 - maybe a shortcut method for getting the grayscale matrix (white, black, hue)

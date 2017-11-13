@@ -1,17 +1,6 @@
 
-import Rgb from './Rgb';
-import Int from './Int';
-import Hex from './Hex';
-import RgbString from './RgbString';
-import RgbaString from './RgbaString';
-import Hsl from './Hsl';
-import HslString from './HslString';
-import HslaString from './HslaString';
-import Hsv from './Hsv';
-
 import {callConverter} from '../conversionUtils';
-
-const TYPES = [Rgb, Int, Hex, Hsl, Hsv, RgbaString, RgbString, HslaString, HslString];
+import {TYPES, TYPES_BY_NAME} from './types';
 
 /**
  * @class Any
@@ -35,7 +24,7 @@ export default {
      * @return     {Object}
      */
     toRgb: color => {
-        return callConverter(Rgb, color, TYPES);
+        return callConverter(TYPES_BY_NAME.Rgb, color, TYPES);
     },
 
     /**
@@ -51,7 +40,7 @@ export default {
      * @return     {number}
      */
     toInt: color => {
-        return callConverter(Int, color, TYPES);
+        return callConverter(TYPES_BY_NAME.Int, color, TYPES);
     },
 
     /**
@@ -67,7 +56,7 @@ export default {
      * @return     {string}
      */
     toHex: color => {
-        return callConverter(Hex, color, TYPES);
+        return callConverter(TYPES_BY_NAME.Hex, color, TYPES);
     },
 
     /**
@@ -83,7 +72,7 @@ export default {
      * @return     {string}
      */
     toRgbString: color => {
-        return callConverter(RgbString, color, TYPES);
+        return callConverter(TYPES_BY_NAME.RgbString, color, TYPES);
     },
 
     /**
@@ -99,7 +88,7 @@ export default {
      * @return     {string}
      */
     toRgbaString: color => {
-        return callConverter(RgbaString, color, TYPES);
+        return callConverter(TYPES_BY_NAME.RgbaString, color, TYPES);
     },
 
     /**
@@ -115,7 +104,7 @@ export default {
      * @return     {Object}
      */
     toHsl: color => {
-        return callConverter(Hsl, color, TYPES);
+        return callConverter(TYPES_BY_NAME.Hsl, color, TYPES);
     },
 
     /**
@@ -131,7 +120,7 @@ export default {
      * @return     {Object}
      */
     toHsv: color => {
-        return callConverter(Hsv, color, TYPES);
+        return callConverter(TYPES_BY_NAME.Hsv, color, TYPES);
     },
 
     /**
@@ -147,7 +136,7 @@ export default {
      * @return     {string}
      */
     toHslString: color => {
-        return callConverter(HslString, color, TYPES);
+        return callConverter(TYPES_BY_NAME.HslString, color, TYPES);
     },
 
     /**
@@ -163,6 +152,6 @@ export default {
      * @return     {string}
      */
     toHslaString: color => {
-        return callConverter(HslaString, color, TYPES);
+        return callConverter(TYPES_BY_NAME.HslaString, color, TYPES);
     }
 }

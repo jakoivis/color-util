@@ -174,4 +174,36 @@ module.exports = new function() {
 
     this.find = (array, matcher, startIndex) => array[this.findIndex(array, matcher, startIndex)];
     this.findLast = (array, matcher, startIndex) => array[this.findLastIndex(array, matcher, startIndex)];
+
+    this.pull = (array, value) => {
+
+        let index;
+
+        if (!array) {
+
+            return;
+        }
+
+        while (array.indexOf(value) > -1) {
+
+            index = array.indexOf(value);
+
+            if (index > -1) {
+
+                array.splice(index, 1);
+            }
+        }
+    }
+
+    this.lowerFirst = function(string) {
+
+        if (!string) {
+
+            return string;
+        }
+
+        let char = string.charAt(0).toLowerCase();
+
+        return char + string.substring(1);
+    }
 };

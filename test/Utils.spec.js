@@ -200,4 +200,25 @@ describe('Utils', () => {
         Utils.find(obj, ['b', 2]).should.equal(obj[1]);
         Utils.findLast(obj, ['b', 2]).should.equal(obj[1]);
     });
+
+    it('should pull', () => {
+
+        let array = ['a', 'b', 'c', 'b'];
+
+        Utils.pull(array, 'b');
+
+        array.length.should.equal(2);
+        array[0].should.equal('a');
+        array[1].should.equal('c');
+
+        Utils.pull(null, 'b');
+    });
+
+    it('should convert first letter to lower case', () => {
+
+        Utils.lowerFirst('A').should.equal('a');
+        Utils.lowerFirst('A A').should.equal('a A');
+        expect(Utils.lowerFirst(null)).to.equal(null);
+        expect(Utils.lowerFirst('')).to.equal('');
+    });
 });
