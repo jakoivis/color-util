@@ -362,7 +362,7 @@ let Rgb = new function() {
 
         let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.toHsv(rgb).h);
 
-        return mixColors(
+        return this.mix(
             parts.item1,
             parts.item2,
             parts.position);
@@ -409,7 +409,7 @@ let Rgb = new function() {
 
         return Gradient.createGradient(options, {
 
-            mixColors: mixColors,
+            mixColors: this.mix,
 
             defaultColor: {
                 r: 0,
@@ -420,7 +420,7 @@ let Rgb = new function() {
         });
     };
 
-    function mixColors(color1, color2, position) {
+    this.mix = (color1, color2, position) => {
 
         return {
             r: color1.r - position * (color1.r - color2.r),

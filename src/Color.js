@@ -1,6 +1,8 @@
 
 import {TYPES} from './types/types';
 import Any from './types/Any';
+import Rgb from './types/Rgb';
+import Gradient from './Gradient';
 import { getColorType } from './conversionUtils';
 import _ from './Utils';
 
@@ -9,23 +11,64 @@ import _ from './Utils';
  *
  * @private
  */
-function Color(color) {
+class Color {
 
-    const init = () => {
+    constructor(color) {
 
-        this._values = {};
-        this._invalid = [];
-        this._primaryColor = color;
+        this.set(color);
+    }
+
+    set(color) {
 
         let type = getColorType(color, TYPES);
 
+        if (!type) {
+
+            type = 'Rgb';
+            color = {r: 0, g: 0, b: 0, a: 255};
+        }
+
+        this._primaryType = type;
+        this._primaryColor = color;
+        this._values = {};
         this._values[type.name] = color;
+
+        return this;
     }
 
-    // this.setHue = hue => {
-    // }
+    clone() {
 
-    init(color);
+        return new Color(this._primaryColor);
+    }
+
+    set hueValue(value) {
+
+        // let type = getColorType(color, TYPES);
+        // let isHueValue = type.name === 'Int' && color <= 1 && color >= 0;
+
+        // if (isHueValue) {
+
+        // }
+    }
+
+    set hue(color) {
+
+        let hsv = this.hsv;
+
+        hsv.h = new Color(color).hsv.h
+
+        this.set(hsv);
+    }
+
+    get hue() {
+
+        let parts = Gradient.partialGradient(Rgb.hueColors(), this.hsl.h);
+        let blend = Rgb.mix(parts.item1, parts.item2, parts.position);
+
+        return new Color(blend);
+    }
+
+
 }
 
 for (let type of TYPES) {
@@ -37,27 +80,15 @@ for (let type of TYPES) {
 
         get: function() {
 
-            let isInvalid = this._invalid.indexOf(typeName) > -1;
             let hasValue = _.has(this._values, typeName);
 
-            if (isInvalid || !hasValue) {
-
-                _.pull(this._invalid, typeName);
+            if (!hasValue) {
 
                 this._values[typeName] = Any['to'+typeName](this._primaryColor);
             }
 
             return this._values[typeName];
-        },
-
-        // set: function(color) {
-
-        //     let type = getColorType(color, TYPES);
-
-        //     this._values[type.name] = color;
-
-        //     for ()
-        // }
+        }
     });
 }
 
