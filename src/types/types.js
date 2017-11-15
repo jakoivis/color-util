@@ -9,6 +9,9 @@ import HslString from './HslString';
 import HslaString from './HslaString';
 import Hsv from './Hsv';
 
+import Int32ABGR from './Int32ABGR';
+import Int32RGBA from './Int32RGBA';
+
 const TYPES = [
     Rgb,
     Int,
@@ -20,6 +23,11 @@ const TYPES = [
     HslaString,
     HslString
 ];
+
+const TYPES_ALL = TYPES.concat([
+    Int32ABGR,
+    Int32RGBA
+]);
 
 const TYPES_BY_NAME = createNameList(TYPES);
 
@@ -35,4 +43,4 @@ function createNameList(types) {
     return list;
 }
 
-export { TYPES, TYPES_BY_NAME };
+export { TYPES, TYPES_BY_NAME, TYPES_ALL };

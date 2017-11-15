@@ -21,49 +21,49 @@ describe('Rgb', () => {
         });
 
         it('toInt', () => {
-            Rgb.toInt({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCC);
-            Rgb.toInt({r: 170.1, g: 187.5, b: 204.9, a: 255}).should.equal(0xAABBCC);
+            Rgb.to.int({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCC);
+            Rgb.to.int({r: 170.1, g: 187.5, b: 204.9, a: 255}).should.equal(0xAABBCC);
         });
 
         it('toHex', () => {
-            Rgb.toHex({r: 170, g: 187, b: 204, a: 255}).should.equal('#aabbcc');
-            Rgb.toHex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
-            Rgb.toHex({r: 0, g: 187, b: 0.56}).should.equal('#00bb00');
+            Rgb.to.hex({r: 170, g: 187, b: 204, a: 255}).should.equal('#aabbcc');
+            Rgb.to.hex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
+            Rgb.to.hex({r: 0, g: 187, b: 0.56}).should.equal('#00bb00');
         });
 
         it('toRgbString', () => {
-            Rgb.toRgbString({r: 170, g: 187, b: 204}).should.equal('rgb(170,187,204)');
-            Rgb.toRgbString({r: 170.1, g: 187.1, b: 204.1}).should.equal('rgb(170,187,204)');
+            Rgb.to.rgbString({r: 170, g: 187, b: 204}).should.equal('rgb(170,187,204)');
+            Rgb.to.rgbString({r: 170.1, g: 187.1, b: 204.1}).should.equal('rgb(170,187,204)');
         });
 
         it('toRgbaString', () => {
-            Rgb.toRgbaString({r: 170, g: 187, b: 204, a: 127.5}).should.equal('rgba(170,187,204,0.5)');
-            Rgb.toRgbaString({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,NaN)');
-            Rgb.toRgbaString({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
+            Rgb.to.rgbaString({r: 170, g: 187, b: 204, a: 127.5}).should.equal('rgba(170,187,204,0.5)');
+            Rgb.to.rgbaString({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,NaN)');
+            Rgb.to.rgbaString({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
         });
 
         it('toUint32ABGR', () => {
-            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
-            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-            Rgb.toUint32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
-            Rgb.toUint32ABGR({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
+            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
+            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
         });
 
         it('toUint32RGBA', () => {
-            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
-            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
-            Rgb.toUint32RGBA({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
-            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
-            Rgb.toUint32RGBA({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
+            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
+            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
+            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
         });
 
         it('toInt32ABGR', () => {
-            Rgb.toInt32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
-            Rgb.toInt32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-            Rgb.toInt32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
-            Rgb.toInt32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-            Rgb.toInt32ABGR({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
+            Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
+            Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+            Rgb.to.int32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+            Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+            Rgb.to.int32ABGR({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
         });
 
         it('toInt32RGBA', () => {
@@ -72,43 +72,43 @@ describe('Rgb', () => {
             let AABBCC00 = -1430533120;
             let AA00CC00 = -1442788352;
 
-            Rgb.toInt32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(AABBCCFF);
-            Rgb.toInt32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
-            Rgb.toInt32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
-            Rgb.toInt32RGBA({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
-            Rgb.toInt32RGBA({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
+            Rgb.to.int32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(AABBCCFF);
+            Rgb.to.int32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
+            Rgb.to.int32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
+            Rgb.to.int32RGBA({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
+            Rgb.to.int32RGBA({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
         });
 
         it('toHsl', () => {
-            Rgb.toHsl({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, l:0, a:1});
-            Rgb.toHsl({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, l:1, a:1});
-            Rgb.toHsl({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.5, a:1});
-            Rgb.toHsl({r: 0, g: 255, b: 0}).should.eql({h:1/3, s: 1, l:0.5, a:1});
-            Rgb.toHsl({r: 0, g: 0, b: 255}).should.eql({h:2/3, s: 1, l:0.5, a:1});
-            Rgb.toHsl({r: 255, g: 255, b: 0}).should.eql({h:1/6, s: 1, l:0.5, a:1});
-            Rgb.toHsl({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, l:0.7529411764705882, a:1});
-            Rgb.toHsl({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.25098039215686274, a:1});
-            Rgb.toHsl({r: 128, g: 128, b: 0}).should.eql({h:1/6, s: 1, l:0.25098039215686274, a:1});
-            Rgb.toHsl({r: 128, g: 0, b: 128}).should.eql({h:5/6, s: 1, l:0.25098039215686274, a:1});
-            Rgb.toHsl({r: 0, g: 0, b: 128}).should.eql({h:2/3, s: 1, l:0.25098039215686274, a:1});
-            Rgb.toHsl({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, l:0, a:0.3333333333333333});
-            Rgb.toHsl({r: 255, g: 0, b: 120}).should.eql({h:0.9215686274509803, s: 1, l: 0.5, a:1});
+            Rgb.to.hsl({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, l:0, a:1});
+            Rgb.to.hsl({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, l:1, a:1});
+            Rgb.to.hsl({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.5, a:1});
+            Rgb.to.hsl({r: 0, g: 255, b: 0}).should.eql({h:1/3, s: 1, l:0.5, a:1});
+            Rgb.to.hsl({r: 0, g: 0, b: 255}).should.eql({h:2/3, s: 1, l:0.5, a:1});
+            Rgb.to.hsl({r: 255, g: 255, b: 0}).should.eql({h:1/6, s: 1, l:0.5, a:1});
+            Rgb.to.hsl({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, l:0.7529411764705882, a:1});
+            Rgb.to.hsl({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.25098039215686274, a:1});
+            Rgb.to.hsl({r: 128, g: 128, b: 0}).should.eql({h:1/6, s: 1, l:0.25098039215686274, a:1});
+            Rgb.to.hsl({r: 128, g: 0, b: 128}).should.eql({h:5/6, s: 1, l:0.25098039215686274, a:1});
+            Rgb.to.hsl({r: 0, g: 0, b: 128}).should.eql({h:2/3, s: 1, l:0.25098039215686274, a:1});
+            Rgb.to.hsl({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, l:0, a:0.3333333333333333});
+            Rgb.to.hsl({r: 255, g: 0, b: 120}).should.eql({h:0.9215686274509803, s: 1, l: 0.5, a:1});
         });
 
         it('toHsv', () => {
-            Rgb.toHsv({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, v:0, a:1});
-            Rgb.toHsv({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, v:1, a:1});
-            Rgb.toHsv({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, v:1, a:1});
-            Rgb.toHsv({r: 0, g: 255, b: 0}).should.eql({h:2/6, s: 1, v:1, a:1});
-            Rgb.toHsv({r: 0, g: 0, b: 255}).should.eql({h:4/6, s: 1, v:1, a:1});
-            Rgb.toHsv({r: 255, g: 255, b: 0}).should.eql({h:1/6, s: 1, v:1, a:1});
-            Rgb.toHsv({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, v:0.7529411764705882, a:1});
-            Rgb.toHsv({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, v:0.5019607843137255, a:1});
-            Rgb.toHsv({r: 128, g: 128, b: 0}).should.eql({h:1/6, s: 1, v:0.5019607843137255, a:1});
-            Rgb.toHsv({r: 128, g: 0, b: 128}).should.eql({h:5/6, s: 1, v:0.5019607843137255, a:1});
-            Rgb.toHsv({r: 0, g: 0, b: 128}).should.eql({h:4/6, s: 1, v:0.5019607843137255, a:1});
-            Rgb.toHsv({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, v:0, a:0.3333333333333333});
-            Rgb.toHsv({r: 255, g: 0, b: 120}).should.eql({h:0.9215686274509803, s: 1, v: 1, a:1});
+            Rgb.to.hsv({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, v:0, a:1});
+            Rgb.to.hsv({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, v:1, a:1});
+            Rgb.to.hsv({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, v:1, a:1});
+            Rgb.to.hsv({r: 0, g: 255, b: 0}).should.eql({h:2/6, s: 1, v:1, a:1});
+            Rgb.to.hsv({r: 0, g: 0, b: 255}).should.eql({h:4/6, s: 1, v:1, a:1});
+            Rgb.to.hsv({r: 255, g: 255, b: 0}).should.eql({h:1/6, s: 1, v:1, a:1});
+            Rgb.to.hsv({r: 192, g: 192, b: 192}).should.eql({h:0, s: 0, v:0.7529411764705882, a:1});
+            Rgb.to.hsv({r: 128, g: 0, b: 0}).should.eql({h:0, s: 1, v:0.5019607843137255, a:1});
+            Rgb.to.hsv({r: 128, g: 128, b: 0}).should.eql({h:1/6, s: 1, v:0.5019607843137255, a:1});
+            Rgb.to.hsv({r: 128, g: 0, b: 128}).should.eql({h:5/6, s: 1, v:0.5019607843137255, a:1});
+            Rgb.to.hsv({r: 0, g: 0, b: 128}).should.eql({h:4/6, s: 1, v:0.5019607843137255, a:1});
+            Rgb.to.hsv({r: 0, g: 0, b: 0, a:85}).should.eql({h:0, s: 0, v:0, a:0.3333333333333333});
+            Rgb.to.hsv({r: 255, g: 0, b: 120}).should.eql({h:0.9215686274509803, s: 1, v: 1, a:1});
         });
     });
 
@@ -250,7 +250,7 @@ describe('Rgb', () => {
     });
 
     function createBasicIntTestFunction(colors, additionalOptions) {
-        let rgbColors = C.convert(colors, C.int.toRgb);
+        let rgbColors = C.convert(colors, C.int.to.rgb);
 
         additionalOptions = additionalOptions || {};
 
@@ -262,7 +262,7 @@ describe('Rgb', () => {
             }, additionalOptions));
 
         return (x, y) => {
-            return Rgb.toInt(gradientFn(x, y));
+            return Rgb.to.int(gradientFn(x, y));
         }
     }
 });

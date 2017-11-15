@@ -18,20 +18,20 @@ describe('RgbString', () => {
     });
 
     it('toRgb', () => {
-        RgbString.toRgb('rgb(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
+        RgbString.to.rgb('rgb(170,187,204)').should.eql({r: 170, g: 187, b: 204, a: 255});
 
-        expect(RgbString.toRgb('rgba(170,187,204,1)')).to.be.null;
+        expect(RgbString.to.rgb('rgba(170,187,204,1)')).to.be.null;
     });
 
     it('toInt', () => {
-        RgbString.toInt('rgb(170,187,204)').should.equal(11189196);
+        RgbString.to.int('rgb(170,187,204)').should.equal(11189196);
 
-        expect(RgbString.toInt('rgba(170,187,204,1)')).to.be.null;
+        expect(RgbString.to.int('rgba(170,187,204,1)')).to.be.null;
     });
 
     it('toHex', () => {
-        RgbString.toHex('rgb(170,187,204)').should.equal('#aabbcc');
+        RgbString.to.hex('rgb(170,187,204)').should.equal('#aabbcc');
 
-        expect(RgbString.toHex('rgba(170,187,204,1)')).to.be.null;
+        expect(RgbString.to.hex('rgba(170,187,204,1)')).to.be.null;
     });
 });

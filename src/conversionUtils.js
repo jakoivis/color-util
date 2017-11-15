@@ -28,9 +28,9 @@ function callConverter(targetType, color, availableTypes) {
 
     // direct conversion within a color format (rgb, hsl hsv...)
     // e.g. int -> hex, hsl -> hslString
-    if (typeof type['to'+targetType.name] === 'function') {
+    if (typeof type.to[targetType.name] === 'function') {
 
-        return type['to'+targetType.name](color);
+        return type.to[targetType.name](color);
     }
 
     // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)
@@ -59,7 +59,7 @@ function getConversionPath(type, targetType, availableTypes) {
     let sourceRootType = sourcePath[sourcePath.length-1].type;
     let targetRootType = targetPath[0].type;
 
-    if (typeof sourceRootType['to'+targetRootType.name] === 'function') {
+    if (typeof sourceRootType.to[targetRootType.name] === 'function') {
         sourcePath[sourcePath.length-1].nextType = targetPath[0].type;
         targetPath.shift();
 
@@ -83,7 +83,7 @@ function getConversionPath(type, targetType, availableTypes) {
 
     let combined = sourcePath.concat(targetPath);
 
-    return combined.map(item => item.type['to'+item.nextType.name]);
+    return combined.map(item => item.type.to[item.nextType.name]);
 }
 
 function getPathToRoot(type, path=[]) {
@@ -122,10 +122,11 @@ function getPathToRootReverse(type, path=[]) {
 }
 
 function getRootTypeWithFunction(targetType, availableTypes) {
-    let conversionFnName = 'to'+targetType.name;
 
     for(let type of availableTypes) {
-        if(!type.parent && typeof type[conversionFnName] === 'function') {
+
+        if(!type.parent && typeof type.to[targetType.name] === 'function') {
+
             return type;
         }
     }

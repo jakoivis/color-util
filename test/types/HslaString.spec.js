@@ -21,9 +21,9 @@ describe('HslaString', () => {
     });
 
     it('toHsl', () => {
-        HslaString.toHsl('hsla(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
-        HslaString.toHsl('hsl(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
+        HslaString.to.hsl('hsla(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
+        HslaString.to.hsl('hsl(180, 50%, 60%, 0.5)').should.eql({h:3/6,s:0.5,l:0.6,a:0.5});
 
-        expect(HslaString.toHsl('hsl(180, 50, 60)')).to.be.null;
+        expect(HslaString.to.hsl('hsl(180, 50, 60)')).to.be.null;
     });
 });

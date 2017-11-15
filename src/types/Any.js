@@ -1,12 +1,27 @@
 
+import _ from '../Utils';
 import {callConverter} from '../conversionUtils';
 import {TYPES, TYPES_BY_NAME} from './types';
+
+let Any = {to:{}};
+
+for (let type of TYPES) {
+
+    let name = _.lowerFirst(type.name);
+
+    Any.to[name] = (color) => {
+
+        return callConverter(type, color, TYPES);
+    };
+}
+
+export default Any;
 
 /**
  * @class Any
  * @private
  */
-export default {
+// export default {
 
     /**
      * Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -23,9 +38,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {Object}
      */
-    toRgb: color => {
-        return callConverter(TYPES_BY_NAME.Rgb, color, TYPES);
-    },
+    // toRgb: color => {
+    //     return callConverter(TYPES_BY_NAME.Rgb, color, TYPES);
+    // },
 
     /**
      * Convert any color to number notation `0xRRGGBB`
@@ -39,9 +54,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {number}
      */
-    toInt: color => {
-        return callConverter(TYPES_BY_NAME.Int, color, TYPES);
-    },
+    // toInt: color => {
+    //     return callConverter(TYPES_BY_NAME.Int, color, TYPES);
+    // },
 
     /**
      * Convert any color to hex notation `'#RRGGBB'`
@@ -55,9 +70,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    toHex: color => {
-        return callConverter(TYPES_BY_NAME.Hex, color, TYPES);
-    },
+    // toHex: color => {
+    //     return callConverter(TYPES_BY_NAME.Hex, color, TYPES);
+    // },
 
     /**
      * Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
@@ -71,9 +86,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    toRgbString: color => {
-        return callConverter(TYPES_BY_NAME.RgbString, color, TYPES);
-    },
+    // toRgbString: color => {
+    //     return callConverter(TYPES_BY_NAME.RgbString, color, TYPES);
+    // },
 
     /**
      * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
@@ -87,9 +102,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    toRgbaString: color => {
-        return callConverter(TYPES_BY_NAME.RgbaString, color, TYPES);
-    },
+    // toRgbaString: color => {
+    //     return callConverter(TYPES_BY_NAME.RgbaString, color, TYPES);
+    // },
 
     /**
      * Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
@@ -103,9 +118,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {Object}
      */
-    toHsl: color => {
-        return callConverter(TYPES_BY_NAME.Hsl, color, TYPES);
-    },
+    // toHsl: color => {
+    //     return callConverter(TYPES_BY_NAME.Hsl, color, TYPES);
+    // },
 
     /**
      * Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
@@ -119,9 +134,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {Object}
      */
-    toHsv: color => {
-        return callConverter(TYPES_BY_NAME.Hsv, color, TYPES);
-    },
+    // toHsv: color => {
+    //     return callConverter(TYPES_BY_NAME.Hsv, color, TYPES);
+    // },
 
     /**
      * Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
@@ -135,9 +150,9 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    toHslString: color => {
-        return callConverter(TYPES_BY_NAME.HslString, color, TYPES);
-    },
+    // toHslString: color => {
+    //     return callConverter(TYPES_BY_NAME.HslString, color, TYPES);
+    // },
 
     /**
      * Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
@@ -151,7 +166,7 @@ export default {
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    toHslaString: color => {
-        return callConverter(TYPES_BY_NAME.HslaString, color, TYPES);
-    }
-}
+    // toHslaString: color => {
+    //     return callConverter(TYPES_BY_NAME.HslaString, color, TYPES);
+    // }
+// }

@@ -20,26 +20,26 @@ describe('RgbaString', () => {
     });
 
     it('toRgb', () => {
-        RgbaString.toRgb('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
-        RgbaString.toRgb('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
-        RgbaString.toRgb('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
+        RgbaString.to.rgb('rgba(170,187,204,1)').should.eql({r: 170, g: 187, b: 204, a: 255});
+        RgbaString.to.rgb('rgba(170,187,204,0)').should.eql({r: 170, g: 187, b: 204, a: 0});
+        RgbaString.to.rgb('rgba(170,187,204,0.1)').should.eql({r: 170, g: 187, b: 204, a: 25});
 
-        expect(RgbaString.toRgb('rgba(170,187,204)')).to.be.null;
+        expect(RgbaString.to.rgb('rgba(170,187,204)')).to.be.null;
     });
 
     it('toInt', () => {
-        RgbaString.toInt('rgba(170,187,204,1)').should.equal(11189196);
-        RgbaString.toInt('rgba(170,187,204,0)').should.equal(11189196);
-        RgbaString.toInt('rgba(170,187,204,0.1)').should.equal(11189196);
+        RgbaString.to.int('rgba(170,187,204,1)').should.equal(11189196);
+        RgbaString.to.int('rgba(170,187,204,0)').should.equal(11189196);
+        RgbaString.to.int('rgba(170,187,204,0.1)').should.equal(11189196);
 
-        expect(RgbaString.toInt('rgba(170,187,204)')).to.be.null;
+        expect(RgbaString.to.int('rgba(170,187,204)')).to.be.null;
     });
 
     it('toHex', () => {
-        RgbaString.toHex('rgba(170,187,204,1)').should.equal('#aabbcc');
-        RgbaString.toHex('rgba(170,187,204,0)').should.equal('#aabbcc');
-        RgbaString.toHex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
+        RgbaString.to.hex('rgba(170,187,204,1)').should.equal('#aabbcc');
+        RgbaString.to.hex('rgba(170,187,204,0)').should.equal('#aabbcc');
+        RgbaString.to.hex('rgba(170,187,204,0.1)').should.equal('#aabbcc');
 
-        expect(RgbaString.toHex('rgba(170,187,204)')).to.be.null;
+        expect(RgbaString.to.hex('rgba(170,187,204)')).to.be.null;
     });
 });

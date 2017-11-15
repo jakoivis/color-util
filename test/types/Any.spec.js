@@ -8,11 +8,11 @@ describe('Any', () => {
 
     it('should throw with incorrect color format', () => {
         expect(() => {
-            Any.toRgb({h:0, s:0, x:0});
+            Any.to.rgb({h:0, s:0, x:0});
         }).to.throw;
 
         expect(() => {
-            Any.toRgb('#qwe');
+            Any.to.toRgb('#qwe');
         }).to.throw;
     });
 
@@ -23,34 +23,34 @@ describe('Any', () => {
     let hsv = {h: 0.5833333333333334, s: 0.16666666666666677, v: 0.8, a: 1};
 
     it('should return same color if target is same as color', () => {
-        Any.toRgb(rgb).should.equal(rgb);
-        Any.toInt(0xAABBCC).should.equal(0xAABBCC);
-        Any.toHex("#AABBCC").should.equal("#AABBCC");
-        Any.toRgbString('rgb(0,0,0)').should.equal('rgb(0,0,0)');
-        Any.toHsl(hsl).should.equal(hsl);
-        Any.toHsv(hsv).should.equal(hsv);
+        Any.to.rgb(rgb).should.equal(rgb);
+        Any.to.int(0xAABBCC).should.equal(0xAABBCC);
+        Any.to.hex("#AABBCC").should.equal("#AABBCC");
+        Any.to.rgbString('rgb(0,0,0)').should.equal('rgb(0,0,0)');
+        Any.to.hsl(hsl).should.equal(hsl);
+        Any.to.hsv(hsv).should.equal(hsv);
     });
 
     it('should do rgb type conversions', () => {
-        Any.toRgb(0xAABBCC).should.eql(rgb);
-        Any.toRgb('#AABBCC').should.eql(rgb);
-        Any.toRgb('rgba(170,187,204,1)').should.eql(rgb);
-        Any.toInt('#AABBCC').should.eql(0xAABBCC);
-        Any.toInt('rgba(170,187,204,1)').should.eql(0xAABBCC);
-        Any.toInt(rgb).should.eql(0xAABBCC);
-        Any.toHex(0xAABBCC).should.eql("#aabbcc");
-        Any.toHex('rgba(170,187,204,1)').should.eql("#aabbcc");
-        Any.toHex(rgb).should.eql("#aabbcc");
-        Any.toRgbString({r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF}).should.eql('rgb(170,187,204)');
-        Any.toRgbString(0xAABBCC).should.eql('rgb(170,187,204)');
-        Any.toRgbString('#AABBCC').should.eql('rgb(170,187,204)');
-        Any.toRgbaString(rgb).should.eql('rgba(170,187,204,1)');
-        Any.toRgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
-        Any.toRgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
+        Any.to.rgb(0xAABBCC).should.eql(rgb);
+        Any.to.rgb('#AABBCC').should.eql(rgb);
+        Any.to.rgb('rgba(170,187,204,1)').should.eql(rgb);
+        Any.to.int('#AABBCC').should.eql(0xAABBCC);
+        Any.to.int('rgba(170,187,204,1)').should.eql(0xAABBCC);
+        Any.to.int(rgb).should.eql(0xAABBCC);
+        Any.to.hex(0xAABBCC).should.eql("#aabbcc");
+        Any.to.hex('rgba(170,187,204,1)').should.eql("#aabbcc");
+        Any.to.hex(rgb).should.eql("#aabbcc");
+        Any.to.rgbString({r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF}).should.eql('rgb(170,187,204)');
+        Any.to.rgbString(0xAABBCC).should.eql('rgb(170,187,204)');
+        Any.to.rgbString('#AABBCC').should.eql('rgb(170,187,204)');
+        Any.to.rgbaString(rgb).should.eql('rgba(170,187,204,1)');
+        Any.to.rgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
+        Any.to.rgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
     });
 
     it('should do hsl -> rgb conversion', () => {
-        let actual = Any.toRgb(hsl);
+        let actual = Any.to.rgb(hsl);
 
         actual.r.should.be.closeTo(rgb.r, tolerance);
         actual.g.should.be.closeTo(rgb.g, tolerance);
@@ -59,7 +59,7 @@ describe('Any', () => {
     });
 
     it('should do hsv -> rgb conversion', () => {
-        let actual = Any.toRgb(hsv);
+        let actual = Any.to.rgb(hsv);
 
         actual.r.should.be.closeTo(rgb.r, tolerance);
         actual.g.should.be.closeTo(rgb.g, tolerance);
@@ -68,7 +68,7 @@ describe('Any', () => {
     });
 
     it('should do rgb -> hsl conversion', () => {
-        let actual = Any.toHsl(rgb);
+        let actual = Any.to.hsl(rgb);
 
         actual.h.should.be.closeTo(hsl.h, tolerance);
         actual.s.should.be.closeTo(hsl.s, tolerance);
@@ -77,18 +77,18 @@ describe('Any', () => {
     });
 
     it('should do rgb -> hsv conversion', () => {
-        Any.toHsv(rgb).should.eql(hsv);
+        Any.to.hsv(rgb).should.eql(hsv);
     });
 
     it('should do hsl -> rgb sub type conversion', () => {
-        Any.toInt(hsl).should.equal(0xAABBCC);
-        Any.toHex(hsl).should.equal('#aabbcc');
-        Any.toRgbString(hsl).should.equal('rgb(170,187,204)');
-        Any.toRgbaString(hsl).should.equal('rgba(170,187,204,1)');
+        Any.to.int(hsl).should.equal(0xAABBCC);
+        Any.to.hex(hsl).should.equal('#aabbcc');
+        Any.to.rgbString(hsl).should.equal('rgb(170,187,204)');
+        Any.to.rgbaString(hsl).should.equal('rgba(170,187,204,1)');
     });
 
     it('should do hsl subtype -> hsv conversion', () => {
-        let actual = Any.toHsv('hsl(180, 50%, 60%)')
+        let actual = Any.to.hsv('hsl(180, 50%, 60%)')
 
         actual.h.should.be.closeTo(0.5, tolerance);
         actual.s.should.be.closeTo(0.5, tolerance);
@@ -97,14 +97,14 @@ describe('Any', () => {
     });
 
     it('should do hsl subtype -> rgb sub type conversion', () => {
-        Any.toInt('hsl(180, 50%, 60%)').should.equal(0x65CCCC);
-        Any.toHex('hsl(180, 50%, 60%)').should.equal("#65cccc");
-        Any.toRgbString('hsl(180, 50%, 60%)').should.equal('rgb(102,204,204)');
-        Any.toRgbaString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
+        Any.to.int('hsl(180, 50%, 60%)').should.equal(0x65CCCC);
+        Any.to.hex('hsl(180, 50%, 60%)').should.equal("#65cccc");
+        Any.to.rgbString('hsl(180, 50%, 60%)').should.equal('rgb(102,204,204)');
+        Any.to.rgbaString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
     });
 
     it('should do hsl subtype -> hsl subtype conversion', () => {
-        Any.toHslaString('hsl(180, 50%, 60%)').should.equal('hsla(180,50%,60%,1)');
-        Any.toHslString('hsla(180, 50%, 60%, 1)').should.equal('hsl(180,50%,60%)');
+        Any.to.hslaString('hsl(180, 50%, 60%)').should.equal('hsla(180,50%,60%,1)');
+        Any.to.hslString('hsla(180, 50%, 60%, 1)').should.equal('hsl(180,50%,60%)');
     });
 });

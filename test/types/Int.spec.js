@@ -17,23 +17,23 @@ describe('Int', () => {
     });
 
     it('toRgb', () => {
-        Int.toRgb(0xAABBCC).should.eql({r: 170, g: 187, b: 204, a: 255});
-        Int.toRgb(0xAABBCC, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
-        Int.toRgb(0xAABBCC, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
+        Int.to.rgb(0xAABBCC).should.eql({r: 170, g: 187, b: 204, a: 255});
+        Int.to.rgb(0xAABBCC, 0).should.eql({r: 170, g: 187, b: 204, a: 0});
+        Int.to.rgb(0xAABBCC, 10).should.eql({r: 170, g: 187, b: 204, a: 10});
     });
 
     it('toHex', () => {
-        Int.toHex(0xAABBCC).should.equal('#aabbcc');
-        Int.toHex(0x00bb00).should.equal('#00bb00');
+        Int.to.hex(0xAABBCC).should.equal('#aabbcc');
+        Int.to.hex(0x00bb00).should.equal('#00bb00');
     });
 
     it('toRgbString', () => {
-        Int.toRgbString(0xAABBCC).should.equal('rgb(170,187,204)');
+        Int.to.rgbString(0xAABBCC).should.equal('rgb(170,187,204)');
     });
 
     it('toRgbaString', () => {
-        Int.toRgbaString(0xAABBCC).should.equal('rgba(170,187,204,1)');
-        Int.toRgbaString(0xAABBCC, 0).should.equal('rgba(170,187,204,0)');
-        Int.toRgbaString(0xAABBCC, 0.1).should.equal('rgba(170,187,204,0.1)');
+        Int.to.rgbaString(0xAABBCC).should.equal('rgba(170,187,204,1)');
+        Int.to.rgbaString(0xAABBCC, 0).should.equal('rgba(170,187,204,0)');
+        Int.to.rgbaString(0xAABBCC, 0.1).should.equal('rgba(170,187,204,0.1)');
     });
 });
