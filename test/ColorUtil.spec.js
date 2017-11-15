@@ -7,6 +7,11 @@ let expect = require('chai').expect;
 
 describe('ColorUtil', () => {
 
+    it('color', () => {
+
+        C.color(0xff0000).hex.should.equal('#ff0000');
+    });
+
     describe('conversion functions combinations', () => {
 
         it('rgb-hsl-rgb', () => {
@@ -62,4 +67,5 @@ describe('ColorUtil', () => {
                 .should.eql([[0xFF0000, 0x00FF00], 0x0000FF]);
         });
     });
+
 });

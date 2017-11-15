@@ -5,7 +5,7 @@ import Color from '../src/Color.js';
 chai.should();
 let expect = require('chai').expect;
 
-describe.only('Color', () => {
+describe('Color', () => {
 
     it('should provide getters for all color formats', () => {
 
@@ -64,10 +64,6 @@ describe.only('Color', () => {
 
     it('should set hue', () => {
 
-        let color = new Color(0x005500);
-
-        color.hue = 0x550000;
-
-        color.int.should.equal(0x550000);
+        new Color(0x005500).hueFromColor(0xe214dc).hex.should.equal('#550052');
     });
 });

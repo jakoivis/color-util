@@ -1,9 +1,8 @@
 
-import {TYPES} from './types/types';
-import Any from './types/Any';
+import {TYPES, TYPES_BY_NAME} from './types/types';
 import Rgb from './types/Rgb';
 import Gradient from './Gradient';
-import { getColorType } from './conversionUtils';
+import { getColorType, callConverter } from './conversionUtils';
 import _ from './Utils';
 
 /**
@@ -28,7 +27,6 @@ class Color {
             color = {r: 0, g: 0, b: 0, a: 255};
         }
 
-        this._primaryType = type;
         this._primaryColor = color;
         this._values = {};
         this._values[type.name] = color;
@@ -41,34 +39,24 @@ class Color {
         return new Color(this._primaryColor);
     }
 
-    set hueValue(value) {
-
-        // let type = getColorType(color, TYPES);
-        // let isHueValue = type.name === 'Int' && color <= 1 && color >= 0;
-
-        // if (isHueValue) {
-
-        // }
-    }
-
-    set hue(color) {
+    hueFromColor(color) {
 
         let hsv = this.hsv;
 
-        hsv.h = new Color(color).hsv.h
+        hsv.h = new Color(color).hsv.h;
 
         this.set(hsv);
+
+        return this;
     }
 
     get hue() {
 
-        let parts = Gradient.partialGradient(Rgb.hueColors(), this.hsl.h);
+        let parts = Gradient.partialGradient(Rgb.hueColors(), this.hsv.h);
         let blend = Rgb.mix(parts.item1, parts.item2, parts.position);
 
         return new Color(blend);
     }
-
-
 }
 
 for (let type of TYPES) {
@@ -84,7 +72,7 @@ for (let type of TYPES) {
 
             if (!hasValue) {
 
-                this._values[typeName] = Any['to'+typeName](this._primaryColor);
+                this._values[typeName] = callConverter(type, this._primaryColor, TYPES);
             }
 
             return this._values[typeName];

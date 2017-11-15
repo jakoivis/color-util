@@ -2,6 +2,7 @@
 import Repeat from './Repeat';
 import {convert} from './conversionUtils';
 import Gradient from './Gradient';
+import Color from './Color';
 
 import Rgb from './types/Rgb';
 import Int from './types/Int';
@@ -211,7 +212,12 @@ let ColorUtil = {
      */
     repeat: Repeat,
 
-    gradient: Gradient
+    gradient: Gradient,
+
+    color: function(color) {
+
+        return new Color(color);
+    }
 }
 
 export default ColorUtil;
