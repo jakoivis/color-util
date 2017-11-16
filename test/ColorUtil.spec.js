@@ -9,6 +9,16 @@ let expect = require('chai').expect;
 
 describe('cu', () => {
 
+    it('convert', () => {
+
+        cu.convert(0xff0000, cu.int.to.hex).should.equal('#ff0000');
+    });
+
+    it('colorType', () => {
+
+        cu.colorType(0xff0000).should.equal(cu.int);
+    });
+
     it('color', () => {
 
         cu.color(0xff0000).hex.should.equal('#ff0000');
@@ -101,36 +111,4 @@ describe('cu', () => {
             hsvToRgb.should.eql(rgb);
         });
     });
-
-    describe('convert', () => {
-
-        it('should convert single color with one conversion', () => {
-            cu.convert(0xFF0000, cu.int.to.hex).should.equal("#ff0000");
-        });
-
-        it('should convert single color with two conversions', () => {
-            cu.convert(0xFF0000, cu.int.to.hex, cu.hex.to.int).should.equal(0xFF0000);
-        });
-
-        it('should convert array of colors with one conversion', () => {
-            cu.convert([0xFF0000, 0x00FF00], cu.int.to.hex)
-                .should.eql(["#ff0000", "#00ff00"]);
-        });
-
-        it('should convert array of colors with two conversions', () => {
-            cu.convert([0xFF0000, 0x00FF00], cu.int.to.hex, cu.hex.to.int)
-                .should.eql([0xFF0000, 0x00FF00]);
-        });
-
-        it('should convert matrix of colors with one conversion', () => {
-            cu.convert([[0xFF0000, 0x00FF00], 0x0000FF], cu.int.to.hex)
-                .should.eql([["#ff0000", "#00ff00"], "#0000ff"]);
-        });
-
-        it('should convert matrix of colors with two conversions', () => {
-            cu.convert([[0xFF0000, 0x00FF00], 0x0000FF], cu.int.to.hex, cu.hex.to.int)
-                .should.eql([[0xFF0000, 0x00FF00], 0x0000FF]);
-        });
-    });
-
 });

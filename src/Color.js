@@ -2,7 +2,7 @@
 import {TYPES, TYPES_BY_NAME} from './types/types';
 import Rgb from './types/Rgb';
 import Gradient from './Gradient';
-import { getColorType, callConverter } from './conversionUtils';
+import ConversionUtil from './ConversionUtil';
 import _ from './Utils';
 
 /**
@@ -19,7 +19,7 @@ class Color {
 
     set(color) {
 
-        let type = getColorType(color, TYPES);
+        let type = ConversionUtil.getColorType(color, TYPES);
 
         if (!type) {
 
@@ -72,7 +72,7 @@ for (let type of TYPES) {
 
             if (!hasValue) {
 
-                this._values[typeName] = callConverter(type, this._primaryColor, TYPES);
+                this._values[typeName] = ConversionUtil.convertAny(this._primaryColor, type, TYPES);
             }
 
             return this._values[typeName];

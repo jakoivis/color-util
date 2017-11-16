@@ -1,6 +1,6 @@
 
 import _ from '../Utils';
-import {callConverter} from '../conversionUtils';
+import ConversionUtil from '../ConversionUtil';
 import {TYPES, TYPES_BY_NAME} from './types';
 
 let Any = {to:{}};
@@ -11,7 +11,7 @@ for (let type of TYPES) {
 
     Any.to[name] = (color) => {
 
-        return callConverter(type, color, TYPES);
+        return ConversionUtil.convertAny(color, type, TYPES);
     };
 }
 

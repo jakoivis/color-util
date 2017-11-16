@@ -3,13 +3,6 @@
 - fix liearMatrixGradientWithStopExample
 - check npm packaging: why the sources are there?
 - change default matrix size to 1x1 to simulate old behavior???
-- rgb.setHue:
-        let hsv = ColorUtil.rgb.toHsv(this.state.rgb);
-        let hueHsv = ColorUtil.rgb.toHsv(rgbHue);
-        hsv.h = hueHsv.h;
-        let rgb = ColorUtil.hsv.toRgb(hsv);
-- investigate usage of let color = new ColorUtil(color);
-- investigate chaining color.hue(hueColor)
 
 Can be done in future release without braking backward compatibility
 - repeat.invert

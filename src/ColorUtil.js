@@ -1,6 +1,6 @@
 
 import Repeat from './Repeat';
-import {convert} from './conversionUtils';
+import ConversionUtil from './ConversionUtil';
 import Gradient from './Gradient';
 import Color from './Color';
 
@@ -16,6 +16,7 @@ import HslString from './types/HslString';
 import HslaString from './types/HslaString';
 import Hsv from './types/Hsv';
 import Any from './types/Any';
+import {TYPES_ALL, TYPES} from './types/types';
 
 const LITTLE_ENDIAN = 0;
 const BIG_ENDIAN = 1;
@@ -62,7 +63,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    rgb:Rgb,
+    // rgb:Rgb,
 
     /**
      * Number conversion functions.
@@ -71,7 +72,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    int: Int,
+    // int: Int,
 
     /**
      * Number conversion functions.
@@ -80,7 +81,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    int32ABGR: Int32ABGR,
+    // int32ABGR: Int32ABGR,
 
     /**
      * Number conversion functions.
@@ -89,7 +90,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    int32RGBA: Int32RGBA,
+    // int32RGBA: Int32RGBA,
 
     /**
      * Hexadecimal conversion functions
@@ -98,7 +99,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    hex: Hex,
+    // hex: Hex,
 
     /**
      * RgbString conversion functions
@@ -107,7 +108,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    rgbString: RgbString,
+    // rgbString: RgbString,
 
     /**
      * RgbaString conversion functions
@@ -116,7 +117,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    rgbaString: RgbaString,
+    // rgbaString: RgbaString,
 
     /**
      * Hsl conversion functions
@@ -126,7 +127,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    hsl: Hsl,
+    // hsl: Hsl,
 
     /**
      * HslString conversion functions
@@ -135,7 +136,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    hslString: HslString,
+    // hslString: HslString,
 
     /**
      * HslaString conversion functions
@@ -144,7 +145,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    hslaString: HslaString,
+    // hslaString: HslaString,
 
     /**
      * Hsv conversion functions
@@ -154,7 +155,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    hsv: Hsv,
+    // hsv: Hsv,
 
     /**
      * Any conversion functions.
@@ -205,7 +206,12 @@ let ColorUtil = {
      *                                                  which are executed in the order they are listed.
      * @return     {Array}
      */
-    convert: convert,
+    convert: ConversionUtil.convert,
+
+    colorType: (color) => {
+
+        return ConversionUtil.getColorType(color, TYPES);
+    },
 
     /**
      * Gradient repeat functions
@@ -214,10 +220,18 @@ let ColorUtil = {
 
     gradient: Gradient,
 
-    color: function(color) {
+    color: (color) => {
 
         return new Color(color);
     }
 }
+
+for (let type of TYPES_ALL) {
+
+    ColorUtil[type.name] = type;
+}
+
+
+
 
 export default ColorUtil;
