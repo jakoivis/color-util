@@ -33,9 +33,8 @@ export default class {
             return type.to[targetType.name](color);
         }
 
-        // indirect conversion (rgb -> hsl subtype, rgb subtype -> hsl ...)
-        // e.g. hslString -> hex, hslString -> rgbString
-        let path = this._getConversionPath(type, targetType, availableTypes);
+        // indirect conversion e.g. hslString -> hex, hslString -> rgbString
+        let path = this._getConversionPathThroughParentType(type, targetType, availableTypes);
 
         return this.convert(color, ...path);
     }
@@ -53,38 +52,21 @@ export default class {
         return null;
     }
 
-    static _getConversionPath(type, targetType, availableTypes) {
+    static _getConversionPathThroughParentType(type, targetType, availableTypes) {
+
         let sourcePath = this._getPathToRoot(type);
         let targetPath = this._getPathToRoot(targetType).reverse();
-
-        // link the two paths
-
         let sourceRootType = sourcePath[sourcePath.length-1];
         let targetRootType = targetPath[0];
+        let rootTypesAreSame = sourceRootType === targetRootType;
         let rootTypesAreLinked = typeof sourceRootType.to[targetRootType.name] === 'function';
 
-        if (!rootTypesAreLinked) {
+        if (rootTypesAreSame) {
 
-            // sourcePath[sourcePath.length-1].nextType = targetPath[0].type;
-            // targetPath.shift();
+            // remove first
+            targetPath.shift();
 
-        // } else {
-        //     // root types are not convertible between each other
-        //     // find a detour path
-
-        //     let detourType = this._getRootTypeWithFunction(targetRootType, availableTypes);
-
-        //     if (!detourType) {
-        //         throw new Error('Color cannot be converted. This is most likely a bug');
-        //     }
-
-        //     sourcePath[sourcePath.length-1].nextType = detourType;
-        //     sourcePath.push({
-        //         type: detourType,
-        //         nextType: targetPath[0].type
-        //     });
-        //     targetPath.shift();
-        // } else {
+        } else if (!rootTypesAreLinked) {
 
             throw new Error('Path should be implemented from ' +
                 sourceRootType.name + ' to ' + targetRootType.name);
@@ -105,9 +87,6 @@ export default class {
             }
         }
 
-        // return combined.map(item => item.type.to[item.nextType.name]);
-        // return combined.map(type => type.to[item.nextType.name]);
-
         return result;
     }
 
@@ -121,36 +100,5 @@ export default class {
         }
 
         return path;
-    }
-
-    // static _getPathToRootReverse(type, path=[]) {
-
-    //     if(type.parent) {
-    //         path.push({
-    //             type: type.parent,
-    //             nextType: type
-    //         });
-
-    //         return this._getPathToRootReverse(type.parent, path);
-    //     }
-
-    //     path.push({
-    //         type: type
-    //     });
-
-    //     return path.reverse();
-    // }
-
-    static _getRootTypeWithFunction(targetType, availableTypes) {
-
-        for(let type of availableTypes) {
-
-            if(!type.parent && typeof type.to[targetType.name] === 'function') {
-
-                return type;
-            }
-        }
-
-        return null;
     }
 }

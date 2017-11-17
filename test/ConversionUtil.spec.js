@@ -8,7 +8,7 @@ import { TYPES, TYPES_ALL } from '../src/types/types';
 chai.should();
 let expect = require('chai').expect;
 
-describe('conversionUtils', () => {
+describe.only('conversionUtils', () => {
 
     describe('getColorType', () => {
 
@@ -67,7 +67,7 @@ describe('conversionUtils', () => {
         });
     });
 
-    describe.only('convertAny', () => {
+    describe('convertAny', () => {
 
         it('should return color as is if it does not match any known types', () => {
 
@@ -114,7 +114,7 @@ describe('conversionUtils', () => {
 
         it('should return path from root type', () => {
 
-            let path = ConversionUtil._getPathToRoot2(cu.rgb);
+            let path = ConversionUtil._getPathToRoot(cu.rgb);
 
             path.length.should.equal(1);
             path[0].name.should.eql('rgb');
@@ -122,7 +122,7 @@ describe('conversionUtils', () => {
 
         it('should return path from sub type', () => {
 
-            let path = ConversionUtil._getPathToRoot2(cu.int);
+            let path = ConversionUtil._getPathToRoot(cu.int);
 
             path.length.should.equal(2);
             path[0].name.should.equal('int');
@@ -130,8 +130,58 @@ describe('conversionUtils', () => {
         });
     });
 
-    describe('_getConversionPath', () => {
+    describe('_getConversionPathThroughParentType', () => {
 
-        // ConversionUtil._getConversionPath(cu.int, cu.rgb)
+        it('should create path between sub type siblings', () => {
+
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.int, cu.hex);
+
+            path.length.should.equal(2);
+            path[0].should.equal(cu.int.to.rgb);
+            path[1].should.equal(cu.rgb.to.hex);
+        });
+
+        it('should create path between sub type and parent type', () => {
+
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.int, cu.rgb);
+
+            path.length.should.equal(1);
+            path[0].should.equal(cu.int.to.rgb);
+        });
+
+        it('should create path between parent type and sub type', () => {
+
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.rgb, cu.int);
+
+            path.length.should.equal(1);
+            path[0].should.equal(cu.rgb.to.int);
+        });
+
+        it('should create path between parent type and parent type', () => {
+
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.rgb, cu.hsl);
+
+            path.length.should.equal(1);
+            path[0].should.equal(cu.rgb.to.hsl);
+        });
+
+        it('should create path between sub type and another parent type', () => {
+
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.int, cu.hsl);
+
+            path.length.should.equal(2);
+            path[0].should.equal(cu.int.to.rgb);
+            path[1].should.equal(cu.rgb.to.hsl);
+        });
+
+        it('should create path between sub type and another parents sub type', () => {
+
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.int, cu.hslString);
+
+            path.length.should.equal(3);
+            path[0].should.equal(cu.int.to.rgb);
+            path[1].should.equal(cu.rgb.to.hsl);
+            path[2].should.equal(cu.hsl.to.hslString);
+        });
     });
 });
