@@ -1,7 +1,8 @@
 var webpack = require('webpack');
 var merge = require('webpack-merge');
 var path = require('path');
-var name = 'ColorUtil';
+var name = 'color-util';
+var jsname = 'colorutil';
 
 const PATHS = {
     index: path.join(__dirname, 'src/ColorUtil.js'),
@@ -19,7 +20,7 @@ var config = {
         path: PATHS.dist,
         filename: name + '.js',
         publicPath: '/',
-        library: name,
+        library: jsname,
         libraryTarget: 'umd',
         umdNamedDefine: true
     },

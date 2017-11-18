@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Endian</title>
-<script src="/ColorUtil.js"></script>
+<script src="/color-util.js"></script>
 </head>
 <body>
 <canvas id="canvas"></canvas>
@@ -24,15 +24,15 @@ canvas.height = height;
 
 // determine endianness outside the loop.
 // here we use toInt32ABGR for little-endian and toInt32RGBA for big-endian systems
-let toInt32 = ColorUtil.endian === 0 ?
-    ColorUtil.rgb.toInt32ABGR : ColorUtil.rgb.toInt32RGBA;
+let toInt32 = colorutil.endian === 0 ?
+    colorutil.rgb.to.intabgr : colorutil.rgb.to.intrgba;
 
 // convert colors to rgb objects so getGradientMatrixColor understands them
 // colors are written in 0xRRGGBBAA (big-endian) format and converted to rgb objects
-let gradientFunction = ColorUtil.rgb.createGradient({
-    colors: ColorUtil.convert(
+let gradientFunction = colorutil.rgb.createGradient({
+    colors: colorutil.convert(
         [[0xFF0000FF, 0xFFFF0099], [0x0000FF66, 0x00FFFF22]],
-        ColorUtil.int32RGBA.toRgb
+        colorutil.intrgba.to.rgb
     ),
     width: width,
     height: height

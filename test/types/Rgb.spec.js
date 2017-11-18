@@ -42,41 +42,41 @@ describe('Rgb', () => {
             Rgb.to.cssrgba({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
         });
 
-        it('uint32ABGR', () => {
-            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
-            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
-            Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
+        it('uintabgr', () => {
+            Rgb.to.uintabgr({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
+            Rgb.to.uintabgr({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+            Rgb.to.uintabgr({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+            Rgb.to.uintabgr({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+            Rgb.to.uintabgr({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
         });
 
-        it('uint32RGBA', () => {
-            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
-            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
-            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
-            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
-            Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
+        it('uintrgba', () => {
+            Rgb.to.uintrgba({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
+            Rgb.to.uintrgba({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
+            Rgb.to.uintrgba({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
+            Rgb.to.uintrgba({r: 170, g: 187, b: 204, a: 0}).should.equal(0xAABBCC00);
+            Rgb.to.uintrgba({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
         });
 
-        it('int32ABGR', () => {
-            Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
-            Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
-            Rgb.to.int32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
-            Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
-            Rgb.to.int32ABGR({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
+        it('intabgr', () => {
+            Rgb.to.intabgr({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
+            Rgb.to.intabgr({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
+            Rgb.to.intabgr({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
+            Rgb.to.intabgr({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
+            Rgb.to.intabgr({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
         });
 
-        it('int32RGBA', () => {
+        it('intrgba', () => {
             let AABBCCFF = -1430532865;
             let AABBCC55 = -1430533035
             let AABBCC00 = -1430533120;
             let AA00CC00 = -1442788352;
 
-            Rgb.to.int32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(AABBCCFF);
-            Rgb.to.int32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
-            Rgb.to.int32RGBA({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
-            Rgb.to.int32RGBA({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
-            Rgb.to.int32RGBA({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
+            Rgb.to.intrgba({r: 170, g: 187, b: 204, a: 255}).should.equal(AABBCCFF);
+            Rgb.to.intrgba({r: 170, g: 187, b: 204, a: 85}).should.equal(AABBCC55);
+            Rgb.to.intrgba({r: 170, g: 187, b: 204, a: 0}).should.equal(AABBCC00);
+            Rgb.to.intrgba({r: 170, g: 187, b: 204}).should.equal(AABBCC00);
+            Rgb.to.intrgba({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
         });
 
         it('hsl', () => {

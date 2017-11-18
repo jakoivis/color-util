@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Repeat and scaling</title>
-<script src="/ColorUtil.js"></script>
+<script src="/color-util.js"></script>
 
 <style>
 
@@ -100,15 +100,15 @@ input {
     <div>
         <label for='repeatPulldown'>repeatX</label>
         <select id='repeatPulldown' onchange='onRepeatChange(this, "repeatX")'>
-            <option value="repeat">ColorUtil.repeat.repeat</option>
-            <option value="stop">ColorUtil.repeat.stop</option>
+            <option value="repeat">colorutil.repeat.repeat</option>
+            <option value="stop">colorutil.repeat.stop</option>
         </select>
     </div>
     <div>
         <label for='repeatPulldown2'>repeatY</label>
         <select id='repeatPulldown2' onchange='onRepeatChange(this, "repeatY")'>
-            <option value="repeat">ColorUtil.repeat.repeat</option>
-            <option value="stop">ColorUtil.repeat.stop</option>
+            <option value="repeat">colorutil.repeat.repeat</option>
+            <option value="stop">colorutil.repeat.stop</option>
         </select>
     </div>
     <div>
@@ -126,17 +126,17 @@ input {
 // The purpose is to give controls to play so you can better see
 // how the controls affect the gradient
 
-let gradientColors = ColorUtil.convert(
+let gradientColors = colorutil.convert(
     [0xFF0000, 0xFFFF00, 0x0000FF, 0x00FFFF],
-    ColorUtil.int.toRgb);
+    colorutil.int.to.rgb);
 
-let matrixColors = ColorUtil.convert(
+let matrixColors = colorutil.convert(
     [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]],
-    ColorUtil.int.toRgb);
+    colorutil.int.to.rgb);
 
-let circleGradientColors = ColorUtil.rgb.hueColors();
+let circleGradientColors = colorutil.rgb.hueColors();
 
-let circleMatrixColors = [[{r:255, g: 255, b: 255, a: 255}], ColorUtil.rgb.hueColors()];
+let circleMatrixColors = [[{r:255, g: 255, b: 255, a: 255}], colorutil.rgb.hueColors()];
 
 var options = {
     width: 300,
@@ -151,8 +151,8 @@ var options = {
     translateX: 0,
     translateY: 0,
     rotation: 0,
-    repeatX: ColorUtil.repeat.repeat,
-    repeatY: ColorUtil.repeat.repeat,
+    repeatX: colorutil.repeat.repeat,
+    repeatY: colorutil.repeat.repeat,
     gradientType: 'linear',
     centralize: false
 };
@@ -174,7 +174,7 @@ function onPulldownValueChange(input, property) {
 
 function onRepeatChange(input, property) {
 
-    options[property] = ColorUtil.repeat[input.value];
+    options[property] = colorutil.repeat[input.value];
     updateCanvas();
 }
 
@@ -222,7 +222,7 @@ function updateGradient(colors) {
 
     var gradientOptions = Object.assign({colors: colors}, options)
 
-    let gradientFunction = ColorUtil.rgb.createGradient(gradientOptions)
+    let gradientFunction = colorutil.rgb.createGradient(gradientOptions)
 
     for(let x = 0; x < cWidth; x++) {
 
@@ -230,7 +230,7 @@ function updateGradient(colors) {
 
             let rgb = gradientFunction(x, y);
 
-            uint32View[y * cWidth + x] = ColorUtil.rgb.toInt32ABGR(rgb);
+            uint32View[y * cWidth + x] = colorutil.rgb.to.intabgr(rgb);
         }
     }
 

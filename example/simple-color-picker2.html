@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>simple color picker</title>
-<script src='/ColorUtil.js'></script>
+<script src="/color-util.js"></script>
 </head>
 <body>
 
@@ -12,12 +12,11 @@
 
 let width = 150;
 let height = 150;
-let rgb = ColorUtil.int.toRgb(0xFF0000);
-let hueRgb = ColorUtil.int.toRgb(0xFF0000);
+let rgb = colorutil.int.to.rgb(0xFF0000);
+let hueRgb = colorutil.int.to.rgb(0xFF0000);
 let hueDiv = document.getElementById('hueColor');
 let canvas = document.getElementById('canvas');
 let dragging = false;
-let Rgb = ColorUtil.rgb;
 
 let colors = [
     {
@@ -35,7 +34,7 @@ let colors = [
     }
 ];
 
-let gradient = ColorUtil.hsl.createGradient({
+let gradient = colorutil.hsl.createGradient({
     colors: colors,
     type: 'circular',
     centralize: true,
@@ -43,8 +42,8 @@ let gradient = ColorUtil.hsl.createGradient({
     width: 150,
     height: 150,
     rotation: -0.125,
-    repeatX: ColorUtil.repeat.repeat,
-    repeatY: ColorUtil.repeat.stop
+    repeatX: colorutil.repeat.repeat,
+    repeatY: colorutil.repeat.stop
 });
 
 initHue();
@@ -68,19 +67,19 @@ document.body.addEventListener('mousemove', function(event) {
     let y = (event.clientY - bounds.top);
 
     let hsl = gradient(x, y);
-    let rgb = ColorUtil.hsl.toRgb(hsl);
+    let rgb = colorutil.hsl.to.rgb(hsl);
 
-    document.body.style.background = Rgb.toRgbString(rgb);
+    document.body.style.background = colorutil.rgb.to.cssrgb(rgb);
 });
 
 function onHueChange(hueValue) {
 
-    let hsv = Rgb.toHsv(rgb);
+    let hsv = colorutil.rgb.to.hsv(rgb);
     hsv.h = hueValue;
-    rgb = ColorUtil.hsv.toRgb(hsv);
-    hueRgb = Rgb.hue(rgb);
+    rgb = colorutil.hsv.to.rgb(hsv);
+    hueRgb = colorutil.rgb.hue(rgb);
 
-    hueDiv.style.backgroundColor = Rgb.toRgbString(hueRgb);
+    hueDiv.style.backgroundColor = colorutil.rgb.to.cssrgb(hueRgb);
 }
 
 function initHue() {
@@ -100,9 +99,9 @@ function initHue() {
         for(let y = 0; y < height; y++) {
 
             let hsl = gradient(x, y);
-            let rgb = ColorUtil.hsl.toRgb(hsl);
+            let rgb = colorutil.hsl.to.rgb(hsl);
 
-            uint32View[y * width + x] = Rgb.toInt32ABGR(rgb);
+            uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
         }
     }
 

@@ -9,8 +9,8 @@ import Csshsl from './Csshsl';
 import Csshsla from './Csshsla';
 import Hsv from './Hsv';
 
-import Int32ABGR from './Int32ABGR';
-import Int32RGBA from './Int32RGBA';
+import Intabgr from './Intabgr';
+import Intrgba from './Intrgba';
 
 const TYPES = [
     Rgb,
@@ -25,8 +25,8 @@ const TYPES = [
 ];
 
 const TYPES_ALL = TYPES.concat([
-    Int32ABGR,
-    Int32RGBA
+    Intabgr,
+    Intrgba
 ]);
 
 export { TYPES, TYPES_ALL };

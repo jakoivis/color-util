@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Gradient matrix</title>
-<script src="/ColorUtil.js"></script>
+<script src="/color-util.js"></script>
 </head>
 <body>
 <canvas id="canvas"></canvas>
@@ -48,7 +48,7 @@ let uint8CView = new Uint8ClampedArray(buffer);
 canvas.width = width;
 canvas.height = height;
 
-let gradient = ColorUtil.rgb.createGradient({
+let gradient = colorutil.rgb.createGradient({
     colors: colors,
     width: width,
     height: height
@@ -60,7 +60,7 @@ for(let x = 0; x < width; x++) {
 
         let rgb = gradient(x, y);
 
-        uint32View[y * width + x] = ColorUtil.rgb.toInt32ABGR(rgb);
+        uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
     }
 }
 

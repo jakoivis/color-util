@@ -79,7 +79,7 @@ let ColorUtil = {
      *
      * @memberof ColorUtil
      */
-    // int32RGBA: Int32RGBA,
+    // intrgba: Intrgba,
 
     /**
      * Hexadecimal conversion functions
@@ -149,7 +149,7 @@ let ColorUtil = {
     /**
      * Any conversion functions.
      *
-     * Converts color notations to any notation. (Except for Int32RGBA and Int32ABGR)
+     * Converts color notations to any notation. (Except for Intrgba and Int32ABGR)
      *
      * The any conversion functions provide an easy way to convert to specific notation
      * without knowing the notation of a source color. This is just a collection of

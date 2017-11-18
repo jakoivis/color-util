@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Random gradient matrix</title>
-<script src="/ColorUtil.js"></script>
+<script src="/color-util.js"></script>
 </head>
 <body>
 <canvas id="canvas1"></canvas>
@@ -11,7 +11,7 @@
 Refresh the page to update colors
 <script>
 
-let colors = ColorUtil.convert(getRandomColors(), ColorUtil.int.toRgb);
+let colors = colorutil.convert(getRandomColors(), colorutil.int.to.rgb);
 
 drawCanvas({
     canvasId: 'canvas1',
@@ -54,7 +54,7 @@ function drawCanvas(options) {
     canvas.width = width;
     canvas.height = height;
 
-    let gradient = ColorUtil.rgb.createGradient(gradientOptions);
+    let gradient = colorutil.rgb.createGradient(gradientOptions);
 
     for(let x = 0; x < width; x++) {
 
@@ -62,7 +62,7 @@ function drawCanvas(options) {
 
             let rgb = gradient(x, y);
 
-            uint32View[y * width + x] = ColorUtil.rgb.toInt32ABGR(rgb);
+            uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
         }
     }
 

@@ -2,13 +2,13 @@
 import Rgb from './Rgb';
 
 /**
- * @class Int32RGBA
+ * @class Intrgba
  * @private
  */
 export default {
 
-    name: 'int32RGBA',
-    className: 'Int32RGBA',
+    name: 'intrgba',
+    className: 'Intrgba',
     parent: Rgb,
 
     to: {
@@ -16,10 +16,10 @@ export default {
         /**
          * 32-bit number `0xRRGGBBAA` (big-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
-         * @memberof ColorUtil.int32RGBA
+         * @memberof ColorUtil.intrgba
          *
          * @example
-         * ColorUtil.int32RGBA.toRgb(0xFF112233)
+         * ColorUtil.intrgba.toRgb(0xFF112233)
          * // output: {r: 255, g: 17, b: 34, a: 51}
          *
          * @param      {number}  int        32-bit number

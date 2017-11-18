@@ -61,14 +61,14 @@ describe('cu', () => {
             cu.int.to.hex(0xff0000).should.equal('#ff0000');
         });
 
-        it('int32ABGR', () => {
+        it('intabgr', () => {
 
-            cu.int32ABGR.to.rgb(0xff000055).should.eql({r:0x55, g:0, b:0, a:255});
+            cu.intabgr.to.rgb(0xff000055).should.eql({r:0x55, g:0, b:0, a:255});
         });
 
-        it('int32RGBA', () => {
+        it('intrgba', () => {
 
-            cu.int32RGBA.to.rgb(0x550000ff).should.eql({r:0x55, g:0, b:0, a:255});
+            cu.intrgba.to.rgb(0x550000ff).should.eql({r:0x55, g:0, b:0, a:255});
         });
 
         it('rgb', () => {
