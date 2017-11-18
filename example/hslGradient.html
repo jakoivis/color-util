@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gradient</title>
+<title>HSL Gradient</title>
 <script src="/color-util.js"></script>
+<script src="./example.js"></script>
 </head>
 <body>
 <canvas id="canvas"></canvas>
@@ -12,24 +13,12 @@
 let width = 300;
 let height = 300;
 
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
-let imageData  = ctx.createImageData(width, height);
-let buffer = imageData.data.buffer;
-let uint32View = new Uint32Array(buffer);
-let uint8CView = new Uint8ClampedArray(buffer);
-
-canvas.width = width;
-canvas.height = height;
-
-// convert colors to rgb objects so getGradientMatrixColor understands them
-let gradient = colorutil.hsl.createGradient({
+let gradient = colorutil.hsl.gradient({
     type: 'circular',
     width: width,
     height: height,
     centralize: true,
     scale: 0.5,
-
     colors: [
         [
             {h:1, s:1, l:1},
@@ -42,20 +31,7 @@ let gradient = colorutil.hsl.createGradient({
     ]
 });
 
-for(let x = 0; x < width; x++) {
-
-    for(let y = 0; y < height; y++) {
-
-        let hsl = gradient(x, y);
-        let rgb = colorutil.hsl.to.rgb(hsl);
-
-        uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
-    }
-}
-
-imageData.data.set(uint8CView);
-
-ctx.putImageData(imageData, 0, 0);
+example.drawOnCanvasHSL(width, height, gradient);
 
 </script>
 

@@ -176,7 +176,7 @@ describe('Rgb', () => {
         });
 
         it('should get color from 1 point gradient', () => {
-            let fn = Rgb.createGradient({colors: [
+            let fn = Rgb.gradient({colors: [
                 {x: 0, r: 0, g: 0xff, b: 0x7f, a: 0xff},
             ]});
 
@@ -184,7 +184,7 @@ describe('Rgb', () => {
         });
 
         it('should get color from 2 point gradient with stops', () => {
-            let fn = Rgb.createGradient({
+            let fn = Rgb.gradient({
                 width: 1,
                 height: 1,
                 colors: [
@@ -198,7 +198,7 @@ describe('Rgb', () => {
         });
 
         it('should get color from 3 point gradient with stops', () => {
-            let fn = Rgb.createGradient({
+            let fn = Rgb.gradient({
                 width: 1,
                 height: 1,
                 colors: [
@@ -254,7 +254,7 @@ describe('Rgb', () => {
 
         additionalOptions = additionalOptions || {};
 
-        let gradientFn = Rgb.createGradient(
+        let gradientFn = Rgb.gradient(
             Object.assign({
                 colors:rgbColors,
                 width: 1,

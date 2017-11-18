@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Repeat and scaling</title>
+<title>Gradient tester</title>
 <script src="/color-util.js"></script>
+<script src="./example.js"></script>
 
 <style>
 
@@ -122,10 +123,6 @@ input {
 
 <script>
 
-// This code isn't probably a good example to look at.
-// The purpose is to give controls to play so you can better see
-// how the controls affect the gradient
-
 let gradientColors = colorutil.convert(
     [0xFF0000, 0xFFFF00, 0x0000FF, 0x00FFFF],
     colorutil.int.to.rgb);
@@ -210,33 +207,11 @@ function updateGradient(colors) {
     let width = options.width;
     let height = options.height;
 
-    let canvas = document.getElementById('canvas');
-    let ctx = canvas.getContext('2d');
-    let imageData  = ctx.createImageData(cWidth, cHeight);
-    let buffer = imageData.data.buffer;
-    let uint32View = new Uint32Array(buffer);
-    let uint8CView = new Uint8ClampedArray(buffer);
-
-    canvas.width = cWidth;
-    canvas.height = cHeight;
-
     var gradientOptions = Object.assign({colors: colors}, options)
 
-    let gradientFunction = colorutil.rgb.createGradient(gradientOptions)
+    let gradient = colorutil.rgb.gradient(gradientOptions)
 
-    for(let x = 0; x < cWidth; x++) {
-
-        for(let y = 0; y < cHeight; y++) {
-
-            let rgb = gradientFunction(x, y);
-
-            uint32View[y * cWidth + x] = colorutil.rgb.to.intabgr(rgb);
-        }
-    }
-
-    imageData.data.set(uint8CView);
-
-    ctx.putImageData(imageData, 0, 0);
+    example.drawOnCanvas(cWidth, cHeight, gradient);
 }
 
 function updateSliderValueDisplay(slider) {

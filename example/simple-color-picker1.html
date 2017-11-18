@@ -44,7 +44,7 @@ document.body.addEventListener('mousemove', function(event) {
         [[0xFFFFFF, hueRgb], [0x000000]],
         colorutil.any.to.rgb);
 
-    let gradient = colorutil.rgb.createGradient({
+    let gradient = colorutil.rgb.gradient({
         colors: matrix,
         width: 150,
         height: 150,
@@ -81,7 +81,7 @@ function initGrayscaleOverlay() {
     canvas.width = width;
     canvas.height = height;
 
-    let gradient = colorutil.rgb.createGradient({
+    let gradient = colorutil.rgb.gradient({
         colors: colors,
         width: 150,
         height: 150

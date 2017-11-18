@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gradient</title>
+<title>Linear gradient</title>
 <script src="/color-util.js"></script>
+<script src="./example.js"></script>
 </head>
 <body>
 <canvas id="canvas"></canvas>
@@ -12,18 +13,7 @@
 let width = 300;
 let height = 100;
 
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
-let imageData  = ctx.createImageData(width, height);
-let buffer = imageData.data.buffer;
-let uint32View = new Uint32Array(buffer);
-let uint8CView = new Uint8ClampedArray(buffer);
-
-canvas.width = width;
-canvas.height = height;
-
-// convert colors to rgb objects so getGradientMatrixColor understands them
-let gradient = colorutil.rgb.createGradient({
+let gradient = colorutil.rgb.gradient({
     width: width,
     height: height,
     colors: colorutil.convert(
@@ -31,19 +21,7 @@ let gradient = colorutil.rgb.createGradient({
         colorutil.int.to.rgb)
 });
 
-for(let x = 0; x < width; x++) {
-
-    for(let y = 0; y < height; y++) {
-
-        let rgb = gradient(x, 0);
-
-        uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
-    }
-}
-
-imageData.data.set(uint8CView);
-
-ctx.putImageData(imageData, 0, 0);
+example.drawOnCanvas(width, height, gradient);
 
 </script>
 

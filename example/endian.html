@@ -23,26 +23,24 @@ canvas.width = width;
 canvas.height = height;
 
 // determine endianness outside the loop.
-// here we use toInt32ABGR for little-endian and toInt32RGBA for big-endian systems
+// here we use intabgr for little-endian and intrgba for big-endian systems
 let toInt32 = colorutil.endian === 0 ?
     colorutil.rgb.to.intabgr : colorutil.rgb.to.intrgba;
 
-// convert colors to rgb objects so getGradientMatrixColor understands them
-// colors are written in 0xRRGGBBAA (big-endian) format and converted to rgb objects
-let gradientFunction = colorutil.rgb.createGradient({
+let gradient = colorutil.rgb.gradient({
+    width: width,
+    height: height,
     colors: colorutil.convert(
         [[0xFF0000FF, 0xFFFF0099], [0x0000FF66, 0x00FFFF22]],
         colorutil.intrgba.to.rgb
-    ),
-    width: width,
-    height: height
+    )
 });
 
 for(let x = 0; x < width; x++) {
 
     for(let y = 0; y < height; y++) {
 
-        let rgb = gradientFunction(x, y);
+        let rgb = gradient(x, y);
 
         uint32View[y * width + x] = toInt32(rgb);
     }

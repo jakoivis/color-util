@@ -408,7 +408,7 @@ let Rgb = new function() {
      * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters.
      *                         Though the x and y may exceed the limit, but gradient repeat will take effect.
      */
-    this.createGradient = (options) => {
+    this.gradient = (options) => {
 
         return Gradient.createGradient(options, {
 

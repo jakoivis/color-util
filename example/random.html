@@ -3,6 +3,7 @@
 <head>
 <title>Random gradient matrix</title>
 <script src="/color-util.js"></script>
+<script src="./example.js"></script>
 </head>
 <body>
 <canvas id="canvas1"></canvas>
@@ -13,63 +14,26 @@ Refresh the page to update colors
 
 let colors = colorutil.convert(getRandomColors(), colorutil.int.to.rgb);
 
-drawCanvas({
-    canvasId: 'canvas1',
-    gradientOptions: {
-        colors: colors,
-        width: 300,
-        height: 300
-    }
+let gradient1 = colorutil.rgb.gradient({
+    colors: colors,
+    width: 300,
+    height: 300
 });
+
+example.drawOnCanvas(300, 300, gradient1, 'canvas1');
 
 fixColorsForCircle(colors);
 
-drawCanvas({
-    canvasId: 'canvas2',
-    gradientOptions: {
-        colors: colors,
-        type: 'circular',
-        scale: 0.5,
-        centralize: true,
-        width: 300,
-        height: 300
-    }
+let gradient2 = colorutil.rgb.gradient({
+    colors: colors,
+    type: 'circular',
+    scale: 0.5,
+    centralize: true,
+    width: 300,
+    height: 300
 });
 
-function drawCanvas(options) {
-
-    let canvasId = options.canvasId;
-    let gradientOptions = options.gradientOptions;
-
-    let width = 300;
-    let height = 300;
-
-    let canvas = document.getElementById(canvasId);
-    let ctx = canvas.getContext('2d');
-    let imageData  = ctx.createImageData(width, height);
-    let buffer = imageData.data.buffer;
-    let uint32View = new Uint32Array(buffer);
-    let uint8CView = new Uint8ClampedArray(buffer);
-
-    canvas.width = width;
-    canvas.height = height;
-
-    let gradient = colorutil.rgb.createGradient(gradientOptions);
-
-    for(let x = 0; x < width; x++) {
-
-        for(let y = 0; y < height; y++) {
-
-            let rgb = gradient(x, y);
-
-            uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
-        }
-    }
-
-    imageData.data.set(uint8CView);
-
-    ctx.putImageData(imageData, 0, 0);
-}
+example.drawOnCanvas(300, 300, gradient2, 'canvas2');
 
 function getRandomColors() {
     var maxRowCount = 5;
@@ -98,7 +62,9 @@ function getRandomColors() {
 }
 
 function fixColorsForCircle(matrix) {
+
     for(var i = 0; i < matrix.length; i++) {
+
         matrix[i].push(matrix[i][0]);
     }
 }
