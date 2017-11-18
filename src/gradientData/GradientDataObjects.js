@@ -16,7 +16,7 @@ export default class {
         return false;
     }
 
-    static isMatchingStructure(colors) {
+    static testStructure(colors) {
 
         let sample = _.get(colors, '0');
 

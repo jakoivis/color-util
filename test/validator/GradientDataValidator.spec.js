@@ -38,11 +38,11 @@ describe('GradientData', () => {
 
             let data = [{}];
 
-            create(data).should.equal(GradientData.validators[0]);
+            create(data).should.equal(GradientData.types[0]);
 
             data = [{x: 0}]
 
-            create(data).should.equal(GradientData.validators[0]);
+            create(data).should.equal(GradientData.types[0]);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
@@ -51,32 +51,32 @@ describe('GradientData', () => {
                 colors:[{}]
             }];
 
-            create(data).should.equal(GradientData.validators[1]);
+            create(data).should.equal(GradientData.types[1]);
 
             data = [{
                 y: 0,
                 colors:[{x: 0}]
             }];
 
-            create(data).should.equal(GradientData.validators[1]);
+            create(data).should.equal(GradientData.types[1]);
         });
 
         it('should return type DATA_STRUCTURE_ARRAYS_WITH_OBJECTS', () => {
 
             let data = [[{}]];
 
-            create(data).should.equal(GradientData.validators[2]);
+            create(data).should.equal(GradientData.types[2]);
 
             data = [[{x: 0}]];
 
-            create(data).should.equal(GradientData.validators[2]);
+            create(data).should.equal(GradientData.types[2]);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_MATRIX', () => {
 
             let data = [{x: 0, y: 0}];
 
-            create(data).should.equal(GradientData.validators[3]);
+            create(data).should.equal(GradientData.types[3]);
         });
 
         function create(data) {

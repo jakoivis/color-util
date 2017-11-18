@@ -38,11 +38,6 @@ export default class {
         }
     }
 
-    // testStructureSingleSample() {
-
-    //    throw new Error('You have to implement the method doSomething!');
-    // }
-
     static verify(colors, validatorClass) {
 
         let isValidStructure = this._verifyExpectedDataStructureInAllSamples(colors, validatorClass);

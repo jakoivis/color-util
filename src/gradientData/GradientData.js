@@ -6,7 +6,7 @@ import GradientDataObjectsWithColors from './GradientDataObjectsWithColors';
 import GradientDataArraysWithObjects from './GradientDataArraysWithObjects';
 import GradientDataObjectsMatrix from './GradientDataObjectsMatrix';
 
-const DATA_VALIDATORS = [
+const GRADIENT_DATA_TYPES = [
    GradientDataObjects,
    GradientDataObjectsWithColors,
    GradientDataArraysWithObjects,
@@ -15,9 +15,9 @@ const DATA_VALIDATORS = [
 
 export default class {
 
-    static get validators() {
+    static get types() {
 
-        return DATA_VALIDATORS;
+        return GRADIENT_DATA_TYPES;
     }
 
     static create(colors) {
@@ -27,23 +27,23 @@ export default class {
             throw new Error('Argument should be and array with at least one item.');
         }
 
-        let validator = this._getValidatorFromFirstSample(colors);
+        let dataType = this._getDataTypeFromFirstSample(colors);
 
-        if (!validator) {
+        if (!dataType) {
 
             throw new Error('One sample was tested and it did not match any supported data structure.');
         }
 
-        return validator;
+        return dataType;
     }
 
-    static _getValidatorFromFirstSample(colors) {
+    static _getDataTypeFromFirstSample(colors) {
 
-        for (let validator of DATA_VALIDATORS) {
+        for (let dataType of GRADIENT_DATA_TYPES) {
 
-            if (validator.isMatchingStructure(colors)) {
+            if (dataType.testStructure(colors)) {
 
-                return validator;
+                return dataType;
             }
         }
 

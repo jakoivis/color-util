@@ -29,7 +29,7 @@ export default class {
         return true;
     }
 
-    static isMatchingStructure(colors) {
+    static testStructure(colors) {
 
         let sample = _.get(colors, '0');
 
