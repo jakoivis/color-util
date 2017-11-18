@@ -1,36 +1,36 @@
 
 import sinon from 'sinon';
 import chai from 'chai';
-import GradientDataValidator from '../../src/validator/GradientDataValidator.js';
+import GradientData from '../../src/gradientData/GradientData.js';
 import _ from '../../src/Utils';
 
 chai.should();
 let expect = require('chai').expect;
 
-describe('GradientDataValidator', () => {
+describe('GradientData', () => {
 
     describe('create', () => {
 
         it('should not accept invalida data structures', () => {
 
             expect(() => {
-                GradientDataValidator.create([]);
+                GradientData.create([]);
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientDataValidator.create({});
+                GradientData.create({});
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientDataValidator.create([{colors:{}}]);
+                GradientData.create([{colors:{}}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientDataValidator.create([{colors:[]}]);
+                GradientData.create([{colors:[]}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientDataValidator.create([[]]);
+                GradientData.create([[]]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
         });
 
@@ -38,11 +38,11 @@ describe('GradientDataValidator', () => {
 
             let data = [{}];
 
-            create(data).should.equal(GradientDataValidator.validators[0]);
+            create(data).should.equal(GradientData.validators[0]);
 
             data = [{x: 0}]
 
-            create(data).should.equal(GradientDataValidator.validators[0]);
+            create(data).should.equal(GradientData.validators[0]);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
@@ -51,37 +51,37 @@ describe('GradientDataValidator', () => {
                 colors:[{}]
             }];
 
-            create(data).should.equal(GradientDataValidator.validators[1]);
+            create(data).should.equal(GradientData.validators[1]);
 
             data = [{
                 y: 0,
                 colors:[{x: 0}]
             }];
 
-            create(data).should.equal(GradientDataValidator.validators[1]);
+            create(data).should.equal(GradientData.validators[1]);
         });
 
         it('should return type DATA_STRUCTURE_ARRAYS_WITH_OBJECTS', () => {
 
             let data = [[{}]];
 
-            create(data).should.equal(GradientDataValidator.validators[2]);
+            create(data).should.equal(GradientData.validators[2]);
 
             data = [[{x: 0}]];
 
-            create(data).should.equal(GradientDataValidator.validators[2]);
+            create(data).should.equal(GradientData.validators[2]);
         });
 
         it('should return type DATA_STRUCTURE_OBJECTS_MATRIX', () => {
 
             let data = [{x: 0, y: 0}];
 
-            create(data).should.equal(GradientDataValidator.validators[3]);
+            create(data).should.equal(GradientData.validators[3]);
         });
 
         function create(data) {
 
-            return GradientDataValidator.create(data);
+            return GradientData.create(data);
         }
     });
 
@@ -143,7 +143,7 @@ describe('GradientDataValidator', () => {
 
         function verify(data) {
 
-            let validator = GradientDataValidator.create(data);
+            let validator = GradientData.create(data);
 
             return validator.verify(data);
         }
@@ -526,7 +526,7 @@ describe('GradientDataValidator', () => {
 
         function validate(data) {
 
-            let validator = GradientDataValidator.create(data);
+            let validator = GradientData.create(data);
 
             return validator.validate(data);
         }

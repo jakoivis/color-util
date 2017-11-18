@@ -3,7 +3,7 @@ import _ from '../Utils';
 
 export default class {
 
-    static addDefaultColorsForMatrix(colors, defaultColor, validatorClass) {
+    static addDefaultColorsForMatrix(colors, defaultColor) {
 
         let keys = Object.keys(defaultColor);
 
@@ -22,7 +22,7 @@ export default class {
         }
     }
 
-    static addDefaultColors(colors, defaultColor, validatorClass) {
+    static addDefaultColors(colors, defaultColor) {
 
         let keys = Object.keys(defaultColor);
 

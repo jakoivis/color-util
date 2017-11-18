@@ -1,6 +1,6 @@
 
 import _ from '../Utils';
-import GradientDataValidatorUtil from './GradientDataValidatorUtil';
+import GradientDataUtil from './GradientDataUtil';
 
 /*
 Two dimensional self scaling matrix data structure
@@ -31,7 +31,7 @@ export default class {
 
     static verify(colors) {
 
-        return GradientDataValidatorUtil.verify(colors, this);
+        return GradientDataUtil.verify(colors, this);
     }
 
     static testStructureSingleSample(sample) {
@@ -73,11 +73,11 @@ export default class {
             return newItem;
         });
 
-        return GradientDataValidatorUtil.addMissingStopsXY(data);
+        return GradientDataUtil.addMissingStopsXY(data);
     }
 
     static addDefaultColors(colors, defaultColor) {
 
-        GradientDataValidatorUtil.addDefaultColorsForMatrix(colors, defaultColor, this);
+        GradientDataUtil.addDefaultColorsForMatrix(colors, defaultColor);
     }
 }

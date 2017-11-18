@@ -1,7 +1,7 @@
 
 import _ from './Utils';
 import Repeat from './Repeat';
-import GradientDataValidator from './validator/GradientDataValidator';
+import GradientData from './gradientData/GradientData';
 
 export default new function() {
 
@@ -59,16 +59,16 @@ export default new function() {
         let colors = _.clone(options.colors);
         let fn = null;
 
-        let validator = GradientDataValidator.create(colors);
+        let gradientData = GradientData.create(colors);
 
         if (verify) {
 
-            validator.verify(colors);
+            gradientData.verify(colors);
         }
 
         if (validate) {
 
-            colors = validator.validate(colors);
+            colors = gradientData.validate(colors);
         }
 
         if (addDefaultColors) {
@@ -80,7 +80,7 @@ export default new function() {
                 throw new Error('Default color should be specified');
             }
 
-            validator.addDefaultColors(colors, defaultColor)
+            gradientData.addDefaultColors(colors, defaultColor)
         }
 
         onValidationComplete(colors);
@@ -88,23 +88,23 @@ export default new function() {
         let centerX = 0;
         let centerY = 0;
 
-        if (!validator.isMatrix && type === 'linear') {
+        if (!gradientData.isMatrix && type === 'linear') {
 
             fn = this.linearGradient;
             centerX = options.centerX;
             centerY = options.centerY;
 
-        } else if (validator.isMatrix && type === 'linear') {
+        } else if (gradientData.isMatrix && type === 'linear') {
 
             fn = this.linearMatrixGradient;
             centerX = options.centerX;
             centerY = options.centerY;
 
-        } else if (!validator.isMatrix && type === 'circular') {
+        } else if (!gradientData.isMatrix && type === 'circular') {
 
             fn = this.circularGradient;
 
-        } else if (validator.isMatrix && type === 'circular') {
+        } else if (gradientData.isMatrix && type === 'circular') {
 
             fn = this.circularMatrixGradient;
 

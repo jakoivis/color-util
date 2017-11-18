@@ -8,7 +8,7 @@ import { TYPES, TYPES_ALL } from '../src/types/types';
 chai.should();
 let expect = require('chai').expect;
 
-describe.only('conversionUtils', () => {
+describe('conversionUtils', () => {
 
     describe('getColorType', () => {
 

@@ -1,16 +1,16 @@
 
 import _ from '../Utils';
 
-import GradientDataObjectsValidator from './GradientDataObjectsValidator';
-import GradientDataObjectsWithColorsValidator from './GradientDataObjectsWithColorsValidator';
-import GradientDataArraysWithObjectsValidator from './GradientDataArraysWithObjectsValidator';
-import GradientDataObjectsMatrixValidator from './GradientDataObjectsMatrixValidator';
+import GradientDataObjects from './GradientDataObjects';
+import GradientDataObjectsWithColors from './GradientDataObjectsWithColors';
+import GradientDataArraysWithObjects from './GradientDataArraysWithObjects';
+import GradientDataObjectsMatrix from './GradientDataObjectsMatrix';
 
 const DATA_VALIDATORS = [
-   GradientDataObjectsValidator,
-   GradientDataObjectsWithColorsValidator,
-   GradientDataArraysWithObjectsValidator,
-   GradientDataObjectsMatrixValidator
+   GradientDataObjects,
+   GradientDataObjectsWithColors,
+   GradientDataArraysWithObjects,
+   GradientDataObjectsMatrix
 ];
 
 export default class {

@@ -1,6 +1,6 @@
 
 import _ from '../Utils';
-import GradientDataValidatorUtil from './GradientDataValidatorUtil';
+import GradientDataUtil from './GradientDataUtil';
 
 /*
 one dimensional data structure for normal gradients
@@ -26,7 +26,7 @@ export default class {
 
     static verify(colors) {
 
-        return GradientDataValidatorUtil.verify(colors, this);
+        return GradientDataUtil.verify(colors, this);
     }
 
     static testStructureSingleSample(item) {
@@ -41,11 +41,11 @@ export default class {
 
     static validate(colors) {
 
-        return GradientDataValidatorUtil.addMissingStops(colors, 'x');
+        return GradientDataUtil.addMissingStops(colors, 'x');
     }
 
     static addDefaultColors(colors, defaultColor) {
 
-        GradientDataValidatorUtil.addDefaultColors(colors, defaultColor, this);
+        GradientDataUtil.addDefaultColors(colors, defaultColor);
     }
 }
