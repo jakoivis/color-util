@@ -106,7 +106,7 @@ describe('conversionUtils', () => {
 
         it('should convert sub type another parents sub type', () => {
 
-            ConversionUtil.convertAny('#ff0000', cu.hslString, TYPES).should.equal('hsl(0,100%,50%)');
+            ConversionUtil.convertAny('#ff0000', cu.csshsl, TYPES).should.equal('hsl(0,100%,50%)');
         });
     });
 
@@ -176,12 +176,12 @@ describe('conversionUtils', () => {
 
         it('should create path between sub type and another parents sub type', () => {
 
-            let path = ConversionUtil._getConversionPathThroughParentType(cu.int, cu.hslString);
+            let path = ConversionUtil._getConversionPathThroughParentType(cu.int, cu.csshsl);
 
             path.length.should.equal(3);
             path[0].should.equal(cu.int.to.rgb);
             path[1].should.equal(cu.rgb.to.hsl);
-            path[2].should.equal(cu.hsl.to.hslString);
+            path[2].should.equal(cu.hsl.to.csshsl);
         });
     });
 });

@@ -4,17 +4,6 @@ import ConversionUtil from './ConversionUtil';
 import Gradient from './Gradient';
 import Color from './Color';
 
-import Rgb from './types/Rgb';
-import Int from './types/Int';
-import Int32ABGR from './types/Int32ABGR';
-import Int32RGBA from './types/Int32RGBA';
-import Hex from './types/Hex';
-import RgbString from './types/RgbString';
-import RgbaString from './types/RgbaString';
-import Hsl from './types/Hsl';
-import HslString from './types/HslString';
-import HslaString from './types/HslaString';
-import Hsv from './types/Hsv';
 import Any from './types/Any';
 import {TYPES_ALL, TYPES} from './types/types';
 
@@ -102,22 +91,22 @@ let ColorUtil = {
     // hex: Hex,
 
     /**
-     * RgbString conversion functions
+     * cssrgb conversion functions
      *
-     * RgbString notation is `'rgb(RRR,GGG,BBB)'`
+     * cssrgb notation is `'rgb(RRR,GGG,BBB)'`
      *
      * @memberof ColorUtil
      */
-    // rgbString: RgbString,
+    // cssrgb: cssrgb,
 
     /**
-     * RgbaString conversion functions
+     * cssrgba conversion functions
      *
-     * RgbString notation is `'rgba(RRR,GGG,BBB,A)'`
+     * cssrgba notation is `'rgba(RRR,GGG,BBB,A)'`
      *
      * @memberof ColorUtil
      */
-    // rgbaString: RgbaString,
+    // cssrgba: cssrgba,
 
     /**
      * Hsl conversion functions
@@ -130,22 +119,22 @@ let ColorUtil = {
     // hsl: Hsl,
 
     /**
-     * HslString conversion functions
+     * csshsl conversion functions
      *
      * Hsl functional notation is `'hsl(HHH,SSS%,LLL%)'`
      *
      * @memberof ColorUtil
      */
-    // hslString: HslString,
+    // csshsl: csshsl,
 
     /**
-     * HslaString conversion functions
+     * csshsla conversion functions
      *
      * Hsla functional notation is `'hsla(HHH,SSS%,LLL%,A)'`
      *
      * @memberof ColorUtil
      */
-    // hslaString: HslaString,
+    // csshsla: csshsla,
 
     /**
      * Hsv conversion functions
@@ -196,7 +185,7 @@ let ColorUtil = {
      * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
      * // output: [['#ff0000', '#00ff00'], '#0000ff']
      *
-     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.toRgbString);
+     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.tocssrgb);
      * // output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
      *
      * @memberof ColorUtil

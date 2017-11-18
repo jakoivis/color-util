@@ -78,7 +78,7 @@ export default Any;
      * Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
      *
      * @example
-     * ColorUtil.any.toRgbString('hsl(180, 50%, 60%)');
+     * ColorUtil.any.to.cssrgb('hsl(180, 50%, 60%)');
      * // output: "rgb(102,204,204)"
      *
      * @memberof ColorUtil.any
@@ -86,15 +86,15 @@ export default Any;
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    // toRgbString: color => {
-    //     return callConverter(TYPES_BY_NAME.RgbString, color, TYPES);
+    // cssrgb: color => {
+    //     return callConverter(TYPES_BY_NAME.cssrgb, color, TYPES);
     // },
 
     /**
      * Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
      *
      * @example
-     * ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)');
+     * ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
      * // output: "rgba(102,204,204,1)"
      *
      * @memberof ColorUtil.any
@@ -102,8 +102,8 @@ export default Any;
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    // toRgbaString: color => {
-    //     return callConverter(TYPES_BY_NAME.RgbaString, color, TYPES);
+    // cssrgba: color => {
+    //     return callConverter(TYPES_BY_NAME.cssrgba, color, TYPES);
     // },
 
     /**
@@ -142,7 +142,7 @@ export default Any;
      * Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
      *
      * @example
-     * ColorUtil.any.toHslString({h: 0.5, s: 0.5, l: 0.6, a: 1});
+     * ColorUtil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
      * // output: "hsl(180,50%,60%)"
      *
      * @memberof ColorUtil.any
@@ -150,15 +150,15 @@ export default Any;
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    // toHslString: color => {
-    //     return callConverter(TYPES_BY_NAME.HslString, color, TYPES);
+    // csshsl: color => {
+    //     return callConverter(TYPES_BY_NAME.csshsl, color, TYPES);
     // },
 
     /**
      * Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
      *
      * @example
-     * ColorUtil.any.toHslaString({h: 0.5, s: 0.5, l: 0.6, a: 1});
+     * ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
      * // output: "hsla(180,50%,60%,1)"
      *
      * @memberof ColorUtil.any
@@ -166,7 +166,7 @@ export default Any;
      * @param      {Object}  color        Color in any notation
      * @return     {string}
      */
-    // toHslaString: color => {
-    //     return callConverter(TYPES_BY_NAME.HslaString, color, TYPES);
+    // csshsla: color => {
+    //     return callConverter(TYPES_BY_NAME.csshsla, color, TYPES);
     // }
 // }

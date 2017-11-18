@@ -74,13 +74,13 @@ export default {
          * @memberof ColorUtil.int
          *
          * @example
-         * ColorUtil.int.toRgbString(0x00FF00);
+         * ColorUtil.int.to.cssrgb(0x00FF00);
          * // output: "rgb(0,255,0)"
          *
          * @param      {number}  int        Integer
          * @return     {string}
          */
-        rgbString: int => {
+        cssrgb: int => {
             return 'rgb('
                     + ((int & 0xFF0000) >> 16) + ','
                     + ((int & 0x00FF00) >> 8) + ','
@@ -93,17 +93,17 @@ export default {
          * @memberof ColorUtil.int
          *
          * @example
-         * ColorUtil.int.toRgbaString(0x00FF00);
+         * ColorUtil.int.to.cssrgba(0x00FF00);
          * // output: "rgba(0,255,0,1)"
          *
-         * ColorUtil.int.toRgbaString(0x00FF00, 0.5);
+         * ColorUtil.int.to.cssrgba(0x00FF00, 0.5);
          * // output: "rgba(0,255,0,0.5)"
          *
          * @param      {number}  int        Integer
          * @param      {number}  [a=1]      Alpha value in range 0-1
          * @return     {string}
          */
-        rgbaString: (int, a=1) => {
+        cssrgba: (int, a=1) => {
             return 'rgba('
                     + ((int & 0xFF0000) >> 16) + ','
                     + ((int & 0x00FF00) >> 8) + ','

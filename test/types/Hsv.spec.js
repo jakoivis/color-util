@@ -16,7 +16,7 @@ describe('Hsv', () => {
         Hsv.test({h: -0.5, s: 0, v: 0}).should.be.false;
     });
 
-    it('toRgb', () => {
+    it('rgb', () => {
         Hsv.to.rgb({h: 0, s: 0, v: 0}).should.eql({r: 0, g: 0, b: 0, a: 255});
         Hsv.to.rgb({h: 0, s: 0, v: 1}).should.eql({r: 255, g: 255, b: 255, a: 255});
         Hsv.to.rgb({h: 0, s: 1, v: 1}).should.eql({r: 255, g: 0, b: 0, a: 255});
@@ -35,7 +35,7 @@ describe('Hsv', () => {
         Hsv.to.rgb({h: 0, s: 0, v: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 25.5});
     });
 
-    it('toHsl', () => {
+    it('hsl', () => {
         Hsv.to.hsl({h: 0.5, s: 0.5, v: 0.1}).should.eql({h: 0.5, s: 0.3333333333333333, l: 0.07500000000000001, a: 1});
     });
 });

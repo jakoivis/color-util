@@ -4,19 +4,19 @@ import Rgb from './Rgb';
 const REG_RGB = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
 
 /**
- * @class RgbString
+ * @class cssrgb
  * @private
  */
 export default {
 
-    name: 'rgbString',
-    className: 'RgbString',
+    name: 'cssrgb',
+    className: 'Cssrgb',
     parent: Rgb,
 
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.rgbString
+     * @memberof ColorUtil.cssrgb
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -30,18 +30,18 @@ export default {
         /**
          * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
-         * @memberof ColorUtil.rgbString
+         * @memberof ColorUtil.cssrgb
          *
          * @example
-         * ColorUtil.rgbString.toRgb('rgb(0,255,0)')
+         * ColorUtil.cssrgb.toRgb('rgb(0,255,0)')
          * // output: {r: 0, g: 255, b: 0, a: 255}
 
-         * @param      {string} rgbString   Rgb string
+         * @param      {string} cssrgb   Rgb string
          * @param      {number} [a=0xFF]    Alpha value in range 0-255
          * @return     {Object}
          */
-        rgb: (rgbString, a=0xFF) => {
-            let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
+        rgb: (cssrgb, a=0xFF) => {
+            let [m,r,g,b] = REG_RGB.exec(cssrgb) || [];
 
             return m ? {
                     r: parseInt(r),
@@ -55,17 +55,17 @@ export default {
         /**
          * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
          *
-         * @memberof ColorUtil.rgbString
+         * @memberof ColorUtil.cssrgb
          *
          * @example
-         * ColorUtil.rgbString.toInt('rgb(0,255,0)')
+         * ColorUtil.cssrgb.toInt('rgb(0,255,0)')
          * // output: 65280
          *
-         * @param      {string} rgbString    Rgba string
+         * @param      {string} cssrgb    Rgba string
          * @return     {number}
          */
-        int: rgbString => {
-            let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
+        int: cssrgb => {
+            let [m,r,g,b] = REG_RGB.exec(cssrgb) || [];
 
             return m ?
                   (parseInt(r) << 16)
@@ -77,17 +77,17 @@ export default {
         /**
          * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
          *
-         * @memberof ColorUtil.rgbString
+         * @memberof ColorUtil.cssrgb
          *
          * @example
-         * ColorUtil.rgbString.toHex('rgb(0,255,0)')
+         * ColorUtil.cssrgb.toHex('rgb(0,255,0)')
          * // output: "#00ff00"
          *
-         * @param      {string} rgbString    Rgb string
+         * @param      {string} cssrgb    Rgb string
          * @return     {string}
          */
-        hex: rgbString => {
-            let [m,r,g,b] = REG_RGB.exec(rgbString) || [];
+        hex: cssrgb => {
+            let [m,r,g,b] = REG_RGB.exec(cssrgb) || [];
 
             return m ?
                 '#' + ((1 << 24)

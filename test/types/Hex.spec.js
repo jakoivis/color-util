@@ -34,21 +34,21 @@ describe('Hex', () => {
         Hex.to.int('#112233').should.equal(0x112233);
     });
 
-    it('rgbString', () => {
-        Hex.to.rgbString('#aabbcc').should.equal('rgb(170,187,204)');
-        Hex.to.rgbString('aabbcc').should.equal('rgb(170,187,204)');
-        Hex.to.rgbString('#abc').should.equal('rgb(170,187,204)');
-        Hex.to.rgbString('abc').should.equal('rgb(170,187,204)');
-        Hex.to.rgbString('112233').should.equal('rgb(17,34,51)');
+    it('cssrgb', () => {
+        Hex.to.cssrgb('#aabbcc').should.equal('rgb(170,187,204)');
+        Hex.to.cssrgb('aabbcc').should.equal('rgb(170,187,204)');
+        Hex.to.cssrgb('#abc').should.equal('rgb(170,187,204)');
+        Hex.to.cssrgb('abc').should.equal('rgb(170,187,204)');
+        Hex.to.cssrgb('112233').should.equal('rgb(17,34,51)');
     });
 
-    it('rgbaString', () => {
-        Hex.to.rgbaString('#aabbcc').should.equal('rgba(170,187,204,1)');
-        Hex.to.rgbaString('#aabbcc', 0).should.equal('rgba(170,187,204,0)');
-        Hex.to.rgbaString('#aabbcc', 0.1).should.equal('rgba(170,187,204,0.1)');
-        Hex.to.rgbaString('aabbcc').should.equal('rgba(170,187,204,1)');
-        Hex.to.rgbaString('#abc').should.equal('rgba(170,187,204,1)');
-        Hex.to.rgbaString('abc').should.equal('rgba(170,187,204,1)');
-        Hex.to.rgbaString('112233').should.equal('rgba(17,34,51,1)');
+    it('cssrgba', () => {
+        Hex.to.cssrgba('#aabbcc').should.equal('rgba(170,187,204,1)');
+        Hex.to.cssrgba('#aabbcc', 0).should.equal('rgba(170,187,204,0)');
+        Hex.to.cssrgba('#aabbcc', 0.1).should.equal('rgba(170,187,204,0.1)');
+        Hex.to.cssrgba('aabbcc').should.equal('rgba(170,187,204,1)');
+        Hex.to.cssrgba('#abc').should.equal('rgba(170,187,204,1)');
+        Hex.to.cssrgba('abc').should.equal('rgba(170,187,204,1)');
+        Hex.to.cssrgba('112233').should.equal('rgba(17,34,51,1)');
     });
 });

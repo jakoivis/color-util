@@ -81,13 +81,13 @@ export default {
          * @memberof ColorUtil.hex
          *
          * @example
-         * ColorUtil.hex.toRgbString('#00FF00')
+         * ColorUtil.hex.to.cssrgb('#00FF00')
          * // output: "rgb(0,255,0)"
          *
          * @param      {string}  hex     Hexadecimal string
          * @return     {string}
          */
-        rgbString: hex => {
+        cssrgb: hex => {
             hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
             let [m,r,g,b] = REG_HEX.exec(hex) || [];
@@ -105,17 +105,17 @@ export default {
          * @memberof ColorUtil.hex
          *
          * @example
-         * ColorUtil.hex.toRgbaString('#00FF00')
+         * ColorUtil.hex.to.cssrgba('#00FF00')
          * // output: "rgba(0,255,0,1)"
          *
-         * ColorUtil.hex.toRgbaString('#00FF00', 0.5)
+         * ColorUtil.hex.to.cssrgba('#00FF00', 0.5)
          * // output: "rgba(0,255,0,0.5)"
          *
          * @param      {string}  hex     Hexadecimal string
          * @param      {number}  [a=1]   Alpha value in range 0-1
          * @return     {string}
          */
-        rgbaString: (hex, a=1) => {
+        cssrgba: (hex, a=1) => {
             hex = hex.replace(REG_HEX_SHORT, (m, r, g, b) => r + r + g + g + b + b);
 
             let [m,r,g,b] = REG_HEX.exec(hex) || [];

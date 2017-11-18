@@ -27,13 +27,13 @@ export default class {
             return color;
         }
 
-        // direct conversion e.g. int -> hex, hsl -> hslString
+        // direct conversion e.g. int -> hex, hsl -> csshsl
         if (typeof type.to[targetType.name] === 'function') {
 
             return type.to[targetType.name](color);
         }
 
-        // indirect conversion e.g. hslString -> hex, hslString -> rgbString
+        // indirect conversion e.g. csshsl -> hex, csshsl -> cssrgb
         let path = this._getConversionPathThroughParentType(type, targetType, availableTypes);
 
         return this.convert(color, ...path);

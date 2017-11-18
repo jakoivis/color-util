@@ -41,14 +41,14 @@ describe('cu', () => {
             cu.hsl.to.rgb({h:0, s:1, l:0.5}).should.eql({r:255, g:0, b: 0, a: 255});
         });
 
-        it('hslaString', () => {
+        it('csshsla', () => {
 
-            cu.hslaString.to.hsl('hsla(0,100%,50%,1)').should.eql({h:0, s:1, l:0.5, a:1});
+            cu.csshsla.to.hsl('hsla(0,100%,50%,1)').should.eql({h:0, s:1, l:0.5, a:1});
         });
 
-        it('hslString', () => {
+        it('csshsl', () => {
 
-            cu.hslString.to.hsl('hsl(0,100%,50%)').should.eql({h:0, s:1, l:0.5, a:1});
+            cu.csshsl.to.hsl('hsl(0,100%,50%)').should.eql({h:0, s:1, l:0.5, a:1});
         });
 
         it('hsv', () => {
@@ -76,14 +76,14 @@ describe('cu', () => {
             cu.rgb.to.int({r:255, g:0, b:0, a:255}).should.equal(0xff0000);
         });
 
-        it('rgbaString', () => {
+        it('cssrgba', () => {
 
-            cu.rgbaString.to.int('rgba(255,0,0,1)').should.equal(0xff0000);
+            cu.cssrgba.to.int('rgba(255,0,0,1)').should.equal(0xff0000);
         });
 
-        it('rgbString', () => {
+        it('cssrgb', () => {
 
-            cu.rgbString.to.int('rgb(255,0,0)').should.equal(0xff0000);
+            cu.cssrgb.to.int('rgb(255,0,0)').should.equal(0xff0000);
         });
     });
 

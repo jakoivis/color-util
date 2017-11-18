@@ -20,29 +20,29 @@ describe('Rgb', () => {
             Rgb.test({h: 170, s: 187, l: 204}).should.be.false;
         });
 
-        it('toInt', () => {
+        it('int', () => {
             Rgb.to.int({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCC);
             Rgb.to.int({r: 170.1, g: 187.5, b: 204.9, a: 255}).should.equal(0xAABBCC);
         });
 
-        it('toHex', () => {
+        it('hex', () => {
             Rgb.to.hex({r: 170, g: 187, b: 204, a: 255}).should.equal('#aabbcc');
             Rgb.to.hex({r: 0, g: 187, b: 0}).should.equal('#00bb00');
             Rgb.to.hex({r: 0, g: 187, b: 0.56}).should.equal('#00bb00');
         });
 
-        it('toRgbString', () => {
-            Rgb.to.rgbString({r: 170, g: 187, b: 204}).should.equal('rgb(170,187,204)');
-            Rgb.to.rgbString({r: 170.1, g: 187.1, b: 204.1}).should.equal('rgb(170,187,204)');
+        it('cssrgb', () => {
+            Rgb.to.cssrgb({r: 170, g: 187, b: 204}).should.equal('rgb(170,187,204)');
+            Rgb.to.cssrgb({r: 170.1, g: 187.1, b: 204.1}).should.equal('rgb(170,187,204)');
         });
 
-        it('toRgbaString', () => {
-            Rgb.to.rgbaString({r: 170, g: 187, b: 204, a: 127.5}).should.equal('rgba(170,187,204,0.5)');
-            Rgb.to.rgbaString({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,NaN)');
-            Rgb.to.rgbaString({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
+        it('cssrgba', () => {
+            Rgb.to.cssrgba({r: 170, g: 187, b: 204, a: 127.5}).should.equal('rgba(170,187,204,0.5)');
+            Rgb.to.cssrgba({r: 170, g: 187, b: 204}).should.equal('rgba(170,187,204,NaN)');
+            Rgb.to.cssrgba({r: 170.1, g: 187.1, b: 204.1, a: 255}).should.equal('rgba(170,187,204,1)');
         });
 
-        it('toUint32ABGR', () => {
+        it('uint32ABGR', () => {
             Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(0xFFCCBBAA);
             Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 85}).should.equal(0x55CCBBAA);
             Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
@@ -50,7 +50,7 @@ describe('Rgb', () => {
             Rgb.to.uint32ABGR({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0x00CCBBAA);
         });
 
-        it('toUint32RGBA', () => {
+        it('uint32RGBA', () => {
             Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 255}).should.equal(0xAABBCCFF);
             Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 85}).should.equal(0xAABBCC55);
             Rgb.to.uint32RGBA({r: 170, g: 187, b: 204}).should.equal(0xAABBCC00);
@@ -58,7 +58,7 @@ describe('Rgb', () => {
             Rgb.to.uint32RGBA({r: 170, g: 187, b: 204, a: 0/0}).should.equal(0xAABBCC00);
         });
 
-        it('toInt32ABGR', () => {
+        it('int32ABGR', () => {
             Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 255}).should.equal(-3359830); // 0xFFCCBBAA
             Rgb.to.int32ABGR({r: 170, g: 187, b: 204, a: 0}).should.equal(0x00CCBBAA);
             Rgb.to.int32ABGR({r: 170, g: 187, b: 204}).should.equal(0x00CCBBAA);
@@ -66,7 +66,7 @@ describe('Rgb', () => {
             Rgb.to.int32ABGR({r: 170, g: NaN, b: 204, a: NaN}).should.equal(0x00CC00AA);
         });
 
-        it('toInt32RGBA', () => {
+        it('int32RGBA', () => {
             let AABBCCFF = -1430532865;
             let AABBCC55 = -1430533035
             let AABBCC00 = -1430533120;
@@ -79,7 +79,7 @@ describe('Rgb', () => {
             Rgb.to.int32RGBA({r: 170, g: NaN, b: 204, a: NaN}).should.equal(AA00CC00);
         });
 
-        it('toHsl', () => {
+        it('hsl', () => {
             Rgb.to.hsl({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, l:0, a:1});
             Rgb.to.hsl({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, l:1, a:1});
             Rgb.to.hsl({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, l:0.5, a:1});
@@ -95,7 +95,7 @@ describe('Rgb', () => {
             Rgb.to.hsl({r: 255, g: 0, b: 120}).should.eql({h:0.9215686274509803, s: 1, l: 0.5, a:1});
         });
 
-        it('toHsv', () => {
+        it('hsv', () => {
             Rgb.to.hsv({r: 0, g: 0, b: 0}).should.eql({h:0, s: 0, v:0, a:1});
             Rgb.to.hsv({r: 255, g: 255, b: 255}).should.eql({h:0, s: 0, v:1, a:1});
             Rgb.to.hsv({r: 255, g: 0, b: 0}).should.eql({h:0, s: 1, v:1, a:1});

@@ -16,7 +16,7 @@ describe('Hsl', () => {
         Hsl.test({h: -0.5, s: 0, l: 0}).should.be.false;
     });
 
-    it('toRgb', () => {
+    it('rgb', () => {
         Hsl.to.rgb({h: 0, s: 0, l: 0}).should.eql({r: 0, g: 0, b: 0, a: 255});
         Hsl.to.rgb({h: 0, s: 0, l: 1}).should.eql({r: 255, g: 255, b: 255, a: 255});
         Hsl.to.rgb({h: 0, s: 1, l: 0.5}).should.eql({r: 255, g: 0, b: 0, a: 255});
@@ -35,16 +35,16 @@ describe('Hsl', () => {
         Hsl.to.rgb({h: 0, s: 0, l: 0, a: 0.1}).should.eql({r: 0, g: 0, b: 0, a: 25.5});
     });
 
-    it('toHslString', () => {
-        Hsl.to.hslString({h: 0.5, s: 0.5, l: 0.1}).should.eql('hsl(180,50%,10%)');
+    it('csshsl', () => {
+        Hsl.to.csshsl({h: 0.5, s: 0.5, l: 0.1}).should.eql('hsl(180,50%,10%)');
     });
 
-    it('toHslaString', () => {
-        Hsl.to.hslaString({h: 0.5, s: 0.5, l: 0.1, a: 0.5}).should.equal('hsla(180,50%,10%,0.5)');
-        Hsl.to.hslaString({h: 0.5, s: 0.5, l: 0.1, a: 0}).should.equal('hsla(180,50%,10%,0)');
+    it('csshsla', () => {
+        Hsl.to.csshsla({h: 0.5, s: 0.5, l: 0.1, a: 0.5}).should.equal('hsla(180,50%,10%,0.5)');
+        Hsl.to.csshsla({h: 0.5, s: 0.5, l: 0.1, a: 0}).should.equal('hsla(180,50%,10%,0)');
     });
 
-    it('toHsv', () => {
+    it('hsv', () => {
         Hsl.to.hsv({h: 0.5, s: 0.5, l: 0.1}).should.eql({h: 0.5, s: 0.6666666666666665, v: 0.15, a: 1});
     });
 });

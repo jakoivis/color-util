@@ -76,7 +76,7 @@ let Rgb = new function() {
          * Alpha is converted from range 0-255 to 0-1.
          *
          * @example
-         * ColorUtil.rgb.toRgbString({r: 0, g: 128, b: 255});
+         * ColorUtil.rgb.to.cssrgb({r: 0, g: 128, b: 255});
          * // output: "rgb(0,128,255)"
          *
          * @memberof ColorUtil.rgb
@@ -84,7 +84,7 @@ let Rgb = new function() {
          * @param      {Object}    rgb
          * @return     {string}
          */
-        rgbString: rgb => {
+        cssrgb: rgb => {
             return `rgb(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)})`;
         },
 
@@ -93,7 +93,7 @@ let Rgb = new function() {
          * Alpha is converted from range 0-255 to 0-1.
          *
          * @example
-         * ColorUtil.rgb.toRgbaString({r: 0, g: 128, b: 255, a: 85});
+         * ColorUtil.rgb.to.cssrgba({r: 0, g: 128, b: 255, a: 85});
          * // output: "rgba(0,128,255,0.3333333333333333)"
          *
          * @memberof ColorUtil.rgb
@@ -101,7 +101,7 @@ let Rgb = new function() {
          * @param      {Object}    rgb
          * @return     {string}
          */
-        rgbaString: rgb => {
+        cssrgba: rgb => {
             return `rgba(${Math.round(rgb.r)},${Math.round(rgb.g)},${Math.round(rgb.b)},${rgb.a/0xFF})`;
         },
 

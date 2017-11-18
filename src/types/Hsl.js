@@ -112,7 +112,7 @@ export default {
          * Convert hsl object `{h:H, s:S, l:L}` to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`.
          *
          * @example
-         * ColorUtil.hsl.toHslString({h:2/6, s:0.5, l:0.5});
+         * ColorUtil.hsl.to.cssHsl({h:2/6, s:0.5, l:0.5});
          * // output: "hsl(120,50%,50%)"
          *
          * @memberof ColorUtil.hsl
@@ -120,7 +120,7 @@ export default {
          * @param      {Object}    hsl
          * @return     {string}
          */
-        hslString: hsl => {
+        csshsl: hsl => {
             return `hsl(${Math.round(hsl.h*360)},${Math.round(hsl.s*100)}%,${Math.round(hsl.l*100)}%)`;
         },
 
@@ -128,7 +128,7 @@ export default {
          * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`.
          *
          * @example
-         * ColorUtil.hsl.toHslaString({h:2/6, s:0.5, l:0.5, a:0.5});
+         * ColorUtil.hsl.tocssHsla({h:2/6, s:0.5, l:0.5, a:0.5});
          * // output: "hsla(120,50%,50%,0.5)"
          *
          * @memberof ColorUtil.hsl
@@ -136,7 +136,7 @@ export default {
          * @param      {Object}    hsl
          * @return     {string}
          */
-        hslaString: hsl => {
+        csshsla: hsl => {
             return `hsla(${Math.round(hsl.h*360)},${Math.round(hsl.s*100)}%,${Math.round(hsl.l*100)}%,${hsl.a})`;
         }
     },

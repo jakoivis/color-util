@@ -26,7 +26,8 @@ describe('Any', () => {
         Any.to.rgb(rgb).should.equal(rgb);
         Any.to.int(0xAABBCC).should.equal(0xAABBCC);
         Any.to.hex("#AABBCC").should.equal("#AABBCC");
-        Any.to.rgbString('rgb(0,0,0)').should.equal('rgb(0,0,0)');
+        Any.to.cssrgb('rgb(0,0,0)').should.equal('rgb(0,0,0)');
+        Any.to.cssrgba('rgba(0,0,0,1)').should.equal('rgba(0,0,0,1)');
         Any.to.hsl(hsl).should.equal(hsl);
         Any.to.hsv(hsv).should.equal(hsv);
     });
@@ -35,18 +36,18 @@ describe('Any', () => {
         Any.to.rgb(0xAABBCC).should.eql(rgb);
         Any.to.rgb('#AABBCC').should.eql(rgb);
         Any.to.rgb('rgba(170,187,204,1)').should.eql(rgb);
-        Any.to.int('#AABBCC').should.eql(0xAABBCC);
-        Any.to.int('rgba(170,187,204,1)').should.eql(0xAABBCC);
-        Any.to.int(rgb).should.eql(0xAABBCC);
-        Any.to.hex(0xAABBCC).should.eql("#aabbcc");
-        Any.to.hex('rgba(170,187,204,1)').should.eql("#aabbcc");
-        Any.to.hex(rgb).should.eql("#aabbcc");
-        Any.to.rgbString({r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF}).should.eql('rgb(170,187,204)');
-        Any.to.rgbString(0xAABBCC).should.eql('rgb(170,187,204)');
-        Any.to.rgbString('#AABBCC').should.eql('rgb(170,187,204)');
-        Any.to.rgbaString(rgb).should.eql('rgba(170,187,204,1)');
-        Any.to.rgbaString(0xAABBCC).should.eql('rgba(170,187,204,1)');
-        Any.to.rgbaString('#AABBCC').should.eql('rgba(170,187,204,1)');
+        Any.to.int('#AABBCC').should.equal(0xAABBCC);
+        Any.to.int('rgba(170,187,204,1)').should.equal(0xAABBCC);
+        Any.to.int(rgb).should.equal(0xAABBCC);
+        Any.to.hex(0xAABBCC).should.equal("#aabbcc");
+        Any.to.hex('rgba(170,187,204,1)').should.equal("#aabbcc");
+        Any.to.hex(rgb).should.equal("#aabbcc");
+        Any.to.cssrgb({r: 0xAA, g: 0xBB, b: 0xCC, a:0xFF}).should.equal('rgb(170,187,204)');
+        Any.to.cssrgb(0xAABBCC).should.equal('rgb(170,187,204)');
+        Any.to.cssrgb('#AABBCC').should.equal('rgb(170,187,204)');
+        Any.to.cssrgba(rgb).should.equal('rgba(170,187,204,1)');
+        Any.to.cssrgba(0xAABBCC).should.equal('rgba(170,187,204,1)');
+        Any.to.cssrgba('#AABBCC').should.equal('rgba(170,187,204,1)');
     });
 
     it('should do hsl -> rgb conversion', () => {
@@ -83,8 +84,8 @@ describe('Any', () => {
     it('should do hsl -> rgb sub type conversion', () => {
         Any.to.int(hsl).should.equal(0xAABBCC);
         Any.to.hex(hsl).should.equal('#aabbcc');
-        Any.to.rgbString(hsl).should.equal('rgb(170,187,204)');
-        Any.to.rgbaString(hsl).should.equal('rgba(170,187,204,1)');
+        Any.to.cssrgb(hsl).should.equal('rgb(170,187,204)');
+        Any.to.cssrgba(hsl).should.equal('rgba(170,187,204,1)');
     });
 
     it('should do hsl subtype -> hsv conversion', () => {
@@ -99,12 +100,12 @@ describe('Any', () => {
     it('should do hsl subtype -> rgb sub type conversion', () => {
         Any.to.int('hsl(180, 50%, 60%)').should.equal(0x65CCCC);
         Any.to.hex('hsl(180, 50%, 60%)').should.equal("#65cccc");
-        Any.to.rgbString('hsl(180, 50%, 60%)').should.equal('rgb(102,204,204)');
-        Any.to.rgbaString('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
+        Any.to.cssrgb('hsl(180, 50%, 60%)').should.equal('rgb(102,204,204)');
+        Any.to.cssrgba('hsl(180, 50%, 60%)').should.equal('rgba(102,204,204,1)');
     });
 
     it('should do hsl subtype -> hsl subtype conversion', () => {
-        Any.to.hslaString('hsl(180, 50%, 60%)').should.equal('hsla(180,50%,60%,1)');
-        Any.to.hslString('hsla(180, 50%, 60%, 1)').should.equal('hsl(180,50%,60%)');
+        Any.to.csshsla('hsl(180, 50%, 60%)').should.equal('hsla(180,50%,60%,1)');
+        Any.to.csshsl('hsla(180, 50%, 60%, 1)').should.equal('hsl(180,50%,60%)');
     });
 });

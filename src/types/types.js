@@ -2,11 +2,11 @@
 import Rgb from './Rgb';
 import Int from './Int';
 import Hex from './Hex';
-import RgbString from './RgbString';
-import RgbaString from './RgbaString';
+import Cssrgb from './Cssrgb';
+import Cssrgba from './Cssrgba';
 import Hsl from './Hsl';
-import HslString from './HslString';
-import HslaString from './HslaString';
+import Csshsl from './Csshsl';
+import Csshsla from './Csshsla';
 import Hsv from './Hsv';
 
 import Int32ABGR from './Int32ABGR';
@@ -18,10 +18,10 @@ const TYPES = [
     Hex,
     Hsl,
     Hsv,
-    RgbaString,
-    RgbString,
-    HslaString,
-    HslString
+    Cssrgba,
+    Cssrgb,
+    Csshsla,
+    Csshsl
 ];
 
 const TYPES_ALL = TYPES.concat([
