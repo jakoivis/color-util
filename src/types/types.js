@@ -29,18 +29,4 @@ const TYPES_ALL = TYPES.concat([
     Int32RGBA
 ]);
 
-const TYPES_BY_NAME = createNameList(TYPES);
-
-function createNameList(types) {
-
-    let list = {};
-
-    for (let type of types) {
-
-        list[type.name] = type;
-    }
-
-    return list;
-}
-
-export { TYPES, TYPES_BY_NAME, TYPES_ALL };
+export { TYPES, TYPES_ALL };

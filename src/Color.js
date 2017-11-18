@@ -1,5 +1,5 @@
 
-import {TYPES, TYPES_BY_NAME} from './types/types';
+import {TYPES} from './types/types';
 import Rgb from './types/Rgb';
 import Gradient from './Gradient';
 import ConversionUtil from './ConversionUtil';

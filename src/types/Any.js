@@ -1,7 +1,7 @@
 
 import _ from '../Utils';
 import ConversionUtil from '../ConversionUtil';
-import {TYPES, TYPES_BY_NAME} from './types';
+import {TYPES} from './types';
 
 let Any = {to:{}};
 
