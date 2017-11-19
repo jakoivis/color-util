@@ -9,7 +9,9 @@
     "watch": "webpack-dev-server --env development",
     "prebuild": "npm run test",
     "build": "webpack -p --env production && webpack --env benchmark && npm run docs",
-    "docs": "documentation build src/ColorUtil.js -f md > API.md",
+    "toc": "markdown-toc -i README.md",
+    "api": "documentation build src/ColorUtil.js -f md > API.md",
+    "docs": "npm run toc && npm run api",
     "docs-watch": "nodemon --watch src/ColorUtil.js --exec \"npm run docs\""
   },
   "repository": {

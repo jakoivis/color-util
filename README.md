@@ -1,8 +1,30 @@
+# color-util
+
 [![Build Status](https://travis-ci.org/jakoivis/color-util.svg?branch=master)](https://travis-ci.org/jakoivis/color-util)
 [![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)](https://npmjs.org/package/color-util)
 [![Npm version](https://img.shields.io/npm/v/color-util.svg)](https://npmjs.org/package/color-util)
 
 Color format conversion, gradients colors, etc
+
+<!-- toc -->
+
+- [Installation & import](#installation--import)
+- [Usage examples](#usage-examples)
+  * [Basic color format conversion methods](#basic-color-format-conversion-methods)
+  * [Mass conversions](#mass-conversions)
+  * [Easy but slow option](#easy-but-slow-option)
+  * [Type checking](#type-checking)
+  * [hue](#hue)
+  * [Gradients](#gradients)
+    + [Gradient color data structures](#gradient-color-data-structures)
+      - [Data structure 1](#data-structure-1)
+      - [Data structure 2](#data-structure-2)
+      - [Data structure 3](#data-structure-3)
+      - [Data structure 4](#data-structure-4)
+- [Features](#features)
+- [Change history](#change-history)
+
+<!-- tocstop -->
 
 ## Installation & import
 ```javascript
