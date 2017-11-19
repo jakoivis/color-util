@@ -18,6 +18,7 @@ Color format conversion, gradients colors, etc
   * [Type checking](#type-checking)
   * [hue](#hue)
   * [Gradients](#gradients)
+    + [Gradient options](#gradient-options)
     + [Gradient color data structures](#gradient-color-data-structures)
       - [Data structure 1](#data-structure-1)
       - [Data structure 2](#data-structure-2)
@@ -199,21 +200,44 @@ let colors = [
 // to create a gradient function. HSV and HSL both have the same function.
 
 let gradient = colorutil.rgb.gradient({
-    colors: colors,
-    width: 300,
-    height: 300
+    colors: colors
 });
 
 // Color is calculate with this gradient function
 // by providing x and y coordinates
 
-gradient(150, 150); // {r: 127.5, g: 127.5, b: 127.5, a: 255}
+// center of the gradeint
+gradient(0.5, 0.5); // {r: 127.5, g: 127.5, b: 127.5, a: 255}
 
-gradient(300, 300); // {r: 0, g: 255, b: 255, a: 255}
+// bottom right of the gradient
+gradient(1, 1); // {r: 0, g: 255, b: 255, a: 255}
 
 ```
 
 Now in order to draw a gradient you can create a canvas and draw each pixel on it. [Examples on how to do that can be found here.](https://github.com/jakoivis/color-util/tree/master/example)
+
+#### Gradient options
+|                   |           | Default       | Possible values       | Description
+| :---              | :---      | :---          | :---                  |
+| colors            | Array     | `linear`      | `linear` | `circular` | Gradient type
+| type              | string    |
+| verify            | boolean   |
+| validate          | boolean   |
+| addDefaultColors  | boolean   |
+| defaultColor      | Object    |
+| width             | number    |
+| height            | number    |
+| centerX           | number    |
+| centerY           | number    |
+| scale             | number    |
+| scaleX            | number    |
+| scaleY            | number    |
+| translateX        | number    |
+| translateY        | number    |
+| centralize        | number    |
+| rotation          | number    |
+| repeatX           | function  |
+| repeatY           | function  |
 
 #### Gradient color data structures
 There are couple of supported data structures. You may choose the one you like. `createGradient` function converts the data internally to structure 1 or structure 2.
@@ -278,18 +302,21 @@ Two dimensional structure. This example produces exact same gradient as structur
 ];
 ```
 
+
 ![Preview](/example/githubimage.png)
 
 ## Change history
 * 2.0.0
-    * Gradients are accessed with createGradient method
+    * Gradients are accessed with `gradient` method of a color type.
     * Gradient color stops
-    * Gradient data validator
+    * Gradient data validation
     * Multiple types of gradient data structures allowed
     * HSL & HSV gradients
-    * Gradient scaling, translate and centerize
+    * Gradient scaling, translate and centralize
     * Default gradient color
-    * Renaming of some properties functions and classes
+    * `colorutil.color` added to help with conversions
+    * Renaming of properties functions and classes.
+    * Basically nothing is backward compatible with version 1.0.0. Probably no-one is using version 1, but if you do, I feel your pain.
 * 1.0.0
     * No code changes to previous version. I just like creating new releases.
 * 0.6.0

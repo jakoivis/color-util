@@ -113,8 +113,8 @@ export default new function() {
             return null;
         }
 
-        let width = options.width || 100;
-        let height = options.height || 100;
+        let width = options.width || 1;
+        let height = options.height || 1;
         let scaleX = options.scaleX || options.scale || 1;
         let scaleY = options.scaleY || options.scale || 1;
         let sizeX = width * scaleX;
