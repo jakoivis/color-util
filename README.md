@@ -9,10 +9,12 @@ Color format conversion, gradients colors, etc
 <!-- toc -->
 
 - [Installation & import](#installation--import)
-- [Usage examples](#usage-examples)
-  * [Basic color format conversion methods](#basic-color-format-conversion-methods)
-  * [Mass conversions](#mass-conversions)
-  * [Easy but slow option](#easy-but-slow-option)
+- [Usage](#usage)
+  * [Color format conversion](#color-format-conversion)
+    + [Basic color format conversion methods](#basic-color-format-conversion-methods)
+    + [Mass color format conversion with `colorutil.convert`](#mass-color-format-conversion-with-colorutilconvert)
+    + [Easy color format conversion with `colorutil.color`](#easy-color-format-conversion-with-colorutilcolor)
+  * [Supported color format syntaxes](#supported-color-format-syntaxes)
   * [Type checking](#type-checking)
   * [hue](#hue)
   * [Gradients](#gradients)
@@ -21,7 +23,6 @@ Color format conversion, gradients colors, etc
       - [Data structure 2](#data-structure-2)
       - [Data structure 3](#data-structure-3)
       - [Data structure 4](#data-structure-4)
-- [Features](#features)
 - [Change history](#change-history)
 
 <!-- tocstop -->
@@ -35,12 +36,14 @@ var ColorUtil = require('color-util');
 ```
 or
 ```
-<script src="path/to/ColorUtil.js"></script>
+<script src="path/to/color-util.js"></script>
 ```
 
-## Usage examples
+## Usage
 
-### Basic color format conversion methods
+### Color format conversion
+
+#### Basic color format conversion methods
 These are pure conversion functions without any intelligence. If you have massive amount of colors and you need to convert them fast then these are the ones you want to use. You have to know the source type of a color and a color needs to be in valid format.
 
 There are three main type of color formats (rgb, hsl, hsv). In addition those there are 8 sub types (csshsl, csshsla, cssrgb, cssrgba, hex, int, intrgba, intabgr). These basic conversions can convert between the main types and between the main type and it's sub type. So e.g. converting from hex to hsl requires two steps (hex to rgb, rgb to hsl). If speed is not your concern then in color-util there are other utilities that can make the conversion easier.
@@ -112,7 +115,7 @@ colorutil.csshsl.to.hsl("hsl(240, 100%, 50%)", 0.5) // {h: 0.6666666666666666, s
 colorutil.csshsla.to.hsl("hsl(240, 100%, 50%, 0.5)") // {h: 0.6666666666666666, s: 1, l: 0.5, a: 0.5}
 ```
 
-### Mass conversions
+#### Mass color format conversion with `colorutil.convert`
 When you have a lot of colors that need to be converted then you can use `convert` function together with the basic conversion functions.
 ```javascript
 let colors = [0xff0000, 0xb2ff00, 0x00ff99, 0x0011ff];
@@ -144,7 +147,7 @@ let colors = [
 colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 255},...]
 ```
 
-### Easy but slow option
+#### Easy color format conversion with `colorutil.color`
 `colorutil.color` takes any type of color and provide getters for each type. It calculates the color only when getter is called and stores that color so it's not caclulcated next time. (`colorutil.color` does not support 32-bit integers: intabgr, intrgba)
 ```javascript
 let color = colorutil.color(0xff0000);
@@ -158,18 +161,23 @@ color.hsl // {h: 0, s: 1, l: 0.5, a: 1}
 color.csshsl // "hsl(0,100%,50%)"
 color.csshsla // "hsla(0,100%,50%,1)"
 color.hsv // {h: 0, s: 1, v: 1, a: 1}
+
+// change the color value to blue
+color.set({h:4/6, s:1, l:0.5})
+
+color.rgb // {r: 0, g: 0, b: 255, a: 255}
 ```
+
+### Supported color format syntaxes
 
 ### Type checking
 
-
 ### hue
 
-
 ### Gradients
-The main difference to native canvas gradients is that ColorUtil gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. ColorUtil gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
+The main difference to native canvas gradients is that color-util gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
 
-This project started only to satisfy my curiosity, but there are some interesting things ColorUtil gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as ColorUtil has linear, matrix, circular and circular matrix types.
+This project started only to satisfy my curiosity, but there are some interesting things color-util gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as color-util has linear, matrix, circular and circular matrix types.
 
 ```javascript
 // There are couple of different ways to present colors. In this
@@ -187,10 +195,10 @@ let colors = [
     ]
 ];
 
-// Since we are using rgb colors here we use ColorUtil.rgb.createGradient
-// to create a gradient function. HSV and HSL colors both have the same function.
+// Since we are using rgb colors here we use colorutil.rgb.gradient
+// to create a gradient function. HSV and HSL both have the same function.
 
-let gradient = ColorUtil.rgb.createGradient({
+let gradient = colorutil.rgb.gradient({
     colors: colors,
     width: 300,
     height: 300
@@ -199,11 +207,9 @@ let gradient = ColorUtil.rgb.createGradient({
 // Color is calculate with this gradient function
 // by providing x and y coordinates
 
-console.log(gradient(150, 150));
-// {r: 127.5, g: 127.5, b: 127.5, a: 255}
+gradient(150, 150); // {r: 127.5, g: 127.5, b: 127.5, a: 255}
 
-console.log(gradient(300, 300));
-// {r: 0, g: 255, b: 255, a: 255}
+gradient(300, 300); // {r: 0, g: 255, b: 255, a: 255}
 
 ```
 
@@ -212,9 +218,9 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
 #### Gradient color data structures
 There are couple of supported data structures. You may choose the one you like. `createGradient` function converts the data internally to structure 1 or structure 2.
 
-In the examples below RGB colors are used, but the same format is supported by HSV and HSL gradients. RGB colors consist of four components (r, g, b, a). If any of the component is missing from color object, default value is used. Default values can be changed with `createGradient` function's `defaultColor` property.
+In the examples below RGB colors are used, but the same structures are supported by HSV and HSL gradients. RGB colors consist of four components (r, g, b, a). If any of the component is missing from color object, default value is used. Default values can be changed with `colorutil.rgb.gradient` function's `defaultColor` property.
 
-x and y properties within color object are color stops; they indicate the position of a color within a gradient. x and y properties are also optional. If they are missing `createGradient` will generate them. You may leave some or all of the properties unspecified in which case the colors are distributed evenly. Value of x and y properties range from 0 to 1.
+x and y properties within color object are color stops; they indicate the position of a color within a gradient. x and y properties are also optional. If they are missing `colorutil.rgb.gradient` will generate them. You may leave some or all of the stops unspecified in which case the colors are distributed evenly. Value of x and y properties range from 0 to 1.
 
 ##### Data structure 1
 One dimensional gradient from red to green.
@@ -273,17 +279,6 @@ Two dimensional structure. This example produces exact same gradient as structur
 ```
 
 ![Preview](/example/githubimage.png)
-
-
-## Features
-- Fast color format conversion functions (number, hex, rgb, hsv, hsl, etc)
-- Slower but more flexible Any color format conversion.
-- gradient functions (regular gradient, matrix gradient, circular gradient, circular gradient matrix)
-- gradient rotation, scaling, translation
-- gradient repeat
-- gradient color stops
-- alpha support in gradients and color conversions
-
 
 ## Change history
 * 2.0.0

@@ -958,7 +958,61 @@ cssrgba notation is `'rgba(RRR,GGG,BBB,A)'`
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -992,7 +1046,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1001,28 +1055,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -1043,23 +1077,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -1094,23 +1111,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -1123,7 +1123,61 @@ rgb object, a fully opaque value is used as a default.
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1157,7 +1211,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1166,28 +1220,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -1208,23 +1242,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -1259,23 +1276,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -1290,7 +1290,61 @@ as fast as the direct conversion functions.
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1324,7 +1378,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1333,28 +1387,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -1375,23 +1409,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -1426,23 +1443,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -1453,7 +1453,61 @@ Hsv notation is `{h:H, s:S, v:V, a:A}` where each component
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1487,7 +1541,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1496,28 +1550,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -1538,23 +1572,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -1589,23 +1606,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -1615,7 +1615,61 @@ Hsla functional notation is `'hsla(HHH,SSS%,LLL%,A)'`
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1649,7 +1703,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1658,28 +1712,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -1700,23 +1734,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -1751,23 +1768,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -1777,7 +1777,61 @@ Hsl functional notation is `'hsl(HHH,SSS%,LLL%)'`
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1811,7 +1865,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1820,28 +1874,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -1862,23 +1896,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -1913,23 +1930,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -1940,7 +1940,61 @@ luminosity, alpha) is in range 0-1.
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1974,7 +2028,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -1983,28 +2037,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -2025,23 +2059,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -2076,23 +2093,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -2102,7 +2102,61 @@ Int notation is 24-bit number representing the RGB values `0xRRGGBB`.
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2136,7 +2190,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2145,28 +2199,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -2187,23 +2221,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -2238,23 +2255,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -2264,7 +2264,61 @@ cssrgb notation is `'rgb(RRR,GGG,BBB)'`
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2298,7 +2352,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2307,28 +2361,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -2349,23 +2383,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -2400,23 +2417,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -2426,7 +2426,61 @@ Hex notation is 24-bit hex string representing the RGB values `'#RRGGBB'`.
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2460,7 +2514,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2469,28 +2523,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -2511,23 +2545,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -2562,23 +2579,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -2588,7 +2588,61 @@ Int32 notation converion functions for 32-bit numbers `0xRRGGBBAA` (big-endian).
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2622,7 +2676,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2631,28 +2685,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -2673,23 +2707,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -2724,23 +2741,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -2750,7 +2750,61 @@ Int32 notation converion functions for 32-bit numbers `0xAABBGGRR` (little-endia
 
 #### 
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toHex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.toRgb(0xFF0000);
+// output: {r: 255, g: 0, b: 0, a: 255}
+
+ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
+// output: {r: 191, g: 191, b: 64, a: 255}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+
+#### 
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+#### 
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2784,7 +2838,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 #### 
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -2793,28 +2847,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-ColorUtil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toRgb(0xFF0000);
-// output: {r: 255, g: 0, b: 0, a: 255}
-
-ColorUtil.any.toRgb({h: 1/6, s: 0.5, l: 0.5});
-// output: {r: 191, g: 191, b: 64, a: 255}
+ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
@@ -2835,23 +2869,6 @@ ColorUtil.any.toInt('hsl(180, 50%, 60%)');
 ```
 
 Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-#### 
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### 
 
@@ -2886,23 +2903,6 @@ ColorUtil.any.to.cssrgba('hsl(180, 50%, 60%)');
 ```
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-#### 
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-ColorUtil.any.toHsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
-```
-
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### endian
 
