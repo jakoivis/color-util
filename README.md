@@ -2,7 +2,7 @@
 [![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)](https://npmjs.org/package/color-util)
 [![Npm version](https://img.shields.io/npm/v/color-util.svg)](https://npmjs.org/package/color-util)
 
-Utility with color format conversion and gradients functions.
+Color format conversion, gradients colors, etc
 
 ## Installation & import
 ```javascript
@@ -18,22 +18,132 @@ or
 
 ## Usage examples
 
-For a complete list of functions see [API documentation](API.md)
+### Basic color format conversion methods
+These are pure conversion functions without any intelligence. If you have massive amount of colors and you need to convert them fast then these are the ones you want to use. You have to know the source type of a color and a color needs to be in valid format.
 
-### Some color format conversion examples
+There are three main type of color formats (rgb, hsl, hsv). In addition those there are 8 sub types (csshsl, csshsla, cssrgb, cssrgba, hex, int, intrgba, intabgr). These basic conversions can convert between the main types and between the main type and it's sub type. So e.g. converting from hex to hsl requires two steps (hex to rgb, rgb to hsl). If speed is not your concern then in color-util there are other utilities that can make the conversion easier.
+
+The follwing list shows all the available basic conversions
 ```javascript
-ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
-// output: {h: 0, s: 1, v: 1, a: 1}
+// rgb
+colorutil.rgb.to.int({r: 0, g: 0, b: 255, a:255}) // 255
+colorutil.rgb.to.hex({r: 0, g: 0, b: 255, a:255}) // "#0000ff"
+colorutil.rgb.to.cssrgb({r: 0, g: 0, b: 255, a:255}) // "rgb(0,0,255)"
+colorutil.rgb.to.cssrgba({r: 0, g: 0, b: 255, a:255}) // "rgba(0,0,255,1)"
+colorutil.rgb.to.hsl({r: 0, g: 0, b: 255, a:255}) // {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}
+colorutil.rgb.to.hsv({r: 0, g: 0, b: 255, a:255}) // {h: 0.6666666666666666, s: 1, v: 1, a: 1}
+colorutil.rgb.to.uintabgr({r: 0, g: 0, b: 255, a:0x7f}) // 2147418112
+colorutil.rgb.to.uintabgrOpaque({r: 0, g: 0, b: 255, a:0x7f}) // 4294901760
+colorutil.rgb.to.intabgr({r: 0, g: 0, b: 255, a:0x7f}) // 2147418112
+colorutil.rgb.to.intabgrOpaque({r: 0, g: 0, b: 255, a:0x7f}) // -65536
+colorutil.rgb.to.uintrgba({r: 0, g: 0, b: 255, a:0x7f}) // 65407
+colorutil.rgb.to.intrgba({r: 0, g: 0, b: 255, a:0x7f}) // 65407
 
-ColorUtil.hex.toRgb('#00FF00');
-// output: {r: 0, g: 255, b: 0, a: 255}
+// hsl
+colorutil.hsl.to.rgb({h: 4/6, s: 1, l: 0.5, a: 1}) // {r: 0, g: 0, b: 255, a: 255}
+colorutil.hsl.to.hsv({h: 4/6, s: 1, l: 0.5, a: 1}) // {h: 0.6666666666666666, s: 1, v: 1, a: 1}
+colorutil.hsl.to.csshsl({h: 4/6, s: 1, l: 0.5, a: 1}) // "hsl(240,100%,50%)"
+colorutil.hsl.to.csshsla({h: 4/6, s: 1, l: 0.5, a: 1}) // "hsla(240,100%,50%,1)"
 
-ColorUtil.any.toRgbaString('hsl(180, 50%, 60%)');
-// output: "rgba(102,204,204,1)"
+// hsv
+colorutil.hsv.to.rgb({h: 4/6, s: 1, v: 1, a: 1}) // {r: 0, g: 0, b: 255, a: 255}
+colorutil.hsv.to.hsl({h: 4/6, s: 1, v: 1, a: 1}) // {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}
 
-ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
-// output: [['#ff0000', '#00ff00'], '#0000ff']
+// hex (sub type of rgb)
+colorutil.hex.to.rgb("#0000ff") // {r: 0, g: 0, b: 255, a: 255}
+colorutil.hex.to.rgb("#0000ff", 0x7f) // {r: 0, g: 0, b: 255, a: 127}
+colorutil.hex.to.int("#0000ff") // 255
+colorutil.hex.to.cssrgb("#0000ff") // "rgb(0,0,255)"
+colorutil.hex.to.cssrgba("#0000ff") // "rgba(0,0,255,1)"
+colorutil.hex.to.cssrgba("#0000ff", 0x7f) // "rgba(0,0,255,127)"
+
+// int (sub type of rgb)
+colorutil.int.to.rgb(0x0000ff) // {r: 0, g: 0, b: 255, a: 255}
+colorutil.int.to.rgb(0x0000ff, 0x7f) // {r: 0, g: 0, b: 255, a: 127}
+colorutil.int.to.hex(0x0000ff) // "#0000ff"
+colorutil.int.to.cssrgb(0x0000ff) // "rgb(0,0,255)"
+colorutil.int.to.cssrgba(0x0000ff) // "rgba(0,0,255,1)"
+colorutil.int.to.cssrgba(0x0000ff, 0x7f) // "rgba(0,0,255,127)"
+
+// intabgr (sub type of rgb)
+colorutil.intrgba.to.rgb(65407) // {r: 0, g: 0, b: 255, a: 127}
+
+// intabgr (subtype of rgb)
+colorutil.intabgr.to.rgb(2147418112) // {a: 127, b: 255, g: 0, r: 0}
+
+// cssrgb (subtype of rgb)
+colorutil.cssrgb.to.rgb("rgb(0, 0, 255)") // {r: 0, g: 0, b: 255, a: 255}
+colorutil.cssrgb.to.rgb("rgb(0, 0, 255)", 0x7f) // {r: 0, g: 0, b: 255, a: 127}
+colorutil.cssrgb.to.int("rgb(0, 0, 255)") // 255
+colorutil.cssrgb.to.hex("rgb(0, 0, 255)") // "#0000ff"
+
+// cssrgba (subtype of rgb)
+colorutil.cssrgba.to.rgb("rgb(0, 0, 255, 0.5)") // {r: 0, g: 0, b: 255, a: 127}
+colorutil.cssrgba.to.int("rgb(0, 0, 255, 0.5)") // 255
+colorutil.cssrgba.to.hex("rgb(0, 0, 255, 0.5)") // "#0000ff"
+
+// csshsl (subtype of hsl)
+colorutil.csshsl.to.hsl("hsl(240, 100%, 50%)") // {h: 0.6666666666666666, s: 1, l: 0.5, a: 1}
+colorutil.csshsl.to.hsl("hsl(240, 100%, 50%)", 0.5) // {h: 0.6666666666666666, s: 1, l: 0.5, a: 0.5}
+
+// csshsla (subtype of hsl)
+colorutil.csshsla.to.hsl("hsl(240, 100%, 50%, 0.5)") // {h: 0.6666666666666666, s: 1, l: 0.5, a: 0.5}
 ```
+
+### Mass conversions
+When you have a lot of colors that need to be converted then you can use `convert` function together with the basic conversion functions.
+```javascript
+let colors = [0xff0000, 0xb2ff00, 0x00ff99, 0x0011ff];
+colorutil.convert(colors, colorutil.int.to.rgb) // [{r: 255, g: 0, b: 0, a: 255},...]
+```
+
+Multidimensional arrays are fine as well. Returned array structure is retained.
+```javascript
+let colors = [[0xff0000, 0xb2ff00], [0x00ff99, 0x0011ff]];
+colorutil.convert(colors, colorutil.int.to.rgb) // [[{r: 255, g: 0, b: 0, a: 255},...],[...]]
+```
+
+Multiple conversion are also supported. Since a color cannot be directly converted e.g. from int to hsv, first convert from int to rgb then from rgb to hsv.
+```javascript
+let colors = [0xff0000, 0xb2ff00, 0x00ff99, 0x0011ff];
+colorutil.convert(colors,
+    colorutil.int.to.rgb,
+    colorutil.rgb.to.hsv) // [{h: 0, s: 1, v: 1, a: 1},...]
+```
+
+Using `colorutil.any` is a useful way to do mass conversion for any type of colors, though it is not too fast (`colorutil.any` does not support 32-bit integers: intabgr, intrgba)
+```javascript
+let colors = [
+    {h: 1/6, s: 1, v: 1, a: 1},
+    {r: 0, g: 0, b: 255, a: 255},
+    0xb2ff00,
+    "hsl(200, 100%, 50%)"
+];
+colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 255},...]
+```
+
+### Easy but slow option
+`colorutil.color` takes any type of color and provide getters for each type. It calculates the color only when getter is called and stores that color so it's not caclulcated next time. (`colorutil.color` does not support 32-bit integers: intabgr, intrgba)
+```javascript
+let color = colorutil.color(0xff0000);
+
+color.int // 16711680
+color.hex // "#ff0000"
+color.rgb // {r: 255, g: 0, b: 0, a: 255}
+color.cssrgb // "rgb(255,0,0)"
+color.cssrgba // "rgba(255,0,0,1)"
+color.hsl // {h: 0, s: 1, l: 0.5, a: 1}
+color.csshsl // "hsl(0,100%,50%)"
+color.csshsla // "hsla(0,100%,50%,1)"
+color.hsv // {h: 0, s: 1, v: 1, a: 1}
+```
+
+### Type checking
+
+
+### hue
+
+
 ### Gradients
 The main difference to native canvas gradients is that ColorUtil gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. ColorUtil gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
 
