@@ -221,9 +221,6 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
 | ---               | ---       | ---           | ---
 | colors            | Array     |               | Array of colors. There are multiple types of data structures. Data structure defines whether the gradient is one or two dimensional.
 | type              | string    | `linear`      | Gradient type. Possible values: `linear` `circular`
-| verify            | boolean   | `false`       | By default data structure is identified from first color item and expecting that rest of the data follows the same structure. If set to true, each color in colors property is tested and an error is thrown if data structure is not consistent.
-| validate          | boolean   | `true`        | Add missing color stops and convert color data structure to internal data structure. Can be set to false if color data is either in Data structure 1 or Data structure 2 format and all the color stops have been specified in color data.
-| addDefaultColors  | boolean   | `true`        | Add default colors to fill the missing values. This allows using e.g. {r:0xff} as a red value for Rgb gradient without the need for defining the rest of the color components. Use `defaultColor` property to specify a color. Can be set to false if all the color components have been specified in color data.
 | defaultColor      | Object    | {r:0,g:0,b:0,a:255}, {h:0,s:0,l:0,a:1}, {h:0,s:0,v:0,a:1} | Default color used to fill the missing color components in gradient colors. Default color depends on gradient's color type.
 | width             | number    | 1             | Width of the gradient in pixels.
 | height            | number    | 1             | Height of the gradient in pixels.
@@ -238,6 +235,11 @@ Now in order to draw a gradient you can create a canvas and draw each pixel on i
 | rotation          | number    | 0             | Rotation of the gradient. Value in range 0 to 1 where 0.25 is 90 degrees and 0.5 is 180 degrees.
 | repeatX           | function  | `colorutil.repeat.repeat` | X repetition of gradient when calculating a color that is out of normal range 0 to 1.
 | repeatY           | function  | `colorutil.repeat.repeat` | Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
+<!---
+| verify            | boolean   | `false`       | By default data structure is identified from first color item and expecting that rest of the data follows the same structure. If set to true, each color in colors property is tested and an error is thrown if data structure is not consistent.
+| validate          | boolean   | `true`        | Add missing color stops and convert color data structure to internal data structure. Can be set to false if color data is either in Data structure 1 or Data structure 2 format and all the color stops have been specified in color data.
+| addDefaultColors  | boolean   | `true`        | Add default colors to fill the missing values. This allows using e.g. {r:0xff} as a red value for Rgb gradient without the need for defining the rest of the color components. Use `defaultColor` property to specify a color. Can be set to false if all the color components have been specified in color data.
+-->
 
 #### Gradient color data structures
 There are couple of supported data structures. You may choose the one you like. `createGradient` function converts the data internally to structure 1 or structure 2.
