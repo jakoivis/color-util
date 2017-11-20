@@ -88,33 +88,20 @@ export default new function() {
         let centerX = 0;
         let centerY = 0;
 
-        if (!gradientData.isMatrix && type === 'linear') {
+        if (type === 'circular') {
 
-            fn = this.linearGradient;
-            centerX = options.centerX;
-            centerY = options.centerY;
-
-        } else if (gradientData.isMatrix && type === 'linear') {
-
-            fn = this.linearMatrixGradient;
-            centerX = options.centerX;
-            centerY = options.centerY;
-
-        } else if (!gradientData.isMatrix && type === 'circular') {
-
-            fn = this.circularGradient;
-
-        } else if (gradientData.isMatrix && type === 'circular') {
-
-            fn = this.circularMatrixGradient;
+            fn = gradientData.isMatrix ? this.circularMatrixGradient : this.circularGradient;
 
         } else {
 
-            return null;
+            centerX = options.centerX || 0;
+            centerY = options.centerY || 0;
+
+            fn = gradientData.isMatrix ? this.linearMatrixGradient : this.linearGradient;
         }
 
-        let width = options.width || 1;
-        let height = options.height || 1;
+        let width = options.width || 100;
+        let height = options.height || 100;
         let scaleX = options.scaleX || options.scale || 1;
         let scaleY = options.scaleY || options.scale || 1;
         let sizeX = width * scaleX;
@@ -124,14 +111,28 @@ export default new function() {
 
         if (options.centralize) {
 
-            translateX = 0.5 / scaleX - centerX;
-            translateY = 0.5 / scaleY - centerY;
+            if (type === 'linear') {
+
+                // set center point to center of the gradient
+                centerX = 0.5;
+                centerY = 0.5;
+            }
+
+            // translate gradient to the center and adjust with scaling (0.5 / scale)
+            // then translate normally
+            translateX = (0.5 / scaleX + translateX) - centerX;
+            translateY = (0.5 / scaleY + translateY) - centerY;
+
+        } else {
+
+            translateX = translateX - centerX;
+            translateY = translateY - centerY;
         }
 
         let gradientFunctionOptions = {
             colors: colors,
-            centerX: options.centerX || 0,
-            centerY: options.centerY || 0,
+            centerX: centerX || 0,
+            centerY: centerY || 0,
             translateX: translateX,
             translateY: translateY,
             rotation: options.rotation || 0,

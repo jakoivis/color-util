@@ -217,22 +217,24 @@ gradient(1, 1); // {r: 0, g: 255, b: 255, a: 255}
 Now in order to draw a gradient you can create a canvas and draw each pixel on it. [Examples on how to do that can be found here.](https://github.com/jakoivis/color-util/tree/master/example)
 
 #### Gradient options
+Gradient's width and height specify the size of the gradient in pixels, rest of the numerical properties are in normalized range 0 to 1.
+
 |                   |           | Default       | Description
 | ---               | ---       | ---           | ---
 | colors            | Array     |               | Array of colors. There are multiple types of data structures. Data structure defines whether the gradient is one or two dimensional.
 | type              | string    | `linear`      | Gradient type. Possible values: `linear` `circular`
 | defaultColor      | Object    | {r:0,g:0,b:0,a:255}, {h:0,s:0,l:0,a:1}, {h:0,s:0,v:0,a:1} | Default color used to fill the missing color components in gradient colors. Default color depends on gradient's color type.
-| width             | number    | 1             | Width of the gradient in pixels.
-| height            | number    | 1             | Height of the gradient in pixels.
+| width             | number    | 100           | Width of the gradient in pixels.
+| height            | number    | 100           | Height of the gradient in pixels.
 | centerX           | number    | 0             | Center position of a gradient. Value 0 is the left edge of the gradient and 1 is the right edge. centerX can be used with linear type of gradients to set point of rotation. This has no effect on circular gradients since the center is always at the center of the circle.
 | centerY           | number    | 0             | Center position of a gradient. Value 0 is the top edge of the gradient and 1 is the bottom edge. centerY can be used with linear type of gradients to set point of rotation. This has no effect on circular gradients since the center is always at the center of the circle.
 | scale             | number    | 1             | Scale of the gradient on both x and y-axises. Value 1 is normal size and 2 is double size.
 | scaleX            | number    | 1             | Scale of the gradient on x-axis.
 | scaleY            | number    | 1             | Scale of the gradient on y-axis.
-| translateX        | number    | 0             | Translate gradient along x-axis.
-| translateY        | number    | 0             | Translate gradient along y-axis.
-| centralize        | number    | `false`       | Overrides translate values and automatically adjusts the positioning to the center.
-| rotation          | number    | 0             | Rotation of the gradient. Value in range 0 to 1 where 0.25 is 90 degrees and 0.5 is 180 degrees.
+| translateX        | number    | 0             | Translate gradient along x-axis. Value 0.5 is half the gradient width, value 1 is gradient width etc.
+| translateY        | number    | 0             | Translate gradient along y-axis. Value 0.5 is half the gradient height, value 1 is gradient height etc.
+| centralize        | number    | `false`       | Automatically adjusts the center and translation to centralize gradient.
+| rotation          | number    | 0             | Rotation of the gradient. Value in range 0 to 1 where 0.25 is 90 degrees and 0.5 is 180 degrees. Gradient is rotated around the center point and can be adjusted with `centerX` and `centerY`.
 | repeatX           | function  | `colorutil.repeat.repeat` | X repetition of gradient when calculating a color that is out of normal range 0 to 1.
 | repeatY           | function  | `colorutil.repeat.repeat` | Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
 <!---
