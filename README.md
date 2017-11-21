@@ -233,7 +233,7 @@ Gradient's width and height specify the size of the gradient in pixels, rest of 
 | scaleY            | number    | 1             | Scale of the gradient on y-axis.
 | translateX        | number    | 0             | Translate gradient along x-axis. Value 0.5 is half the gradient width, value 1 is gradient width etc.
 | translateY        | number    | 0             | Translate gradient along y-axis. Value 0.5 is half the gradient height, value 1 is gradient height etc.
-| centralize        | number    | `false`       | Automatically adjusts the center and translation to centralize gradient.
+| centralize        | number    | `false`       | Automatically adjusts the center and translation to centralize gradient. Translation will translate relative to the center point.
 | rotation          | number    | 0             | Rotation of the gradient. Value in range 0 to 1 where 0.25 is 90 degrees and 0.5 is 180 degrees. Gradient is rotated around the center point and can be adjusted with `centerX` and `centerY`.
 | repeatX           | function  | `colorutil.repeat.repeat` | X repetition of gradient when calculating a color that is out of normal range 0 to 1.
 | repeatY           | function  | `colorutil.repeat.repeat` | Y repetition of gradient when calculating a color that is out of normal range 0 to 1.

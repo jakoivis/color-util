@@ -109,6 +109,18 @@ export default new function() {
         let translateX = options.translateX || 0;
         let translateY = options.translateY || 0;
 
+        if (type === 'circular') {
+
+            // circular gradient size is double compared to linear gradient
+            // compensate to make a circle diameter fit insde the width and height
+            scaleX = scaleX / 2;
+            scaleY = scaleY / 2;
+            sizeX = width * scaleX;
+            sizeY = height * scaleY;
+            translateX = translateX * 2;
+            translateY = translateY * 2;
+        }
+
         if (options.centralize) {
 
             if (type === 'linear') {
