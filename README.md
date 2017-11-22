@@ -11,9 +11,9 @@ Color format conversion, gradients colors, etc
 - [Installation & import](#installation--import)
 - [Usage](#usage)
   * [Color format conversion](#color-format-conversion)
+    + [Easy color format conversion with `colorutil.color`](#easy-color-format-conversion-with-colorutilcolor)
     + [Basic color format conversion methods](#basic-color-format-conversion-methods)
     + [Mass color format conversion with `colorutil.convert`](#mass-color-format-conversion-with-colorutilconvert)
-    + [Easy color format conversion with `colorutil.color`](#easy-color-format-conversion-with-colorutilcolor)
   * [Supported color format syntaxes](#supported-color-format-syntaxes)
   * [Type checking](#type-checking)
   * [hue](#hue)
@@ -60,7 +60,7 @@ color.csshsla // "hsla(0,100%,50%,1)"
 color.hsv // {h: 0, s: 1, v: 1, a: 1}
 
 // change the color value to blue
-color.set({h:4/6, s:1, l:0.5})
+color = colorutil.color({h:4/6, s:1, l:0.5})
 color.rgb // {r: 0, g: 0, b: 255, a: 255}
 
 // creates a clone. Same as color.clone()

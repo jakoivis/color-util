@@ -221,4 +221,14 @@ describe('Utils', () => {
         expect(Utils.lowerFirst(null)).to.equal(null);
         expect(Utils.lowerFirst('')).to.equal('');
     });
+
+    it('should clone', () => {
+
+        Utils.clone(1).should.equal(1);
+        Utils.clone('test').should.equal('test');
+
+        let obj = {a:1};
+        expect(Utils.clone(obj) === obj).to.be.false;
+        Utils.clone(obj).should.eql(obj);
+    })
 });

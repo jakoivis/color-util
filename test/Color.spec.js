@@ -32,18 +32,16 @@ describe('Color', () => {
         color.csshsla.should.equal('hsla(0,100%,50%,1)');
     });
 
-    it('should set color', () => {
+    it('should cache colors', () => {
 
         let color = new Color(0xFF0000);
 
-        color.hex.should.equal('#ff0000');
+        color.hex;
 
-        color.set({h:0.5, s:1, l:0.5});
-
-        color.hex.should.equal('#00ffff');
-
-        color.set(0x00FF00).hex.should.equal('#00ff00');
-    });
+        color._primaryColor.should.equal(0xFF0000);
+        color._values['int'].should.equal(0xFF0000);
+        color._values['hex'].should.equal('#ff0000');
+    })
 
     it('should have default color', () => {
 
@@ -55,25 +53,60 @@ describe('Color', () => {
     it('should clone', () => {
 
         let color1 = new Color(0xFF0000);
+
+        color1.hex;
+
         let color2 = color1.clone();
 
-        color1.set(0x00FFFF);
+        color2.rgb;
 
-        color1.hex.should.equal('#00ffff');
+        expect(color1 === color2).to.be.false;
+
+        color1._primaryColor.should.equal(0xFF0000);
+        color1._values['int'].should.equal(0xFF0000);
+        color1._values['hex'].should.equal('#ff0000');
+        expect(color1._values['rgb']).to.be.undefined;
+
+        color2._primaryColor.should.equal(0xFF0000);
+        color2._values['int'].should.equal(0xFF0000);
+        color2._values['hex'].should.equal('#ff0000');
+        color2._values['rgb'].should.eql({r:255, g:0, b:0, a:255});
+
+        color1.hex.should.equal('#ff0000');
         color2.hex.should.equal('#ff0000');
     });
 
     it('should get hue', () => {
 
         let color = new Color(0x550000);
+        color.hue().int.should.equal(0xff0000);
 
-        color.hue.int.should.equal(0xff0000);
+        color = new Color(0xe214dc);
+        color.hue().int.should.equal(0xff00f7);
 
-        color.set(0xe214dc).hue.int.should.equal(0xff00f7);
+        let color1 = new Color(0x005500);
+        let color2 = color1.hue();
+
+        expect(color1 === color2).to.be.false;
     });
 
-    it('should set hue', () => {
+    it('should get hueFromColor', () => {
 
         new Color(0x005500).hueFromColor(0xe214dc).hex.should.equal('#550052');
+
+        let color1 = new Color(0x005500);
+        let color2 = color1.hueFromColor(0xe214dc);
+
+        expect(color1 === color2).to.be.false;
+    });
+
+    it('should get hueFromValue', () => {
+
+        new Color(0x005500).hueFromValue(0.8381877022653721).hex.should.equal('#550052');
+
+        let color1 = new Color(0x005500);
+        let color2 = color1.hueFromValue(1);
+
+        expect(color1 === color2).to.be.false;
     });
 });
