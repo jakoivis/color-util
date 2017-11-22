@@ -19,6 +19,11 @@ class Color {
 
     set(color) {
 
+        if (color instanceof Color) {
+
+            color = color._primaryColor;
+        }
+
         let type = ConversionUtil.getColorType(color, TYPES);
 
         if (!type) {

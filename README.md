@@ -44,6 +44,31 @@ or
 
 ### Color format conversion
 
+#### Easy color format conversion with `colorutil.color`
+`colorutil.color` takes any type of color and provide getters for each type. It calculates the color only when getter is called and stores that color so it's not caclulcated next time. (`colorutil.color` does not support 32-bit integers: intabgr, intrgba)
+```javascript
+let color = colorutil.color(0xff0000);
+
+color.int // 16711680
+color.hex // "#ff0000"
+color.rgb // {r: 255, g: 0, b: 0, a: 255}
+color.cssrgb // "rgb(255,0,0)"
+color.cssrgba // "rgba(255,0,0,1)"
+color.hsl // {h: 0, s: 1, l: 0.5, a: 1}
+color.csshsl // "hsl(0,100%,50%)"
+color.csshsla // "hsla(0,100%,50%,1)"
+color.hsv // {h: 0, s: 1, v: 1, a: 1}
+
+// change the color value to blue
+color.set({h:4/6, s:1, l:0.5})
+color.rgb // {r: 0, g: 0, b: 255, a: 255}
+
+// creates a clone. Same as color.clone()
+let color2 = colorutil.color(color);
+color2.hex // "#0000ff"
+
+```
+
 #### Basic color format conversion methods
 These are pure conversion functions without any intelligence. If you have massive amount of colors and you need to convert them fast then these are the ones you want to use. You have to know the source type of a color and a color needs to be in valid format.
 
@@ -146,27 +171,6 @@ let colors = [
     "hsl(200, 100%, 50%)"
 ];
 colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 255},...]
-```
-
-#### Easy color format conversion with `colorutil.color`
-`colorutil.color` takes any type of color and provide getters for each type. It calculates the color only when getter is called and stores that color so it's not caclulcated next time. (`colorutil.color` does not support 32-bit integers: intabgr, intrgba)
-```javascript
-let color = colorutil.color(0xff0000);
-
-color.int // 16711680
-color.hex // "#ff0000"
-color.rgb // {r: 255, g: 0, b: 0, a: 255}
-color.cssrgb // "rgb(255,0,0)"
-color.cssrgba // "rgba(255,0,0,1)"
-color.hsl // {h: 0, s: 1, l: 0.5, a: 1}
-color.csshsl // "hsl(0,100%,50%)"
-color.csshsla // "hsla(0,100%,50%,1)"
-color.hsv // {h: 0, s: 1, v: 1, a: 1}
-
-// change the color value to blue
-color.set({h:4/6, s:1, l:0.5})
-
-color.rgb // {r: 0, g: 0, b: 255, a: 255}
 ```
 
 ### Supported color format syntaxes

@@ -7,6 +7,16 @@ let expect = require('chai').expect;
 
 describe('Color', () => {
 
+    it('should return same clone if argument is instance of Color', () => {
+
+        let color = new Color(0xFF0000);
+        let color2 = new Color(color);
+
+        expect(color === color2).to.be.false;
+
+        color2.int.should.equal(0xFF0000);
+    });
+
     it('should provide getters for all color formats', () => {
 
         let color = new Color(0xFF0000);
