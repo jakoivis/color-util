@@ -9,6 +9,9 @@ Can be done in future release without braking backward compatibility
 - document rotation center behavior on scaling (+translate??)
 - example for generating any kind of gradient with specific colors
 - take transformations apart from the gradients and cache some of the calculations
+- optimise cache and compare benchmark
+    - by not throwing away the converted colors in when converting long color path
+    - by utilizing existing cache when converting colors
 
 Maybe
 - color mix. functionality is basically there already

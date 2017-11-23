@@ -8,6 +8,9 @@ import _ from './Utils';
 /**
  * Immutable class.
  *
+ * - Functions always return new instance of Color
+ * - Getters always return a color value
+ *
  * @class Color
  *
  * @private
@@ -19,7 +22,7 @@ class Color {
         if (color instanceof Color) {
 
             this._primaryColor = _.clone(color._primaryColor);
-            this._values = _.clone(color._values);
+            this._cache = this._cloneCache(color);
 
         } else {
 
@@ -32,13 +35,13 @@ class Color {
             }
 
             this._primaryColor = color;
-            this._values = {};
-            this._values[type.name] = color;
+            this._cache = {};
+            this._cache[type.name] = color;
         }
     }
 
     /**
-     * Create clone of this color
+     * Create clone of this color.
      *
      * @return     {Color}
      */
@@ -81,37 +84,65 @@ class Color {
 
     /**
      * Create new color which is the hue color of this color.
+     * Cached
      *
      * @return     {Color}
      */
     hue() {
 
-        let parts = Gradient.partialGradient(Rgb.hueColors(), this.hsv.h);
-        let blend = Rgb.mix(parts.item1, parts.item2, parts.position);
+        this._cacheValue('hue', () => {
 
-        return new Color(blend);
+            let parts = Gradient.partialGradient(Rgb.hueColors(), this.hsv.h);
+            let blend = Rgb.mix(parts.item1, parts.item2, parts.position);
+
+            return new Color(blend);
+        });
+
+        return this._cache.hue;
     }
 }
+
+Color.prototype._cacheValue = function(id, getCachedValue) {
+
+    if (!_.has(this._cache, id)) {
+
+        let value = getCachedValue();
+
+        this._cache[id] = value;
+    }
+};
+
+Color.prototype._cloneCache = function(color) {
+
+    let hue = color._cache.hue;
+    let cache = _.clone(color._cache);
+
+    if (hue) {
+
+        cache.hue = hue.clone();
+    }
+
+    return cache;
+};
 
 for (let type of TYPES) {
 
     let typeName = type.name;
-    // let property = type.name;
 
     Object.defineProperty(Color.prototype, typeName, {
 
         get: function() {
 
-            let hasValue = _.has(this._values, typeName);
+            this._cacheValue(typeName, () => {
 
-            if (!hasValue) {
+                return ConversionUtil.convertAny(this._primaryColor, type, TYPES);
+            });
 
-                this._values[typeName] = ConversionUtil.convertAny(this._primaryColor, type, TYPES);
-            }
-
-            return this._values[typeName];
+            return this._cache[typeName];
         }
     });
 }
+
+
 
 export default Color;
