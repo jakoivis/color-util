@@ -107,13 +107,19 @@ describe('Color', () => {
         color1._cache['hsv'].should.eql({h:1/3, s:1, v:1/3, a:1});
     });
 
-    it('should clone hue from cache when cloning color', () => {
+    it('should clone hue from cache when cloning a color', () => {
 
         let color1 = new Color(0x005500);
-        let color2 = color1.hue(); // add to cache
-        let color3 = color1.clone();
 
-        color1._cache['hue'].should.eql(color3._cache['hue']);
+        color1.hue(); // add to cache
+
+        let color2 = color1.clone();
+
+        expect(color1._cache.hue === color2._cache.hue).to.be.false;
+        color1._cache.int.should.equal(0x005500);
+        color2._cache.int.should.equal(0x005500);
+        color1._cache.hue._cache.rgb.should.eql({r:0, g:255, b:0, a:255});
+        color2._cache.hue._cache.rgb.should.eql({r:0, g:255, b:0, a:255});
     });
 
     it('should get hueFromColor', () => {
