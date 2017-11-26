@@ -11,7 +11,7 @@
     <canvas id='canvas' style='position:absolute;cursor:crosshair'></canvas>
 </div>
 
-<input type='range' id='hueSlider' value='0' min='0' max='1' step='0.01' oninput='onHueChange(this.value)' style='width:150px;'>
+<input type='range' id='hueSlider' value='0' min='0' max='1' step='0.01' onmousemove='onHueChange(this.value)' style='width:150px;'>
 
 <script>
 
@@ -23,6 +23,9 @@ let hueDiv = document.getElementById('hueColor');
 let canvas = document.getElementById('canvas');
 let dragging = false;
 
+// since the drawing the gradient is heavy process
+// here we draw overlay gray gradient once and
+// only change the hue layer under the canvas
 initGrayscaleOverlay();
 
 canvas.addEventListener('mousedown', function(event) {
@@ -33,6 +36,8 @@ document.body.addEventListener('mouseup', function() {
     dragging = false;
 });
 
+// the final color is calculated from the actual gradient
+// which contains the hue color
 document.body.addEventListener('mousemove', function(event) {
     if(!dragging) return;
 

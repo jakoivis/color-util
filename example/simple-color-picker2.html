@@ -10,17 +10,14 @@
 
 <script>
 
-let width = 150;
-let height = 150;
-let rgb = colorutil.int.to.rgb(0xFF0000);
-let hueRgb = colorutil.int.to.rgb(0xFF0000);
-let hueDiv = document.getElementById('hueColor');
+let width = 300;
+let height = 300;
 let canvas = document.getElementById('canvas');
 let dragging = false;
 
 let colors = [
     {
-        y: 0.1,
+        y: 0.03,
         colors: [
             {h:1, s:1, l:1},
             {h:0, s:1, l:1},
@@ -38,9 +35,8 @@ let gradient = colorutil.hsl.gradient({
     colors: colors,
     type: 'circular',
     centralize: true,
-    scale: 0.5,
-    width: 150,
-    height: 150,
+    width: width,
+    height: height,
     rotation: -0.125,
     repeatX: colorutil.repeat.repeat,
     repeatY: colorutil.repeat.stop
@@ -72,16 +68,6 @@ document.body.addEventListener('mousemove', function(event) {
     document.body.style.background = colorutil.rgb.to.cssrgb(rgb);
 });
 
-function onHueChange(hueValue) {
-
-    let hsv = colorutil.rgb.to.hsv(rgb);
-    hsv.h = hueValue;
-    rgb = colorutil.hsv.to.rgb(hsv);
-    hueRgb = colorutil.rgb.hue(rgb);
-
-    hueDiv.style.backgroundColor = colorutil.rgb.to.cssrgb(hueRgb);
-}
-
 function initHue() {
 
     let canvas = document.getElementById('canvas');
@@ -110,9 +96,11 @@ function initHue() {
     ctx.putImageData(imageData, 0, 0);
 
     // clean the edges
+
+    var size = width / 2;
     ctx.globalCompositeOperation = 'destination-atop';
     ctx.beginPath();
-    ctx.arc(76, 76, 74, 0, 2 * Math.PI);
+    ctx.arc(size, size, size, 0, 2 * Math.PI);
     ctx.fillStyle = 'red';
     ctx.fill();
 }

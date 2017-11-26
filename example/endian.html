@@ -9,25 +9,25 @@
 
 <script>
 
-let width = 300;
-let height = 300;
+var width = 300;
+var height = 300;
 
-let canvas = document.getElementById('canvas');
-let ctx = canvas.getContext('2d');
-let imageData  = ctx.createImageData(width, height);
-let buffer = imageData.data.buffer;
-let uint32View = new Uint32Array(buffer);
-let uint8CView = new Uint8ClampedArray(buffer);
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var imageData  = ctx.createImageData(width, height);
+var buffer = imageData.data.buffer;
+var uint32View = new Uint32Array(buffer);
+var uint8CView = new Uint8ClampedArray(buffer);
 
 canvas.width = width;
 canvas.height = height;
 
 // determine endianness outside the loop.
 // here we use intabgr for little-endian and intrgba for big-endian systems
-let toInt32 = colorutil.endian === 0 ?
+var toInt32 = colorutil.endian === 0 ?
     colorutil.rgb.to.intabgr : colorutil.rgb.to.intrgba;
 
-let gradient = colorutil.rgb.gradient({
+var gradient = colorutil.rgb.gradient({
     width: width,
     height: height,
     colors: colorutil.convert(
@@ -36,11 +36,11 @@ let gradient = colorutil.rgb.gradient({
     )
 });
 
-for(let x = 0; x < width; x++) {
+for(var x = 0; x < width; x++) {
 
-    for(let y = 0; y < height; y++) {
+    for(var y = 0; y < height; y++) {
 
-        let rgb = gradient(x, y);
+        var rgb = gradient(x, y);
 
         uint32View[y * width + x] = toInt32(rgb);
     }

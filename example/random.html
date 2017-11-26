@@ -17,7 +17,10 @@ let colors = colorutil.convert(getRandomColors(), colorutil.int.to.rgb);
 let gradient1 = colorutil.rgb.gradient({
     colors: colors,
     width: 300,
-    height: 300
+    height: 300,
+    onValidationComplete: function(colors) {
+        console.log(colors);
+    }
 });
 
 example.drawOnCanvas(300, 300, gradient1, 'canvas1');
@@ -27,7 +30,6 @@ fixColorsForCircle(colors);
 let gradient2 = colorutil.rgb.gradient({
     colors: colors,
     type: 'circular',
-    scale: 0.5,
     centralize: true,
     width: 300,
     height: 300
