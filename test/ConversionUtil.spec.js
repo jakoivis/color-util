@@ -17,9 +17,9 @@ describe('conversionUtils', () => {
             ConversionUtil.getColorType('#FF0000', TYPES).should.equal(cu.hex);
         });
 
-        it('should return null when no type matches found', () => {
+        it('should return undefined when no type matches found', () => {
 
-            expect(ConversionUtil.getColorType('0xff0000', TYPES)).to.equal(null);
+            expect(ConversionUtil.getColorType('0xff0000', TYPES)).to.equal(undefined);
         });
     });
 

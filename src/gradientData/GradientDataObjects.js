@@ -11,6 +11,11 @@ one dimensional data structure for normal gradients
 */
 export default class {
 
+    static get name () {
+
+        return 'Objects';
+    }
+
     static get isMatrix() {
 
         return false;
@@ -36,7 +41,7 @@ export default class {
 
     static _testStructureAllSamples(colors) {
 
-        return _.findIndex(colors, 'y') === -1;
+        return _.findPropertyIndex(colors, 'y') === -1;
     }
 
     static validate(colors) {

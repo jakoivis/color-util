@@ -24,6 +24,11 @@ two dimensional data structure for matrix gradients
 */
 export default class {
 
+    static get name () {
+
+        return 'ObjectsWithColors';
+    }
+
     static get isMatrix() {
 
         return true;
@@ -56,7 +61,9 @@ export default class {
             return false;
         }
 
-        for (let subSample of subSamples) {
+        for (let i = 0; i < subSamples.length; i++) {
+
+            let subSample = subSamples[i];
 
             isValid = _.isObject(subSample);
 

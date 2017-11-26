@@ -16,6 +16,11 @@ Must have at least one y-value specified.
 */
 export default class {
 
+    static get name () {
+
+        return 'ObjectsMatrix';
+    }
+
     static get isMatrix() {
 
         return true;
@@ -41,7 +46,7 @@ export default class {
 
     static _testStructureAllSamples(colors) {
 
-        return _.findIndex(colors, 'y') > -1;
+        return _.findPropertyIndex(colors, 'y') > -1;
     }
 
     static validate(colors) {
@@ -52,7 +57,7 @@ export default class {
         let prevY = 0;
         let y;
 
-        for (let item of colors) {
+        _.forEach(colors, (item) => {
 
             y = _.isNumber(item.y) ? item.y : prevY;
 
@@ -73,7 +78,7 @@ export default class {
             prevY = y;
 
             delete item.y;
-        };
+        });
 
         return GradientDataUtil.addMissingStopsXY(data);
     }

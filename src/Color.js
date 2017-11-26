@@ -125,7 +125,7 @@ Color.prototype._cloneCache = function(color) {
     return cache;
 };
 
-for (let type of TYPES) {
+_.forEach(TYPES, (type) => {
 
     let typeName = type.name;
 
@@ -141,7 +141,7 @@ for (let type of TYPES) {
             return this._cache[typeName];
         }
     });
-}
+});
 
 
 

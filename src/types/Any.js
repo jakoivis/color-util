@@ -5,7 +5,7 @@ import {TYPES} from './types';
 
 let Any = {to:{}};
 
-for (let type of TYPES) {
+_.forEach(TYPES, (type) => {
 
     let name = _.lowerFirst(type.name);
 
@@ -13,7 +13,7 @@ for (let type of TYPES) {
 
         return ConversionUtil.convertAny(color, type, TYPES);
     };
-}
+});
 
 export default Any;
 

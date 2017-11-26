@@ -7,35 +7,35 @@ export default class {
 
         let keys = Object.keys(defaultColor);
 
-        for (let item of colors) {
+        _.forEach(colors, (item) => {
 
-            for (let color of item.colors) {
+            _.forEach(item.colors, (color) => {
 
-                for (let key of keys) {
+                _.forEach(keys, (key) => {
 
                     if (!_.has(color, key)) {
 
                         color[key] = defaultColor[key];
                     }
-                }
-            }
-        }
+                });
+            });
+        });
     }
 
     static addDefaultColors(colors, defaultColor) {
 
         let keys = Object.keys(defaultColor);
 
-        for (let color of colors) {
+        _.forEach(colors, (color) => {
 
-            for (let key of keys) {
+            _.forEach(keys, (key) => {
 
                 if (!_.has(color, key)) {
 
                     color[key] = defaultColor[key];
                 }
-            }
-        }
+            });
+        });
     }
 
     static verify(colors, validatorClass) {
@@ -52,7 +52,9 @@ export default class {
 
     static _verifyExpectedDataStructureInAllSamples(colors, validatorClass) {
 
-        for (let sample of colors) {
+        for (let i = 0; i < colors.length; i++) {
+
+            let sample = colors[i];
 
             if (!validatorClass.testStructureSingleSample(sample)) {
 
@@ -67,10 +69,10 @@ export default class {
 
         data = this.addMissingStops(data, 'y');
 
-        for (var i = 0; i < data.length; i++) {
+        _.forEach(data, (item) => {
 
-            data[i].colors = this.addMissingStops(data[i].colors, 'x');
-        }
+            item.colors = this.addMissingStops(item.colors, 'x');
+        });
 
         return data;
     }
@@ -90,7 +92,7 @@ export default class {
 
         // always set first and last indexes to 0 and 1
 
-        let firstProperty = _.findIndex(array, property);
+        let firstProperty = _.findPropertyIndex(array, property);
         let firstItem = array[0];
         let newItem;
 
@@ -106,7 +108,7 @@ export default class {
             array.unshift(newItem);
         }
 
-        let lastProperty = _.findLastIndex(array, property);
+        let lastProperty = _.findLastPropertyIndex(array, property);
         let lastItem = array[array.length-1];
 
         if (lastProperty < array.length - 1) {
@@ -127,8 +129,8 @@ export default class {
 
         while (end > -1) {
 
-            start = _.findIndex(array, property, start);
-            end = _.findIndex(array, property, start + 1);
+            start = _.findPropertyIndex(array, property, start);
+            end = _.findPropertyIndex(array, property, start + 1);
 
             if (end > -1) {
 

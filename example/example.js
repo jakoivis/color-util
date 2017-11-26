@@ -1,25 +1,25 @@
 
-let example = {
+var example = {
 
     drawOnCanvas: function(width, height, gradient, canvasId) {
 
         canvasId = canvasId || 'canvas';
 
-        let canvas = document.getElementById(canvasId);
-        let ctx = canvas.getContext('2d');
-        let imageData  = ctx.createImageData(width, height);
-        let buffer = imageData.data.buffer;
-        let uint32View = new Uint32Array(buffer);
-        let uint8CView = new Uint8ClampedArray(buffer);
+        var canvas = document.getElementById(canvasId);
+        var ctx = canvas.getContext('2d');
+        var imageData  = ctx.createImageData(width, height);
+        var buffer = imageData.data.buffer;
+        var uint32View = new Uint32Array(buffer);
+        var uint8CView = new Uint8ClampedArray(buffer);
 
         canvas.width = width;
         canvas.height = height;
 
-        for(let x = 0; x < width; x++) {
+        for(var x = 0; x < width; x++) {
 
-            for(let y = 0; y < height; y++) {
+            for(var y = 0; y < height; y++) {
 
-                let rgb = gradient(x, y);
+                var rgb = gradient(x, y);
 
                 uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
             }
@@ -34,22 +34,22 @@ let example = {
 
         canvasId = canvasId || 'canvas';
 
-        let canvas = document.getElementById(canvasId);
-        let ctx = canvas.getContext('2d');
-        let imageData  = ctx.createImageData(width, height);
-        let buffer = imageData.data.buffer;
-        let uint32View = new Uint32Array(buffer);
-        let uint8CView = new Uint8ClampedArray(buffer);
+        var canvas = document.getElementById(canvasId);
+        var ctx = canvas.getContext('2d');
+        var imageData  = ctx.createImageData(width, height);
+        var buffer = imageData.data.buffer;
+        var uint32View = new Uint32Array(buffer);
+        var uint8CView = new Uint8ClampedArray(buffer);
 
         canvas.width = width;
         canvas.height = height;
 
-        for(let x = 0; x < width; x++) {
+        for(var x = 0; x < width; x++) {
 
-            for(let y = 0; y < height; y++) {
+            for(var y = 0; y < height; y++) {
 
-                let hsv = gradient(x, y);
-                let rgb = colorutil.hsv.to.rgb(hsv);
+                var hsv = gradient(x, y);
+                var rgb = colorutil.hsv.to.rgb(hsv);
 
                 uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
             }
@@ -64,22 +64,22 @@ let example = {
 
         canvasId = canvasId || 'canvas';
 
-        let canvas = document.getElementById(canvasId);
-        let ctx = canvas.getContext('2d');
-        let imageData  = ctx.createImageData(width, height);
-        let buffer = imageData.data.buffer;
-        let uint32View = new Uint32Array(buffer);
-        let uint8CView = new Uint8ClampedArray(buffer);
+        var canvas = document.getElementById(canvasId);
+        var ctx = canvas.getContext('2d');
+        var imageData  = ctx.createImageData(width, height);
+        var buffer = imageData.data.buffer;
+        var uint32View = new Uint32Array(buffer);
+        var uint8CView = new Uint8ClampedArray(buffer);
 
         canvas.width = width;
         canvas.height = height;
 
-        for(let x = 0; x < width; x++) {
+        for(var x = 0; x < width; x++) {
 
-            for(let y = 0; y < height; y++) {
+            for(var y = 0; y < height; y++) {
 
-                let hsl = gradient(x, y);
-                let rgb = colorutil.hsl.to.rgb(hsl);
+                var hsl = gradient(x, y);
+                var rgb = colorutil.hsl.to.rgb(hsl);
 
                 uint32View[y * width + x] = colorutil.rgb.to.intabgr(rgb);
             }

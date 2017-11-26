@@ -39,14 +39,9 @@ export default class {
 
     static _getDataTypeFromFirstSample(colors) {
 
-        for (let dataType of GRADIENT_DATA_TYPES) {
+        return _.find(GRADIENT_DATA_TYPES, (dataType) => {
 
-            if (dataType.testStructure(colors)) {
-
-                return dataType;
-            }
-        }
-
-        return null;
+            return dataType.testStructure(colors);
+        });
     }
 };

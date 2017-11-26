@@ -1,4 +1,5 @@
 
+import _ from './Utils.js';
 
 export default class {
 
@@ -41,15 +42,10 @@ export default class {
 
     static getColorType(color, types) {
 
-        for (let type of types) {
+        return _.find(types, (type) => {
 
-            if (type.test(color)) {
-
-                return type;
-            }
-        }
-
-        return null;
+            return type.test(color);
+        });
     }
 
     static _getConversionPathThroughParentType(type, targetType, availableTypes) {
@@ -76,16 +72,15 @@ export default class {
         let result = [];
         let currentType, nextType;
 
-        for (let i = 0; i < combined.length; i++) {
+        _.forEach(combined, (currentType, index) => {
 
-            currentType = combined[i];
-            nextType = combined[i+1];
+            nextType = combined[index+1];
 
             if (nextType) {
 
                 result.push(currentType.to[nextType.name]);
             }
-        }
+        });
 
         return result;
     }

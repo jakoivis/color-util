@@ -55,7 +55,6 @@
     "file-loader": "^0.11.2",
     "highcharts": "^5.0.12",
     "jquery": "^3.2.1",
-    "lodash": "^4.17.4",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
     "path": "^0.12.7",
@@ -63,5 +62,7 @@
     "webpack": "^2.6.1",
     "webpack-merge": "^4.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash": "^4.17.4"
+  }
 }

@@ -3,6 +3,7 @@ import Repeat from './Repeat';
 import ConversionUtil from './ConversionUtil';
 import Gradient from './Gradient';
 import Color from './Color';
+import _ from './Utils';
 
 import Any from './types/Any';
 import {TYPES_ALL, TYPES} from './types/types';
@@ -207,7 +208,7 @@ let ColorUtil = {
      */
     repeat: Repeat,
 
-    gradient: Gradient,
+    gradient: Gradient, // TODO: Remove
 
     color: (color) => {
 
@@ -215,10 +216,10 @@ let ColorUtil = {
     }
 }
 
-for (let type of TYPES_ALL) {
+_.forEach(TYPES_ALL, (type) => {
 
     ColorUtil[type.name] = type;
-}
+});
 
 
 

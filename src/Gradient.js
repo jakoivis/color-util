@@ -225,15 +225,15 @@ export default new function() {
      */
     this.partialGradientWithStops = (array, position, axis) => {
 
-        var i = 0;
+        let i = 0;
 
         while (array[i][axis] < position) {
             i++;
         }
 
-        var item1 = array[i-1] !== undefined ? array[i-1] : array[i];
-        var item2 = array[i];
-        var partSize = item2[axis] - item1[axis];
+        let item1 = array[i-1] !== undefined ? array[i-1] : array[i];
+        let item2 = array[i];
+        let partSize = item2[axis] - item1[axis];
 
         return {
             item1: item1,

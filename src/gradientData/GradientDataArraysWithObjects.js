@@ -17,6 +17,11 @@ Two dimensional self scaling matrix data structure
 */
 export default class {
 
+    static get name () {
+
+        return 'ArrayWithObjects';
+    }
+
     static get isMatrix() {
 
         return true;
@@ -44,7 +49,9 @@ export default class {
             return false;
         }
 
-        for (let subSample of subSamples) {
+        for (let i = 0; i < subSamples.length; i++) {
+
+            let subSample = subSamples[i];
 
             isValid = _.isObject(subSample);
 
