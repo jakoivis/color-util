@@ -21,6 +21,85 @@ describe('Utils', () => {
         }
     };
 
+    it('should return property value under data structure', () => {
+        Utils.get(obj, 'a').should.equal(1);
+        Utils.get(obj, 'b.a.a').should.equal(2);
+        Utils.get(obj, 'b').should.equal(obj.b);
+        Utils.get(obj, 'b.b.0').should.equal(3);
+        Utils.get(obj, 'b.b.1').should.equal(4);
+        Utils.get(obj, 'b.b.2').should.equal(5);
+        Utils.get(obj, 'b.c.0.a').should.equal(6);
+        Utils.get(obj, ['b', 'c', 0, 'a']).should.equal(6);
+    });
+
+    it('should return default when object does not exist', () => {
+        expect(Utils.get(obj, 'a.a')).to.equal(undefined);
+        expect(Utils.get(obj, 'a.a', 10)).to.equal(10);
+        expect(Utils.get(obj, 'a.a.a')).to.equal(undefined);
+        expect(Utils.get(obj, 'a.a.a', 10)).to.equal(10);
+        expect(Utils.get(obj, 'x.a')).to.equal(undefined);
+        expect(Utils.get(obj, 'x.a', 10)).to.equal(10);
+        expect(Utils.get(obj, 'b.b.4')).to.equal(undefined);
+        expect(Utils.get(obj, 'b.b.4', 10)).to.equal(10);
+        expect(Utils.get(obj, 'b.b.4.1.a')).to.equal(undefined);
+        expect(Utils.get(obj, ['b', 'b', 4], 10)).to.equal(10);
+        expect(Utils.get(undefined, '0')).to.equal(undefined);
+    });
+
+    it('should return true for existing properties', () => {
+        Utils.has(obj, 'a').should.equal(true);
+        Utils.has(obj, 'b.a.a').should.equal(true);
+        Utils.has(obj, 'b').should.equal(true);
+        Utils.has(obj, 'b.b.0').should.equal(true);
+        Utils.has(obj, 'b.b.1').should.equal(true);
+        Utils.has(obj, 'b.b.2').should.equal(true);
+        Utils.has(obj, 'b.c.0.a').should.equal(true);
+    });
+
+    it('should return false when object does not exist', () => {
+        expect(Utils.has(obj, 'a.a')).to.equal(false);
+        expect(Utils.has(obj, 'a.a.a')).to.equal(false);
+        expect(Utils.has(obj, 'x.a')).to.equal(false);
+        expect(Utils.has(obj, 'b.b.4')).to.equal(false);
+        expect(Utils.has(obj, 'b.b.4.1.a')).to.equal(false);
+        expect(Utils.has(undefined, '0')).to.equal(false);
+    });
+
+    it('should set property value to data structure', () => {
+
+        let o = {};
+
+        Utils.set(o, 'a', 1);
+        Utils.set(o, 'b.a.a', 2);
+        Utils.set(o, 'b.b.1', 4);
+        Utils.set(o, 'b.c.0.a', 6);
+        Utils.set(o, ['c', 'a'], 7);
+
+        o.a.should.equal(1);
+        o.b.a.a.should.equal(2);
+        expect(Array.isArray(o.b.b)).to.equal(true);
+        o.b.b[1].should.equal(4);
+        o.b.b.length.should.equal(2);
+        o.b.c[0].a.should.equal(6);
+        o.c.a.should.equal(7);
+
+        let a = [];
+
+        Utils.set(a, '1.a', 1);
+
+        a[1].a.should.equal(1);
+    });
+
+    it('should include', () => {
+        Utils.includes([1,2,3], 2).should.equal(true);
+        Utils.includes({a:1, b:2, c:3}, 2).should.equal(true);
+    });
+
+    it('should not include', () => {
+        Utils.includes([1,2,3], 5).should.equal(false);
+        Utils.includes({a:1, b:2, c:3}, 5).should.equal(false);
+    });
+
     it('should detect object type', () => {
         Utils.isObject({}).should.equal(true);
 
@@ -55,14 +134,85 @@ describe('Utils', () => {
         Utils.isNumeric('asd').should.equal(false);
     });
 
-    it('should find property index', () => {
+    it('should find correct index', () => {
 
-        let obj = [{a:0}, {b:0}, {c:3, b:3}];
+        let data = ['A','B','C','D','A','B','C','D'];
+        let obj = [{a:1}, {b:2}, {c:3, b:3}];
 
-        Utils.findPropertyIndex(obj, 'a').should.equal(0);
-        Utils.findPropertyIndex(obj, 'b').should.equal(1);
-        Utils.findLastPropertyIndex(obj, 'b').should.equal(2);
-        Utils.findLastPropertyIndex(obj, 'a').should.equal(0);
+        // basic
+        Utils.findIndex(data, (value, index) => value === 'B').should.equal(1);
+        Utils.findIndex(data, (value, index) => value === 'X').should.equal(-1);
+        Utils.findIndex(data, (value, index) => index === 1).should.equal(1);
+
+        // start index
+        Utils.findIndex(data, (value, index) => value === 'B', 1).should.equal(1);
+        Utils.findIndex(data, (value, index) => value === 'B', 2).should.equal(5);
+        Utils.findIndex(data, (value, index) => value === 'B', 6).should.equal(-1);
+
+        // negative start index
+        Utils.findIndex(data, (value, index) => value === 'B', -2).should.equal(-1);
+        Utils.findIndex(data, (value, index) => value === 'B', -3).should.equal(5);
+        Utils.findIndex(data, (value, index) => value === 'B', -20).should.equal(1);
+
+        // property matcher
+        Utils.findIndex(obj, 'b').should.equal(1);
+        Utils.findIndex(obj, 'd').should.equal(-1);
+
+        // property value matcher
+        Utils.findIndex(obj, ['b', 2]).should.equal(1);
+        Utils.findIndex(obj, ['b', 3]).should.equal(2);
+        Utils.findIndex(obj, ['b', 4]).should.equal(-1);
+    });
+
+    it('should find correct last index', () => {
+
+        let data = ['A','B','C','D','A','B','C','D'];
+        let obj = [{a:1}, {b:2}, {c:3, b:3}];
+
+        // basic
+        Utils.findLastIndex(data, (value, index) => value === 'B').should.equal(5);
+        Utils.findLastIndex(data, (value, index) => value === 'X').should.equal(-1);
+        Utils.findLastIndex(data, (value, index) => index === 1).should.equal(1);
+
+        // start index
+        Utils.findLastIndex(data, (value, index) => value === 'B', 5).should.equal(5);
+        Utils.findLastIndex(data, (value, index) => value === 'B', 4).should.equal(1);
+        Utils.findLastIndex(data, (value, index) => value === 'B', 0).should.equal(-1);
+
+        // negative start index
+        Utils.findLastIndex(data, (value, index) => value === 'B', -3).should.equal(5);
+        Utils.findLastIndex(data, (value, index) => value === 'B', -4).should.equal(1);
+        Utils.findLastIndex(data, (value, index) => value === 'B', -20).should.equal(-1);
+
+        // property matcher
+        Utils.findLastIndex(obj, 'b').should.equal(2);
+        Utils.findLastIndex(obj, 'd').should.equal(-1);
+
+        // property value matcher
+        Utils.findLastIndex(obj, ['b', 2]).should.equal(1);
+        Utils.findLastIndex(obj, ['b', 3]).should.equal(2);
+        Utils.findLastIndex(obj, ['b', 4]).should.equal(-1);
+    });
+
+    it('should find correct item', () => {
+
+        let obj = [{a:1}, {b:2}, {c:3, b:3}];
+
+        Utils.find(obj, ['b', 2]).should.equal(obj[1]);
+        Utils.findLast(obj, ['b', 2]).should.equal(obj[1]);
+    });
+
+    it('should pull', () => {
+
+        let array = ['a', 'b', 'c', 'b'];
+
+        Utils.pull(array, 'b');
+
+        array.length.should.equal(2);
+        array[0].should.equal('a');
+        array[1].should.equal('c');
+
+        Utils.pull(null, 'b');
     });
 
     it('should convert first letter to lower case', () => {
