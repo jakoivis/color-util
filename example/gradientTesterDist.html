@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gradient tester</title>
+<script src="../dist/color-util.min.js"></script>
+<script src="./example.js"></script>
+
+<style>
+
+form {
+    display: inline-block;
+    width: 400px;
+    border: 1px dashed #CCC;
+}
+
+form > div {
+    padding-bottom: 10px;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+}
+
+input {
+    width: 150px;
+    height: 10px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="root">
+    <form>
+        <div>
+            <label for='canvasWidthSlider'>canvas width</label>
+            <input type='range' id='canvasWidthSlider' value='300' min='10' max='500' step='10' onmousemove='onSliderValueChange(this, "canvasWidth")'>
+            <span id='canvasWidthSliderValue'></span>
+        </div>
+        <div>
+            <label for='canvasHeightSlider'>canvas height</label>
+            <input type='range' id='canvasHeightSlider' value='300' min='10' max='500' step='10' onmousemove='onSliderValueChange(this, "canvasHeight")'>
+            <span id='canvasHeightSliderValue'></span>
+        </div>
+        <div>
+            <label for='gradientTypePulldown'>gradient type</label>
+            <select id='gradientTypePulldown' onchange='onPulldownValueChange(this, "gradientType")'>
+                <option value="linear">linear</option>
+                <option value="linearMatrix">linear matrix</option>
+                <option value="circular">circular</option>
+                <option value="circularMatrix">circular matrix</option>
+            </select>
+        </div>
+        <div>
+            <label for='widthSlider'>gradient width</label>
+            <input type='range' id='widthSlider' value='300' min='0' max='500' step='10' onmousemove='onSliderValueChange(this, "width")'>
+            <span id='widthSliderValue'></span>
+        </div>
+        <div>
+            <label for='heightSlider'>gradient height</label>
+            <input type='range' id='heightSlider' value='300' min='0' max='500' step='10' onmousemove='onSliderValueChange(this, "height")'>
+            <span id='heightSliderValue'></span>
+        </div>
+
+        <div>
+            <label for='scaleXSlider'>scaleX</label>
+            <input type='range' id='scaleXSlider' value='1' min='-2' max='2' step='0.1' onmousemove='onSliderValueChange(this, "scaleX")'>
+            <span id='scaleXSliderValue'></span>
+        </div>
+        <div>
+            <label for='scaleYSlider'>scaleY</label>
+            <input type='range' id='scaleYSlider' value='1' min='-2' max='2' step='0.1' onmousemove='onSliderValueChange(this, "scaleY")'>
+            <span id='scaleYSliderValue'></span>
+        </div>
+
+
+        <div>
+            <label for='centerXSlider'>centerX</label>
+            <input type='range' id='centerXSlider' value='0' min='-2' max='2' step='0.1' onmousemove='onSliderValueChange(this, "centerX")'>
+            <span id='centerXSliderValue'></span>
+        </div>
+        <div>
+            <label for='centerYSlider'>centerY</label>
+            <input type='range' id='centerYSlider' value='0' min='-2' max='2' step='0.1' onmousemove='onSliderValueChange(this, "centerY")'>
+            <span id='centerYSliderValue'></span>
+        </div>
+
+        <div>
+            <label for='translateXSlider'>translateX</label>
+            <input type='range' id='translateXSlider' value='0' min='-2' max='2' step='0.1' onmousemove='onSliderValueChange(this, "translateX")'>
+            <span id='translateXSliderValue'></span>
+        </div>
+        <div>
+            <label for='translateYSlider'>translateY</label>
+            <input type='range' id='translateYSlider' value='0' min='-2' max='2' step='0.1' onmousemove='onSliderValueChange(this, "translateY")'>
+            <span id='translateYSliderValue'></span>
+        </div>
+
+        <div>
+            <label for='rotationSlider'>rotation</label>
+            <input type='range' id='rotationSlider' value='0' min='-1' max='1' step='0.01' onmousemove='onSliderValueChange(this, "rotation")'>
+            <span id='rotationSliderValue'></span>
+        </div>
+        <div>
+            <label for='repeatPulldown'>repeatX</label>
+            <select id='repeatPulldown' onchange='onRepeatChange(this, "repeatX")'>
+                <option value="repeat">colorutil.repeat.repeat</option>
+                <option value="stop">colorutil.repeat.stop</option>
+            </select>
+        </div>
+        <div>
+            <label for='repeatPulldown2'>repeatY</label>
+            <select id='repeatPulldown2' onchange='onRepeatChange(this, "repeatY")'>
+                <option value="repeat">colorutil.repeat.repeat</option>
+                <option value="stop">colorutil.repeat.stop</option>
+            </select>
+        </div>
+        <div>
+            <label for='centerizeCheckbox'>centralize</label>
+            <input type='checkbox' id='centerizeCheckbox' onchange='onCheckboxValueChange(this, "centralize")'>
+            </select>
+        </div>
+    </form>
+
+    <canvas id="canvas"></canvas>
+<div>
+
+
+<script>
+
+var gradientColors = colorutil.convert(
+    [0xFF0000, 0xFFFF00, 0x0000FF, 0x00FFFF],
+    colorutil.int.to.rgb);
+
+var matrixColors = colorutil.convert(
+    [[0xFF0000, 0xFFFF00], [0x0000FF, 0x00FFFF]],
+    colorutil.int.to.rgb);
+
+var circleGradientColors = colorutil.rgb.hueColors();
+
+var circleMatrixColors = [[{r:255, g: 255, b: 255, a: 255}], colorutil.rgb.hueColors()];
+
+var options = {
+    width: 300,
+    height: 300,
+    scaleX: 1,
+    scaleY: 1,
+    canvasWidth: 300,
+    canvasHeight: 300,
+    type: 'linear',
+    centerX: 0,
+    centerY: 0,
+    translateX: 0,
+    translateY: 0,
+    rotation: 0,
+    repeatX: colorutil.repeat.repeat,
+    repeatY: colorutil.repeat.repeat,
+    gradientType: 'linear',
+    centralize: false
+};
+
+updateCanvas();
+
+function onSliderValueChange(input, property) {
+
+    var newValue = parseFloat(input.value);
+
+    if (newValue !== options[property]) {
+
+        options[property] = newValue;
+        updateSliderValueDisplay(input);
+        updateCanvas();
+    }
+}
+
+function onPulldownValueChange(input, property) {
+
+    options[property] = input.value;
+    updateCanvas();
+}
+
+function onRepeatChange(input, property) {
+
+    options[property] = colorutil.repeat[input.value];
+    updateCanvas();
+}
+
+function onCheckboxValueChange(input, property) {
+
+    options[property] = !!input.checked;
+    updateCanvas();
+}
+
+function updateCanvas() {
+    if (options.gradientType === 'linear') {
+        options.type = 'linear'
+        updateGradient(gradientColors)
+
+    } else if (options.gradientType === 'linearMatrix') {
+        options.type = 'linear';
+        updateGradient(matrixColors)
+
+    } else if (options.gradientType === 'circularMatrix') {
+        options.type = 'circular';
+        updateGradient(circleMatrixColors);
+
+    } else if (options.gradientType === 'circular') {
+        options.type = 'circular';
+        updateGradient(circleGradientColors);
+    }
+}
+
+function updateGradient(colors) {
+
+    var cWidth = options.canvasWidth;
+    var cHeight = options.canvasHeight;
+    var width = options.width;
+    var height = options.height;
+
+    options.colors = colors;
+
+    var gradient = colorutil.rgb.gradient(options);
+
+    example.drawOnCanvas(cWidth, cHeight, gradient);
+}
+
+function updateSliderValueDisplay(slider) {
+
+    document.getElementById(slider.getAttribute('id') + 'Value').innerText = slider.value;
+}
+
+</script>
+
+</body>
+
+</html>
