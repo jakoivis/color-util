@@ -1,10 +1,10 @@
 2.0
-- public function determining whether data is matrix (maybe expose gradient data object)
-- docs
 - benchmarks
 - check npm packaging: why the sources are there?
 
 Can be done in future release without braking backward compatibility
+- public function determining whether data is matrix (colorutil.isMatrix)
+- docs
 - set verify to true
 - cssrgb etc gradient
 - repeat.invert

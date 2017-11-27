@@ -1,9 +1,9 @@
 
 import $ from 'jquery';
 import Highcharts from 'highcharts/highcharts';
-import csv from './benchmark-0.6.0-chrome-result.csv';
-import csvAny from './benchmark-0.6.0-chrome-result-any.csv';
-import csvOther from './benchmark-0.6.0-chrome-result-other.csv';
+import csv from './output/benchmark-0.6.0-chrome-result.csv';
+import csvAny from './output/benchmark-0.6.0-chrome-result-any.csv';
+import csvOther from './output/benchmark-0.6.0-chrome-result-other.csv';
 import html from './benchmark-result-0.6.0.html';
 
 require('highcharts/modules/data')(Highcharts);

@@ -324,6 +324,7 @@ Two dimensional structure. This example produces exact same gradient as structur
     * Default gradient color
     * `colorutil.color` added to help with conversions
     * Renaming of properties functions and classes.
+    * Remove the usege of for-of loops to get rid of the need for polyfills on IE11.
     * Basically nothing is backward compatible with version 1.0.0. Probably no-one is using version 1, but if you do, I feel your pain.
 * 1.0.0
     * No code changes to previous version. I just like creating new releases.
