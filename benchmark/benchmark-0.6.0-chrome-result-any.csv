@@ -1,4 +1,4 @@
-operation,operations
+operation,0.6.0
 any(rgb) -> toRgb,11186420
 any(rgb) -> toInt,2299113
 any(rgb) -> toHex,1062879

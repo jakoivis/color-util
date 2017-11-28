@@ -1,0 +1,13 @@
+operation,2.0.0
+create rgb gradient 2 colors,27631
+create rgb gradient 6 colors,14014
+create rgb gradient 12 colors,8374
+create rgb gradient 24 colors,4523
+create rgb matrix 2x2 colors,12084
+create rgb matrix 12x12 colors,593
+create hsl gradient 2 colors,23067
+create hsl gradient 6 colors,10822
+create hsl gradient 12 colors,6748
+create hsl gradient 24 colors,4041
+create hsl matrix 2x2 colors,9175
+create hsl matrix 12x12 colors,412

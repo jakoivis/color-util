@@ -1,4 +1,4 @@
-operation,operations
+operation,0.6.0
 rgb -> toInt,700038445
 rgb -> toHex,2480617
 rgb -> toRgbString,10651609
