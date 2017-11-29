@@ -11,21 +11,19 @@ Color format conversion, gradients colors, etc
 <!-- toc -->
 
 - [Installation & import](#installation--import)
-- [Usage](#usage)
-  * [Color format conversion](#color-format-conversion)
-    + [Easy color format conversion with `colorutil.color`](#easy-color-format-conversion-with-colorutilcolor)
-    + [Basic color format conversion methods](#basic-color-format-conversion-methods)
-    + [Mass color format conversion with `colorutil.convert`](#mass-color-format-conversion-with-colorutilconvert)
-  * [Supported color format syntaxes](#supported-color-format-syntaxes)
-  * [Type checking](#type-checking)
-  * [hue](#hue)
-  * [Gradients](#gradients)
-    + [Gradient options](#gradient-options)
-    + [Gradient color data structures](#gradient-color-data-structures)
-      - [Data structure 1](#data-structure-1)
-      - [Data structure 2](#data-structure-2)
-      - [Data structure 3](#data-structure-3)
-      - [Data structure 4](#data-structure-4)
+- [Color format conversion](#color-format-conversion)
+  * [Easy color format conversion with `colorutil.color`](#easy-color-format-conversion-with-colorutilcolor)
+  * [Basic color format conversion methods](#basic-color-format-conversion-methods)
+  * [Mass color format conversion with `colorutil.convert`](#mass-color-format-conversion-with-colorutilconvert)
+- [`colorutil.color`](#colorutilcolor)
+  * [Clone a color](#clone-a-color)
+- [Gradients](#gradients)
+  * [Gradient options](#gradient-options)
+  * [Gradient color data structures](#gradient-color-data-structures)
+    + [Data structure 1](#data-structure-1)
+    + [Data structure 2](#data-structure-2)
+    + [Data structure 3](#data-structure-3)
+    + [Data structure 4](#data-structure-4)
 - [Change history](#change-history)
 
 <!-- tocstop -->
@@ -58,15 +56,6 @@ color.hsl // {h: 0, s: 1, l: 0.5, a: 1}
 color.csshsl // "hsl(0,100%,50%)"
 color.csshsla // "hsla(0,100%,50%,1)"
 color.hsv // {h: 0, s: 1, v: 1, a: 1}
-
-// change the color value to blue
-color = colorutil.color({h:4/6, s:1, l:0.5})
-color.rgb // {r: 0, g: 0, b: 255, a: 255}
-
-// creates a clone. Same as color.clone()
-let color2 = colorutil.color(color);
-color2.hex // "#0000ff"
-
 ```
 
 ### Basic color format conversion methods
@@ -173,11 +162,40 @@ let colors = [
 colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 255},...]
 ```
 
-## Supported color format syntaxes
+## `colorutil.color`
+`colorutil.color` function creates an immutable Color object which offers getters for each color type and some other usefull features.
 
-## Type checking
+| Function                  | Return value          | Description
+| ---                       | ---                   | ---
+| **clone()**               | new Color instance    | Creates a clone of a color.
+| **hueFromColor(color)**   | new Color instance    | Create clone of this color where hue is shifted to same as with the color in argument.
+| **hueFromValue(number)**  | new Color instance    | Create clone of this color where hue value is shifted to a value. Hue value is in range 0 to 1.
+| **hue()**                 | new Color instance    | Create new color which is the hue color of this color. Returned value is cached.
 
-## hue
+The first call to a getter will cache the returned value so the following calls will be retrieved from cache.
+| Getter        | Return value | Description
+| ---           | ---   | ---
+| **int**       |       |
+| **hex**       |       |
+| **rgb**       |       |
+| **cssrgb**       |       |
+| **cssrgba**       |       |
+| **hsl**       |       |
+| **csshsl**       |       |
+| **csshsla**       |       |
+| **hsv**       |       |
+
+### Clone a color
+
+```javascript
+let color1 = colorutil.color(0xff0000);
+
+let color2 = color1.clone();
+
+// also creates a clone
+let color3 = colorutil.color(color1);
+```
+
 
 ## Gradients
 The main difference to native canvas gradients is that color-util gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
@@ -185,6 +203,7 @@ The main difference to native canvas gradients is that color-util gradient funct
 This project started only to satisfy my curiosity, but there are some interesting things color-util gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as color-util has linear, matrix, circular and circular matrix types. The matrix types are basically gradients where colors are specified 2-dimensions.
 
 In the example below, if each pixel in 100 x 100 pixel area would be draw, the result would look like this.
+
 ![Gradient example 1](/docimages/gradient-example-1.png)
 
 ```javascript
