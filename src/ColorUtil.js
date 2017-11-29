@@ -38,12 +38,12 @@ let SYSTEM_ENDIAN = (() => {
 // - sub type -> sub type: offer alpha argument depending whether target sub type supports alpha. default fully opaque. arg alpha range is the target format alpha range
 
 /**
- * @class ColorUtil
+ * @class colorutil
  * @classdesc Color conversion functions and gradient functions.
  */
 let ColorUtil = {
 
-    /**
+    /*
      * Rgb conversion functions
      *
      * Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
@@ -51,9 +51,7 @@ let ColorUtil = {
      * alpha is not required. In those where it is required and not present in
      * rgb object, a fully opaque value is used as a default.
      *
-     * @memberof ColorUtil
      */
-    // rgb:Rgb,
 
     /**
      * Number conversion functions.

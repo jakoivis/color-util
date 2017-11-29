@@ -4,9 +4,11 @@ import Gradient from '../Gradient';
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
 
 /**
- * @class Rgb
- * @private
+ * @namespace rgb
+ * @memberof colorutil
  */
+
+
 let Rgb = new function() {
 
     this.name = 'rgb';
@@ -16,7 +18,7 @@ let Rgb = new function() {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.rgb
+     * @memberof colorutil.rgb
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -33,16 +35,117 @@ let Rgb = new function() {
             (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 255) : true);
     };
 
+    /**
+     * @memberof colorutil.rgb
+     *
+     * @return     {Array} Array of hue colors
+     */
+    this.hueColors = () => {
+        return [
+            {a: 255, b: 0, g: 0, r: 255},
+            {a: 255, b: 0, g: 255, r: 255},
+            {a: 255, b: 0, g: 255, r: 0},
+            {a: 255, b: 255, g: 255, r: 0},
+            {a: 255, b: 255, g: 0, r: 0},
+            {a: 255, b: 255, g: 0, r: 255},
+            {a: 255, b: 0, g: 0, r: 255}
+        ];
+    };
+
+    /**
+     * @memberof colorutil.rgb
+     *
+     * @param      {Object}  rgb     Rgb object
+     * @return     {Object}  hue color in Rgb object notation
+     */
+    this.hue = (rgb) => {
+
+        let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.to.hsv(rgb).h);
+
+        return this.mix(
+            parts.item1,
+            parts.item2,
+            parts.position);
+    };
+
+    /**
+     * Creates a gradient.
+     *
+     * @memberof colorutil.rgb
+     *
+     * @param      {Object}    options                              Options
+     * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
+     *                                                              defines whether the gradient is one or two-dimensional.
+     * @param      {string}    [options.type='linear']              Gradient type: linear | circular
+     * @param      {boolean}   [options.verify=false]               Verify that each of the colors in colors property have valid data structure.
+     *                                                              If set to true, createGradient will throw an error if data structure is not correct.
+     *                                                              Data structure is tested from one sample to identify the data structure. This does not
+     *                                                              affect that behavior.
+     * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
+     * @param      {boolean}   [options.addDefaultColors=true]      Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
+     *                                                              as a red value for Rgb gradient without the need for defining the rest of the color components.
+     *                                                              Use defaultColor property to specify a color.
+     * @param      {function}  [options.defaultColor={r:0,g:0,b:0,a:255}] Default color used to fill the missing color components in gradient colors
+     * @param      {number}    [options.width=100]                  Set size of the gradient in pixels.
+     * @param      {number}    [options.height=100]                 Set size of the gradient in pixels.
+     * @param      {number}    [options.centerX=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+     *                                                              centerX can be used with linear type of gradients to set point of rotation.
+     * @param      {number}    [options.centerY=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+     *                                                              centerY can be used with linear type of gradients to set point of rotation.
+     * @param      {number}    [options.scale=1]                    Scale of the gradient. Value in range 0 to 1.
+     * @param      {number}    [options.scaleX=1]                   Scale of the gradient on x axis. Value in range 0 to 1.
+     * @param      {number}    [options.scaleY=1]                   Scale of the gradient on y axis. Value in range 0 to 1.
+     * @param      {number}    [options.translateX=0]               Translate gradient along x axis. Value in range 0 to 1.
+     * @param      {number}    [options.translateY=0]               Translate gradient along y axis. Value in range 0 to 1.
+     * @param      {boolean}   [options.centralize=false]           Overrides translate values and automatically adjusts the positioning to the center.
+     * @param      {number}    [options.rotation=0]                 Rotation of the gradient. Value in range 0 to 1.
+     * @param      {function}  [options.repeatX=colorutil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatY=colorutil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     *
+     * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters.
+     *                         Though the x and y may exceed the limit, but gradient repeat will take effect.
+     */
+    this.gradient = (options) => {
+
+        return Gradient.createGradient(options, {
+
+            mixColors: this.mix,
+
+            defaultColor: {
+                r: 0,
+                g: 0,
+                b: 0,
+                a: 255
+            }
+        });
+    };
+
+    /**
+     * Mix two colors. This function has no checking if values are correct.
+     *
+     * @param      {Object} color1    Rgb color
+     * @param      {Object} color2    Rgb color
+     * @param      {number} position  Position between colors. A value in range 0 - 1
+     * @return     {Object}
+     */
+    this.mix = (color1, color2, position) => {
+
+        return {
+            r: color1.r - position * (color1.r - color2.r),
+            g: color1.g - position * (color1.g - color2.g),
+            b: color1.b - position * (color1.b - color2.b),
+            a: color1.a - position * (color1.a - color2.a)
+        }
+    }
+
+    /**
+     * @namespace to
+     * @memberof colorutil.rgb
+     */
     this.to = {
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
-         *
-         * @example
-         * ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
-         * // output: 33023
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -52,13 +155,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
-         *
-         * @example
-         * ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
-         * // output: "#0080ff"
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {string}
@@ -72,14 +169,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`.
-         * Alpha is converted from range 0-255 to 0-1.
-         *
-         * @example
-         * ColorUtil.rgb.to.cssrgb({r: 0, g: 128, b: 255});
-         * // output: "rgb(0,128,255)"
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {string}
@@ -89,14 +179,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`.
-         * Alpha is converted from range 0-255 to 0-1.
-         *
-         * @example
-         * ColorUtil.rgb.to.cssrgba({r: 0, g: 128, b: 255, a: 85});
-         * // output: "rgba(0,128,255,0.3333333333333333)"
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {string}
@@ -106,16 +189,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
-         * Resulting value is positive
-         *
-         * @example
-         * ColorUtil.rgb.toUintabgr({r: 0, g: 128, b: 255, a: 255});
-         * // output: 4294934528
-         * ColorUtil.rgb.toUintabgr({r: 0, g: 128, b: 255, a: 85});
-         * // output: 1442807808
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -125,14 +199,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-         * Alpha value is discarded and fully opaque value is used. Resulting value is positive
-         *
-         * @example
-         * ColorUtil.rgb.toUintabgrOpaque({r: 0, g: 128, b: 255})
-         * // output: 4294934528
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -142,16 +209,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian)
-         * Resulting value is positive
-         *
-         * @example
-         * ColorUtil.rgb.toUintrgba({r: 0, g: 128, b: 255, a: 255});
-         * // output: 8454143
-         * ColorUtil.rgb.toUintrgba({r: 0, g: 128, b: 255, a: 85});
-         * // output: 8453973
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -161,16 +219,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xAABBGGRR` (little-endian)
-         * Resulting value can be negative.
-         *
-         * @example
-         * ColorUtil.rgb.toIntabgr({r: 0, g: 128, b: 255, a: 255});
-         * // output: -32768
-         * ColorUtil.rgb.toIntabgr({r: 0, g: 128, b: 255, a: 85});
-         * // output: 1442807808
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -180,14 +229,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB}` to 32-bit number `0xAABBGGRR` (little-endian)
-         * Alpha value is discarded and fully opaque value is used. Resulting value can be negative.
-         *
-         * @example
-         * ColorUtil.rgb.toIntabgrOpaque({r: 0, g: 128, b: 255})
-         * // output: -32768
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -197,16 +239,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 32-bit number `0xRRGGBBAA` (big-endian).
-         * Resulting value can be negative.
-         *
-         * @example
-         * ColorUtil.rgb.toIntrgba({r: 0, g: 128, b: 255, a: 255});
-         * // output: 8454143
-         * ColorUtil.rgb.toIntrgba({r: 0, g: 128, b: 255, a: 85});
-         * // output: 8453973
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {number}
@@ -216,14 +249,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsl object `{h:H, s:S, l:L, a:A}`
-         * where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
-         *
-         * @example
-         * ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});
-         * // output: {h: 0, s: 1, l: 0.5, a: 1}
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {Object}
@@ -275,14 +301,7 @@ let Rgb = new function() {
         },
 
         /**
-         * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to hsv object `{h:H, s:S, v:V, a:A}`
-         * where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
-         *
-         * @example
-         * ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
-         * // output: {h: 0, s: 1, v: 1, a: 1}
-         *
-         * @memberof ColorUtil.rgb
+         * @memberof colorutil.rgb.to
          *
          * @param      {Object}    rgb
          * @return     {Object}
@@ -331,108 +350,6 @@ let Rgb = new function() {
             }
         }
     };
-
-    /**
-     * @memberof ColorUtil.rgb
-     *
-     * @return     {Array} Array of hue colors
-     */
-    this.hueColors = () => {
-        return [
-            {a: 255, b: 0, g: 0, r: 255},
-            {a: 255, b: 0, g: 255, r: 255},
-            {a: 255, b: 0, g: 255, r: 0},
-            {a: 255, b: 255, g: 255, r: 0},
-            {a: 255, b: 255, g: 0, r: 0},
-            {a: 255, b: 255, g: 0, r: 255},
-            {a: 255, b: 0, g: 0, r: 255}
-        ];
-    };
-
-    /**
-     * A short-cut method for getting hue color
-     *
-     * @example
-     * ColorUtil.rgb.hue({r:0x7F, g: 0x7F, b:0})
-     * // output: {r: 255, g: 255, b: 0, a: 255}
-     *
-     * @memberof ColorUtil.rgb
-     *
-     * @param      {Object}  rgb     Rgb object
-     * @return     {Object}  hue color in Rgb object notation
-     */
-    this.hue = (rgb) => {
-
-        let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.to.hsv(rgb).h);
-
-        return this.mix(
-            parts.item1,
-            parts.item2,
-            parts.position);
-    };
-
-    /**
-     * Creates a gradient.
-     *
-     * @memberof ColorUtil.rgb
-     *
-     * @param      {Object}    options                              Options
-     * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
-     *                                                              defines whether the gradient is one or two-dimensional.
-     * @param      {string}    [options.type='linear']              Gradient type: linear | circular
-     * @param      {boolean}   [options.verify=false]               Verify that each of the colors in colors property have valid data structure.
-     *                                                              If set to true, createGradient will throw an error if data structure is not correct.
-     *                                                              Data structure is tested from one sample to identify the data structure. This does not
-     *                                                              affect that behavior.
-     * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
-     * @param      {boolean}   [options.addDefaultColors=true]      Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
-     *                                                              as a red value for Rgb gradient without the need for defining the rest of the color components.
-     *                                                              Use defaultColor property to specify a color.
-     * @param      {function}  [options.defaultColor={r:0,g:0,b:0,a:255}] Default color used to fill the missing color components in gradient colors
-     * @param      {number}    [options.width=100]                  Set size of the gradient in pixels.
-     * @param      {number}    [options.height=100]                 Set size of the gradient in pixels.
-     * @param      {number}    [options.centerX=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
-     *                                                              centerX can be used with linear type of gradients to set point of rotation.
-     * @param      {number}    [options.centerY=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
-     *                                                              centerY can be used with linear type of gradients to set point of rotation.
-     * @param      {number}    [options.scale=1]                    Scale of the gradient. Value in range 0 to 1.
-     * @param      {number}    [options.scaleX=1]                   Scale of the gradient on x axis. Value in range 0 to 1.
-     * @param      {number}    [options.scaleY=1]                   Scale of the gradient on y axis. Value in range 0 to 1.
-     * @param      {number}    [options.translateX=0]               Translate gradient along x axis. Value in range 0 to 1.
-     * @param      {number}    [options.translateY=0]               Translate gradient along y axis. Value in range 0 to 1.
-     * @param      {boolean}   [options.centralize=false]           Overrides translate values and automatically adjusts the positioning to the center.
-     * @param      {number}    [options.rotation=0]                 Rotation of the gradient. Value in range 0 to 1.
-     * @param      {function}  [options.repeatX=ColorUtil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
-     * @param      {function}  [options.repeatY=ColorUtil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
-     *
-     * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters.
-     *                         Though the x and y may exceed the limit, but gradient repeat will take effect.
-     */
-    this.gradient = (options) => {
-
-        return Gradient.createGradient(options, {
-
-            mixColors: this.mix,
-
-            defaultColor: {
-                r: 0,
-                g: 0,
-                b: 0,
-                a: 255
-            }
-        });
-    };
-
-    this.mix = (color1, color2, position) => {
-
-        return {
-            r: color1.r - position * (color1.r - color2.r),
-            g: color1.g - position * (color1.g - color2.g),
-            b: color1.b - position * (color1.b - color2.b),
-            a: color1.a - position * (color1.a - color2.a)
-        }
-    }
-
 }();
 
 export default Rgb;

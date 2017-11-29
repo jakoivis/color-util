@@ -16,7 +16,6 @@ Color format conversion, gradients colors, etc
   * [Basic color format conversion methods](#basic-color-format-conversion-methods)
   * [Mass color format conversion with `colorutil.convert`](#mass-color-format-conversion-with-colorutilconvert)
 - [`colorutil.color`](#colorutilcolor)
-  * [Clone a color](#clone-a-color)
 - [Gradients](#gradients)
   * [Gradient options](#gradient-options)
   * [Gradient color data structures](#gradient-color-data-structures)
@@ -173,19 +172,20 @@ colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 25
 | **hue()**                 | new Color instance    | Create new color which is the hue color of this color. Returned value is cached.
 
 The first call to a getter will cache the returned value so the following calls will be retrieved from cache.
-| Getter        | Return value | Description
-| ---           | ---   | ---
-| **int**       |       |
-| **hex**       |       |
-| **rgb**       |       |
-| **cssrgb**       |       |
-| **cssrgba**       |       |
-| **hsl**       |       |
-| **csshsl**       |       |
-| **csshsla**       |       |
-| **hsv**       |       |
+| Getter        |
+| ---           |
+| **int**       |
+| **hex**       |
+| **rgb**       |
+| **cssrgb**    |
+| **cssrgba**   |
+| **hsl**       |
+| **csshsl**    |
+| **csshsla**   |
+| **hsv**       |
 
-### Clone a color
+<!--
+ Clone a color
 
 ```javascript
 let color1 = colorutil.color(0xff0000);
@@ -195,6 +195,7 @@ let color2 = color1.clone();
 // also creates a clone
 let color3 = colorutil.color(color1);
 ```
+-->
 
 
 ## Gradients
@@ -202,7 +203,7 @@ The main difference to native canvas gradients is that color-util gradient funct
 
 This project started only to satisfy my curiosity, but there are some interesting things color-util gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as color-util has linear, matrix, circular and circular matrix types. The matrix types are basically gradients where colors are specified 2-dimensions.
 
-In the example below, if each pixel in 100 x 100 pixel area would be draw, the result would look like this.
+In the example below, if each pixel in 100 x 100 pixel area would be drawn, the result would look like this.
 
 ![Gradient example 1](/docimages/gradient-example-1.png)
 
