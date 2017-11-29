@@ -6,6 +6,8 @@
 
 Color format conversion, gradients colors, etc
 
+![Preview](/example/githubimage.png)
+
 <!-- toc -->
 
 - [Installation & import](#installation--import)
@@ -33,19 +35,17 @@ Color format conversion, gradients colors, etc
 $ npm install color-util --save
 ```
 ```javascript
-var ColorUtil = require('color-util');
+var colorutil = require('color-util');
 ```
 or
 ```
 <script src="path/to/color-util.js"></script>
 ```
 
-## Usage
+## Color format conversion
 
-### Color format conversion
-
-#### Easy color format conversion with `colorutil.color`
-`colorutil.color` takes any type of color and provide getters for each type. It calculates the color only when getter is called and stores that color so it's not caclulcated next time. (`colorutil.color` does not support 32-bit integers: intabgr, intrgba)
+### Easy color format conversion with `colorutil.color`
+`colorutil.color` takes any type of color and provide getters for each type. It calculates the color only when getter is called and stores that color so it's not calculated next time. (`colorutil.color` does not support 32-bit integers: intabgr, intrgba)
 ```javascript
 let color = colorutil.color(0xff0000);
 
@@ -69,12 +69,12 @@ color2.hex // "#0000ff"
 
 ```
 
-#### Basic color format conversion methods
+### Basic color format conversion methods
 These are pure conversion functions without any intelligence. If you have massive amount of colors and you need to convert them fast then these are the ones you want to use. You have to know the source type of a color and a color needs to be in valid format.
 
-There are three main type of color formats (rgb, hsl, hsv). In addition those there are 8 sub types (csshsl, csshsla, cssrgb, cssrgba, hex, int, intrgba, intabgr). These basic conversions can convert between the main types and between the main type and it's sub type. So e.g. converting from hex to hsl requires two steps (hex to rgb, rgb to hsl). If speed is not your concern then in color-util there are other utilities that can make the conversion easier.
+There are three main type of color formats (rgb, hsl, hsv). In addition those there are 8 sub types (csshsl, csshsla, cssrgb, cssrgba, hex, int, intrgba, intabgr). These basic conversions can convert between the main types and between the main type and it's sub type. So e.g. converting from hex to hsl requires two steps (hex to rgb, rgb to hsl). If speed is not your concern then in `colorutil.color` would be a cleaner solution.
 
-The follwing list shows all the available basic conversions
+The following list shows all the available basic conversions
 ```javascript
 // rgb
 colorutil.rgb.to.int({r: 0, g: 0, b: 255, a:255}) // 255
@@ -141,7 +141,7 @@ colorutil.csshsl.to.hsl("hsl(240, 100%, 50%)", 0.5) // {h: 0.6666666666666666, s
 colorutil.csshsla.to.hsl("hsl(240, 100%, 50%, 0.5)") // {h: 0.6666666666666666, s: 1, l: 0.5, a: 0.5}
 ```
 
-#### Mass color format conversion with `colorutil.convert`
+### Mass color format conversion with `colorutil.convert`
 When you have a lot of colors that need to be converted then you can use `convert` function together with the basic conversion functions.
 ```javascript
 let colors = [0xff0000, 0xb2ff00, 0x00ff99, 0x0011ff];
@@ -173,16 +173,19 @@ let colors = [
 colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 255},...]
 ```
 
-### Supported color format syntaxes
+## Supported color format syntaxes
 
-### Type checking
+## Type checking
 
-### hue
+## hue
 
-### Gradients
+## Gradients
 The main difference to native canvas gradients is that color-util gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
 
-This project started only to satisfy my curiosity, but there are some interesting things color-util gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as color-util has linear, matrix, circular and circular matrix types.
+This project started only to satisfy my curiosity, but there are some interesting things color-util gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as color-util has linear, matrix, circular and circular matrix types. The matrix types are basically gradients where colors are specified 2-dimensions.
+
+In the example below, if each pixel in 100 x 100 pixel area would be draw, the result would look like this.
+![Gradient example 1](/docimages/gradient-example-1.png)
 
 ```javascript
 // There are couple of different ways to present colors. In this
@@ -204,24 +207,26 @@ let colors = [
 // to create a gradient function. HSV and HSL both have the same function.
 
 let gradient = colorutil.rgb.gradient({
-    colors: colors
+    colors: colors,
+    width: 100,
+    height: 100
 });
 
 // Color is calculate with this gradient function
 // by providing x and y coordinates
 
-// center of the gradeint
-gradient(0.5, 0.5); // {r: 127.5, g: 127.5, b: 127.5, a: 255}
+// center of the gradient
+gradient(50, 50); // {r: 127.5, g: 127.5, b: 127.5, a: 255}
 
 // bottom right of the gradient
-gradient(1, 1); // {r: 0, g: 255, b: 255, a: 255}
+gradient(100, 100); // {r: 0, g: 255, b: 255, a: 255}
 
 ```
 
 Now in order to draw a gradient you can create a canvas and draw each pixel on it. [Examples on how to do that can be found here.](https://github.com/jakoivis/color-util/tree/master/example)
 
-#### Gradient options
-Gradient's width and height specify the size of the gradient in pixels, rest of the numerical properties are in normalized range 0 to 1.
+### Gradient options
+Gradient is created with `gradient` function. There is a gradient function available for each main color type `colorutil.rgb.gradient`, `colorutil.hsv.gradient` and `colorutil.hsl.gradient`. Gradient's width and height specify the size of the gradient in pixels, rest of the numerical properties are in normalized range 0 to 1.
 
 |                   |           | Default       | Description
 | ---               | ---       | ---           | ---
@@ -247,14 +252,14 @@ Gradient's width and height specify the size of the gradient in pixels, rest of 
 | addDefaultColors  | boolean   | `true`        | Add default colors to fill the missing values. This allows using e.g. {r:0xff} as a red value for Rgb gradient without the need for defining the rest of the color components. Use `defaultColor` property to specify a color. Can be set to false if all the color components have been specified in color data.
 -->
 
-#### Gradient color data structures
-There are couple of supported data structures. You may choose the one you like. `createGradient` function converts the data internally to structure 1 or structure 2.
+### Gradient color data structures
+There are couple of supported data structures. You may choose the one you like. `gradient` function converts the data internally to structure 1 or structure 2.
 
 In the examples below RGB colors are used, but the same structures are supported by HSV and HSL gradients. RGB colors consist of four components (r, g, b, a). If any of the component is missing from color object, default value is used. Default values can be changed with `colorutil.rgb.gradient` function's `defaultColor` property.
 
 x and y properties within color object are color stops; they indicate the position of a color within a gradient. x and y properties are also optional. If they are missing `colorutil.rgb.gradient` will generate them. You may leave some or all of the stops unspecified in which case the colors are distributed evenly. Value of x and y properties range from 0 to 1.
 
-##### Data structure 1
+#### Data structure 1
 One dimensional gradient from red to green.
 ```javascript
 [
@@ -263,7 +268,7 @@ One dimensional gradient from red to green.
 ]
 ```
 
-##### Data structure 2
+#### Data structure 2
 Two dimensional structure where top is gradient from red to green, bottom is gradient from blue to transparent.
 ```javascript
 [
@@ -284,8 +289,8 @@ Two dimensional structure where top is gradient from red to green, bottom is gra
 ];
 ```
 
-##### Data structure 3
-Two dimensional structure. This example produces exact same gradient as structure 2 above. With this structure it is not possible to specify y-stops.
+#### Data structure 3
+Two dimensional structure. This example produces exact same gradient as structure 2 above. With this structure it is not possible to specify y-stops. Colors are distributed evenly on the y-axis.
 ```javascript
 [
     [
@@ -299,7 +304,7 @@ Two dimensional structure. This example produces exact same gradient as structur
 ];
 ```
 
-##### Data structure 4
+#### Data structure 4
 Two dimensional structure. This example produces exact same gradient as structure 2 above. Notice that this structure is similar to structure 1, but the difference is that this is two-dimensional. This data structure is identified as two-dimensional if it has at least one y property specified within the structure, otherwise it is understood as one dimensional.
 ```javascript
 [
@@ -309,9 +314,6 @@ Two dimensional structure. This example produces exact same gradient as structur
     {x:1, y:1, a: 0}
 ];
 ```
-
-
-![Preview](/example/githubimage.png)
 
 ## Change history
 * 2.0.0
@@ -324,7 +326,7 @@ Two dimensional structure. This example produces exact same gradient as structur
     * Default gradient color
     * `colorutil.color` added to help with conversions
     * Renaming of properties functions and classes.
-    * Remove the usege of for-of loops to get rid of the need for polyfills on IE11.
+    * Removed for-of loops to get rid of the need for polyfills on IE11.
     * Basically nothing is backward compatible with version 1.0.0. Probably no-one is using version 1, but if you do, I feel your pain.
 * 1.0.0
     * No code changes to previous version. I just like creating new releases.
