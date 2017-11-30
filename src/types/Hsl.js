@@ -2,8 +2,13 @@
 import Gradient from '../Gradient';
 
 /**
- * @class Hsl
- * @private
+ * Hsl conversion functions
+ *
+ * Hsl notation is `{h:H, s:S, l:L, a:A}` where each component (hue, saturation,
+ * luminosity, alpha) is in range 0-1.
+ *
+ * @namespace hsl
+ * @memberof colorutil
  */
 export default {
 
@@ -14,7 +19,7 @@ export default {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.hsl
+     * @memberof colorutil.hsl
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -31,6 +36,10 @@ export default {
             (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 1) : true);
     },
 
+    /**
+     * @namespace to
+     * @memberof colorutil.hsl
+     */
     to: {
 
         /**
@@ -43,7 +52,7 @@ export default {
          * ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});
          * // output: {r: 191, g: 191, b: 64, a: 128}
          *
-         * @memberof ColorUtil.hsl
+         * @memberof colorutil.hsl.to
          *
          * @param      {Object}  hsl        Hsl object
          * @return     {Object}
@@ -89,7 +98,7 @@ export default {
          * ColorUtil.hsl.toHsv({h: 1/6, s: 0.5, l: 0.5});
          * // output: {h: 0.16666666666666666, s: 0.6666666666666666, v: 0.75, a: 1}
          *
-         * @memberof ColorUtil.hsl
+         * @memberof colorutil.hsl.to
          *
          * @param      {Object}  hsl        Hsl object
          * @return     {Object}
@@ -115,7 +124,7 @@ export default {
          * ColorUtil.hsl.to.cssHsl({h:2/6, s:0.5, l:0.5});
          * // output: "hsl(120,50%,50%)"
          *
-         * @memberof ColorUtil.hsl
+         * @memberof colorutil.hsl.to
          *
          * @param      {Object}    hsl
          * @return     {string}
@@ -131,7 +140,7 @@ export default {
          * ColorUtil.hsl.tocssHsla({h:2/6, s:0.5, l:0.5, a:0.5});
          * // output: "hsla(120,50%,50%,0.5)"
          *
-         * @memberof ColorUtil.hsl
+         * @memberof colorutil.hsl.to
          *
          * @param      {Object}    hsl
          * @return     {string}
@@ -144,7 +153,7 @@ export default {
     /**
      * Creates a gradient.
      *
-     * @memberof ColorUtil.hsl
+     * @memberof colorutil.hsl
      *
      * @param      {Object}    options                              Options provided by user
      * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
@@ -172,8 +181,8 @@ export default {
      * @param      {number}    [options.translateY=0]               Translate gradient along y axis. Value in range 0 to 1.
      * @param      {boolean}   [options.centralize=false]           Overrides translate values and automatically adjusts the positioning to the center.
      * @param      {number}    [options.rotation=0]                 Rotation of the gradient. Value in range 0 to 1.
-     * @param      {function}  [options.repeatX=ColorUtil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
-     * @param      {function}  [options.repeatY=ColorUtil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatX=colorutil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatY=colorutil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
      *
      * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters.
      *                         Though the x and y may exceed the limit, but gradient repeat will take effect.

@@ -4,8 +4,12 @@ import Rgb from './Rgb';
 const REG_RGB = /^rgba?\s*\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
 
 /**
- * @class cssrgb
- * @private
+ * cssrgb conversion functions
+ *
+ * cssrgb notation is `'rgb(RRR,GGG,BBB)'`
+ *
+ * @namespace cssrgb
+ * @memberof colorutil
  */
 export default {
 
@@ -16,7 +20,7 @@ export default {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.cssrgb
+     * @memberof colorutil.cssrgb
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -25,12 +29,16 @@ export default {
         return typeof color === 'string' && !!REG_RGB.exec(color);
     },
 
+    /**
+     * @namespace to
+     * @memberof colorutil.cssrgb
+     */
     to: {
 
         /**
          * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
-         * @memberof ColorUtil.cssrgb
+         * @memberof colorutil.cssrgb.to
          *
          * @example
          * ColorUtil.cssrgb.toRgb('rgb(0,255,0)')
@@ -55,7 +63,7 @@ export default {
         /**
          * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to 24-bit integer `0xRRGGBB`. Alpha is ignored.
          *
-         * @memberof ColorUtil.cssrgb
+         * @memberof colorutil.cssrgb.to
          *
          * @example
          * ColorUtil.cssrgb.toInt('rgb(0,255,0)')
@@ -77,7 +85,7 @@ export default {
         /**
          * Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to hexadecimal string `'#RRGGBB'`. Alpha is ignored.
          *
-         * @memberof ColorUtil.cssrgb
+         * @memberof colorutil.cssrgb.to
          *
          * @example
          * ColorUtil.cssrgb.toHex('rgb(0,255,0)')

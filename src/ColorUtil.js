@@ -44,16 +44,6 @@ let SYSTEM_ENDIAN = (() => {
 let ColorUtil = {
 
     /*
-     * Rgb conversion functions
-     *
-     * Rgb object notation is `{r:RRR, g:GGG, b:BBB, a:AAA}` where each color component
-     * (red, grean, blue, alpha) range is 0-255. In some conversion functions
-     * alpha is not required. In those where it is required and not present in
-     * rgb object, a fully opaque value is used as a default.
-     *
-     */
-
-    /**
      * Number conversion functions.
      *
      * Int notation is 24-bit number representing the RGB values `0xRRGGBB`.

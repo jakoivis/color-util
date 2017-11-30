@@ -171,6 +171,7 @@ colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 25
 | **hueFromValue(number)**  | new Color instance    | Create clone of this color where hue value is shifted to a value. Hue value is in range 0 to 1.
 | **hue()**                 | new Color instance    | Create new color which is the hue color of this color. Returned value is cached.
 
+<!--
 The first call to a getter will cache the returned value so the following calls will be retrieved from cache.
 | Getter        |
 | ---           |
@@ -184,7 +185,7 @@ The first call to a getter will cache the returned value so the following calls 
 | **csshsla**   |
 | **hsv**       |
 
-<!--
+
  Clone a color
 
 ```javascript

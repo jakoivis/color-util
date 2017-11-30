@@ -5,8 +5,12 @@ const REG_HEX_SHORT = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
 const REG_HEX = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
 
 /**
- * @class Hex
- * @private
+ * Hexadecimal conversion functions
+ *
+ * Hex notation is 24-bit hex string representing the RGB values `'#RRGGBB'`.
+ *
+ * @namespace hex
+ * @memberof colorutil
  */
 export default {
 
@@ -17,7 +21,7 @@ export default {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.hex
+     * @memberof colorutil.hex
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -27,12 +31,16 @@ export default {
             !!(REG_HEX.exec(color) || REG_HEX_SHORT.exec(color));
     },
 
+    /**
+     * @namespace to
+     * @memberof colorutil.hex
+     */
     to: {
 
         /**
          * 24-bit hex string `'#RRGGBB'` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
-         * @memberof ColorUtil.hex
+         * @memberof colorutil.hex.to
          *
          * @example
          * ColorUtil.hex.toRgb('#00FF00');
@@ -60,7 +68,7 @@ export default {
         /**
          * 24-bit hex string `'#RRGGBB'` to 24-bit integer `0xRRGGBB`
          *
-         * @memberof ColorUtil.hex
+         * @memberof colorutil.hex.to
          *
          * @example
          * ColorUtil.hex.toInt('#00FF00');
@@ -78,7 +86,7 @@ export default {
         /**
          * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`
          *
-         * @memberof ColorUtil.hex
+         * @memberof colorutil.hex.to
          *
          * @example
          * ColorUtil.hex.to.cssrgb('#00FF00')
@@ -102,7 +110,7 @@ export default {
         /**
          * 24-bit hex string `'#RRGGBB'` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
          *
-         * @memberof ColorUtil.hex
+         * @memberof colorutil.hex.to
          *
          * @example
          * ColorUtil.hex.to.cssrgba('#00FF00')

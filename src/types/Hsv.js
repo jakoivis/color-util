@@ -2,8 +2,13 @@
 import Gradient from '../Gradient';
 
 /**
- * @class Hsv
- * @private
+ * Hsv conversion functions
+ *
+ * Hsv notation is `{h:H, s:S, v:V, a:A}` where each component
+ * (hue, saturation, value, alpha) are in range 0-1.
+ *
+ * @namespace hsv
+ * @memberof colorutil
  */
 export default {
 
@@ -31,6 +36,10 @@ export default {
             (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 1) : true);
     },
 
+    /**
+     * @namespace to
+     * @memberof colorutil.hsv
+     */
     to: {
 
         /**
@@ -42,7 +51,7 @@ export default {
          * ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1, a: 0.5});
          * // output: {r: 255, g: 0, b: 0, a: 128}
          *
-         * @memberof ColorUtil.hsv
+         * @memberof colorutil.hsv.to
          *
          * @param      {Object}  hsv        Hsv object
          * @return     {Object}
@@ -88,7 +97,7 @@ export default {
          * ColorUtil.hsv.toHsl({h: 1/6, s: 0.5, v: 0.5});
          * // output: {h: 0.16666666666666666, s: 0.3333333333333333, l: 0.375, a: 1}
          *
-         * @memberof ColorUtil.hsv
+         * @memberof colorutil.hsv.to
          *
          * @param      {Object}  hsv        Hsl object
          * @return     {Object}
@@ -112,7 +121,7 @@ export default {
     /**
      * Creates a gradient.
      *
-     * @memberof ColorUtil.hsv
+     * @memberof colorutil.hsv
      *
      * @param      {Object}    options                              Options provided by user
      * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
@@ -140,8 +149,8 @@ export default {
      * @param      {number}    [options.translateY=0]               Translate gradient along y axis. Value in range 0 to 1.
      * @param      {boolean}   [options.centralize=false]           Overrides translate values and automatically adjusts the positioning to the center.
      * @param      {number}    [options.rotation=0]                 Rotation of the gradient. Value in range 0 to 1.
-     * @param      {function}  [options.repeatX=ColorUtil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
-     * @param      {function}  [options.repeatY=ColorUtil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatX=colorutil.repeat.repeat] X repetition of gradient when calculating a color that is out of normal range 0 to 1.
+     * @param      {function}  [options.repeatY=colorutil.repeat.repeat] Y repetition of gradient when calculating a color that is out of normal range 0 to 1.
      *
      * @return     {function}  Function that calculates a color for a single point on gradient. Accepts x and y parameters.
      *                         Though the x and y may exceed the limit, but gradient repeat will take effect.

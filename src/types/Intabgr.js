@@ -2,8 +2,12 @@
 import Rgb from './Rgb';
 
 /**
- * @class Intabgr
- * @private
+ * Number conversion functions.
+ *
+ * Int32 notation converion functions for 32-bit numbers `0xAABBGGRR` (little-endian).
+ *
+ * @namespace intabgr
+ * @memberof colorutil
  */
 export default {
 
@@ -11,12 +15,16 @@ export default {
     className: 'Intabgr',
     parent: Rgb,
 
+    /**
+     * @namespace to
+     * @memberof colorutil.intabgr
+     */
     to: {
 
         /**
          * 32-bit number `0xAABBGGRR` (little-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
-         * @memberof ColorUtil.intabgr
+         * @memberof colorutil.intabgr.to
          *
          * @example
          * ColorUtil.intabgr.toRgb(0xFF112233)

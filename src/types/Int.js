@@ -2,8 +2,12 @@
 import Rgb from './Rgb';
 
 /**
- * @class Int
- * @private
+ * Number conversion functions.
+ *
+ * Int notation is 24-bit number representing the RGB values `0xRRGGBB`.
+ *
+ * @namespace int
+ * @memberof colorutil
  */
 export default {
 
@@ -14,7 +18,7 @@ export default {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.int
+     * @memberof colorutil.int
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -25,12 +29,16 @@ export default {
             color >= 0;
     },
 
+    /**
+     * @namespace to
+     * @memberof colorutil.int
+     */
     to: {
 
         /**
          * 24-bit number `0xRRGGBB` to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
-         * @memberof ColorUtil.int
+         * @memberof colorutil.int.to
          *
          * @example
          * ColorUtil.int.toRgb(0xFF0000);
@@ -55,7 +63,7 @@ export default {
         /**
          * 24-bit number `0xRRGGBB` to 24-bit hex string `'#RRGGBB'`.
          *
-         * @memberof ColorUtil.int
+         * @memberof colorutil.int.to
          *
          * @example
          * ColorUtil.int.toHex(0x00FF00);
@@ -71,7 +79,7 @@ export default {
         /**
          * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgb(RRR,GGG,BBB)'`
          *
-         * @memberof ColorUtil.int
+         * @memberof colorutil.int.to
          *
          * @example
          * ColorUtil.int.to.cssrgb(0x00FF00);
@@ -90,7 +98,7 @@ export default {
         /**
          * 24-bit number `0xRRGGBB` to rgb functional notation string `'rgba(RRR,GGG,BBB,A)'`
          *
-         * @memberof ColorUtil.int
+         * @memberof colorutil.int.to
          *
          * @example
          * ColorUtil.int.to.cssrgba(0x00FF00);

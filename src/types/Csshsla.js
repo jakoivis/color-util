@@ -4,8 +4,12 @@ import Hsl from './Hsl';
 const REG_HSLA = /^hsla?\s*\(\s*(\d{1,3}\s*)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d{1,3}\s*)(%)\s*,\s*(\d*\.?\d*)\s*\)$/;
 
 /**
- * @class Csshsla
- * @private
+ * csshsla conversion functions
+ *
+ * Hsla functional notation is `'hsla(HHH,SSS%,LLL%,A)'`
+ *
+ * @namespace csshsla
+ * @memberof colorutil
  */
 export default {
 
@@ -16,7 +20,7 @@ export default {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.csshsla
+     * @memberof colorutil.csshsla
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -25,12 +29,16 @@ export default {
         return typeof color === 'string' && !!REG_HSLA.exec(color);
     },
 
+    /**
+     * @namespace to
+     * @memberof colorutil.csshsla
+     */
     to: {
 
         /**
          * Hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'` to hsl object `{h:H, s:S, l:L, a:A}`
          *
-         * @memberof ColorUtil.csshsla
+         * @memberof colorutil.csshsla.to
          *
          * @example
          * ColorUtil.csshsla.toHsl('hsla(180, 50%, 60%, 0.5)');
