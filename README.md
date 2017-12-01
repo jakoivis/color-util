@@ -175,6 +175,7 @@ colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 25
 | **hueFromColor(color)**   | Color         | Create clone of this color where hue is shifted to same as with the color in argument.
 
 The first call to a getter will cache the returned value so the following calls will be retrieved from cache.
+
 | Getter        | Return value example
 | ---           | ---
 | **int**       | 16711680
@@ -211,6 +212,7 @@ color.hueFromColor(0x660033).hex // "#aa0055"
 ```
 
 ## Color component value ranges of object types
+
 | Color component   | Value range
 | **rgb.r**         | [0,0xff] or [0,255]
 | **rgb.g**         | [0,0xff] or [0,255]
