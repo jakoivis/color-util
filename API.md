@@ -32,15 +32,15 @@
             -   [hsv](#hsv)
     -   [any](#any)
         -   [to](#to-1)
+            -   [csshsl](#csshsl)
+            -   [csshsla](#csshsla)
             -   [hex](#hex-1)
             -   [cssrgb](#cssrgb-1)
             -   [cssrgba](#cssrgba-1)
             -   [hsl](#hsl-1)
-            -   [hsv](#hsv-1)
-            -   [rgb](#rgb-1)
             -   [int](#int-1)
-            -   [csshsl](#csshsl)
-            -   [csshsla](#csshsla)
+            -   [rgb](#rgb-1)
+            -   [hsv](#hsv-1)
     -   [int](#int-2)
         -   [test](#test-1)
         -   [to](#to-2)
@@ -491,6 +491,40 @@ as fast as the direct conversion functions.
 
 #### to
 
+##### csshsl
+
+Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsl(180,50%,60%)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### csshsla
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
 ##### hex
 
 Convert any color to hex notation `'#RRGGBB'`
@@ -559,9 +593,9 @@ colorutil.any.to.hsl('hsl(180, 50%, 60%)');
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
-##### hsv
+##### int
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to number notation `0xRRGGBB`
 
 **Parameters**
 
@@ -570,11 +604,11 @@ Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 **Examples**
 
 ```javascript
-colorutil.any.to.hsv('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5000000000000001, v: 0.8, a: 1}
+colorutil.any.to.int('hsl(180, 50%, 60%)');
+// output: 6737100
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### rgb
 
@@ -596,26 +630,9 @@ colorutil.any.to.rgb({h: 1/6, s: 0.5, l: 0.5});
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
-##### int
+##### hsv
 
-Convert any color to number notation `0xRRGGBB`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.int('hsl(180, 50%, 60%)');
-// output: 6737100
-```
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
-
-##### csshsl
-
-Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -624,28 +641,11 @@ Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
 **Examples**
 
 ```javascript
-colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsl(180,50%,60%)"
+colorutil.any.to.hsv('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5000000000000001, v: 0.8, a: 1}
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-##### csshsla
-
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### int
 
