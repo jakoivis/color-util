@@ -214,7 +214,8 @@ color.hueFromColor(0x660033).hex // "#aa0055"
 ## Color component value ranges of object types
 
 | Color component   | Value range
-| **rgb.r**         | [0,0xff] or [0,255]
+| ---               | ---
+| **rgb.r**         | \[0,0xff\] or \[0,255\]
 | **rgb.g**         | [0,0xff] or [0,255]
 | **rgb.b**         | [0,0xff] or [0,255]
 | **rgb.a**         | [0,0xff] or [0,255]
