@@ -27,7 +27,7 @@ export default {
          * @memberof colorutil.intrgba.to
          *
          * @example
-         * ColorUtil.intrgba.toRgb(0xFF112233)
+         * colorutil.intrgba.to.rgb(0xFF112233)
          * // output: {r: 255, g: 17, b: 34, a: 51}
          *
          * @param      {number}  int        32-bit number

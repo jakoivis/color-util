@@ -46,10 +46,10 @@ export default {
          * Hsl object `{h:H, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
          * @example
-         * ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5});
+         * colorutil.hsl.to.rgb({h: 1/6, s: 0.5, l: 0.5});
          * // output: {r: 191, g: 191, b: 64, a: 255}
          *
-         * ColorUtil.hsl.toRgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});
+         * colorutil.hsl.to.rgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});
          * // output: {r: 191, g: 191, b: 64, a: 128}
          *
          * @memberof colorutil.hsl.to
@@ -95,7 +95,7 @@ export default {
          * Hsl object `{h:H, s:S, l:L, a:A}` to hsv object `{h:H, s:S, v:V, a:A}`
          *
          * @example
-         * ColorUtil.hsl.toHsv({h: 1/6, s: 0.5, l: 0.5});
+         * colorutil.hsl.to.hsv({h: 1/6, s: 0.5, l: 0.5});
          * // output: {h: 0.16666666666666666, s: 0.6666666666666666, v: 0.75, a: 1}
          *
          * @memberof colorutil.hsl.to
@@ -121,7 +121,7 @@ export default {
          * Convert hsl object `{h:H, s:S, l:L}` to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`.
          *
          * @example
-         * ColorUtil.hsl.to.cssHsl({h:2/6, s:0.5, l:0.5});
+         * colorutil.hsl.to.cssHsl({h:2/6, s:0.5, l:0.5});
          * // output: "hsl(120,50%,50%)"
          *
          * @memberof colorutil.hsl.to
@@ -137,7 +137,7 @@ export default {
          * Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`.
          *
          * @example
-         * ColorUtil.hsl.tocssHsla({h:2/6, s:0.5, l:0.5, a:0.5});
+         * colorutil.hsl.to.csshsla({h:2/6, s:0.5, l:0.5, a:0.5});
          * // output: "hsla(120,50%,50%,0.5)"
          *
          * @memberof colorutil.hsl.to

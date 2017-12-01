@@ -19,7 +19,7 @@ export default {
     /**
      * Test validity of a color whether it is in correct notation for this class.
      *
-     * @memberof ColorUtil.hsv
+     * @memberof colorutil.hsv
      *
      * @param      {*}          color   The color
      * @return     {boolean}    True if valid, False otherwise.
@@ -46,9 +46,9 @@ export default {
          * Hsv object `{h:H, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
          *
          * @example
-         * ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1});
+         * colorutil.hsv.to.rgb({h: 0, s: 1, v: 1});
          * // output: {r: 255, g: 0, b: 0, a: 255}
-         * ColorUtil.hsv.toRgb({h: 0, s: 1, v: 1, a: 0.5});
+         * colorutil.hsv.to.rgb({h: 0, s: 1, v: 1, a: 0.5});
          * // output: {r: 255, g: 0, b: 0, a: 128}
          *
          * @memberof colorutil.hsv.to
@@ -94,7 +94,7 @@ export default {
          * Hsv object `{h:H, s:S, v:V, a:A}` to hsl object `{h:H, s:S, l:L, a:A}`
          *
          * @example
-         * ColorUtil.hsv.toHsl({h: 1/6, s: 0.5, v: 0.5});
+         * colorutil.hsv.to.hsl({h: 1/6, s: 0.5, v: 0.5});
          * // output: {h: 0.16666666666666666, s: 0.3333333333333333, l: 0.375, a: 1}
          *
          * @memberof colorutil.hsv.to

@@ -41,7 +41,7 @@ export default {
          * @memberof colorutil.cssrgba.to
          *
          * @example
-         * ColorUtil.cssrgba.toRgb('rgba(0,255,0,0.5)')
+         * colorutil.cssrgba.to.rgb('rgba(0,255,0,0.5)')
          * // output: {r: 0, g: 255, b: 0, a: 127}
 
          * @param      {string} cssrgba    Rgba string
@@ -65,7 +65,7 @@ export default {
          * @memberof colorutil.cssrgba.to
          *
          * @example
-         * ColorUtil.cssrgba.toInt('rgba(0,255,0,0.5)')
+         * colorutil.cssrgba.to.int('rgba(0,255,0,0.5)')
          * // output: 65280
          *
          * @param      {string} cssrgba    Rgba string
@@ -87,7 +87,7 @@ export default {
          * @memberof colorutil.cssrgba.to
          *
          * @example
-         * ColorUtil.cssrgba.toHex('rgba(0,255,0,0.5)')
+         * colorutil.cssrgba.to.hex('rgba(0,255,0,0.5)')
          * // output: "#00ff00"
          *
          * @param      {string} cssrgba    Rgba string

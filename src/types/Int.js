@@ -41,10 +41,10 @@ export default {
          * @memberof colorutil.int.to
          *
          * @example
-         * ColorUtil.int.toRgb(0xFF0000);
+         * colorutil.int.to.rgb(0xFF0000);
          * // output: {r: 255, g: 0, b: 0, a: 255}
          *
-         * ColorUtil.int.toRgb(0xFF0000, 128);
+         * colorutil.int.to.rgb(0xFF0000, 128);
          * // output: {r: 255, g: 0, b: 0, a: 128}
          *
          * @param      {number}  int        Integer
@@ -66,7 +66,7 @@ export default {
          * @memberof colorutil.int.to
          *
          * @example
-         * ColorUtil.int.toHex(0x00FF00);
+         * colorutil.int.to.hex(0x00FF00);
          * // output: "#00ff00"
          *
          * @param      {number}  int        Integer
@@ -82,7 +82,7 @@ export default {
          * @memberof colorutil.int.to
          *
          * @example
-         * ColorUtil.int.to.cssrgb(0x00FF00);
+         * colorutil.int.to.cssrgb(0x00FF00);
          * // output: "rgb(0,255,0)"
          *
          * @param      {number}  int        Integer
@@ -101,10 +101,10 @@ export default {
          * @memberof colorutil.int.to
          *
          * @example
-         * ColorUtil.int.to.cssrgba(0x00FF00);
+         * colorutil.int.to.cssrgba(0x00FF00);
          * // output: "rgba(0,255,0,1)"
          *
-         * ColorUtil.int.to.cssrgba(0x00FF00, 0.5);
+         * colorutil.int.to.cssrgba(0x00FF00, 0.5);
          * // output: "rgba(0,255,0,0.5)"
          *
          * @param      {number}  int        Integer

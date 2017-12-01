@@ -43,9 +43,9 @@ export default {
          * @memberof colorutil.hex.to
          *
          * @example
-         * ColorUtil.hex.toRgb('#00FF00');
+         * colorutil.hex.to.rgb('#00FF00');
          * // output: {r: 0, g: 255, b: 0, a: 255}
-         * ColorUtil.hex.toRgb('#00FF00', 127);
+         * colorutil.hex.to.rgb('#00FF00', 127);
          * // output: {r: 0, g: 255, b: 0, a: 127}
          *
          * @param      {string}  hex        Hexadecimal string
@@ -71,7 +71,7 @@ export default {
          * @memberof colorutil.hex.to
          *
          * @example
-         * ColorUtil.hex.toInt('#00FF00');
+         * colorutil.hex.to.int('#00FF00');
          * // output: 65280
          *
          * @param      {string}  hex        Hexadecimal string
@@ -89,7 +89,7 @@ export default {
          * @memberof colorutil.hex.to
          *
          * @example
-         * ColorUtil.hex.to.cssrgb('#00FF00')
+         * colorutil.hex.to.cssrgb('#00FF00')
          * // output: "rgb(0,255,0)"
          *
          * @param      {string}  hex     Hexadecimal string
@@ -113,10 +113,10 @@ export default {
          * @memberof colorutil.hex.to
          *
          * @example
-         * ColorUtil.hex.to.cssrgba('#00FF00')
+         * colorutil.hex.to.cssrgba('#00FF00')
          * // output: "rgba(0,255,0,1)"
          *
-         * ColorUtil.hex.to.cssrgba('#00FF00', 0.5)
+         * colorutil.hex.to.cssrgba('#00FF00', 0.5)
          * // output: "rgba(0,255,0,0.5)"
          *
          * @param      {string}  hex     Hexadecimal string

@@ -128,6 +128,9 @@ let Rgb = new function() {
     /**
      * Mix two colors. This function has no checking if values are correct.
      *
+     * @memberof colorutil.rgb
+     * @private
+     *
      * @param      {Object} color1    Rgb color
      * @param      {Object} color2    Rgb color
      * @param      {number} position  Position between colors. A value in range 0 - 1
@@ -153,7 +156,7 @@ let Rgb = new function() {
          * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. Alpha is ignored.
          *
          * @example
-         * ColorUtil.rgb.toInt({r: 0, g: 128, b: 255});
+         * colorutil.rgb.to.int({r: 0, g: 128, b: 255});
          * // output: 33023
          *
          * @memberof colorutil.rgb.to
@@ -169,7 +172,7 @@ let Rgb = new function() {
          * Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB'`. Alpha is ignored.
          *
          * @example
-         * ColorUtil.rgb.toHex({r: 0, g: 128, b: 255});
+         * colorutil.rgb.to.hex({r: 0, g: 128, b: 255});
          * // output: "#0080ff"
          *
          * @memberof colorutil.rgb.to
@@ -190,7 +193,7 @@ let Rgb = new function() {
          * Alpha is converted from range 0-255 to 0-1.
          *
          * @example
-         * ColorUtil.rgb.to.cssrgb({r: 0, g: 128, b: 255});
+         * colorutil.rgb.to.cssrgb({r: 0, g: 128, b: 255});
          * // output: "rgb(0,128,255)"
          *
          * @memberof colorutil.rgb.to
@@ -207,7 +210,7 @@ let Rgb = new function() {
          * Alpha is converted from range 0-255 to 0-1.
          *
          * @example
-         * ColorUtil.rgb.to.cssrgba({r: 0, g: 128, b: 255, a: 85});
+         * colorutil.rgb.to.cssrgba({r: 0, g: 128, b: 255, a: 85});
          * // output: "rgba(0,128,255,0.3333333333333333)"
          *
          * @memberof colorutil.rgb.to
@@ -224,9 +227,9 @@ let Rgb = new function() {
          * Resulting value is positive
          *
          * @example
-         * ColorUtil.rgb.toUintabgr({r: 0, g: 128, b: 255, a: 255});
+         * colorutil.rgb.to.uintabgr({r: 0, g: 128, b: 255, a: 255});
          * // output: 4294934528
-         * ColorUtil.rgb.toUintabgr({r: 0, g: 128, b: 255, a: 85});
+         * colorutil.rgb.to.uintabgr({r: 0, g: 128, b: 255, a: 85});
          * // output: 1442807808
          *
          * @memberof colorutil.rgb.to
@@ -243,7 +246,7 @@ let Rgb = new function() {
          * Alpha value is discarded and fully opaque value is used. Resulting value is positive
          *
          * @example
-         * ColorUtil.rgb.toUintabgrOpaque({r: 0, g: 128, b: 255})
+         * colorutil.rgb.to.uintabgrOpaque({r: 0, g: 128, b: 255})
          * // output: 4294934528
          *
          * @memberof colorutil.rgb.to
@@ -260,9 +263,9 @@ let Rgb = new function() {
          * Resulting value is positive
          *
          * @example
-         * ColorUtil.rgb.toUintrgba({r: 0, g: 128, b: 255, a: 255});
+         * colorutil.rgb.to.uintrgba({r: 0, g: 128, b: 255, a: 255});
          * // output: 8454143
-         * ColorUtil.rgb.toUintrgba({r: 0, g: 128, b: 255, a: 85});
+         * colorutil.rgb.to.uintrgba({r: 0, g: 128, b: 255, a: 85});
          * // output: 8453973
          *
          * @memberof colorutil.rgb.to
@@ -279,9 +282,9 @@ let Rgb = new function() {
          * Resulting value can be negative.
          *
          * @example
-         * ColorUtil.rgb.toIntabgr({r: 0, g: 128, b: 255, a: 255});
+         * colorutil.rgb.to.intabgr({r: 0, g: 128, b: 255, a: 255});
          * // output: -32768
-         * ColorUtil.rgb.toIntabgr({r: 0, g: 128, b: 255, a: 85});
+         * colorutil.rgb.to.intabgr({r: 0, g: 128, b: 255, a: 85});
          * // output: 1442807808
          *
          * @memberof colorutil.rgb.to
@@ -298,7 +301,7 @@ let Rgb = new function() {
          * Alpha value is discarded and fully opaque value is used. Resulting value can be negative.
          *
          * @example
-         * ColorUtil.rgb.toIntabgrOpaque({r: 0, g: 128, b: 255})
+         * colorutil.rgb.to.intabgrOpaque({r: 0, g: 128, b: 255})
          * // output: -32768
          *
          * @memberof colorutil.rgb.to
@@ -315,9 +318,9 @@ let Rgb = new function() {
          * Resulting value can be negative.
          *
          * @example
-         * ColorUtil.rgb.toIntrgba({r: 0, g: 128, b: 255, a: 255});
+         * colorutil.rgb.to.intrgba({r: 0, g: 128, b: 255, a: 255});
          * // output: 8454143
-         * ColorUtil.rgb.toIntrgba({r: 0, g: 128, b: 255, a: 85});
+         * colorutil.rgb.to.intrgba({r: 0, g: 128, b: 255, a: 85});
          * // output: 8453973
          *
          * @memberof colorutil.rgb.to
@@ -334,7 +337,7 @@ let Rgb = new function() {
          * where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
          *
          * @example
-         * ColorUtil.rgb.toHsl({r: 255, g: 0, b: 0, a: 255});
+         * colorutil.rgb.to.hsl({r: 255, g: 0, b: 0, a: 255});
          * // output: {h: 0, s: 1, l: 0.5, a: 1}
          *
          * @memberof colorutil.rgb.to
@@ -393,7 +396,7 @@ let Rgb = new function() {
          * where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
          *
          * @example
-         * ColorUtil.rgb.toHsv({r: 255, g: 0, b: 0, a: 255});
+         * colorutil.rgb.to.hsv({r: 255, g: 0, b: 0, a: 255});
          * // output: {h: 0, s: 1, v: 1, a: 1}
          *
          * @memberof colorutil.rgb.to

@@ -41,7 +41,7 @@ export default {
          * @memberof colorutil.csshsla.to
          *
          * @example
-         * ColorUtil.csshsla.toHsl('hsla(180, 50%, 60%, 0.5)');
+         * colorutil.csshsla.to.hsl('hsla(180, 50%, 60%, 0.5)');
          * // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
          *
          * @param      {string} csshsla    Hsl string

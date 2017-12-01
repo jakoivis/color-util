@@ -27,7 +27,7 @@ export default {
          * @memberof colorutil.intabgr.to
          *
          * @example
-         * ColorUtil.intabgr.toRgb(0xFF112233)
+         * colorutil.intabgr.to.rgb(0xFF112233)
          * // output: {a: 255, b: 17, g: 34, r: 51}
          *
          * @param      {number}  int        32-bit number
