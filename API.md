@@ -3,10 +3,19 @@
 ### Table of Contents
 
 -   [colorutil](#colorutil)
+    -   [endian](#endian)
+    -   [convert](#convert)
+    -   [repeat](#repeat)
+        -   [stop](#stop)
+        -   [repeat](#repeat-1)
+    -   [color](#color)
+        -   [clone](#clone)
+        -   [hueFromColor](#huefromcolor)
+        -   [hue](#hue)
     -   [rgb](#rgb)
         -   [test](#test)
         -   [hueColors](#huecolors)
-        -   [hue](#hue)
+        -   [hue](#hue-1)
         -   [gradient](#gradient)
         -   [to](#to)
             -   [int](#int)
@@ -23,15 +32,15 @@
             -   [hsv](#hsv)
     -   [any](#any)
         -   [to](#to-1)
-            -   [hsv](#hsv-1)
-            -   [csshsl](#csshsl)
-            -   [csshsla](#csshsla)
-            -   [rgb](#rgb-1)
-            -   [cssrgb](#cssrgb-1)
             -   [hex](#hex-1)
-            -   [int](#int-1)
+            -   [cssrgb](#cssrgb-1)
             -   [cssrgba](#cssrgba-1)
             -   [hsl](#hsl-1)
+            -   [hsv](#hsv-1)
+            -   [rgb](#rgb-1)
+            -   [int](#int-1)
+            -   [csshsl](#csshsl)
+            -   [csshsla](#csshsla)
     -   [int](#int-2)
         -   [test](#test-1)
         -   [to](#to-2)
@@ -84,13 +93,97 @@
         -   [to](#to-10)
             -   [rgb](#rgb-8)
     -   [intrgba](#intrgba-1)
--   [endian](#endian)
--   [convert](#convert)
--   [repeat](#repeat)
-    -   [stop](#stop)
-    -   [repeat](#repeat-1)
+        -   [to](#to-11)
+            -   [rgb](#rgb-9)
 
 ## colorutil
+
+### endian
+
+Get the endian used by the system.
+
+<https://developer.mozilla.org/en-US/docs/Glossary/Endianness>
+
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 0=little-endian, 1=big-endian, 2=unknown-endian
+
+### convert
+
+Run conversion functions for single color, array of colors or
+matrix of colors.
+
+**Parameters**
+
+-   `colors` **any** Array of colors or single color
+-   `conversionFunctions` **...[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Rest of the parameters are conversion functions
+                                                     which are executed in the order they are listed.
+
+**Examples**
+
+```javascript
+colorutil.convert(0xFF0000, colorutil.int.to.hex);
+// output: "#ff0000"
+
+colorutil.convert([0xFF0000, 0x00FF00], colorutil.int.to.hex);
+// output: ["#ff0000", "#00ff00"]
+
+colorutil.convert([[0xFF0000, 0x00FF00], 0x0000FF], colorutil.int.to.hex);
+// output: [['#ff0000', '#00ff00'], '#0000ff']
+
+colorutil.convert([[0xFF0000, 0x00FF00], 0x0000FF], colorutil.int.to.hex, colorutil.hex.to.cssrgb);
+// output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
+```
+
+Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
+
+### repeat
+
+#### stop
+
+Stop gradient at the edge color
+
+**Parameters**
+
+-   `position`  
+
+#### repeat
+
+Repeat gradient with the same pattern
+
+**Parameters**
+
+-   `position`  
+
+### color
+
+Immutable class which holds and caches all the color values
+
+**Parameters**
+
+-   `color`  
+
+#### clone
+
+Create clone of this color.
+
+Returns **Color** 
+
+#### hueFromColor
+
+Create clone of this color where hue is shifted
+to same as with the color in argument.
+
+**Parameters**
+
+-   `color` **any** Any color value
+
+Returns **Color** 
+
+#### hue
+
+Create new color which is the hue color of this color.
+Cached
+
+Returns **Color** 
 
 ### rgb
 
@@ -169,7 +262,7 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. A
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -178,7 +271,7 @@ colorutil.rgb.to.int({r: 0, g: 128, b: 255});
 // output: 33023
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### hex
 
@@ -186,7 +279,7 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -195,7 +288,7 @@ colorutil.rgb.to.hex({r: 0, g: 128, b: 255});
 // output: "#0080ff"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### cssrgb
 
@@ -204,7 +297,7 @@ Alpha is converted from range 0-255 to 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -213,7 +306,7 @@ colorutil.rgb.to.cssrgb({r: 0, g: 128, b: 255});
 // output: "rgb(0,128,255)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### cssrgba
 
@@ -222,7 +315,7 @@ Alpha is converted from range 0-255 to 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -231,7 +324,7 @@ colorutil.rgb.to.cssrgba({r: 0, g: 128, b: 255, a: 85});
 // output: "rgba(0,128,255,0.3333333333333333)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### uintabgr
 
@@ -240,7 +333,7 @@ Resulting value is positive
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -251,7 +344,7 @@ colorutil.rgb.to.uintabgr({r: 0, g: 128, b: 255, a: 85});
 // output: 1442807808
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### uintabgrOpaque
 
@@ -260,7 +353,7 @@ Alpha value is discarded and fully opaque value is used. Resulting value is posi
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -269,7 +362,7 @@ colorutil.rgb.to.uintabgrOpaque({r: 0, g: 128, b: 255})
 // output: 4294934528
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### uintrgba
 
@@ -278,7 +371,7 @@ Resulting value is positive
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -289,7 +382,7 @@ colorutil.rgb.to.uintrgba({r: 0, g: 128, b: 255, a: 85});
 // output: 8453973
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### intabgr
 
@@ -298,7 +391,7 @@ Resulting value can be negative.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -309,7 +402,7 @@ colorutil.rgb.to.intabgr({r: 0, g: 128, b: 255, a: 85});
 // output: 1442807808
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### intabgrOpaque
 
@@ -318,7 +411,7 @@ Alpha value is discarded and fully opaque value is used. Resulting value can be 
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -327,7 +420,7 @@ colorutil.rgb.to.intabgrOpaque({r: 0, g: 128, b: 255})
 // output: -32768
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### intrgba
 
@@ -336,7 +429,7 @@ Resulting value can be negative.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -347,7 +440,7 @@ colorutil.rgb.to.intrgba({r: 0, g: 128, b: 255, a: 85});
 // output: 8453973
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### hsl
 
@@ -356,7 +449,7 @@ where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -365,7 +458,7 @@ colorutil.rgb.to.hsl({r: 255, g: 0, b: 0, a: 255});
 // output: {h: 0, s: 1, l: 0.5, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### hsv
 
@@ -374,7 +467,7 @@ where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -383,7 +476,7 @@ colorutil.rgb.to.hsv({r: 255, g: 0, b: 0, a: 255});
 // output: {h: 0, s: 1, v: 1, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### any
 
@@ -397,6 +490,74 @@ convenience methods making the usage a little bit easier. These functions are no
 as fast as the direct conversion functions.
 
 #### to
+
+##### hex
+
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.hex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### cssrgb
+
+Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.cssrgb('hsl(180, 50%, 60%)');
+// output: "rgb(102,204,204)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### cssrgba
+
+Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
+// output: "rgba(102,204,204,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### hsl
+
+Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.hsl('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+```
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### hsv
 
@@ -413,41 +574,7 @@ colorutil.any.to.hsv('hsl(180, 50%, 60%)');
 // output: {h: 0.5, s: 0.5000000000000001, v: 0.8, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
-
-##### csshsl
-
-Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsl(180,50%,60%)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-##### csshsla
-
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### rgb
 
@@ -467,41 +594,7 @@ colorutil.any.to.rgb({h: 1/6, s: 0.5, l: 0.5});
 // output: {r: 191, g: 191, b: 64, a: 255}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
-
-##### cssrgb
-
-Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.cssrgb('hsl(180, 50%, 60%)');
-// output: "rgb(102,204,204)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-##### hex
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.hex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### int
 
@@ -518,28 +611,11 @@ colorutil.any.to.int('hsl(180, 50%, 60%)');
 // output: 6737100
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
-##### cssrgba
+##### csshsl
 
-Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
-
-**Parameters**
-
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
-// output: "rgba(102,204,204,1)"
-```
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
-
-##### hsl
-
-Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
 
 **Parameters**
 
@@ -548,11 +624,28 @@ Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 **Examples**
 
 ```javascript
-colorutil.any.to.hsl('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
+colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsl(180,50%,60%)"
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+
+##### csshsla
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### int
 
@@ -591,7 +684,7 @@ colorutil.int.to.rgb(0xFF0000, 128);
 // output: {r: 255, g: 0, b: 0, a: 128}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### hex
 
@@ -608,7 +701,7 @@ colorutil.int.to.hex(0x00FF00);
 // output: "#00ff00"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### cssrgb
 
@@ -625,7 +718,7 @@ colorutil.int.to.cssrgb(0x00FF00);
 // output: "rgb(0,255,0)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### cssrgba
 
@@ -646,7 +739,7 @@ colorutil.int.to.cssrgba(0x00FF00, 0.5);
 // output: "rgba(0,255,0,0.5)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### hex
 
@@ -684,7 +777,7 @@ colorutil.hex.to.rgb('#00FF00', 127);
 // output: {r: 0, g: 255, b: 0, a: 127}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### int
 
@@ -701,7 +794,7 @@ colorutil.hex.to.int('#00FF00');
 // output: 65280
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### cssrgb
 
@@ -718,7 +811,7 @@ colorutil.hex.to.cssrgb('#00FF00')
 // output: "rgb(0,255,0)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### cssrgba
 
@@ -739,7 +832,7 @@ colorutil.hex.to.cssrgba('#00FF00', 0.5)
 // output: "rgba(0,255,0,0.5)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### cssrgb
 
@@ -775,7 +868,7 @@ colorutil.cssrgb.to.rgb('rgb(0,255,0)')
 // output: {r: 0, g: 255, b: 0, a: 255}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### int
 
@@ -792,7 +885,7 @@ colorutil.cssrgb.to.int('rgb(0,255,0)')
 // output: 65280
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### hex
 
@@ -809,7 +902,7 @@ colorutil.cssrgb.to.hex('rgb(0,255,0)')
 // output: "#00ff00"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### cssrgba
 
@@ -844,7 +937,7 @@ colorutil.cssrgba.to.rgb('rgba(0,255,0,0.5)')
 // output: {r: 0, g: 255, b: 0, a: 127}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### int
 
@@ -861,7 +954,7 @@ colorutil.cssrgba.to.int('rgba(0,255,0,0.5)')
 // output: 65280
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)**
+Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 
 ##### hex
 
@@ -878,7 +971,7 @@ colorutil.cssrgba.to.hex('rgba(0,255,0,0.5)')
 // output: "#00ff00"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ### hsl
 
@@ -917,7 +1010,7 @@ colorutil.hsl.to.rgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});
 // output: {r: 191, g: 191, b: 64, a: 128}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### hsv
 
@@ -934,7 +1027,7 @@ colorutil.hsl.to.hsv({h: 1/6, s: 0.5, l: 0.5});
 // output: {h: 0.16666666666666666, s: 0.6666666666666666, v: 0.75, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### csshsl
 
@@ -942,7 +1035,7 @@ Convert hsl object `{h:H, s:S, l:L}` to hsl functional notation string `'hsl(HHH
 
 **Parameters**
 
--   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -951,7 +1044,7 @@ colorutil.hsl.to.cssHsl({h:2/6, s:0.5, l:0.5});
 // output: "hsl(120,50%,50%)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 ##### csshsla
 
@@ -959,7 +1052,7 @@ Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hs
 
 **Parameters**
 
--   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+-   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 **Examples**
 
@@ -968,7 +1061,7 @@ colorutil.hsl.to.csshsla({h:2/6, s:0.5, l:0.5, a:0.5});
 // output: "hsla(120,50%,50%,0.5)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)**
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
 #### gradient
 
@@ -1042,7 +1135,7 @@ colorutil.csshsl.to.hsl('hsl(180, 50%, 60%)');
 // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### csshsla
 
@@ -1077,7 +1170,7 @@ colorutil.csshsla.to.hsl('hsla(180, 50%, 60%, 0.5)');
 // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### hsv
 
@@ -1115,7 +1208,7 @@ colorutil.hsv.to.rgb({h: 0, s: 1, v: 1, a: 0.5});
 // output: {r: 255, g: 0, b: 0, a: 128}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ##### hsl
 
@@ -1132,7 +1225,7 @@ colorutil.hsv.to.hsl({h: 1/6, s: 0.5, v: 0.5});
 // output: {h: 0.16666666666666666, s: 0.3333333333333333, l: 0.375, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 #### gradient
 
@@ -1195,7 +1288,7 @@ colorutil.intabgr.to.rgb(0xFF112233)
 // output: {a: 255, b: 17, g: 34, r: 51}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)**
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
 
 ### intrgba
 
@@ -1203,59 +1296,21 @@ Number conversion functions.
 
 Int32 notation converion functions for 32-bit numbers `0xRRGGBBAA` (big-endian).
 
-## endian
+#### to
 
-Get the endian used by the system.
+##### rgb
 
-<https://developer.mozilla.org/en-US/docs/Glossary/Endianness>
-
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 0=little-endian, 1=big-endian, 2=unknown-endian
-
-## convert
-
-Run conversion functions for single color, array of colors or
-matrix of colors.
+32-bit number `0xRRGGBBAA` (big-endian) to rgb `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Parameters**
 
--   `colors` **any** Array of colors or single color
--   `conversionFunctions` **...[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Rest of the parameters are conversion functions
-                                                     which are executed in the order they are listed.
+-   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 32-bit number
 
 **Examples**
 
 ```javascript
-ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);
-// output: "#ff0000"
-
-ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);
-// output: ["#ff0000", "#00ff00"]
-
-ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
-// output: [['#ff0000', '#00ff00'], '#0000ff']
-
-ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.tocssrgb);
-// output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
+colorutil.intrgba.to.rgb(0xFF112233)
+// output: {r: 255, g: 17, b: 34, a: 51}
 ```
 
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)**
-
-## repeat
-
-Gradient repeat functions
-
-### stop
-
-Stop gradient at the edge color
-
-**Parameters**
-
--   `position`
-
-### repeat
-
-Repeat gradient with the same pattern
-
-**Parameters**
-
--   `position`
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 

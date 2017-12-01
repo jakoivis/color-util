@@ -41,7 +41,7 @@ let SYSTEM_ENDIAN = (() => {
  * @class colorutil
  * @classdesc Color conversion functions and gradient functions.
  */
-let ColorUtil = {
+let colorutil = {
 
     any: Any,
 
@@ -50,7 +50,7 @@ let ColorUtil = {
      *
      * {@link https://developer.mozilla.org/en-US/docs/Glossary/Endianness}
      *
-     * @memberof ColorUtil
+     * @memberof colorutil
      *
      * @return     {number}  0=little-endian, 1=big-endian, 2=unknown-endian
      */
@@ -61,19 +61,19 @@ let ColorUtil = {
      * matrix of colors.
      *
      * @example
-     * ColorUtil.convert(0xFF0000, ColorUtil.int.toHex);
+     * colorutil.convert(0xFF0000, colorutil.int.to.hex);
      * // output: "#ff0000"
      *
-     * ColorUtil.convert([0xFF0000, 0x00FF00], ColorUtil.int.toHex);
+     * colorutil.convert([0xFF0000, 0x00FF00], colorutil.int.to.hex);
      * // output: ["#ff0000", "#00ff00"]
      *
-     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex);
+     * colorutil.convert([[0xFF0000, 0x00FF00], 0x0000FF], colorutil.int.to.hex);
      * // output: [['#ff0000', '#00ff00'], '#0000ff']
      *
-     * ColorUtil.convert([[0xFF0000, 0x00FF00], 0x0000FF], ColorUtil.int.toHex, ColorUtil.hex.tocssrgb);
+     * colorutil.convert([[0xFF0000, 0x00FF00], 0x0000FF], colorutil.int.to.hex, colorutil.hex.to.cssrgb);
      * // output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
      *
-     * @memberof ColorUtil
+     * @memberof colorutil
      *
      * @param      {*}             colors               Array of colors or single color
      * @param      {...function}   conversionFunctions  Rest of the parameters are conversion functions
@@ -87,9 +87,6 @@ let ColorUtil = {
         return ConversionUtil.getColorType(color, TYPES);
     },
 
-    /**
-     * Gradient repeat functions
-     */
     repeat: Repeat,
 
     gradient: Gradient, // TODO: Remove
@@ -102,10 +99,10 @@ let ColorUtil = {
 
 _.forEach(TYPES_ALL, (type) => {
 
-    ColorUtil[type.name] = type;
+    colorutil[type.name] = type;
 });
 
 
 
 
-export default ColorUtil;
+export default colorutil;

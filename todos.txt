@@ -13,6 +13,7 @@ Can be done in future release without braking backward compatibility
 - optimise cache and compare benchmark
     - by not throwing away the converted colors in when converting long color path
     - by utilizing existing cache when converting colors
+- hueFromColor hueFromValue add similar for each color components: s l v a r g b and think about the naming
 
 Maybe
 - color mix. functionality is basically there already

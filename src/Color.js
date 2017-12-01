@@ -6,14 +6,10 @@ import ConversionUtil from './ConversionUtil';
 import _ from './Utils';
 
 /**
- * Immutable class.
+ * Immutable class which holds and caches all the color values
  *
- * - Functions always return new instance of Color
- * - Getters always return a color value
- *
- * @class Color
- *
- * @private
+ * @class color
+ * @memberof colorutil
  */
 class Color {
 
@@ -43,6 +39,8 @@ class Color {
     /**
      * Create clone of this color.
      *
+     * @memberof colorutil.color
+     *
      * @return     {Color}
      */
     clone() {
@@ -53,6 +51,8 @@ class Color {
     /**
      * Create clone of this color where hue is shifted
      * to same as with the color in argument.
+     *
+     * @memberof colorutil.color
      *
      * @param      {*}  color   Any color value
      * @return     {Color}
@@ -70,6 +70,9 @@ class Color {
      * Create clone of this color where hue value is shifted
      * to a value.
      *
+     * @private
+     * @memberof colorutil.color
+     *
      * @param      {*}  color   Hue value in range 0 - 1
      * @return     {Color}
      */
@@ -85,6 +88,8 @@ class Color {
     /**
      * Create new color which is the hue color of this color.
      * Cached
+     *
+     * @memberof colorutil.color
      *
      * @return     {Color}
      */
@@ -143,6 +148,16 @@ _.forEach(TYPES, (type) => {
     });
 });
 
+/*
+ * @name int
+ * @memberof colorutil.color
+ * @type {number}
+ */
 
+/*
+ * @name hex
+ * @memberof colorutil.color
+ * @type {string}
+ */
 
 export default Color;

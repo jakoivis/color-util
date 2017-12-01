@@ -16,6 +16,10 @@ Color format conversion, gradients colors, etc
   * [Basic color format conversion methods](#basic-color-format-conversion-methods)
   * [Mass color format conversion with `colorutil.convert`](#mass-color-format-conversion-with-colorutilconvert)
 - [`colorutil.color`](#colorutilcolor)
+  * [Clone a color](#clone-a-color)
+  * [hue](#hue)
+  * [hueFromColor](#huefromcolor)
+- [Color component value ranges of object types](#color-component-value-ranges-of-object-types)
 - [Gradients](#gradients)
   * [Gradient options](#gradient-options)
   * [Gradient color data structures](#gradient-color-data-structures)
@@ -162,31 +166,28 @@ colorutil.convert(colors, colorutil.any.to.rgb) // [{r: 255, g: 255, b: 0, a: 25
 ```
 
 ## `colorutil.color`
-`colorutil.color` function creates an immutable Color object which offers getters for each color type and some other usefull features.
+`colorutil.color` function creates an immutable `Color` object which offers getters for each color type and some other usefull features.
 
-| Function                  | Return value          | Description
-| ---                       | ---                   | ---
-| **clone()**               | new Color instance    | Creates a clone of a color.
-| **hueFromColor(color)**   | new Color instance    | Create clone of this color where hue is shifted to same as with the color in argument.
-| **hueFromValue(number)**  | new Color instance    | Create clone of this color where hue value is shifted to a value. Hue value is in range 0 to 1.
-| **hue()**                 | new Color instance    | Create new color which is the hue color of this color. Returned value is cached.
+| Function                  | Return value  | Description
+| ---                       | ---           | ---
+| **clone()**               | Color         | Creates a clone of a color.
+| **hue()**                 | Color         | Create new color which is the hue color of this color. Returned value is cached.
+| **hueFromColor(color)**   | Color         | Create clone of this color where hue is shifted to same as with the color in argument.
 
-<!--
 The first call to a getter will cache the returned value so the following calls will be retrieved from cache.
-| Getter        |
-| ---           |
-| **int**       |
-| **hex**       |
-| **rgb**       |
-| **cssrgb**    |
-| **cssrgba**   |
-| **hsl**       |
-| **csshsl**    |
-| **csshsla**   |
-| **hsv**       |
+| Getter        | Return value example
+| ---           | ---
+| **int**       | 16711680
+| **hex**       | "#ff0000"
+| **rgb**       | {r: 255, g: 0, b: 0, a: 255}
+| **cssrgb**    | "rgb(255,0,0)"
+| **cssrgba**   | "rgba(255,0,0,1)"
+| **hsl**       | {h: 0, s: 1, l: 0.5, a: 1}
+| **csshsl**    | "hsl(0,100%,50%)"
+| **csshsla**   | "hsla(0,100%,50%,1)"
+| **hsv**       | {h: 0, s: 1, v: 1, a: 1}
 
-
- Clone a color
+### Clone a color
 
 ```javascript
 let color1 = colorutil.color(0xff0000);
@@ -196,8 +197,33 @@ let color2 = color1.clone();
 // also creates a clone
 let color3 = colorutil.color(color1);
 ```
--->
 
+### hue
+```javascript
+colorutil.color("#00aa00").hue().hex // "##00ff00"
+```
+
+### hueFromColor
+```javascript
+let color = colorutil.color("#00aa00");
+
+color.hueFromColor(0x660033).hex // "#aa0055"
+```
+
+## Color component value ranges of object types
+| Color component   | Value range
+| **rgb.r**         | [0,0xff] or [0,255]
+| **rgb.g**         | [0,0xff] or [0,255]
+| **rgb.b**         | [0,0xff] or [0,255]
+| **rgb.a**         | [0,0xff] or [0,255]
+| **hsv.h**         | [0,1]
+| **hsv.s**         | [0,1]
+| **hsv.v**         | [0,1]
+| **hsv.a**         | [0,1]
+| **hsl.h**         | [0,1]
+| **hsl.s**         | [0,1]
+| **hsl.l**         | [0,1]
+| **hsl.a**         | [0,1]
 
 ## Gradients
 The main difference to native canvas gradients is that color-util gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.

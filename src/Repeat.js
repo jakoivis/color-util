@@ -1,7 +1,7 @@
 
 /**
- * @class Repeat
- * @private
+ * @class repeat
+ * @memberof colorutil
  */
 export default {
 
@@ -12,7 +12,7 @@ export default {
     /**
      * Stop gradient at the edge color
      *
-     * @memberof ColorUtil.repeat
+     * @memberof colorutil.repeat
      */
     stop: (position) => {
         return position < 0 ? 0 : position > 1 ? 1 : position;
@@ -21,7 +21,7 @@ export default {
     /**
      * Repeat gradient with the same pattern
      *
-     * @memberof ColorUtil.repeat
+     * @memberof colorutil.repeat
      */
     repeat: (position) => {
         return position < 0 ? 1 + position % 1 : position > 1 ? position % 1 : position;
