@@ -1,16 +1,16 @@
 
 import _ from '../Utils';
 
-import GradientDataObjects from './GradientDataObjects';
-import GradientDataObjectsWithColors from './GradientDataObjectsWithColors';
-import GradientDataArraysWithObjects from './GradientDataArraysWithObjects';
-import GradientDataObjectsMatrix from './GradientDataObjectsMatrix';
+import GradientData1DFlat from './GradientData1DFlat';
+import GradientData2DObject from './GradientData2DObject';
+import GradientData2DArray from './GradientData2DArray';
+import GradientData2DFlat from './GradientData2DFlat';
 
 const GRADIENT_DATA_TYPES = [
-   GradientDataObjects,
-   GradientDataObjectsWithColors,
-   GradientDataArraysWithObjects,
-   GradientDataObjectsMatrix
+    GradientData1DFlat,
+    GradientData2DObject,
+    GradientData2DArray,
+    GradientData2DFlat
 ];
 
 export default class {
@@ -31,7 +31,7 @@ export default class {
 
         if (!dataType) {
 
-            throw new Error('One sample was tested and it did not match any supported data structure.');
+            throw new Error('One sample was tested and it did not match any supported data structures.');
         }
 
         return dataType;

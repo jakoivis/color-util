@@ -89,8 +89,6 @@ let colorutil = {
 
     repeat: Repeat,
 
-    gradient: Gradient, // TODO: Remove
-
     color: (color) => {
 
         return new Color(color);
