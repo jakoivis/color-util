@@ -201,7 +201,7 @@ let color3 = colorutil.color(color1);
 
 ### hue
 ```javascript
-colorutil.color("#00aa00").hue().hex // "##00ff00"
+colorutil.color("#00aa00").hue().hex // "#00ff00"
 ```
 
 ### hueFromColor

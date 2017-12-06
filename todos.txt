@@ -1,23 +1,31 @@
-2.0
+2.x
 
-Can be done in future release without braking backward compatibility
+- colorutil.rgb.formatData or something that takes the data and sets it in valid form. already done within gradient function, but separate that functionality
+- expose the formatter
+- implement conversions between formats.
+
+- example for generating any kind of gradient with specific colors
+- utility function to draw stuff on canvas (colorutil.rgb.draw(gradientOptions), colorutil.hsl.draw...)
 - optimize gradients
-- public function determining whether data is matrix (colorutil.isMatrix)
 - docs
 - set verify to true
-- cssrgb etc gradient
+- cssrgb etc gradient. what does that mean??
 - repeat.invert
 - document rotation center behavior on scaling (+translate??)
-- example for generating any kind of gradient with specific colors
 - take transformations apart from the gradients and cache some of the calculations
 - optimise cache and compare benchmark
     - by not throwing away the converted colors in when converting long color path
     - by utilizing existing cache when converting colors
 - hueFromColor hueFromValue add similar for each color components: s l v a r g b and think about the naming
+    - setR(), setA(), setH(), setL()
+    - setRed(), setAlpha(), setHue(), setLightness()
+- color mix. functionality is basically there already
 
 Maybe
-- color mix. functionality is basically there already
+- public function determining whether data is matrix (colorutil.isMatrix)
 - radius for circle gradients. undefined = no radius. out of radius values are transparent
+    - the outer edges are pretty rough they need anoter way to clean them
+    - maybe allow radius with draw function to prevent unnecessary dawing and use globalCompositeOperation to clean edges.
 - circleMatrixColor by radius and distance instead of x & y
 - maybe a shortcut method for getting the grayscale matrix (white, black, hue)
 - maybe provide validation and input patterns
