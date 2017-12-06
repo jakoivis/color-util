@@ -18,10 +18,10 @@ export default class {
 
     static get name () {
 
-        return 'ObjectsMatrix';
+        return '2DFlat';
     }
 
-    static get isMatrix() {
+    static get matrix() {
 
         return true;
     }

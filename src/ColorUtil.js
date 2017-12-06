@@ -1,7 +1,9 @@
 
-import Repeat from './Repeat';
+
+import GradientData from './gradientData/GradientData';
 import ConversionUtil from './ConversionUtil';
 import Gradient from './Gradient';
+import Repeat from './Repeat';
 import Color from './Color';
 import _ from './Utils';
 
@@ -92,6 +94,11 @@ let colorutil = {
     color: (color) => {
 
         return new Color(color);
+    },
+
+    gradientData: (data) => {
+
+        return GradientData.create(data)
     }
 }
 

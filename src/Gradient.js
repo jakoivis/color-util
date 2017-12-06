@@ -90,14 +90,14 @@ export default new function() {
 
         if (type === 'circular') {
 
-            fn = gradientData.isMatrix ? this.circularMatrixGradient : this.circularGradient;
+            fn = gradientData.matrix ? this.circularMatrixGradient : this.circularGradient;
 
         } else {
 
             centerX = options.centerX || 0;
             centerY = options.centerY || 0;
 
-            fn = gradientData.isMatrix ? this.linearMatrixGradient : this.linearGradient;
+            fn = gradientData.matrix ? this.linearMatrixGradient : this.linearGradient;
         }
 
         let width = options.width || 100;

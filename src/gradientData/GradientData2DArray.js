@@ -19,10 +19,10 @@ export default class {
 
     static get name () {
 
-        return 'ArrayWithObjects';
+        return '2DArray';
     }
 
-    static get isMatrix() {
+    static get matrix() {
 
         return true;
     }

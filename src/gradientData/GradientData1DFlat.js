@@ -13,10 +13,10 @@ export default class {
 
     static get name () {
 
-        return 'Objects';
+        return '1DFlat';
     }
 
-    static get isMatrix() {
+    static get matrix() {
 
         return false;
     }

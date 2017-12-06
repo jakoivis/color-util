@@ -26,10 +26,10 @@ export default class {
 
     static get name () {
 
-        return 'ObjectsWithColors';
+        return '2DObjects';
     }
 
-    static get isMatrix() {
+    static get matrix() {
 
         return true;
     }

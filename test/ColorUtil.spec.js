@@ -24,6 +24,18 @@ describe('cu', () => {
         cu.color(0xff0000).hex.should.equal('#ff0000');
     });
 
+    it('gradientData', () => {
+
+        let data = [
+            [{r:255}, {g:255}],
+            [{b:255}]
+        ];
+
+        let dataFormatter = cu.gradientData(data);
+
+        dataFormatter.matrix.should.be.true;
+    })
+
     describe('conversions', () => {
 
         it('any', () => {
