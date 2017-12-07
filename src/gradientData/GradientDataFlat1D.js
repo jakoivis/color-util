@@ -13,7 +13,7 @@ export default class {
 
     static get name () {
 
-        return '1DFlat';
+        return 'flat1d';
     }
 
     static get matrix() {
@@ -44,7 +44,7 @@ export default class {
         return _.findPropertyIndex(colors, 'y') === -1;
     }
 
-    static validate(colors) {
+    static toFlat1d(colors) {
 
         return GradientDataUtil.addMissingStops(colors, 'x');
     }

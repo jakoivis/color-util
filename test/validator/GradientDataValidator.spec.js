@@ -7,87 +7,82 @@ import _ from '../../src/Utils';
 chai.should();
 let expect = require('chai').expect;
 
-describe('GradientData', () => {
+describe.only('GradientData', () => {
 
     describe('create', () => {
 
         it('should not accept invalida data structures', () => {
 
             expect(() => {
-                GradientData.create([]);
+                new GradientData([]);
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientData.create({});
+                new GradientData({});
             }).to.throw('Argument should be and array with at least one item');
 
             expect(() => {
-                GradientData.create([{colors:{}}]);
+                new GradientData([{colors:{}}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientData.create([{colors:[]}]);
+                new GradientData([{colors:[]}]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
 
             expect(() => {
-                GradientData.create([[]]);
+                new GradientData([[]]);
             }).to.throw('One sample was tested and it did not match any supported data structure');
         });
 
-        it('should return type DATA_STRUCTURE_OBJECTS', () => {
+        it('should return type flat1d', () => {
 
             let data = [{}];
 
-            create(data).should.equal(GradientData.types[0]);
+            new GradientData(data).typeName.should.equal('flat1d');
 
             data = [{x: 0}]
 
-            create(data).should.equal(GradientData.types[0]);
+            new GradientData(data).typeName.should.equal('flat1d');
         });
 
-        it('should return type DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
+        it('should return type object2d', () => {
 
             let data = [{
                 colors:[{}]
             }];
 
-            create(data).should.equal(GradientData.types[1]);
+            new GradientData(data).typeName.should.equal('object2d');
 
             data = [{
                 y: 0,
                 colors:[{x: 0}]
             }];
 
-            create(data).should.equal(GradientData.types[1]);
+            new GradientData(data).typeName.should.equal('object2d');
         });
 
-        it('should return type DATA_STRUCTURE_ARRAYS_WITH_OBJECTS', () => {
+        it('should return type array2d', () => {
 
             let data = [[{}]];
 
-            create(data).should.equal(GradientData.types[2]);
+            new GradientData(data).typeName.should.equal('array2d');
 
             data = [[{x: 0}]];
 
-            create(data).should.equal(GradientData.types[2]);
+            new GradientData(data).typeName.should.equal('array2d');
         });
 
-        it('should return type DATA_STRUCTURE_OBJECTS_MATRIX', () => {
+        it('should return type flat2d', () => {
 
             let data = [{x: 0, y: 0}];
 
-            create(data).should.equal(GradientData.types[3]);
+            new GradientData(data).typeName.should.equal('flat2d');
         });
-
-        function create(data) {
-
-            return GradientData.create(data);
-        }
     });
 
     describe('verify', () => {
 
-        describe('DATA_STRUCTURE_OBJECTS', () => {
+        describe('type object2d', () => {
 
             it('should accept structures', () => {
 
@@ -114,7 +109,7 @@ describe('GradientData', () => {
             });
         });
 
-        describe('DATA_STRUCTURE_OBJECTS_MATRIX', () => {
+        describe('type flat2d', () => {
 
             it('should accept structures', () => {
 
@@ -143,13 +138,13 @@ describe('GradientData', () => {
 
         function verify(data) {
 
-            let validator = GradientData.create(data);
+            let gradientData = new GradientData(data);
 
-            return validator.verify(data);
+            return gradientData.verify(data);
         }
     });
 
-    describe('validate', () => {
+    describe.only('conversions', () => {
 
         let color1, color2, color3, color4;
 
@@ -161,11 +156,11 @@ describe('GradientData', () => {
             color4 = {r: 1111, g: 2222, b: 3333, a: 4444};
         })
 
-        describe('DATA_STRUCTURE_OBJECTS', () => {
+        describe.only('flat1d -> flat1d', () => {
 
             it('should add stops for 1 point gradient', () => {
 
-                let data = validate([color1]);
+                let data = getData([color1]);
 
                 data.length.should.equal(2);
                 data[0].x.should.equal(0);
@@ -178,7 +173,7 @@ describe('GradientData', () => {
 
             it('should add stops for 2 point gradient', () => {
 
-                let data = validate([{}, {}]);
+                let data = getData([{}, {}]);
 
                 data.length.should.equal(2);
                 data[0].x.should.equal(0);
@@ -187,7 +182,7 @@ describe('GradientData', () => {
 
             it('should add stops for 3 point gradient', () => {
 
-                let data = validate([{}, {}, {}]);
+                let data = getData([{}, {}, {}]);
 
                 data.length.should.equal(3);
                 data[0].x.should.equal(0);
@@ -197,7 +192,7 @@ describe('GradientData', () => {
 
             it('should add stops for 4 point gradient', () => {
 
-                let data = validate([{}, {}, {}, {}]);
+                let data = getData([{}, {}, {}, {}]);
 
                 data.length.should.equal(4);
                 data[0].x.should.equal(0);
@@ -208,7 +203,7 @@ describe('GradientData', () => {
 
             it('should add missing stops (end-stops missing)', () => {
 
-                let data = validate([color1, {x: 0.4}, color2]);
+                let data = getData([color1, {x: 0.4}, color2]);
 
                 data.length.should.equal(3);
                 data[0].x.should.equal(0);
@@ -222,7 +217,7 @@ describe('GradientData', () => {
 
             it('should add missing stops (end-stops + 1 missing)', () => {
 
-                let data = validate([color1, color2, {x: 0.2}, color3, color4]);
+                let data = getData([color1, color2, {x: 0.2}, color3, color4]);
 
                 data.length.should.equal(5);
                 data[0].x.should.equal(0);
@@ -240,7 +235,7 @@ describe('GradientData', () => {
 
             it('should add missing stops (end-colors missing)', () => {
 
-                let data = validate([{x: 0.2, r: 1}, color2, {x: 0.8, r: 111}]);
+                let data = getData([{x: 0.2, r: 1}, color2, {x: 0.8, r: 111}]);
 
                 data.length.should.equal(5);
                 data[0].x.should.equal(0);
@@ -262,7 +257,7 @@ describe('GradientData', () => {
                 color2.x = 0.2;
                 color3.x = 1;
 
-                let data = validate([color1, color2, color3]);
+                let data = getData([color1, color2, color3]);
 
                 data.length.should.equal(3);
                 data[0].x.should.equal(0);
@@ -273,6 +268,13 @@ describe('GradientData', () => {
                 data[1].r.should.equal(11);
                 data[2].r.should.equal(111);
             });
+
+            function getData(data) {
+
+                let gradientData = new GradientData(data);
+
+                return gradientData.flat1d;
+            }
         });
 
         describe('DATA_STRUCTURE_OBJECTS_WITH_COLORS', () => {
@@ -526,7 +528,7 @@ describe('GradientData', () => {
 
         function validate(data) {
 
-            let validator = GradientData.create(data);
+            let validator = new GradientData(data);
 
             return validator.validate(data);
         }

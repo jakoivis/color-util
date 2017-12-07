@@ -34,7 +34,7 @@ describe('cu', () => {
         let dataFormatter = cu.gradientData(data);
 
         dataFormatter.matrix.should.be.true;
-    })
+    });
 
     describe('conversions', () => {
 

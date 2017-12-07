@@ -18,7 +18,7 @@ export default class {
 
     static get name () {
 
-        return '2DFlat';
+        return 'flat2d';
     }
 
     static get matrix() {
@@ -49,7 +49,7 @@ export default class {
         return _.findPropertyIndex(colors, 'y') > -1;
     }
 
-    static validate(colors) {
+    static toObject2d(colors) {
 
         colors = _.clone(colors);
 

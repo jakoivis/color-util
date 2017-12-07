@@ -132,9 +132,6 @@ export default {
      *                                                              Data structure is tested from one sample to identify the data structure. This does not
      *                                                              affect that behavior.
      * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
-     * @param      {boolean}   [options.addDefaultColors=true]      Whether to add default colors to fill the missing values. This allows using e.g. {r:0xff}
-     *                                                              as a red value for Rgb gradient without the need for defining the rest of the color components.
-     *                                                              Use defaultColor property to specify a color.
      * @param      {function}  [options.defaultColor={h:0,s:0,v:0,a:1}] Default color used to fill the missing color components in gradient colors
      * @param      {number}    [options.width=100]                  Set size of the gradient in pixels.
      * @param      {number}    [options.height=100]                 Set size of the gradient in pixels.

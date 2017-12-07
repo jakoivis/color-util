@@ -1,5 +1,12 @@
 2.x
 
+- gradientData: same kind of interface as color stuff
+    - colorutil.gradientData(data).to.array2d
+    - colorutil.gradientData.to.array2d(data)
+
+    - colorutil.gradient.data(data).to.array2d
+    - colorutil.gradient.data.to.array2d(data)
+
 - colorutil.rgb.formatData or something that takes the data and sets it in valid form. already done within gradient function, but separate that functionality
 - expose the formatter
 - implement conversions between formats.

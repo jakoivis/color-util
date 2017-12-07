@@ -1,16 +1,16 @@
 
 import _ from '../Utils';
 
-import GradientData1DFlat from './GradientData1DFlat';
-import GradientData2DObject from './GradientData2DObject';
-import GradientData2DArray from './GradientData2DArray';
-import GradientData2DFlat from './GradientData2DFlat';
+import GradientDataFlat1D from './GradientDataFlat1D';
+import GradientDataObject2D from './GradientDataObject2D';
+import GradientDataArray2D from './GradientDataArray2D';
+import GradientDataFlat2D from './GradientDataFlat2D';
 
 const GRADIENT_DATA_TYPES = [
-    GradientData1DFlat,
-    GradientData2DObject,
-    GradientData2DArray,
-    GradientData2DFlat
+    GradientDataFlat1D,
+    GradientDataObject2D,
+    GradientDataArray2D,
+    GradientDataFlat2D
 ];
 
 export default class {
@@ -20,28 +20,80 @@ export default class {
         return GRADIENT_DATA_TYPES;
     }
 
-    static create(colors) {
+    get typeName() {
 
-        if (!Array.isArray(colors) || !colors.length) {
+        return this.dataType.name;
+    }
+
+    get matrix() {
+
+        return this.dataType.matrix;
+    }
+
+    get flat1d() {
+
+        let data = this.dataType.toFlat1d(this.data);
+
+        this._addDefaultColors(data);
+
+        return data;
+    }
+
+    get flat2d() {
+
+        return null;
+    }
+
+    get array2d() {
+
+        return null;
+    }
+
+    get object2d() {
+
+        let data = this.dataType.toObject2d(this.data);
+
+        this._addDefaultColors(data);
+
+        return data;
+    }
+
+    constructor(data, defaultColor) {
+
+        if (!Array.isArray(data) || !data.length) {
 
             throw new Error('Argument should be and array with at least one item.');
         }
 
-        let dataType = this._getDataTypeFromFirstSample(colors);
+        this.dataType = this._getDataTypeFromFirstSample(data);
 
-        if (!dataType) {
+        if (!this.dataType) {
 
             throw new Error('One sample was tested and it did not match any supported data structures.');
         }
 
-        return dataType;
+        this.data = data;
+        this.defaultColor = defaultColor;
     }
 
-    static _getDataTypeFromFirstSample(colors) {
+    verify() {
+
+        return this.dataType.verify(this.data);
+    }
+
+    _addDefaultColors(data) {
+
+        if (this.defaultColor) {
+
+            this.dataType.addDefaultColors(data, this.defaultColor);
+        }
+    }
+
+    _getDataTypeFromFirstSample(data) {
 
         return _.find(GRADIENT_DATA_TYPES, (dataType) => {
 
-            return dataType.testStructure(colors);
+            return dataType.testStructure(data);
         });
     }
 };

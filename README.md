@@ -366,6 +366,9 @@ Two dimensional structure. This example produces exact same gradient as structur
 ```
 
 ## Change history
+* 2.1.0
+    * `colorutil.gradientData` added
+    * `addDefaultColors` removed from gradient functions. Those are always added.
 * 2.0.0
     * Gradients are accessed with `gradient` method of a color type.
     * Gradient color stops

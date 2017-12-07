@@ -1,32 +1,25 @@
 
 import _ from '../Utils';
 import GradientDataUtil from './GradientDataUtil';
+
 /*
-
-two dimensional data structure for matrix gradients
-
+Two dimensional self scaling matrix data structure
 [
-    {
-        y: 0,
-        colors: [
-            {x:0},
-            {x:1}
-        ]
-    },
-    {
-        y: 0,
-        colors: [
-            {x:0},
-            {x:1}
-        ]
-    }
+    [
+        {},
+        {}
+    ],
+    [
+        {},
+        {x: ...}
+    ].y = ...
 ];
 */
 export default class {
 
     static get name () {
 
-        return '2DObjects';
+        return 'array2d';
     }
 
     static get matrix() {
@@ -48,15 +41,10 @@ export default class {
 
     static testStructureSingleSample(sample) {
 
-        let subSamples = _.get(sample, 'colors');
-        let isValid = _.isObject(sample) && Array.isArray(subSamples);
+        let subSamples = sample;
+        let isValid = Array.isArray(sample) && subSamples.length > 0;
 
         if (!isValid) {
-
-            return false;
-        }
-
-        if (subSamples.length < 1) {
 
             return false;
         }
@@ -76,9 +64,23 @@ export default class {
         return true;
     }
 
-    static validate(colors) {
+    static toObject2d(colors) {
 
-        return GradientDataUtil.addMissingStopsXY(colors);
+        let data = colors.map((item) => {
+
+            let newItem = {}
+
+            if (_.isNumber(item.y)) {
+
+                newItem.y = item.y;
+            }
+
+            newItem.colors = item;
+
+            return newItem;
+        });
+
+        return GradientDataUtil.addMissingStopsXY(data);
     }
 
     static addDefaultColors(colors, defaultColor) {
