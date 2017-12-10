@@ -44,13 +44,28 @@ export default class {
         return _.findPropertyIndex(colors, 'y') === -1;
     }
 
-    static toFlat1d(colors) {
+    static toFlat1d(colors, defaultColor) {
 
-        return GradientDataUtil.addMissingStops(colors, 'x');
+        let data = GradientDataUtil.addMissingStops(colors, 'x');
+
+        GradientDataUtil.addDefaultColors(data, defaultColor);
+
+        return data;
     }
 
-    static addDefaultColors(colors, defaultColor) {
+    static toObject2d(colors, defaultColor) {
 
-        GradientDataUtil.addDefaultColors(colors, defaultColor);
+        let data = this.toFlat1d(colors, defaultColor);
+
+        return [
+            {
+                y: 0,
+                colors: data
+            },
+            {
+                y: 1,
+                colors: data
+            }
+        ];
     }
 }

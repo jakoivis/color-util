@@ -236,4 +236,25 @@ module.exports = new function() {
             callback(item, i);
         }
     };
+
+    this.map = (data, callback) => {
+
+        let result = [];
+
+        for (let i = 0; i < data.length; i++) {
+
+            let item = data[i];
+
+            if (typeof callback === 'string') {
+
+                result.push(this.get(item, callback));
+            
+            } else {
+
+                result.push(callback(item, i));
+            }
+        }
+
+        return result;
+    };
 };

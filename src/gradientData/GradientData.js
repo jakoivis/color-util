@@ -13,7 +13,7 @@ const GRADIENT_DATA_TYPES = [
     GradientDataFlat2D
 ];
 
-export default class {
+export default class GradientData {
 
     static get types() {
 
@@ -32,30 +32,32 @@ export default class {
 
     get flat1d() {
 
-        let data = this.dataType.toFlat1d(this.data);
-
-        this._addDefaultColors(data);
-
-        return data;
+        return this.dataType.toFlat1d(this.data, this.defaultColor);
     }
 
     get flat2d() {
 
-        return null;
+        let data = this.dataType.toFlat2d(this.data, this.defaultColor);
+
+        return data;
     }
 
     get array2d() {
 
-        return null;
+        if (!_.has(this.dataType, 'toArray2d')) {
+
+            let data = this.dataType.toObject2d(this.data, this.defaultColor);
+            let gradientData = new GradientData(data, this.defaultColor);
+
+            return gradientData.array2d;
+        }
+
+        return this.dataType.toArray2d(this.data, this.defaultColor);
     }
 
     get object2d() {
 
-        let data = this.dataType.toObject2d(this.data);
-
-        this._addDefaultColors(data);
-
-        return data;
+        return this.dataType.toObject2d(this.data, this.defaultColor);
     }
 
     constructor(data, defaultColor) {
@@ -79,14 +81,6 @@ export default class {
     verify() {
 
         return this.dataType.verify(this.data);
-    }
-
-    _addDefaultColors(data) {
-
-        if (this.defaultColor) {
-
-            this.dataType.addDefaultColors(data, this.defaultColor);
-        }
     }
 
     _getDataTypeFromFirstSample(data) {

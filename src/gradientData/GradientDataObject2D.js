@@ -76,13 +76,57 @@ export default class {
         return true;
     }
 
-    static toObject2d(colors) {
+    static toObject2d(colors, defaultColor) {
 
-        return GradientDataUtil.addMissingStopsXY(colors);
+        let data = GradientDataUtil.addMissingStopsXY(colors);
+
+        GradientDataUtil.addDefaultColorsForMatrix(data, defaultColor);
+
+        return data;
     }
 
-    static addDefaultColors(colors, defaultColor) {
+    static toFlat1d(colors, defaultColor) {
 
-        GradientDataUtil.addDefaultColorsForMatrix(colors, defaultColor);
+        let data = this.toObject2d(colors, defaultColor);
+        let result = [];
+
+        _.forEach(data, (row) => {
+
+            _.forEach(row.colors, (color) => {
+
+                delete color.x;
+
+                result.push(color);
+            }); 
+        });
+
+        return result;
+    }
+
+    static toArray2d(colors, defaultColor) {
+
+        let data = this.toObject2d(colors, defaultColor);
+
+        return _.map(data, 'colors');
+    }
+
+    static toFlat2d(colors, defaultColor) {
+
+        let data = this.toObject2d(colors, defaultColor);
+        let result = [];
+
+        _.forEach(data, (row) => {
+
+            let y = row.y;
+
+            _.forEach(row.colors, (color) => {
+
+                color.y = y;
+
+                result.push(color);
+            });
+        });
+
+        return result;
     }
 }
