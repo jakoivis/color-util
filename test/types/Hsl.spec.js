@@ -47,4 +47,39 @@ describe('Hsl', () => {
     it('hsv', () => {
         Hsl.to.hsv({h: 0.5, s: 0.5, l: 0.1}).should.eql({h: 0.5, s: 0.6666666666666665, v: 0.15, a: 1});
     });
+
+    describe('gradientData', () => {
+
+        it('should provide gradient data conversions', () => {
+
+            let gradientData = Hsl.gradientData([
+                [{h:0.5}, {s:0.5}],
+                [{l:0.5}]
+            ]);
+
+            let data = gradientData.flat2d;
+
+            gradientData.matrix.should.be.true;
+
+            data[0].x.should.equal(0);
+            data[0].y.should.equal(0);
+            data[0].h.should.equal(0.5);
+            data[0].s.should.equal(0);
+        });
+
+        it('should allow overriding default color', () => {
+
+            let gradientData = Hsl.gradientData([
+                [{h:0.5}, {s:0.5}],
+                [{l:0.5}]
+            ], {h:0.1, s: 0.2, l: 0.3, a: 0.4});
+
+            let data = gradientData.flat2d;
+
+            gradientData.matrix.should.be.true;
+
+            data[0].h.should.equal(0.5);
+            data[0].s.should.equal(0.2);
+        });
+    });
 });

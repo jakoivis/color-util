@@ -7,7 +7,7 @@ let expect = require('chai').expect;
 
 // just test that everything is accessible from this object
 
-describe('cu', () => {
+describe('colorutil', () => {
 
     it('convert', () => {
 
@@ -22,18 +22,6 @@ describe('cu', () => {
     it('color', () => {
 
         cu.color(0xff0000).hex.should.equal('#ff0000');
-    });
-
-    it('gradientData', () => {
-
-        let data = [
-            [{r:255}, {g:255}],
-            [{b:255}]
-        ];
-
-        let dataFormatter = cu.gradientData(data);
-
-        dataFormatter.matrix.should.be.true;
     });
 
     describe('conversions', () => {

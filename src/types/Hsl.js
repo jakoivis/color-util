@@ -1,5 +1,13 @@
 
 import Gradient from '../Gradient';
+import GradientData from '../gradientData/GradientData';
+
+const DEFAULT_COLOR = {
+    h: 0,
+    s: 0,
+    l: 0,
+    a: 1
+};
 
 /**
  * Hsl conversion functions
@@ -189,14 +197,25 @@ export default {
         return Gradient.createGradient(options, {
 
             mixColors: mixColors,
-
-            defaultColor: {
-                h: 0,
-                s: 0,
-                l: 0,
-                a: 1
-            }
+            defaultColor: DEFAULT_COLOR
         });
+    },
+
+    /**
+     * Create a gradient data object which allows conversion
+     * between the supported data structures
+     *
+     * @memberof colorutil.hsl
+     *
+     * @param      {Array}          data            Array of colors. There are multiple types of data structures.
+     * @param      {Object}         [defaultColor={h:0,s:0,l:0,a:1}]  The default color
+     * @return     {GradientData}
+     */
+    gradientData: (data, defaultColor) => {
+
+        defaultColor = defaultColor || DEFAULT_COLOR;
+
+        return new GradientData(data, defaultColor);
     }
 }
 

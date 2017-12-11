@@ -32,14 +32,28 @@ export default class GradientData {
 
     get flat1d() {
 
+        if (!_.has(this.dataType, 'toFlat1d')) {
+
+            let data = this.dataType.toObject2d(this.data, this.defaultColor);
+            let gradientData = new GradientData(data, this.defaultColor);
+
+            return gradientData.flat1d;
+        }
+
         return this.dataType.toFlat1d(this.data, this.defaultColor);
     }
 
     get flat2d() {
 
-        let data = this.dataType.toFlat2d(this.data, this.defaultColor);
+        if (!_.has(this.dataType, 'toFlat2d')) {
 
-        return data;
+            let data = this.dataType.toObject2d(this.data, this.defaultColor);
+            let gradientData = new GradientData(data, this.defaultColor);
+
+            return gradientData.flat2d;
+        }
+
+        return this.dataType.toFlat2d(this.data, this.defaultColor);
     }
 
     get array2d() {

@@ -9,7 +9,7 @@ let expect = require('chai').expect;
 
 let defaultColor = {r: 0, g: 0, b: 0, a: 255};
 
-describe.only('GradientData', () => {
+describe('GradientData', () => {
 
     describe('constructor', () => {
 
@@ -149,6 +149,7 @@ describe.only('GradientData', () => {
     describe('conversions', () => {
 
         let color1, color2, color3, color4;
+        let dataArray2d3x3;
 
         beforeEach(() => {
 
@@ -156,6 +157,172 @@ describe.only('GradientData', () => {
             color2 = {r: 11, g: 22, b: 33, a: 44};
             color3 = {r: 111, g: 222, b: 333, a: 444};
             color4 = {r: 1111, g: 2222, b: 3333, a: 4444};
+
+            dataArray2d3x3 = [
+                [
+                    color1, color2, color3
+                ],
+                [
+                    color1, color2, color3
+                ],
+                [
+                    color1, color2, color3
+                ]
+            ];
+        });
+
+        describe('quick test for supported conversion directions and default colors', () => {
+
+            const emptyObject2d = [{colors:[{}]}];
+            const emptyArray2d = [[{}]];
+            const emptyFlat2d = [{y:0}];
+            const emptyFlat1d = [{}];
+
+            it('object2d -> object2d', () => {
+
+                let data = new GradientData(emptyObject2d, defaultColor).object2d;
+
+                verifyObject2d(data);
+            });
+
+            it('object2d -> array2d', () => {
+
+                let data = new GradientData(emptyObject2d, defaultColor).array2d;
+
+                verifyArray2d(data);
+            });
+
+            it('object2d -> flat2d', () => {
+
+                let data = new GradientData(emptyObject2d, defaultColor).flat2d;
+
+                verifyFlat2d(data);
+            });
+
+            it('object2d -> flat1d', () => {
+
+                let data = new GradientData(emptyObject2d, defaultColor).flat1d;
+
+                verifyFlat1dFromMatrix(data);
+            });
+
+            it('array2d -> object2d', () => {
+
+                let data = new GradientData(emptyArray2d, defaultColor).object2d;
+
+                verifyObject2d(data);
+            });
+
+            it('array2d -> array2d', () => {
+
+                let data = new GradientData(emptyArray2d, defaultColor).array2d;
+
+                verifyArray2d(data);
+            });
+
+            it('array2d -> flat2d', () => {
+
+                let data = new GradientData(emptyArray2d, defaultColor).flat2d;
+
+                verifyFlat2d(data);
+            });
+
+            it('array2d -> flat1d', () => {
+
+                let data = new GradientData(emptyArray2d, defaultColor).flat1d;
+
+                verifyFlat1dFromMatrix(data);
+            });
+
+            it('flat2d -> object2d', () => {
+
+                let data = new GradientData(emptyFlat2d, defaultColor).object2d;
+
+                verifyObject2d(data);
+            });
+
+            it('flat2d -> array2d', () => {
+
+                let data = new GradientData(emptyFlat2d, defaultColor).array2d;
+
+                verifyArray2d(data);
+            });
+
+            it('flat2d -> flat2d', () => {
+
+                let data = new GradientData(emptyFlat2d, defaultColor).flat2d;
+
+                verifyFlat2d(data);
+            });
+
+            it('flat2d -> flat1d', () => {
+
+                let data = new GradientData(emptyFlat2d, defaultColor).flat1d;
+
+                verifyFlat1dFromMatrix(data);
+            });
+
+            it('flat1d -> object2d', () => {
+
+                let data = new GradientData(emptyFlat1d, defaultColor).object2d;
+
+                verifyObject2d(data);
+            });
+
+            it('flat1d -> array2d', () => {
+
+                let data = new GradientData(emptyFlat1d, defaultColor).array2d;
+
+                verifyArray2d(data);
+            });
+
+            it('flat1d -> flat2d', () => {
+
+                let data = new GradientData(emptyFlat1d, defaultColor).flat2d;
+
+                verifyFlat2d(data);
+            });
+
+            it('flat1d -> flat1d', () => {
+
+                let data = new GradientData(emptyFlat1d, defaultColor).flat1d;
+
+                verifyFlat1d(data);
+            });
+
+            function verifyObject2d(data) {
+
+                data.length.should.equal(2);
+                data[0].colors.length.should.equal(2);
+                data[1].colors.length.should.equal(2);
+                data[0].colors[0].r.should.equal(0);
+            }
+
+            function verifyArray2d(data) {
+
+                data.length.should.equal(2);
+                data[0].length.should.equal(2);
+                data[1].length.should.equal(2);
+                data[0][0].r.should.equal(0);
+            }
+
+            function verifyFlat2d(data) {
+
+                data.length.should.equal(4);
+                data[0].r.should.equal(0);
+            }
+
+            function verifyFlat1d(data) {
+
+                data.length.should.equal(2);
+                data[0].r.should.equal(0);
+            }
+
+            function verifyFlat1dFromMatrix(data) {
+
+                data.length.should.equal(4);
+                data[0].r.should.equal(0);
+            }
         });
 
         describe('flat1d', () => {
@@ -215,7 +382,7 @@ describe.only('GradientData', () => {
                     data[2].x.should.equal(1);
 
                     data[0].r.should.equal(1);
-                    expect(data[1].r).to.equal(0);
+                    expect(data[1].r).to.equal(undefined);
                     data[2].r.should.equal(11);
                 });
 
@@ -232,7 +399,7 @@ describe.only('GradientData', () => {
 
                     data[0].r.should.equal(1);
                     data[1].r.should.equal(11);
-                    expect(data[2].r).to.equal(0);
+                    expect(data[2].r).to.equal(undefined);
                     data[3].r.should.equal(111);
                     data[4].r.should.equal(1111);
                 });
@@ -275,7 +442,7 @@ describe.only('GradientData', () => {
 
                 it('should add missing color components', () => {
 
-                    let data = getDataFlat1d([{}]);
+                    let data = new GradientData([{}], defaultColor).flat1d;
 
                     data.length.should.equal(2);
                     data[0].r.should.equal(0);
@@ -289,14 +456,32 @@ describe.only('GradientData', () => {
 
                 it('-> object2d', () => {
 
-                    let data = getDataObject2d([color1, color2, color3]);
+                    let data = new GradientData([color1, color2, color3]).object2d;
 
-                    verifyObject2d2x3(data);
+                    data.length.should.equal(2);
+
+                    data[0].y.should.equal(0);
+                    data[1].y.should.equal(1);
+
+                    data[0].colors.length.should.equal(3);
+                    data[1].colors.length.should.equal(3);
+
+                    data[0].colors[0].x.should.equal(0);
+                    data[0].colors[1].x.should.equal(0.5);
+                    data[0].colors[2].x.should.equal(1);
+                    data[1].colors[0].x.should.equal(0);
+                    data[1].colors[1].x.should.equal(0.5);
+                    data[1].colors[2].x.should.equal(1)
+
+                    // verify new point is created with same identical colors
+                    data[0].colors[0].r.should.equal(1);
+                    data[0].colors[1].r.should.equal(11);
+                    data[0].colors[2].r.should.equal(111);
                 });
 
                 it('-> array2d', () => {
 
-                    let data = new GradientData([color1, color2, color3], defaultColor).array2d;
+                    let data = new GradientData([color1, color2, color3]).array2d;
 
                     data.length.should.equal(2);
 
@@ -308,27 +493,31 @@ describe.only('GradientData', () => {
                     data[1][2].x.should.equal(1)
                 });
 
-                xit('-> flat2d', () => {
+                it('-> flat2d', () => {
 
-                    let data = new GradientData([color1, color2, color3], defaultColor).flat2d;
-                    
-                    data.length.should.equal(3);
+                    let data = new GradientData([color1, color2, color3]).flat2d;
+
+                    data.length.should.equal(6);
 
                     data[0].x.should.equal(0);
                     data[1].x.should.equal(0.5);
                     data[2].x.should.equal(1);
+                    data[3].x.should.equal(0);
+                    data[4].x.should.equal(0.5);
+                    data[5].x.should.equal(1);
 
                     data[0].y.should.equal(0);
-                    data[1].y.should.equal(0.5);
-                    data[2].y.should.equal(1);
-
-                    
-                }); 
+                    data[1].y.should.equal(0);
+                    data[2].y.should.equal(0);
+                    data[3].y.should.equal(1);
+                    data[4].y.should.equal(1);
+                    data[5].y.should.equal(1);
+                });
             });
         });
 
         describe('object2d', () => {
-        
+
             describe('-> object2d', () => {
 
                 it('should add stops for 1 point 1 row gradient', () => {
@@ -396,9 +585,9 @@ describe.only('GradientData', () => {
                 });
             });
 
-            describe('-> flat1d', () => {
+            describe('conversion to other types', () => {
 
-                it('should flatten data and remove color stops', () => {
+                it('-> flat1d', () => {
 
                     let data = new GradientData([
                         {
@@ -422,11 +611,8 @@ describe.only('GradientData', () => {
                     expect(data[1].x).to.be.undefined;
                     expect(data[3].x).to.be.undefined;
                 });
-            });
 
-            describe('-> array2d', () => {
-
-                it('should convert to array2d structure', () => {
+                it('-> array2d', () => {
 
                     let data = [
                         {
@@ -444,11 +630,8 @@ describe.only('GradientData', () => {
 
                     verifyArray2d3x3(newData);
                 });
-            });
 
-            describe('-> flat2d', () => {
-
-                it('should convert to flat2d structure', () => {
+                it('-> flat2d', () => {
 
                     let data = [
                         {
@@ -469,51 +652,54 @@ describe.only('GradientData', () => {
             });
         });
 
-        describe('array2d -> object2d', () => {
+        describe('array2d ', () => {
 
-            it('should add stops for 1 point 1 row gradient', () => {
+            describe('-> object2d', () => {
 
-                let data = getDataObject2d([
-                    [
-                        color1
-                    ]
-                ]);
+                it('should add stops for 1 point 1 row gradient', () => {
 
-                verifyObject2d1x1(data);
-            });
+                    let data = getDataObject2d([
+                        [
+                            color1
+                        ]
+                    ]);
 
-            it('should add stops for 3 point 3 row gradient', () => {
+                    verifyObject2d1x1(data);
+                });
 
-                let data = getDataObject2d([
-                    [
-                        color1, color2, color3
-                    ],
-                    [
-                        color1, color2, color3
-                    ],
-                    [
-                        color1, color2, color3
-                    ]
-                ]);
+                it('should add stops for 3 point 3 row gradient', () => {
 
-                verifyObject2d3x3(data);
-            });
+                    let data = getDataObject2d([
+                        [
+                            color1, color2, color3
+                        ],
+                        [
+                            color1, color2, color3
+                        ],
+                        [
+                            color1, color2, color3
+                        ]
+                    ]);
 
-            it('should add missing stops (end-stops missing)', () => {
+                    verifyObject2d3x3(data);
+                });
 
-                color2.x = 0.4;
+                it('should add missing stops (end-stops missing)', () => {
 
-                let row1 = [color1, color2, color3];
-                let row2 = [color1, color2, color3];
-                let row3 = [color1, color2, color3];
+                    color2.x = 0.4;
 
-                row2.y = 0.4;
+                    let row1 = [color1, color2, color3];
+                    let row2 = [color1, color2, color3];
+                    let row3 = [color1, color2, color3];
 
-                let data = getDataObject2d([
-                    row1, row2, row3
-                ]);
+                    row2.y = 0.4;
 
-                verifyObject2d3x3WithMissingEndPoints(data);
+                    let data = getDataObject2d([
+                        row1, row2, row3
+                    ]);
+
+                    verifyObject2d3x3WithMissingEndPoints(data);
+                });
             });
         });
 
@@ -590,8 +776,8 @@ describe.only('GradientData', () => {
         });
 
         function getDataFlat1d(data) {
-            
-            let gradientData = new GradientData(data, defaultColor);
+
+            let gradientData = new GradientData(data);
 
             return gradientData.flat1d;
         }
@@ -705,29 +891,6 @@ describe.only('GradientData', () => {
             data[3].r.should.equal(1);
             data[4].r.should.equal(11);
             data[5].r.should.equal(111);
-        }
-
-        function verifyObject2d2x3(data) {
-
-            data.length.should.equal(2);
-
-            data[0].y.should.equal(0);
-            data[1].y.should.equal(1);
-
-            data[0].colors.length.should.equal(3);
-            data[1].colors.length.should.equal(3);
-
-            data[0].colors[0].x.should.equal(0);
-            data[0].colors[1].x.should.equal(0.5);
-            data[0].colors[2].x.should.equal(1);
-            data[1].colors[0].x.should.equal(0);
-            data[1].colors[1].x.should.equal(0.5);
-            data[1].colors[2].x.should.equal(1)
-
-            // verify new point is created with same identical colors
-            data[0].colors[0].r.should.equal(1);
-            data[0].colors[1].r.should.equal(11);
-            data[0].colors[2].r.should.equal(111);
         }
 
         function verifyObject2d3x3WithMissingEndPoints(data) {

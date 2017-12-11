@@ -97,7 +97,7 @@ export default class {
                 delete color.x;
 
                 result.push(color);
-            }); 
+            });
         });
 
         return result;

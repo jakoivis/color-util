@@ -64,7 +64,7 @@ export default class {
         return true;
     }
 
-    static toObject2d(colors) {
+    static toObject2d(colors, defaultColor) {
 
         let data = colors.map((item) => {
 
@@ -80,11 +80,10 @@ export default class {
             return newItem;
         });
 
-        return GradientDataUtil.addMissingStopsXY(data);
-    }
+        data = GradientDataUtil.addMissingStopsXY(data);
 
-    static addDefaultColors(colors, defaultColor) {
+        GradientDataUtil.addDefaultColorsForMatrix(data, defaultColor);
 
-        GradientDataUtil.addDefaultColorsForMatrix(colors, defaultColor);
+        return data;
     }
 }

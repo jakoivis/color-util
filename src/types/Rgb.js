@@ -1,7 +1,15 @@
 
 import Gradient from '../Gradient';
+import GradientData from '../gradientData/GradientData';
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
+
+const DEFAULT_COLOR = {
+    r: 0,
+    g: 0,
+    b: 0,
+    a: 255
+};
 
 /**
  * Rgb conversion functions
@@ -112,14 +120,25 @@ let Rgb = new function() {
         return Gradient.createGradient(options, {
 
             mixColors: this.mix,
-
-            defaultColor: {
-                r: 0,
-                g: 0,
-                b: 0,
-                a: 255
-            }
+            defaultColor: DEFAULT_COLOR
         });
+    };
+
+    /**
+     * Create a gradient data object which allows conversion
+     * between the supported data structures
+     *
+     * @memberof colorutil.rgb
+     *
+     * @param      {Array}          data            Array of colors. There are multiple types of data structures.
+     * @param      {Object}         [defaultColor={r:0,g:0,b:0,a:255}]  The default color
+     * @return     {GradientData}
+     */
+    this.gradientData = (data, defaultColor) => {
+
+        defaultColor = defaultColor || DEFAULT_COLOR;
+
+        return new GradientData(data, defaultColor);
     };
 
     /**

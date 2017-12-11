@@ -43,19 +43,6 @@ describe('Gradient', () => {
             });
         });
 
-        it('should not add colors stops when explicitly specified', () => {
-
-            G.createGradient({
-                colors: [{}],
-                onValidationComplete: (colors) => {
-                    colors.length.should.equal(1);
-                    expect(colors[0].x).to.equal(undefined);
-                },
-                validate: false,
-                addDefaultColors: false
-            });
-        });
-
         it('should add default colors by default using typeOptions', () => {
 
             G.createGradient({

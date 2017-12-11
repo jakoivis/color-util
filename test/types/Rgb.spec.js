@@ -249,6 +249,41 @@ describe('Rgb', () => {
         });
     });
 
+    describe('gradientData', () => {
+
+        it('should provide gradient data conversions', () => {
+
+            let gradientData = Rgb.gradientData([
+                [{r:255}, {g:255}],
+                [{b:255}]
+            ]);
+
+            let data = gradientData.flat2d;
+
+            gradientData.matrix.should.be.true;
+
+            data[0].x.should.equal(0);
+            data[0].y.should.equal(0);
+            data[0].r.should.equal(255);
+            data[0].g.should.equal(0);
+        });
+
+        it('should allow overriding default color', () => {
+
+            let gradientData = Rgb.gradientData([
+                [{r:255}, {g:255}],
+                [{b:255}]
+            ], {r:50, g: 60, b: 70, a: 80});
+
+            let data = gradientData.flat2d;
+
+            gradientData.matrix.should.be.true;
+
+            data[0].r.should.equal(255);
+            data[0].g.should.equal(60);
+        });
+    });
+
     function createBasicIntTestFunction(colors, additionalOptions) {
         let rgbColors = C.convert(colors, C.int.to.rgb);
 

@@ -5,7 +5,7 @@ export default class {
 
     static addDefaultColorsForMatrix(colors, defaultColor) {
 
-        let keys = Object.keys(defaultColor);
+        let keys = _.keys(defaultColor);
 
         _.forEach(colors, (item) => {
 
@@ -24,7 +24,7 @@ export default class {
 
     static addDefaultColors(colors, defaultColor) {
 
-        let keys = Object.keys(defaultColor);
+        let keys = _.keys(defaultColor);
 
         _.forEach(colors, (color) => {
 

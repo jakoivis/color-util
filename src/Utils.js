@@ -248,7 +248,7 @@ module.exports = new function() {
             if (typeof callback === 'string') {
 
                 result.push(this.get(item, callback));
-            
+
             } else {
 
                 result.push(callback(item, i));
@@ -256,5 +256,15 @@ module.exports = new function() {
         }
 
         return result;
+    };
+
+    this.keys = (data) => {
+
+        if (!data) {
+
+            return [];
+        }
+
+        return Object.keys(data);
     };
 };
