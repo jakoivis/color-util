@@ -1,5 +1,6 @@
 2.x
 
+- document gradient data function usage
 - example for generating any kind of gradient with specific colors
 - utility function to draw stuff on canvas (colorutil.rgb.draw(gradientOptions), colorutil.hsl.draw...)
 - optimize gradients

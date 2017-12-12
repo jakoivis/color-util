@@ -132,7 +132,7 @@ export default {
      * @memberof colorutil.hsv
      *
      * @param      {Object}    options                              Options provided by user
-     * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
+     * @param      {Array|GradientData}     options.colors          Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
      *                                                              defines whether the gradient is one or two-dimensional.
      * @param      {string}    [options.type='linear']              Gradient type: linear | circular
      * @param      {boolean}   [options.verify=false]               Verify that each of the colors in colors property have valid data structure.
@@ -140,7 +140,8 @@ export default {
      *                                                              Data structure is tested from one sample to identify the data structure. This does not
      *                                                              affect that behavior.
      * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
-     * @param      {function}  [options.defaultColor={h:0,s:0,v:0,a:1}] Default color used to fill the missing color components in gradient colors
+     * @param      {function}  [options.defaultColor={h:0,s:0,v:0,a:1}] Default color used to fill the missing color components in gradient colors.
+     *                                                              If options.colors is GradientData, specify the defaultColor for GradientData instead.
      * @param      {number}    [options.width=100]                  Set size of the gradient in pixels.
      * @param      {number}    [options.height=100]                 Set size of the gradient in pixels.
      * @param      {number}    [options.centerX=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.

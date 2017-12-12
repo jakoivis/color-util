@@ -11,7 +11,7 @@ export default new function() {
      * Creates a gradient.
      *
      * @param      {Object}    options                              Options provided by user
-     * @param      {Array}     options.colors                       Array of colors. There are multiple types of data structures. Data structure
+     * @param      {Array}     options.colors                       Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
      *                                                              defines whether the gradient is one or two dimensional.
      * @param      {string}    [options.type='linear']              Gradient type: linear | circular
      * @param      {boolean}   [options.verify=false]               Verify that each of the colors in colors property have valid data structure.
@@ -19,7 +19,8 @@ export default new function() {
      *                                                              Data structure is tested from one sample to identify the data structure. This does not
      *                                                              affect that behavior.
      * @param      {boolean}   [options.validate=true]              Validate and add missing color stops and convert colors data structure to internal data structure
-     * @param      {function}  [options.defaultColor={h:0,s:0,v:0,a:1}] Default color used to fill the missing color components in gradient colors
+     * @param      {function}  [options.defaultColor={h:0,s:0,v:0,a:1}] Default color used to fill the missing color components in gradient colors.
+     *                                                              If options.colors is GradientData, specify the defaultColor for GradientData instead.
      * @param      {number}    [options.width=100]                  Set size of the gradient in pixels.
      * @param      {number}    [options.height=100]                 Set size of the gradient in pixels.
      * @param      {number}    [options.centerX=0]                  Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
@@ -51,20 +52,27 @@ export default new function() {
         let type = _.includes(['linear', 'circular'], options.type) ? options.type : 'linear';
         let verify = _.get(options, 'verify', false);
         let validate = _.get(options, 'validate', true);
-        let addDefaultColors = _.get(options, 'addDefaultColors', true);
         let onValidationComplete = options.onValidationComplete || _.noop;
-        let colors = _.clone(options.colors);
         let fn = null;
+        let gradientData = null;
 
-        let defaultColor = options.defaultColor || typeOptions.defaultColor;
-        let gradientData = new GradientData(colors, defaultColor);
+        if (options.colors instanceof GradientData) {
+
+            gradientData = options.colors;
+
+        } else {
+
+            let defaultColor = options.defaultColor || typeOptions.defaultColor;
+
+            gradientData = new GradientData(options.colors, defaultColor);
+        }
 
         if (verify) {
 
-            gradientData.verify(colors);
+            gradientData.verify();
         }
 
-        colors = gradientData.matrix ? gradientData.object2d : gradientData.flat1d;
+        let colors = gradientData.matrix ? gradientData.object2d : gradientData.flat1d;
 
         onValidationComplete(colors);
 

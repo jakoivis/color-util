@@ -78,14 +78,14 @@ export default class GradientData {
 
         if (!Array.isArray(data) || !data.length) {
 
-            throw new Error('Argument should be and array with at least one item.');
+            throw new Error('GradientData: Argument should be and array with at least one item.');
         }
 
         this.dataType = this._getDataTypeFromFirstSample(data);
 
         if (!this.dataType) {
 
-            throw new Error('One sample was tested and it did not match any supported data structures.');
+            throw new Error('GradientData: One sample was tested and it did not match any supported data structures.');
         }
 
         this.data = data;

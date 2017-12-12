@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import chai from 'chai';
 import G from '../src/Gradient.js';
 import C from '../src/ColorUtil.js';
+import Rgb from '../src/types/Rgb.js';
 
 chai.should();
 let expect = require('chai').expect;
@@ -14,8 +15,7 @@ describe('Gradient', () => {
         it('should not validate data structure by default', () => {
 
             G.createGradient({
-                colors: [{}, []],
-                addDefaultColors: false
+                colors: [{}, []]
             });
         });
 
@@ -24,8 +24,7 @@ describe('Gradient', () => {
             expect(() => {
                 G.createGradient({
                     colors: [{}, []],
-                    verify: true,
-                    addDefaultColors: false
+                    verify: true
                 });
             }).to.throw('Color data structure is not consistent / valid');
         });
@@ -38,8 +37,7 @@ describe('Gradient', () => {
                     colors.length.should.equal(2);
                     colors[0].x.should.equal(0);
                     colors[1].x.should.equal(1);
-                },
-                addDefaultColors: false
+                }
             });
         });
 
@@ -75,6 +73,20 @@ describe('Gradient', () => {
                 defaultColor: {a: 1, b: 2, c: 3}
             });
         });
+
+        it('should accept GradientData as colors', () => {
+
+            let data = Rgb.gradientData([{}]);
+
+            G.createGradient({
+                colors: data,
+                onValidationComplete: (colors) => {
+                    colors.length.should.equal(2);
+                    colors[0].x.should.equal(0);
+                    colors[1].x.should.equal(1);
+                }
+            });
+        })
     });
 
     describe('partialGradient', () => {
