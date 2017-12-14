@@ -3,20 +3,16 @@
 <head>
 <title>HSV Gradient</title>
 <script src="/color-util.js"></script>
-<script src="./example.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
 
-let width = 300;
-let height = 300;
-
-let gradient = colorutil.hsv.gradient({
+colorutil.hsv.draw('canvas', {
     type: 'circular',
-    width: width,
-    height: height,
+    width: 300,
+    height: 300,
     colors: [
         {
             y: 0,
@@ -45,8 +41,6 @@ let gradient = colorutil.hsv.gradient({
         }
     ],
 });
-
-example.drawOnCanvasHSV(width, height, gradient);
 
 </script>
 

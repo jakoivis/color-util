@@ -3,27 +3,21 @@
 <head>
 <title>Linear gradient</title>
 <script src="/color-util.js"></script>
-<script src="./example.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
 
-let width = 300;
-let height = 100;
-
-let gradient = colorutil.rgb.gradient({
-    width: width,
-    height: height,
+colorutil.rgb.draw('canvas', {
+    width: 300,
+    height: 300,
     colors: [
         {r:0xff, g:0x00, b:0xa8, x:0.2},
         {r:0xfe, g:0xf6, b:0xa1, x:0.25},
         {r:0x00, g:0xe4, b:0xff, x:0.8}
     ]
 });
-
-example.drawOnCanvas(width, height, gradient);
 
 </script>
 

@@ -3,20 +3,16 @@
 <head>
 <title>HSL Gradient</title>
 <script src="/color-util.js"></script>
-<script src="./example.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
 
-let width = 300;
-let height = 300;
-
-let gradient = colorutil.hsl.gradient({
+colorutil.hsl.draw('canvas', {
     type: 'circular',
-    width: width,
-    height: height,
+    width: 300,
+    height: 300,
     centralize: true,
     colors: [
         [
@@ -29,8 +25,6 @@ let gradient = colorutil.hsl.gradient({
         ]
     ]
 });
-
-example.drawOnCanvasHSL(width, height, gradient);
 
 </script>
 

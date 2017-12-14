@@ -3,25 +3,19 @@
 <head>
 <title>Linear gradient</title>
 <script src="/color-util.js"></script>
-<script src="./example.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
 
-let width = 300;
-let height = 100;
-
-let gradient = colorutil.rgb.gradient({
-    width: width,
-    height: height,
+colorutil.rgb.draw('canvas', {
+    width: 300,
+    height: 300,
     colors: colorutil.convert(
         [0xff00a8, 0xfef6a1, 0x00e4ff],
         colorutil.int.to.rgb)
 });
-
-example.drawOnCanvas(width, height, gradient);
 
 </script>
 

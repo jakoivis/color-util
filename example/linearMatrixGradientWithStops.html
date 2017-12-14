@@ -3,19 +3,15 @@
 <head>
 <title>Linear matrix gradient</title>
 <script src="/color-util.js"></script>
-<script src="./example.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
 
-var width = 300;
-var height = 300;
-
-var gradient = colorutil.rgb.gradient({
-    width: width,
-    height: height,
+colorutil.rgb.draw('canvas', {
+    width: 300,
+    height: 300,
     colors: [
         {
             y: 0,
@@ -36,8 +32,6 @@ var gradient = colorutil.rgb.gradient({
         }
     ]
 });
-
-example.drawOnCanvas(width, height, gradient);
 
 </script>
 

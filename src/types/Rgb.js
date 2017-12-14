@@ -1,6 +1,7 @@
 
 import Gradient from '../Gradient';
 import GradientData from '../gradientData/GradientData';
+import { getCanvasGradient, getCanvasTarget } from './shared.js';
 
 const INT32_ALPHA_LE = (0xFF << 24) >>> 0;
 
@@ -46,39 +47,6 @@ let Rgb = new function() {
             (color.g >= 0 && color.g <= 255) &&
             (color.b >= 0 && color.b <= 255) &&
             (color.hasOwnProperty('a') ? (color.a >= 0 && color.a <= 255) : true);
-    };
-
-    /**
-     * @memberof colorutil.rgb
-     *
-     * @return     {Array} Array of hue colors
-     */
-    this.hueColors = () => {
-        return [
-            {a: 255, b: 0, g: 0, r: 255},
-            {a: 255, b: 0, g: 255, r: 255},
-            {a: 255, b: 0, g: 255, r: 0},
-            {a: 255, b: 255, g: 255, r: 0},
-            {a: 255, b: 255, g: 0, r: 0},
-            {a: 255, b: 255, g: 0, r: 255},
-            {a: 255, b: 0, g: 0, r: 255}
-        ];
-    };
-
-    /**
-     * @memberof colorutil.rgb
-     *
-     * @param      {Object}  rgb     Rgb object
-     * @return     {Object}  hue color in Rgb object notation
-     */
-    this.hue = (rgb) => {
-
-        let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.to.hsv(rgb).h);
-
-        return this.mix(
-            parts.item1,
-            parts.item2,
-            parts.position);
     };
 
     /**
@@ -140,6 +108,74 @@ let Rgb = new function() {
         defaultColor = defaultColor || DEFAULT_COLOR;
 
         return new GradientData(data, defaultColor);
+    };
+
+    /**
+     * Draw a gradient on canvas
+     *
+     * @param      {HTMLCanvasElement|string}   target   The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
+     * @param      {Object|Function}            options  Options of gradient or gradient function
+     */
+    this.draw = (target, options) => {
+
+        let gradient = getCanvasGradient(this, options);
+        let canvas = getCanvasTarget(target);
+
+        if (canvas && gradient) {
+
+            let width = canvas.width;
+            let height = canvas.height;
+            let ctx = canvas.getContext('2d');
+            let imageData  = ctx.createImageData(width, height);
+            let buffer = imageData.data.buffer;
+            let uint32View = new Uint32Array(buffer);
+            let uint8CView = new Uint8ClampedArray(buffer);
+
+            for (let x = 0; x < width; x++) {
+
+                for(let y = 0; y < height; y++) {
+
+                    uint32View[y * width + x] = this.to.intabgr(gradient(x, y));
+                }
+            }
+
+            imageData.data.set(uint8CView);
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+    };
+
+    /**
+     * @memberof colorutil.rgb
+     *
+     * @return     {Array} Array of hue colors
+     */
+    this.hueColors = () => {
+        return [
+            {a: 255, b: 0, g: 0, r: 255},
+            {a: 255, b: 0, g: 255, r: 255},
+            {a: 255, b: 0, g: 255, r: 0},
+            {a: 255, b: 255, g: 255, r: 0},
+            {a: 255, b: 255, g: 0, r: 0},
+            {a: 255, b: 255, g: 0, r: 255},
+            {a: 255, b: 0, g: 0, r: 255}
+        ];
+    };
+
+    /**
+     * @memberof colorutil.rgb
+     *
+     * @param      {Object}  rgb     Rgb object
+     * @return     {Object}  hue color in Rgb object notation
+     */
+    this.hue = (rgb) => {
+
+        let parts = Gradient.partialGradient(Rgb.hueColors(), Rgb.to.hsv(rgb).h);
+
+        return this.mix(
+            parts.item1,
+            parts.item2,
+            parts.position);
     };
 
     /**

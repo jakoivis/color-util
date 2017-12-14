@@ -3,29 +3,23 @@
 <head>
 <title>Circular matrix gradient</title>
 <script src="/color-util.js"></script>
-<script src="./example.js"></script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id="canvas" width="300" height="300"></canvas>
 
 <script>
 
-var width = 300;
-var height = 300;
-
-var gradient = colorutil.rgb.gradient({
+colorutil.rgb.draw('canvas', {
     type: 'circular',
     rotation: 0.25,
-    width: height,
-    height: height,
+    width: 300,
+    height: 300,
     centralize: true,
     colors: [
         [{r:255, g: 255, b: 255}],
         colorutil.rgb.hueColors()
     ]
 });
-
-example.drawOnCanvas(width, height, gradient);
 
 </script>
 
