@@ -366,6 +366,8 @@ Two dimensional structure. This example produces exact same gradient as structur
 ```
 
 ## Change history
+* 2.2.0
+    * GradientData can be used as a data source for gradient functions.
 * 2.1.0
     * Added gradient data conversion functions available: `colorutil.rgb.gradientData`, `colorutil.hsl.gradientData`, `colorutil.hsv.gradientData`
     * `addDefaultColors` removed from gradient functions. Those are always added.

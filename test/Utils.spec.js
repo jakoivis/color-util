@@ -232,4 +232,15 @@ describe('Utils', () => {
         expect(Utils.clone(obj) === obj).to.be.false;
         Utils.clone(obj).should.eql(obj);
     });
+
+    it('should sortBy', () => {
+
+        let data = [{x:2}, {}, {x:1}, {x:0}];
+        let result = Utils.sortBy(data, 'x');
+
+        result[0].x.should.equal(0);
+        result[1].x.should.equal(1);
+        result[2].x.should.equal(2);
+        expect(result[3].x).to.be.undefined;
+    });
 });

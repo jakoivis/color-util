@@ -267,4 +267,41 @@ module.exports = new function() {
 
         return Object.keys(data);
     };
+
+    this.sortBy = (data, field) => {
+
+        if (!Array.isArray(data)) {
+
+            return data;
+        }
+
+        return data.sort((a, b) => {
+
+            let value1 = a[field];
+            let value2 = b[field];
+
+            // place missing ones to the bottom
+            if (value1 === undefined) {
+
+                return 1;
+            }
+
+            if (value2 === undefined) {
+
+                return -1;
+            }
+
+            if (value1 < value2) {
+
+                return -1
+            }
+
+            if (value1 > value2) {
+
+                return 1;
+            }
+
+            return 0;
+        });
+    };
 };
