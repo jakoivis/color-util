@@ -1,6 +1,5 @@
 2.x
 
-- utility function to draw stuff on canvas (colorutil.rgb.draw(gradientOptions), colorutil.hsl.draw...)
 - add some codesandbox examples
 - example for generating any kind of gradient with specific colors
 - in datastructure conversions data needs to be ordered by y, maybe not with x since sometimes it is desired behavior, or is it?
