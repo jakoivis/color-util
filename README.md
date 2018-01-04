@@ -4,7 +4,7 @@
 [![Downloads this month](https://img.shields.io/npm/dm/color-util.svg)](https://npmjs.org/package/color-util)
 [![Npm version](https://img.shields.io/npm/v/color-util.svg)](https://npmjs.org/package/color-util)
 
-Color format conversion, gradients colors, etc
+Color format conversion, gradient colors, etc
 
 ![Preview](/example/githubimage.png)
 
@@ -229,9 +229,11 @@ color.hueFromColor(0x660033).hex // "#aa0055"
 | **hsl.a**         | [0,1]
 
 ## Gradients
-The main difference to native canvas gradients is that color-util gradient functions return one color value from the gradient and whole gradient can be draw on canvas by iterating each canvas pixel whereas the native canvas gradient functions are used as a fillStyle to draw a gradient on canvas. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients thus these are not suitable for animation or rendering large areas.
+Gradients are mainly targeted for retrieving a color from a gradient while the gradient itself may be drawn with other means for example with css. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients and css gradients thus these are not suitable for animation or rendering large areas.
 
-This project started only to satisfy my curiosity, but there are some interesting things color-util gradients can do what the native canvas gradients can't. Canvas has basically linear and radial gradient types where as color-util has linear, matrix, circular and circular matrix types. The matrix types are basically gradients where colors are specified 2-dimensions.
+Examples
+[gradient matrix](https://codesandbox.io/s/2vxj6zp4op)
+[circular gradient matrix](https://codesandbox.io/s/p5x0l4wy97)
 
 In the example below, if each pixel in 100 x 100 pixel area would be drawn, the result would look like this.
 
