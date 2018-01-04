@@ -231,8 +231,14 @@ color.hueFromColor(0x660033).hex // "#aa0055"
 ## Gradients
 Gradients are mainly targeted for retrieving a color from a gradient while the gradient itself may be drawn with other means for example with css. color-util gradient drawing performance on canvas isn't that fast compared to native canvas gradients and css gradients thus these are not suitable for animation or rendering large areas.
 
+Alternatives
+
+[css gradient examples for color picker](https://codesandbox.io/s/ql60qq5p04)
+
 Examples
+
 [gradient matrix](https://codesandbox.io/s/2vxj6zp4op)
+
 [circular gradient matrix](https://codesandbox.io/s/p5x0l4wy97)
 
 In the example below, if each pixel in 100 x 100 pixel area would be drawn, the result would look like this.
