@@ -25,7 +25,7 @@ var config = {
         umdNamedDefine: true
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /(\.jsx|\.js)$/,
                 loader: 'babel-loader',
@@ -73,8 +73,9 @@ var benchmarkConfig = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(html|csv)$/,
-                use: ['file-loader?name=/[name].[ext]']
+                test: /\.(html|csv)$/i,
+                use: 'file-loader'
+                //use: ['file-loader?name=/[name].[ext]']
                 // loader: "file?name=[path][name].[ext]&context=./benchmark"
             }
         ]

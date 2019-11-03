@@ -2,105 +2,105 @@
 
 ### Table of Contents
 
--   [colorutil](#colorutil)
-    -   [endian](#endian)
-    -   [convert](#convert)
-    -   [repeat](#repeat)
-        -   [stop](#stop)
-        -   [repeat](#repeat-1)
-    -   [color](#color)
-        -   [clone](#clone)
-        -   [hueFromColor](#huefromcolor)
-        -   [hue](#hue)
-    -   [rgb](#rgb)
-        -   [test](#test)
-        -   [gradient](#gradient)
-        -   [gradientData](#gradientdata)
-        -   [hueColors](#huecolors)
-        -   [hue](#hue-1)
-        -   [to](#to)
-            -   [int](#int)
-            -   [hex](#hex)
-            -   [cssrgb](#cssrgb)
-            -   [cssrgba](#cssrgba)
-            -   [uintabgr](#uintabgr)
-            -   [uintabgrOpaque](#uintabgropaque)
-            -   [uintrgba](#uintrgba)
-            -   [intabgr](#intabgr)
-            -   [intabgrOpaque](#intabgropaque)
-            -   [intrgba](#intrgba)
-            -   [hsl](#hsl)
-            -   [hsv](#hsv)
-    -   [any](#any)
-        -   [to](#to-1)
-            -   [cssrgba](#cssrgba-1)
-            -   [cssrgb](#cssrgb-1)
-            -   [hex](#hex-1)
-            -   [int](#int-1)
-            -   [csshsl](#csshsl)
-            -   [rgb](#rgb-1)
-            -   [hsv](#hsv-1)
-            -   [hsl](#hsl-1)
-            -   [csshsla](#csshsla)
-    -   [int](#int-2)
-        -   [test](#test-1)
-        -   [to](#to-2)
-            -   [rgb](#rgb-2)
-            -   [hex](#hex-2)
-            -   [cssrgb](#cssrgb-2)
-            -   [cssrgba](#cssrgba-2)
-    -   [hex](#hex-3)
-        -   [test](#test-2)
-        -   [to](#to-3)
-            -   [rgb](#rgb-3)
-            -   [int](#int-3)
-            -   [cssrgb](#cssrgb-3)
-            -   [cssrgba](#cssrgba-3)
-    -   [cssrgb](#cssrgb-4)
-        -   [test](#test-3)
-        -   [to](#to-4)
-            -   [rgb](#rgb-4)
-            -   [int](#int-4)
-            -   [hex](#hex-4)
-    -   [cssrgba](#cssrgba-4)
-        -   [test](#test-4)
-        -   [to](#to-5)
-            -   [rgb](#rgb-5)
-            -   [int](#int-5)
-            -   [hex](#hex-5)
-    -   [hsl](#hsl-2)
-        -   [test](#test-5)
-        -   [gradient](#gradient-1)
-        -   [gradientData](#gradientdata-1)
-        -   [to](#to-6)
-            -   [rgb](#rgb-6)
-            -   [hsv](#hsv-2)
-            -   [csshsl](#csshsl-1)
-            -   [csshsla](#csshsla-1)
-    -   [csshsl](#csshsl-2)
-        -   [test](#test-6)
-        -   [to](#to-7)
-            -   [hsl](#hsl-3)
-    -   [csshsla](#csshsla-2)
-        -   [test](#test-7)
-        -   [to](#to-8)
-            -   [hsl](#hsl-4)
-    -   [hsv](#hsv-3)
-        -   [gradient](#gradient-2)
-        -   [gradient](#gradient-3)
-        -   [gradientData](#gradientdata-2)
-        -   [to](#to-9)
-            -   [rgb](#rgb-7)
-            -   [hsl](#hsl-5)
-    -   [intabgr](#intabgr-1)
-        -   [to](#to-10)
-            -   [rgb](#rgb-8)
-    -   [intrgba](#intrgba-1)
-        -   [to](#to-11)
-            -   [rgb](#rgb-9)
--   [draw](#draw)
--   [draw](#draw-1)
--   [draw](#draw-2)
+-   [colorutil][1]
+    -   [endian][2]
+    -   [convert][3]
+    -   [repeat][4]
+        -   [stop][5]
+        -   [repeat][6]
+    -   [color][7]
+        -   [clone][8]
+        -   [hueFromColor][9]
+        -   [hue][10]
+    -   [rgb][11]
+        -   [test][12]
+        -   [gradient][13]
+        -   [gradientData][14]
+        -   [hueColors][15]
+        -   [hue][16]
+        -   [to][17]
+            -   [int][18]
+            -   [hex][19]
+            -   [cssrgb][20]
+            -   [cssrgba][21]
+            -   [uintabgr][22]
+            -   [uintabgrOpaque][23]
+            -   [uintrgba][24]
+            -   [intabgr][25]
+            -   [intabgrOpaque][26]
+            -   [intrgba][27]
+            -   [hsl][28]
+            -   [hsv][29]
+    -   [any][30]
+        -   [to][31]
+            -   [cssrgba][32]
+            -   [cssrgb][33]
+            -   [hex][34]
+            -   [int][35]
+            -   [csshsl][36]
+            -   [rgb][37]
+            -   [hsv][38]
+            -   [hsl][39]
+            -   [csshsla][40]
+    -   [int][41]
+        -   [test][42]
+        -   [to][43]
+            -   [rgb][44]
+            -   [hex][45]
+            -   [cssrgb][46]
+            -   [cssrgba][47]
+    -   [hex][48]
+        -   [test][49]
+        -   [to][50]
+            -   [rgb][51]
+            -   [int][52]
+            -   [cssrgb][53]
+            -   [cssrgba][54]
+    -   [cssrgb][55]
+        -   [test][56]
+        -   [to][57]
+            -   [rgb][58]
+            -   [int][59]
+            -   [hex][60]
+    -   [cssrgba][61]
+        -   [test][62]
+        -   [to][63]
+            -   [rgb][64]
+            -   [int][65]
+            -   [hex][66]
+    -   [hsl][67]
+        -   [test][68]
+        -   [gradient][69]
+        -   [gradientData][70]
+        -   [to][71]
+            -   [rgb][72]
+            -   [hsv][73]
+            -   [csshsl][74]
+            -   [csshsla][75]
+    -   [csshsl][76]
+        -   [test][77]
+        -   [to][78]
+            -   [hsl][79]
+    -   [csshsla][80]
+        -   [test][81]
+        -   [to][82]
+            -   [hsl][83]
+    -   [hsv][84]
+        -   [gradient][85]
+        -   [gradient][86]
+        -   [gradientData][87]
+        -   [to][88]
+            -   [rgb][89]
+            -   [hsl][90]
+    -   [intabgr][91]
+        -   [to][92]
+            -   [rgb][93]
+    -   [intrgba][94]
+        -   [to][95]
+            -   [rgb][96]
+-   [draw][97]
+-   [draw][98]
+-   [draw][99]
 
 ## colorutil
 
@@ -108,9 +108,9 @@
 
 Get the endian used by the system.
 
-<https://developer.mozilla.org/en-US/docs/Glossary/Endianness>
+[https://developer.mozilla.org/en-US/docs/Glossary/Endianness][100]
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 0=little-endian, 1=big-endian, 2=unknown-endian
+Returns **[number][101]** 0=little-endian, 1=big-endian, 2=unknown-endian
 
 ### convert
 
@@ -120,7 +120,7 @@ matrix of colors.
 **Parameters**
 
 -   `colors` **any** Array of colors or single color
--   `conversionFunctions` **...[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Rest of the parameters are conversion functions
+-   `conversionFunctions` **...[function][102]** Rest of the parameters are conversion functions
                                                      which are executed in the order they are listed.
 
 **Examples**
@@ -139,7 +139,7 @@ colorutil.convert([[0xFF0000, 0x00FF00], 0x0000FF], colorutil.int.to.hex, coloru
 // output: [['rgb(255,0,0)', 'rgb(0,255,0)'], 'rgb(0,0,255)']
 ```
 
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** 
+Returns **[Array][103]** 
 
 ### repeat
 
@@ -162,10 +162,6 @@ Repeat gradient with the same pattern
 ### color
 
 Immutable class which holds and caches all the color values
-
-**Parameters**
-
--   `color`  
 
 #### clone
 
@@ -208,7 +204,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### gradient
 
@@ -216,34 +212,34 @@ Creates a gradient.
 
 **Parameters**
 
--   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options
-    -   `options.colors` **([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | GradientData)** Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
+-   `options` **[Object][105]** Options
+    -   `options.colors` **([Array][103] | GradientData)** Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
                                                                      defines whether the gradient is one or two-dimensional.
-    -   `options.type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Gradient type: linear | circular (optional, default `'linear'`)
-    -   `options.verify` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Verify that each of the colors in colors property have valid data structure.
+    -   `options.type` **[string][106]** Gradient type: linear | circular (optional, default `'linear'`)
+    -   `options.verify` **[boolean][104]** Verify that each of the colors in colors property have valid data structure.
                                                                      If set to true, createGradient will throw an error if data structure is not correct.
                                                                      Data structure is tested from one sample to identify the data structure. This does not
                                                                      affect that behavior. (optional, default `false`)
-    -   `options.validate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
-    -   `options.defaultColor` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Default color used to fill the missing color components in gradient colors.
+    -   `options.validate` **[boolean][104]** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
+    -   `options.defaultColor` **[function][102]** Default color used to fill the missing color components in gradient colors.
                                                                      If options.colors is GradientData, specify the defaultColor for GradientData instead. (optional, default `{r:0,g:0,b:0,a:255}`)
-    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
-    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
-    -   `options.centerX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+    -   `options.width` **[number][101]** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.height` **[number][101]** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.centerX` **[number][101]** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
                                                                      centerX can be used with linear type of gradients to set point of rotation. (optional, default `0`)
-    -   `options.centerY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+    -   `options.centerY` **[number][101]** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
                                                                      centerY can be used with linear type of gradients to set point of rotation. (optional, default `0`)
-    -   `options.scale` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
-    -   `options.scaleX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
-    -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
-    -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.centralize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
-    -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
-    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
-    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
+    -   `options.scale` **[number][101]** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleX` **[number][101]** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleY` **[number][101]** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.translateX` **[number][101]** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.translateY` **[number][101]** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.centralize` **[boolean][104]** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.rotation` **[number][101]** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
+    -   `options.repeatX` **[function][102]** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
+    -   `options.repeatY` **[function][102]** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
 
-Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
+Returns **[function][102]** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
                         Though the x and y may exceed the limit, but gradient repeat will take effect.
 
 #### gradientData
@@ -253,22 +249,22 @@ between the supported data structures
 
 **Parameters**
 
--   `data` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. There are multiple types of data structures.
--   `defaultColor` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The default color (optional, default `{r:0,g:0,b:0,a:255}`)
+-   `data` **[Array][103]** Array of colors. There are multiple types of data structures.
+-   `defaultColor` **[Object][105]** The default color (optional, default `{r:0,g:0,b:0,a:255}`)
 
 Returns **GradientData** 
 
 #### hueColors
 
-Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of hue colors
+Returns **[Array][103]** Array of hue colors
 
 #### hue
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Rgb object
+-   `rgb` **[Object][105]** Rgb object
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** hue color in Rgb object notation
+Returns **[Object][105]** hue color in Rgb object notation
 
 #### to
 
@@ -278,7 +274,7 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit number `0xRRGGBB`. A
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -287,7 +283,7 @@ colorutil.rgb.to.int({r: 0, g: 128, b: 255});
 // output: 33023
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### hex
 
@@ -295,7 +291,7 @@ Convert rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}` to 24-bit hex string `'#RRGGBB
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -304,7 +300,7 @@ colorutil.rgb.to.hex({r: 0, g: 128, b: 255});
 // output: "#0080ff"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### cssrgb
 
@@ -313,7 +309,7 @@ Alpha is converted from range 0-255 to 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -322,7 +318,7 @@ colorutil.rgb.to.cssrgb({r: 0, g: 128, b: 255});
 // output: "rgb(0,128,255)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### cssrgba
 
@@ -331,7 +327,7 @@ Alpha is converted from range 0-255 to 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -340,7 +336,7 @@ colorutil.rgb.to.cssrgba({r: 0, g: 128, b: 255, a: 85});
 // output: "rgba(0,128,255,0.3333333333333333)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### uintabgr
 
@@ -349,7 +345,7 @@ Resulting value is positive
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -360,7 +356,7 @@ colorutil.rgb.to.uintabgr({r: 0, g: 128, b: 255, a: 85});
 // output: 1442807808
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### uintabgrOpaque
 
@@ -369,7 +365,7 @@ Alpha value is discarded and fully opaque value is used. Resulting value is posi
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -378,7 +374,7 @@ colorutil.rgb.to.uintabgrOpaque({r: 0, g: 128, b: 255})
 // output: 4294934528
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### uintrgba
 
@@ -387,7 +383,7 @@ Resulting value is positive
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -398,7 +394,7 @@ colorutil.rgb.to.uintrgba({r: 0, g: 128, b: 255, a: 85});
 // output: 8453973
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### intabgr
 
@@ -407,7 +403,7 @@ Resulting value can be negative.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -418,7 +414,7 @@ colorutil.rgb.to.intabgr({r: 0, g: 128, b: 255, a: 85});
 // output: 1442807808
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### intabgrOpaque
 
@@ -427,7 +423,7 @@ Alpha value is discarded and fully opaque value is used. Resulting value can be 
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -436,7 +432,7 @@ colorutil.rgb.to.intabgrOpaque({r: 0, g: 128, b: 255})
 // output: -32768
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### intrgba
 
@@ -445,7 +441,7 @@ Resulting value can be negative.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -456,7 +452,7 @@ colorutil.rgb.to.intrgba({r: 0, g: 128, b: 255, a: 85});
 // output: 8453973
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### hsl
 
@@ -465,7 +461,7 @@ where h, s, l, a (saturation, luminosity, alpha) are in range 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -474,7 +470,7 @@ colorutil.rgb.to.hsl({r: 255, g: 0, b: 0, a: 255});
 // output: {h: 0, s: 1, l: 0.5, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### hsv
 
@@ -483,7 +479,7 @@ where h, s, v, a (hue, saturation, value, alpha) are in range 0-1.
 
 **Parameters**
 
--   `rgb` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `rgb` **[Object][105]** 
 
 **Examples**
 
@@ -492,7 +488,7 @@ colorutil.rgb.to.hsv({r: 255, g: 0, b: 0, a: 255});
 // output: {h: 0, s: 1, v: 1, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ### any
 
@@ -513,7 +509,7 @@ Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -522,7 +518,7 @@ colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
 // output: "rgba(102,204,204,1)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### cssrgb
 
@@ -530,7 +526,7 @@ Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -539,7 +535,7 @@ colorutil.any.to.cssrgb('hsl(180, 50%, 60%)');
 // output: "rgb(102,204,204)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### hex
 
@@ -547,7 +543,7 @@ Convert any color to hex notation `'#RRGGBB'`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -556,7 +552,7 @@ colorutil.any.to.hex('hsl(180, 50%, 60%)');
 // output: "#66cccc"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### int
 
@@ -564,7 +560,7 @@ Convert any color to number notation `0xRRGGBB`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -573,7 +569,7 @@ colorutil.any.to.int('hsl(180, 50%, 60%)');
 // output: 6737100
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### csshsl
 
@@ -581,7 +577,7 @@ Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -590,7 +586,7 @@ colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
 // output: "hsl(180,50%,60%)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### rgb
 
@@ -598,7 +594,7 @@ Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -610,7 +606,7 @@ colorutil.any.to.rgb({h: 1/6, s: 0.5, l: 0.5});
 // output: {r: 191, g: 191, b: 64, a: 255}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### hsv
 
@@ -618,7 +614,7 @@ Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -627,7 +623,7 @@ colorutil.any.to.hsv('hsl(180, 50%, 60%)');
 // output: {h: 0.5, s: 0.5000000000000001, v: 0.8, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### hsl
 
@@ -635,7 +631,7 @@ Convert any color to hsl object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -644,7 +640,7 @@ colorutil.any.to.hsl('hsl(180, 50%, 60%)');
 // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### csshsla
 
@@ -652,7 +648,7 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 
 **Parameters**
 
--   `color` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Color in any notation
+-   `color` **[Object][105]** Color in any notation
 
 **Examples**
 
@@ -661,7 +657,7 @@ colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
 // output: "hsla(180,50%,60%,1)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ### int
 
@@ -677,7 +673,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### to
 
@@ -687,8 +683,8 @@ Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 
 **Parameters**
 
--   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Integer
--   `a` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha value in range 0-255 (optional, default `0xFF`)
+-   `int` **[number][101]** Integer
+-   `a` **[number][101]** Alpha value in range 0-255 (optional, default `0xFF`)
 
 **Examples**
 
@@ -700,7 +696,7 @@ colorutil.int.to.rgb(0xFF0000, 128);
 // output: {r: 255, g: 0, b: 0, a: 128}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### hex
 
@@ -708,7 +704,7 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 **Parameters**
 
--   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Integer
+-   `int` **[number][101]** Integer
 
 **Examples**
 
@@ -717,7 +713,7 @@ colorutil.int.to.hex(0x00FF00);
 // output: "#00ff00"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### cssrgb
 
@@ -725,7 +721,7 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 **Parameters**
 
--   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Integer
+-   `int` **[number][101]** Integer
 
 **Examples**
 
@@ -734,7 +730,7 @@ colorutil.int.to.cssrgb(0x00FF00);
 // output: "rgb(0,255,0)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### cssrgba
 
@@ -742,8 +738,8 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 **Parameters**
 
--   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Integer
--   `a` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha value in range 0-1 (optional, default `1`)
+-   `int` **[number][101]** Integer
+-   `a` **[number][101]** Alpha value in range 0-1 (optional, default `1`)
 
 **Examples**
 
@@ -755,7 +751,7 @@ colorutil.int.to.cssrgba(0x00FF00, 0.5);
 // output: "rgba(0,255,0,0.5)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ### hex
 
@@ -771,7 +767,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### to
 
@@ -781,8 +777,8 @@ Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 
 **Parameters**
 
--   `hex` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Hexadecimal string
--   `a` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha value in range 0-255 (optional, default `0xFF`)
+-   `hex` **[string][106]** Hexadecimal string
+-   `a` **[number][101]** Alpha value in range 0-255 (optional, default `0xFF`)
 
 **Examples**
 
@@ -793,7 +789,7 @@ colorutil.hex.to.rgb('#00FF00', 127);
 // output: {r: 0, g: 255, b: 0, a: 127}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### int
 
@@ -801,7 +797,7 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 **Parameters**
 
--   `hex` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Hexadecimal string
+-   `hex` **[string][106]** Hexadecimal string
 
 **Examples**
 
@@ -810,7 +806,7 @@ colorutil.hex.to.int('#00FF00');
 // output: 65280
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### cssrgb
 
@@ -818,7 +814,7 @@ Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 **Parameters**
 
--   `hex` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Hexadecimal string
+-   `hex` **[string][106]** Hexadecimal string
 
 **Examples**
 
@@ -827,7 +823,7 @@ colorutil.hex.to.cssrgb('#00FF00')
 // output: "rgb(0,255,0)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### cssrgba
 
@@ -835,8 +831,8 @@ Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 **Parameters**
 
--   `hex` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Hexadecimal string
--   `a` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha value in range 0-1 (optional, default `1`)
+-   `hex` **[string][106]** Hexadecimal string
+-   `a` **[number][101]** Alpha value in range 0-1 (optional, default `1`)
 
 **Examples**
 
@@ -848,7 +844,7 @@ colorutil.hex.to.cssrgba('#00FF00', 0.5)
 // output: "rgba(0,255,0,0.5)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ### cssrgb
 
@@ -864,7 +860,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### to
 
@@ -874,8 +870,8 @@ Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to rgb object `{r:RRR, g:GGG
 
 **Parameters**
 
--   `cssrgb` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Rgb string
--   `a` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha value in range 0-255 (optional, default `0xFF`)
+-   `cssrgb` **[string][106]** Rgb string
+-   `a` **[number][101]** Alpha value in range 0-255 (optional, default `0xFF`)
 
 **Examples**
 
@@ -884,7 +880,7 @@ colorutil.cssrgb.to.rgb('rgb(0,255,0)')
 // output: {r: 0, g: 255, b: 0, a: 255}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### int
 
@@ -892,7 +888,7 @@ Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to 24-bit integer `0xRRGGBB`
 
 **Parameters**
 
--   `cssrgb` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Rgba string
+-   `cssrgb` **[string][106]** Rgba string
 
 **Examples**
 
@@ -901,7 +897,7 @@ colorutil.cssrgb.to.int('rgb(0,255,0)')
 // output: 65280
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### hex
 
@@ -909,7 +905,7 @@ Rgb functional notation string `'rgb(RRR,GGG,BBB)'` to hexadecimal string `'#RRG
 
 **Parameters**
 
--   `cssrgb` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Rgb string
+-   `cssrgb` **[string][106]** Rgb string
 
 **Examples**
 
@@ -918,7 +914,7 @@ colorutil.cssrgb.to.hex('rgb(0,255,0)')
 // output: "#00ff00"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ### cssrgba
 
@@ -934,7 +930,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### to
 
@@ -944,7 +940,7 @@ Rgba functional notation string `'rgba(RRR,GGG,BBB,A)'` to rgb object `{r:RRR, g
 
 **Parameters**
 
--   `cssrgba` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Rgba string
+-   `cssrgba` **[string][106]** Rgba string
 
 **Examples**
 
@@ -953,7 +949,7 @@ colorutil.cssrgba.to.rgb('rgba(0,255,0,0.5)')
 // output: {r: 0, g: 255, b: 0, a: 127}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### int
 
@@ -961,7 +957,7 @@ Rgba functional notation string `'rgba(RRR,GGG,BBB,A)'` to 24-bit integer `0xRRG
 
 **Parameters**
 
--   `cssrgba` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Rgba string
+-   `cssrgba` **[string][106]** Rgba string
 
 **Examples**
 
@@ -970,7 +966,7 @@ colorutil.cssrgba.to.int('rgba(0,255,0,0.5)')
 // output: 65280
 ```
 
-Returns **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+Returns **[number][101]** 
 
 ##### hex
 
@@ -978,7 +974,7 @@ Rgba functional notation string `'rgba(RRR,GGG,BBB,A)'` to hexadecimal string `'
 
 **Parameters**
 
--   `cssrgba` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Rgba string
+-   `cssrgba` **[string][106]** Rgba string
 
 **Examples**
 
@@ -987,7 +983,7 @@ colorutil.cssrgba.to.hex('rgba(0,255,0,0.5)')
 // output: "#00ff00"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ### hsl
 
@@ -1004,7 +1000,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### gradient
 
@@ -1012,34 +1008,34 @@ Creates a gradient.
 
 **Parameters**
 
--   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options provided by user
-    -   `options.colors` **([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | GradientData)** Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
+-   `options` **[Object][105]** Options provided by user
+    -   `options.colors` **([Array][103] | GradientData)** Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
                                                                      defines whether the gradient is one or two-dimensional.
-    -   `options.type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Gradient type: linear | circular (optional, default `'linear'`)
-    -   `options.verify` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Verify that each of the colors in colors property have valid data structure.
+    -   `options.type` **[string][106]** Gradient type: linear | circular (optional, default `'linear'`)
+    -   `options.verify` **[boolean][104]** Verify that each of the colors in colors property have valid data structure.
                                                                      If set to true, createGradient will throw an error if data structure is not correct.
                                                                      Data structure is tested from one sample to identify the data structure. This does not
                                                                      affect that behavior. (optional, default `false`)
-    -   `options.validate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
-    -   `options.defaultColor` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Default color used to fill the missing color components in gradient colors.
+    -   `options.validate` **[boolean][104]** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
+    -   `options.defaultColor` **[function][102]** Default color used to fill the missing color components in gradient colors.
                                                                      If options.colors is GradientData, specify the defaultColor for GradientData instead. (optional, default `{h:0,s:0,l:0,a:1}`)
-    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
-    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
-    -   `options.centerX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+    -   `options.width` **[number][101]** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.height` **[number][101]** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.centerX` **[number][101]** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
                                                                      centerX can be used with linear type of gradients to set point of rotation. (optional, default `0`)
-    -   `options.centerY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+    -   `options.centerY` **[number][101]** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
                                                                      centerY can be used with linear type of gradients to set point of rotation. (optional, default `0`)
-    -   `options.scale` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
-    -   `options.scaleX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
-    -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
-    -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.centralize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
-    -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
-    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
-    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
+    -   `options.scale` **[number][101]** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleX` **[number][101]** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleY` **[number][101]** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.translateX` **[number][101]** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.translateY` **[number][101]** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.centralize` **[boolean][104]** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.rotation` **[number][101]** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
+    -   `options.repeatX` **[function][102]** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
+    -   `options.repeatY` **[function][102]** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
 
-Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
+Returns **[function][102]** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
                         Though the x and y may exceed the limit, but gradient repeat will take effect.
 
 #### gradientData
@@ -1049,8 +1045,8 @@ between the supported data structures
 
 **Parameters**
 
--   `data` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. There are multiple types of data structures.
--   `defaultColor` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The default color (optional, default `{h:0,s:0,l:0,a:1}`)
+-   `data` **[Array][103]** Array of colors. There are multiple types of data structures.
+-   `defaultColor` **[Object][105]** The default color (optional, default `{h:0,s:0,l:0,a:1}`)
 
 Returns **GradientData** 
 
@@ -1062,7 +1058,7 @@ Hsl object `{h:H, s:S, l:L, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Parameters**
 
--   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Hsl object
+-   `hsl` **[Object][105]** Hsl object
 
 **Examples**
 
@@ -1074,7 +1070,7 @@ colorutil.hsl.to.rgb({h: 1/6, s: 0.5, l: 0.5, a: 0.5});
 // output: {r: 191, g: 191, b: 64, a: 128}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### hsv
 
@@ -1082,7 +1078,7 @@ Hsl object `{h:H, s:S, l:L, a:A}` to hsv object `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
--   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Hsl object
+-   `hsl` **[Object][105]** Hsl object
 
 **Examples**
 
@@ -1091,7 +1087,7 @@ colorutil.hsl.to.hsv({h: 1/6, s: 0.5, l: 0.5});
 // output: {h: 0.16666666666666666, s: 0.6666666666666666, v: 0.75, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### csshsl
 
@@ -1099,7 +1095,7 @@ Convert hsl object `{h:H, s:S, l:L}` to hsl functional notation string `'hsl(HHH
 
 **Parameters**
 
--   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `hsl` **[Object][105]** 
 
 **Examples**
 
@@ -1108,7 +1104,7 @@ colorutil.hsl.to.cssHsl({h:2/6, s:0.5, l:0.5});
 // output: "hsl(120,50%,50%)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ##### csshsla
 
@@ -1116,7 +1112,7 @@ Convert hsl object `{h:H, s:S, l:L, a:A}` to hsl functional notation string `'hs
 
 **Parameters**
 
--   `hsl` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `hsl` **[Object][105]** 
 
 **Examples**
 
@@ -1125,7 +1121,7 @@ colorutil.hsl.to.csshsla({h:2/6, s:0.5, l:0.5, a:0.5});
 // output: "hsla(120,50%,50%,0.5)"
 ```
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string][106]** 
 
 ### csshsl
 
@@ -1141,7 +1137,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### to
 
@@ -1151,8 +1147,8 @@ Hsl functional notation string `'hsl(HHH,SSS%,LLL%)'` to hsl object `{h:H, s:S, 
 
 **Parameters**
 
--   `csshsl` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Hsl string
--   `a` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Alpha value in range 0-1 (optional, default `1`)
+-   `csshsl` **[string][106]** Hsl string
+-   `a` **[number][101]** Alpha value in range 0-1 (optional, default `1`)
 
 **Examples**
 
@@ -1161,7 +1157,7 @@ colorutil.csshsl.to.hsl('hsl(180, 50%, 60%)');
 // output: {h: 0.5, s: 0.5, l: 0.6, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ### csshsla
 
@@ -1177,7 +1173,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### to
 
@@ -1187,7 +1183,7 @@ Hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'` to hsl object `{h:H, s:
 
 **Parameters**
 
--   `csshsla` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Hsl string
+-   `csshsla` **[string][106]** Hsl string
 
 **Examples**
 
@@ -1196,7 +1192,7 @@ colorutil.csshsla.to.hsl('hsla(180, 50%, 60%, 0.5)');
 // output: {h: 0.5, s: 0.5, l: 0.6, a: 0.5}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ### hsv
 
@@ -1213,7 +1209,7 @@ Test validity of a color whether it is in correct notation for this class.
 
 -   `color` **any** The color
 
-Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if valid, False otherwise.
+Returns **[boolean][104]** True if valid, False otherwise.
 
 #### gradient
 
@@ -1221,34 +1217,34 @@ Creates a gradient.
 
 **Parameters**
 
--   `options` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Options provided by user
-    -   `options.colors` **([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) | GradientData)** Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
+-   `options` **[Object][105]** Options provided by user
+    -   `options.colors` **([Array][103] | GradientData)** Array of colors or instance of GradientData. There are multiple types of data structures. Data structure
                                                                      defines whether the gradient is one or two-dimensional.
-    -   `options.type` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Gradient type: linear | circular (optional, default `'linear'`)
-    -   `options.verify` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Verify that each of the colors in colors property have valid data structure.
+    -   `options.type` **[string][106]** Gradient type: linear | circular (optional, default `'linear'`)
+    -   `options.verify` **[boolean][104]** Verify that each of the colors in colors property have valid data structure.
                                                                      If set to true, createGradient will throw an error if data structure is not correct.
                                                                      Data structure is tested from one sample to identify the data structure. This does not
                                                                      affect that behavior. (optional, default `false`)
-    -   `options.validate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
-    -   `options.defaultColor` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Default color used to fill the missing color components in gradient colors.
+    -   `options.validate` **[boolean][104]** Validate and add missing color stops and convert colors data structure to internal data structure (optional, default `true`)
+    -   `options.defaultColor` **[function][102]** Default color used to fill the missing color components in gradient colors.
                                                                      If options.colors is GradientData, specify the defaultColor for GradientData instead. (optional, default `{h:0,s:0,v:0,a:1}`)
-    -   `options.width` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
-    -   `options.height` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Set size of the gradient in pixels. (optional, default `100`)
-    -   `options.centerX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
+    -   `options.width` **[number][101]** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.height` **[number][101]** Set size of the gradient in pixels. (optional, default `100`)
+    -   `options.centerX` **[number][101]** Center position of a gradient. Value in range 0 to 1 where 0 is the left edge of the gradient and 1 is the right edge.
                                                                      centerX can be used with linear type of gradients to set point of rotation. (optional, default `0`)
-    -   `options.centerY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
+    -   `options.centerY` **[number][101]** Center position of a gradient. Value in range 0 to 1 where 0 is the top edge of the gradient and 1 is the bottom edge.
                                                                      centerY can be used with linear type of gradients to set point of rotation. (optional, default `0`)
-    -   `options.scale` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
-    -   `options.scaleX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
-    -   `options.scaleY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
-    -   `options.translateX` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.translateY` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
-    -   `options.centralize` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
-    -   `options.rotation` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
-    -   `options.repeatX` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
-    -   `options.repeatY` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
+    -   `options.scale` **[number][101]** Scale of the gradient. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleX` **[number][101]** Scale of the gradient on x axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.scaleY` **[number][101]** Scale of the gradient on y axis. Value in range 0 to 1. (optional, default `1`)
+    -   `options.translateX` **[number][101]** Translate gradient along x axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.translateY` **[number][101]** Translate gradient along y axis. Value in range 0 to 1. (optional, default `0`)
+    -   `options.centralize` **[boolean][104]** Overrides translate values and automatically adjusts the positioning to the center. (optional, default `false`)
+    -   `options.rotation` **[number][101]** Rotation of the gradient. Value in range 0 to 1. (optional, default `0`)
+    -   `options.repeatX` **[function][102]** X repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
+    -   `options.repeatY` **[function][102]** Y repetition of gradient when calculating a color that is out of normal range 0 to 1. (optional, default `colorutil.repeat.repeat`)
 
-Returns **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
+Returns **[function][102]** Function that calculates a color for a single point on gradient. Accepts x and y parameters.
                         Though the x and y may exceed the limit, but gradient repeat will take effect.
 
 #### gradientData
@@ -1258,8 +1254,8 @@ between the supported data structures
 
 **Parameters**
 
--   `data` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** Array of colors. There are multiple types of data structures.
--   `defaultColor` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** The default color (optional, default `{h:0,s:0,v:0,a:1}`)
+-   `data` **[Array][103]** Array of colors. There are multiple types of data structures.
+-   `defaultColor` **[Object][105]** The default color (optional, default `{h:0,s:0,v:0,a:1}`)
 
 Returns **GradientData** 
 
@@ -1271,7 +1267,7 @@ Hsv object `{h:H, s:S, v:V, a:A}` to rgb object `{r:RRR, g:GGG, b:BBB, a:AAA}`
 
 **Parameters**
 
--   `hsv` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Hsv object
+-   `hsv` **[Object][105]** Hsv object
 
 **Examples**
 
@@ -1282,7 +1278,7 @@ colorutil.hsv.to.rgb({h: 0, s: 1, v: 1, a: 0.5});
 // output: {r: 255, g: 0, b: 0, a: 128}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ##### hsl
 
@@ -1290,7 +1286,7 @@ Hsv object `{h:H, s:S, v:V, a:A}` to hsl object `{h:H, s:S, l:L, a:A}`
 
 **Parameters**
 
--   `hsv` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Hsl object
+-   `hsv` **[Object][105]** Hsl object
 
 **Examples**
 
@@ -1299,7 +1295,7 @@ colorutil.hsv.to.hsl({h: 1/6, s: 0.5, v: 0.5});
 // output: {h: 0.16666666666666666, s: 0.3333333333333333, l: 0.375, a: 1}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ### intabgr
 
@@ -1315,7 +1311,7 @@ Int32 notation converion functions for 32-bit numbers `0xAABBGGRR` (little-endia
 
 **Parameters**
 
--   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 32-bit number
+-   `int` **[number][101]** 32-bit number
 
 **Examples**
 
@@ -1324,7 +1320,7 @@ colorutil.intabgr.to.rgb(0xFF112233)
 // output: {a: 255, b: 17, g: 34, r: 51}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ### intrgba
 
@@ -1340,7 +1336,7 @@ Int32 notation converion functions for 32-bit numbers `0xRRGGBBAA` (big-endian).
 
 **Parameters**
 
--   `int` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 32-bit number
+-   `int` **[number][101]** 32-bit number
 
 **Examples**
 
@@ -1349,7 +1345,7 @@ colorutil.intrgba.to.rgb(0xFF112233)
 // output: {r: 255, g: 17, b: 34, a: 51}
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+Returns **[Object][105]** 
 
 ## draw
 
@@ -1357,8 +1353,8 @@ Draw a gradient on canvas
 
 **Parameters**
 
--   `target` **([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
--   `options` **([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function))** Options of gradient or gradient function
+-   `target` **([HTMLCanvasElement][107] \| [string][106])** The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
+-   `options` **([Object][105] \| [Function][102])** Options of gradient or gradient function
 
 ## draw
 
@@ -1366,8 +1362,8 @@ Draw a gradient on canvas
 
 **Parameters**
 
--   `target` **([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
--   `options` **([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function))** Options of gradient or gradient function
+-   `target` **([HTMLCanvasElement][107] \| [string][106])** The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
+-   `options` **([Object][105] \| [Function][102])** Options of gradient or gradient function
 
 ## draw
 
@@ -1375,5 +1371,219 @@ Draw a gradient on canvas
 
 **Parameters**
 
--   `target` **([HTMLCanvasElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
--   `options` **([Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) \| [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function))** Options of gradient or gradient function
+-   `target` **([HTMLCanvasElement][107] \| [string][106])** The canvas on which gradient is drawn. Target may be canvas or css selector to canvas (evaluated with querySelector)
+-   `options` **([Object][105] \| [Function][102])** Options of gradient or gradient function
+
+[1]: #colorutil
+
+[2]: #endian
+
+[3]: #convert
+
+[4]: #repeat
+
+[5]: #stop
+
+[6]: #repeat-1
+
+[7]: #color
+
+[8]: #clone
+
+[9]: #huefromcolor
+
+[10]: #hue
+
+[11]: #rgb
+
+[12]: #test
+
+[13]: #gradient
+
+[14]: #gradientdata
+
+[15]: #huecolors
+
+[16]: #hue-1
+
+[17]: #to
+
+[18]: #int
+
+[19]: #hex
+
+[20]: #cssrgb
+
+[21]: #cssrgba
+
+[22]: #uintabgr
+
+[23]: #uintabgropaque
+
+[24]: #uintrgba
+
+[25]: #intabgr
+
+[26]: #intabgropaque
+
+[27]: #intrgba
+
+[28]: #hsl
+
+[29]: #hsv
+
+[30]: #any
+
+[31]: #to-1
+
+[32]: #cssrgba-1
+
+[33]: #cssrgb-1
+
+[34]: #hex-1
+
+[35]: #int-1
+
+[36]: #csshsl
+
+[37]: #rgb-1
+
+[38]: #hsv-1
+
+[39]: #hsl-1
+
+[40]: #csshsla
+
+[41]: #int-2
+
+[42]: #test-1
+
+[43]: #to-2
+
+[44]: #rgb-2
+
+[45]: #hex-2
+
+[46]: #cssrgb-2
+
+[47]: #cssrgba-2
+
+[48]: #hex-3
+
+[49]: #test-2
+
+[50]: #to-3
+
+[51]: #rgb-3
+
+[52]: #int-3
+
+[53]: #cssrgb-3
+
+[54]: #cssrgba-3
+
+[55]: #cssrgb-4
+
+[56]: #test-3
+
+[57]: #to-4
+
+[58]: #rgb-4
+
+[59]: #int-4
+
+[60]: #hex-4
+
+[61]: #cssrgba-4
+
+[62]: #test-4
+
+[63]: #to-5
+
+[64]: #rgb-5
+
+[65]: #int-5
+
+[66]: #hex-5
+
+[67]: #hsl-2
+
+[68]: #test-5
+
+[69]: #gradient-1
+
+[70]: #gradientdata-1
+
+[71]: #to-6
+
+[72]: #rgb-6
+
+[73]: #hsv-2
+
+[74]: #csshsl-1
+
+[75]: #csshsla-1
+
+[76]: #csshsl-2
+
+[77]: #test-6
+
+[78]: #to-7
+
+[79]: #hsl-3
+
+[80]: #csshsla-2
+
+[81]: #test-7
+
+[82]: #to-8
+
+[83]: #hsl-4
+
+[84]: #hsv-3
+
+[85]: #gradient-2
+
+[86]: #gradient-3
+
+[87]: #gradientdata-2
+
+[88]: #to-9
+
+[89]: #rgb-7
+
+[90]: #hsl-5
+
+[91]: #intabgr-1
+
+[92]: #to-10
+
+[93]: #rgb-8
+
+[94]: #intrgba-1
+
+[95]: #to-11
+
+[96]: #rgb-9
+
+[97]: #draw
+
+[98]: #draw-1
+
+[99]: #draw-2
+
+[100]: https://developer.mozilla.org/en-US/docs/Glossary/Endianness
+
+[101]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+
+[102]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+
+[103]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+
+[104]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+
+[105]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+
+[106]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+
+[107]: https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement
