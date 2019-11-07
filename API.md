@@ -33,15 +33,15 @@
             -   [hsv][29]
     -   [any][30]
         -   [to][31]
-            -   [cssrgba][32]
-            -   [cssrgb][33]
-            -   [hex][34]
-            -   [int][35]
-            -   [csshsl][36]
-            -   [rgb][37]
-            -   [hsv][38]
-            -   [hsl][39]
-            -   [csshsla][40]
+            -   [csshsl][32]
+            -   [rgb][33]
+            -   [int][34]
+            -   [hex][35]
+            -   [csshsla][36]
+            -   [cssrgba][37]
+            -   [hsl][38]
+            -   [hsv][39]
+            -   [cssrgb][40]
     -   [int][41]
         -   [test][42]
         -   [to][43]
@@ -503,74 +503,6 @@ as fast as the direct conversion functions.
 
 #### to
 
-##### cssrgba
-
-Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
-
-**Parameters**
-
--   `color` **[Object][105]** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
-// output: "rgba(102,204,204,1)"
-```
-
-Returns **[string][106]** 
-
-##### cssrgb
-
-Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
-
-**Parameters**
-
--   `color` **[Object][105]** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.cssrgb('hsl(180, 50%, 60%)');
-// output: "rgb(102,204,204)"
-```
-
-Returns **[string][106]** 
-
-##### hex
-
-Convert any color to hex notation `'#RRGGBB'`
-
-**Parameters**
-
--   `color` **[Object][105]** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.hex('hsl(180, 50%, 60%)');
-// output: "#66cccc"
-```
-
-Returns **[string][106]** 
-
-##### int
-
-Convert any color to number notation `0xRRGGBB`
-
-**Parameters**
-
--   `color` **[Object][105]** Color in any notation
-
-**Examples**
-
-```javascript
-colorutil.any.to.int('hsl(180, 50%, 60%)');
-// output: 6737100
-```
-
-Returns **[number][101]** 
-
 ##### csshsl
 
 Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
@@ -608,9 +540,9 @@ colorutil.any.to.rgb({h: 1/6, s: 0.5, l: 0.5});
 
 Returns **[Object][105]** 
 
-##### hsv
+##### int
 
-Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
+Convert any color to number notation `0xRRGGBB`
 
 **Parameters**
 
@@ -619,11 +551,62 @@ Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 **Examples**
 
 ```javascript
-colorutil.any.to.hsv('hsl(180, 50%, 60%)');
-// output: {h: 0.5, s: 0.5000000000000001, v: 0.8, a: 1}
+colorutil.any.to.int('hsl(180, 50%, 60%)');
+// output: 6737100
 ```
 
-Returns **[Object][105]** 
+Returns **[number][101]** 
+
+##### hex
+
+Convert any color to hex notation `'#RRGGBB'`
+
+**Parameters**
+
+-   `color` **[Object][105]** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.hex('hsl(180, 50%, 60%)');
+// output: "#66cccc"
+```
+
+Returns **[string][106]** 
+
+##### csshsla
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+**Parameters**
+
+-   `color` **[Object][105]** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
+```
+
+Returns **[string][106]** 
+
+##### cssrgba
+
+Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
+
+**Parameters**
+
+-   `color` **[Object][105]** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
+// output: "rgba(102,204,204,1)"
+```
+
+Returns **[string][106]** 
 
 ##### hsl
 
@@ -642,9 +625,9 @@ colorutil.any.to.hsl('hsl(180, 50%, 60%)');
 
 Returns **[Object][105]** 
 
-##### csshsla
+##### hsv
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to hsv object notation `{h:H, s:S, v:V, a:A}`
 
 **Parameters**
 
@@ -653,8 +636,25 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 **Examples**
 
 ```javascript
-colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
+colorutil.any.to.hsv('hsl(180, 50%, 60%)');
+// output: {h: 0.5, s: 0.5000000000000001, v: 0.8, a: 1}
+```
+
+Returns **[Object][105]** 
+
+##### cssrgb
+
+Convert any color to rgb functional notation `'rgb(RRR,GGG,BBB)'`
+
+**Parameters**
+
+-   `color` **[Object][105]** Color in any notation
+
+**Examples**
+
+```javascript
+colorutil.any.to.cssrgb('hsl(180, 50%, 60%)');
+// output: "rgb(102,204,204)"
 ```
 
 Returns **[string][106]** 
@@ -1436,23 +1436,23 @@ Draw a gradient on canvas
 
 [31]: #to-1
 
-[32]: #cssrgba-1
+[32]: #csshsl
 
-[33]: #cssrgb-1
+[33]: #rgb-1
 
-[34]: #hex-1
+[34]: #int-1
 
-[35]: #int-1
+[35]: #hex-1
 
-[36]: #csshsl
+[36]: #csshsla
 
-[37]: #rgb-1
+[37]: #cssrgba-1
 
-[38]: #hsv-1
+[38]: #hsl-1
 
-[39]: #hsl-1
+[39]: #hsv-1
 
-[40]: #csshsla
+[40]: #cssrgb-1
 
 [41]: #int-2
 

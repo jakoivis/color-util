@@ -6,9 +6,9 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./test/**/*.spec.js",
     "test-watch": "mocha --compilers js:babel-core/register -w ./test/**/*.spec.js",
-    "watch": "webpack-dev-server --env development",
+    "dev": "webpack-dev-server --env development",
     "prebuild": "npm run test",
-    "build": "webpack -p --env production && webpack --env benchmark && npm run docs",
+    "build": "webpack -p --env production && npm run docs",
     "toc": "markdown-toc -i README.md",
     "api": "documentation build src/ColorUtil.js -f md > API.md",
     "docs": "npm run toc && npm run api",
@@ -49,21 +49,17 @@
     "babel-loader": "^7.0.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-es2015": "^6.24.1",
-    "benchmark": "^2.1.4",
     "chai": "^3.5.0",
     "documentation": "^5.1.0",
-    "file-loader": "4.2.0",
-    "highcharts": "^5.0.12",
-    "jquery": "^3.2.1",
     "markdown-toc": "^1.2.0",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
     "path": "^0.12.7",
     "sinon": "^4.0.1",
-    "webpack": "4.41.2",
-    "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.9.0",
-    "webpack-merge": "4.2.2"
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {}
 }
