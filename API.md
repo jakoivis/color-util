@@ -66,31 +66,31 @@
                 -   [Examples][62]
     -   [any][63]
         -   [to][64]
-            -   [csshsl][65]
+            -   [rgb][65]
                 -   [Parameters][66]
                 -   [Examples][67]
-            -   [rgb][68]
+            -   [int][68]
                 -   [Parameters][69]
                 -   [Examples][70]
-            -   [int][71]
+            -   [hex][71]
                 -   [Parameters][72]
                 -   [Examples][73]
-            -   [hex][74]
+            -   [cssrgb][74]
                 -   [Parameters][75]
                 -   [Examples][76]
-            -   [cssrgb][77]
+            -   [cssrgba][77]
                 -   [Parameters][78]
                 -   [Examples][79]
-            -   [csshsla][80]
+            -   [hsl][80]
                 -   [Parameters][81]
                 -   [Examples][82]
-            -   [hsl][83]
+            -   [hsv][83]
                 -   [Parameters][84]
                 -   [Examples][85]
-            -   [hsv][86]
+            -   [csshsl][86]
                 -   [Parameters][87]
                 -   [Examples][88]
-            -   [cssrgba][89]
+            -   [csshsla][89]
                 -   [Parameters][90]
                 -   [Examples][91]
     -   [int][92]
@@ -617,23 +617,6 @@ as fast as the direct conversion functions.
 
 #### to
 
-##### csshsl
-
-Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
-
-###### Parameters
-
--   `color` **[Object][219]** Color in any notation
-
-###### Examples
-
-```javascript
-colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsl(180,50%,60%)"
-```
-
-Returns **[string][220]** 
-
 ##### rgb
 
 Convert any color to rgb object notation `{r:RRR, g:GGG, b:BBB, a:AAA}`
@@ -705,9 +688,9 @@ colorutil.any.to.cssrgb('hsl(180, 50%, 60%)');
 
 Returns **[string][220]** 
 
-##### csshsla
+##### cssrgba
 
-Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
 
 ###### Parameters
 
@@ -716,8 +699,8 @@ Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
 ###### Examples
 
 ```javascript
-colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
-// output: "hsla(180,50%,60%,1)"
+colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
+// output: "rgba(102,204,204,1)"
 ```
 
 Returns **[string][220]** 
@@ -756,9 +739,9 @@ colorutil.any.to.hsv('hsl(180, 50%, 60%)');
 
 Returns **[Object][219]** 
 
-##### cssrgba
+##### csshsl
 
-Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
+Convert any color to hsl functional notation string `'hsl(HHH,SSS%,LLL%)'`
 
 ###### Parameters
 
@@ -767,8 +750,25 @@ Convert any color to rgb functional notation `'rgba(RRR,GGG,BBB,A)'`
 ###### Examples
 
 ```javascript
-colorutil.any.to.cssrgba('hsl(180, 50%, 60%)');
-// output: "rgba(102,204,204,1)"
+colorutil.any.csshsl({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsl(180,50%,60%)"
+```
+
+Returns **[string][220]** 
+
+##### csshsla
+
+Convert any color to hsl functional notation string `'hsla(HHH,SSS%,LLL%,A)'`
+
+###### Parameters
+
+-   `color` **[Object][219]** Color in any notation
+
+###### Examples
+
+```javascript
+colorutil.any.csshsla({h: 0.5, s: 0.5, l: 0.6, a: 1});
+// output: "hsla(180,50%,60%,1)"
 ```
 
 Returns **[string][220]** 
@@ -1616,55 +1616,55 @@ Draw a gradient on canvas
 
 [64]: #to-1
 
-[65]: #csshsl
+[65]: #rgb-1
 
 [66]: #parameters-20
 
 [67]: #examples-13
 
-[68]: #rgb-1
+[68]: #int-1
 
 [69]: #parameters-21
 
 [70]: #examples-14
 
-[71]: #int-1
+[71]: #hex-1
 
 [72]: #parameters-22
 
 [73]: #examples-15
 
-[74]: #hex-1
+[74]: #cssrgb-1
 
 [75]: #parameters-23
 
 [76]: #examples-16
 
-[77]: #cssrgb-1
+[77]: #cssrgba-1
 
 [78]: #parameters-24
 
 [79]: #examples-17
 
-[80]: #csshsla
+[80]: #hsl-1
 
 [81]: #parameters-25
 
 [82]: #examples-18
 
-[83]: #hsl-1
+[83]: #hsv-1
 
 [84]: #parameters-26
 
 [85]: #examples-19
 
-[86]: #hsv-1
+[86]: #csshsl
 
 [87]: #parameters-27
 
 [88]: #examples-20
 
-[89]: #cssrgba-1
+[89]: #csshsla
 
 [90]: #parameters-28
 

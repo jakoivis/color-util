@@ -374,6 +374,8 @@ Two dimensional structure. This example produces exact same gradient as structur
 ```
 
 ## Change history
+* 2.2.2
+    * remove benchmarks from this project
 * 2.2.0
     * GradientData can be used as a data source for gradient functions.
     * Added `colorutil.rgb.draw`, `colorutil.hsl.draw`, `colorutil.hsv.draw` to draw the cradient on canvas.
