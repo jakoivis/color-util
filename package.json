@@ -1,6 +1,6 @@
 {
   "name": "color-util",
-  "version": "2.2.2",
+  "version": "2.2.1",
   "description": "Color util with color format conversions and gradients",
   "main": "dist/color-util.min.js",
   "scripts": {
