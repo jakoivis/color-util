@@ -6,9 +6,7 @@ var jsname = 'colorutil';
 
 const PATHS = {
     index: path.join(__dirname, 'src/ColorUtil.js'),
-    dist: path.join(__dirname, 'dist'),
-    benchmarkIndex: path.join(__dirname, 'benchmark/index.js'),
-    benchmarkDist: path.join(__dirname, 'benchmark-output')
+    dist: path.join(__dirname, 'dist')
 };
 
 var config = {
@@ -25,7 +23,7 @@ var config = {
         umdNamedDefine: true
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /(\.jsx|\.js)$/,
                 loader: 'babel-loader',
@@ -52,35 +50,6 @@ var prodConfig = {
     }
 };
 
-var benchmarkConfig = {
-    entry: [
-        PATHS.benchmarkIndex
-    ],
-    devtool: 'source-map',
-    output: {
-        path: PATHS.benchmarkDist,
-        filename: 'benchmark-bundle.js',
-        publicPath: '/',
-        library: 'benchmark',
-        libraryTarget: 'umd',
-        umdNamedDefine: true
-    },
-    module: {
-        rules: [
-            {
-                test: /(\.jsx|\.js)$/,
-                use: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.(html|csv)$/,
-                use: ['file-loader?name=/[name].[ext]']
-                // loader: "file?name=[path][name].[ext]&context=./benchmark"
-            }
-        ]
-    }
-};
-
 module.exports = (env) => {
 
     if (env === 'development') {
@@ -88,9 +57,6 @@ module.exports = (env) => {
             config,
             devConfig
         );
-
-    } else if (env === 'benchmark') {
-        return benchmarkConfig;
     }
 
     return merge(
